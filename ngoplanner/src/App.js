@@ -68,6 +68,55 @@ const CLASSES = {
 	}
 }
 
+const EFFECTS = {
+	"Food Boost Effect":{
+		perks:[
+			"[Meat] Potency +10.0%",
+			"[Crisp] Potency to Weak Point +5.0%"
+		],
+		icon:"icons/TQ8EBW2.png"
+	},
+	"Shifta / Deband":{
+		perks:[
+			"Potency +5.0%",
+			"Damage Resistance +10.0%"
+		],
+		icon:"icons/VIYYNIm.png"
+	},
+	"Region Mag Boost":{
+		perks:[
+			"Potency +5.0%",
+		],
+		icon:"icons/N6M74Qr.png"
+	},
+}
+
+const EQUIPMENT = {
+	"Ophistia Shooter":{
+		icon:"icons/uc1iBck.png"
+	},
+	"Klauzdyne":{
+		icon:"icons/uldt9lR.png"
+	},
+	"Klauznum":{
+		icon:"icons/F0t58xP.png"
+	},
+	"Klauzment":{
+		icon:"icons/20M6Z7t.png"
+	}
+}
+
+const ABILITIES = {
+	"Wellspring Unit Lv.3":{
+		icon:"icons/NGSUIItemPotentialAbility.png"
+	},
+	"Fixa Fatale Lv.5":{
+		icon:"icons/UINGSItemPresetAbility.png"
+	}
+}
+
+const ABILITY_DEFAULT_ICON = "icons/UINGSItemSpecialAbility.png"
+
 function Class(p) {
 	const class_obj = CLASSES[p.name]
 	return <><img src={class_obj.icon}/>{class_obj.name}</>
@@ -76,15 +125,15 @@ function Class(p) {
 function ClassSelector(p){
 	return <div className="popup">
 		Class Selector<br/>
-		{Object.keys(CLASSES).map((cl)=>{
-		return <button className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+		{Object.keys(CLASSES).map((cl,i)=>{
+		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
 		})}
 	</div>
 }
 
 function EditableClass(p){
 	const [edit,setEdit] = useState(false)
-	return <><span className="hover" onClick={()=>{setEdit(true)}}><Class name={p.class}/>
+	return <><span className="hover" onClick={()=>{setEdit(!edit)}}><Class name={p.class}/>
 	</span>
 	{edit&&<ClassSelector setClassName={p.setClassName} setEdit={setEdit}/>}
 	</>
@@ -104,18 +153,29 @@ function MainBox(p) {
 function StatsBox(p) {
 	 return <Box title="Stats">
 			<table className="st">
-				<ListRow title="Battle Power" content={1344}></ListRow>
-				<ListRow title="HP" content={289}></ListRow>
-				<ListRow title="PP" content={100}></ListRow>
-				<ListRow title="Defense" content={402}></ListRow>
-				<ListRow title="Weapon Up" content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/3/37/NGSUIStatSATK.png" /> <span className="ye">+34%</span></>}><img alt="" src="https://pso2na.arks-visiphone.com/images/c/c5/NGSUIStatRATK.png" /> <span className="ye">+34%</span></ListRow>
-				<ListRow content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/a/ae/NGSUIStatTATK.png" /> <span className="ye">+34%</span></>}></ListRow>
-				<ListRow title="Damage Resist." content="18%"></ListRow>
+				<ListRow title="Battle Power" content={p.bp}></ListRow>
+				<ListRow title="HP" content={p.hp}></ListRow>
+				<ListRow title="PP" content={p.pp}></ListRow>
+				<ListRow title="Defense" content={p.def}></ListRow>
+				<ListRow title="Weapon Up" content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/3/37/NGSUIStatSATK.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="https://pso2na.arks-visiphone.com/images/c/c5/NGSUIStatRATK.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
+				<ListRow content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/a/ae/NGSUIStatTATK.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
+				<ListRow title="Damage Resist." content={p.damageResist*100+"%"}></ListRow>
 			</table>
 		</Box>
 }
 
+function EffectListing(p) {
+	return <li>{p.name}
+			<ul>
+			{EFFECTS[p.name].perks.map((perk,i)=>{
+				return <li key={i}><img alt="" src={EFFECTS[p.name].icon} />&ensp;{perk}</li>
+			})}
+			</ul>
+		</li>
+}
+
 function EffectsBox(p) {
+	const [page,setPage] = useState(1)
 	return <Box title="Current Effects">
 			<ul className="boxmenu">
 				<li>1</li>
@@ -123,23 +183,9 @@ function EffectsBox(p) {
 			</ul>
 			<h3>Effect Name</h3>
 			<ul className="bu">
-				<li>Food Bost Effect
-					<ul>
-						<li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-						<li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
-					</ul>
-				</li>
-				<li>Shifta / Deband
-					<ul>
-						<li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
-						<li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
-					</ul>
-				</li>
-				<li>Region Mag Boost
-					<ul>
-						<li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
-					</ul>
-				</li>
+				{p.effectList.map((ef,i)=>{
+						return <EffectListing key={i} name={ef}/>
+				})}
 			</ul>
 		</Box>
 }
@@ -147,17 +193,18 @@ function EffectsBox(p) {
 function EquipBox(p) {
 	return <Box title="Equip">
 			<div className="we">
-				<div><h3>Weapon</h3><br /><img alt="" src="https://i.imgur.com/uc1iBck.png" /><br />Ophistia Shooter+35</div>
-				<div><h3>Slot 1</h3><br /><img alt="" src="https://i.imgur.com/uldt9lR.png" /><br />Klauzdyne+10</div>
-				<div><h3>Slot 2</h3><br /><img alt="" src="https://i.imgur.com/F0t58xP.png" /><br />Klauznum+10</div>
-				<div><h3>Slot 3</h3><br /><img alt="" src="https://i.imgur.com/20M6Z7t.png" /><br />Klauzment+10</div>
+				<div><h3>Weapon</h3><br /><img alt="" src={EQUIPMENT[p.weapon].icon} /><br />{p.weapon}+{p.weaponEnhancementLv}</div>
+				<div><h3>Slot 1</h3><br /><img alt="" src={EQUIPMENT[p.armorSlot1].icon} /><br />{p.armorSlot1}+{p.armorSlot1EnhancementLv}</div>
+				<div><h3>Slot 2</h3><br /><img alt="" src={EQUIPMENT[p.armorSlot2].icon} /><br />{p.armorSlot2}+{p.armorSlot2EnhancementLv}</div>
+				<div><h3>Slot 3</h3><br /><img alt="" src={EQUIPMENT[p.armorSlot3].icon} /><br />{p.armorSlot3}+{p.armorSlot3EnhancementLv}</div>
 			</div>
 		</Box>
 }
 
 function EquippedWeaponBox(p) {
+	console.log(p.weaponAbilityList)
 	return <Box title="Equipped Weapon">
-		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />Ophistia Shooter+35</h2>
+		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />{p.weapon}+{p.weaponEnhancementLv}</h2>
 		<ul className="boxmenu">
 		<li>W</li>
 		<li>1</li>
@@ -168,22 +215,17 @@ function EquippedWeaponBox(p) {
 			<div>
 				<h3>Abilitiy Details</h3>
 				<ul className="aug">
-					<li><img alt="" src="https://pso2.arks-visiphone.com/images/8/8d/NGSUIItemPotentialAbility.png" /> Wellspring Unit Lv.3</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/7/7e/UINGSItemPresetAbility.png" /> Fixa Fatale Lv.5</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro S Attack II</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro S Efficet</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro S Efficet</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro Souls 2</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro Reverij</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro Factalz</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro Crakus</li>
-					<li><img alt="" src="https://pso2na.arks-visiphone.com/images/5/56/UINGSItemSpecialAbility.png" /> Legaro Attack Vaz III</li>
+				{
+					p.weaponAbilityList.map((ability,i)=>{
+						return <li key={i}><img alt="" src={ABILITIES[ability]?ABILITIES[ability].icon:ABILITY_DEFAULT_ICON} /> {ability}</li>
+						})
+				}
 				</ul>
 			</div>
 			<div>
 				<h3>Properties</h3>
 				<ul className="pr">
-				<li>Enhancement Lv.&emsp;<span>+35</span></li>
+				<li>Enhancement Lv.&emsp;<span>+{p.weaponEnhancementLv}</span></li>
 				<li>Multi-Weapon&emsp;<span>-</span></li>
 				<li>Element&emsp;<span>-</span></li>
 				</ul>
@@ -201,11 +243,11 @@ function DamageBox(p) {
 		</ul>
 		<br /><br />
 		<table className="ba">
-		<ListRow title="Critical Hit Rate">5%</ListRow>
-		<ListRow title="Critical Multiplier">120%</ListRow>
-		<ListRow title="Midrange">126</ListRow>
-		<ListRow title="Critical">152</ListRow>
-		<ListRow title="Effective"><span className="ye">127</span></ListRow>
+		<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
+		<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
+		<ListRow title="Midrange">{p.midRange}</ListRow>
+		<ListRow title="Critical">{p.critical}</ListRow>
+		<ListRow title="Effective"><span className="ye">{p.effective}</span></ListRow>
 		</table>
 		</Box>
 }
@@ -224,20 +266,66 @@ function App() {
 	const [className,setClassName] = useState("RANGER")
 	const [secondaryClassName,setSecondaryClassName] = useState("FORCE")
 	
+	const [bp,setBP] = useState(1344)
+	const [hp,setHP] = useState(289)
+	const [pp,setPP] = useState(100)
+	const [def,setDef] = useState(402)
+	const [weaponUp1,setWeaponUp1] = useState(0.34)
+	const [weaponUp2,setWeaponUp2] = useState(0.34)
+	const [weaponUp3,setWeaponUp3] = useState(0.34)
+	const [damageResist,setDamageResist] = useState(0.18)
+	
+	const [effectList,setEffectList] = useState([
+		"Food Boost Effect",
+		"Shifta / Deband",
+		"Region Mag Boost"
+	])
+	
+	const [weapon,setWeapon] = useState("Ophistia Shooter")
+	const [armorSlot1,setArmorSlot1] = useState("Klauzdyne")
+	const [armorSlot2,setArmorSlot2] = useState("Klauznum")
+	const [armorSlot3,setArmorSlot3] = useState("Klauzment")
+	const [weaponEnhancementLv,setWeaponEnhancementLv] = useState(35)
+	const [armorSlot1EnhancementLv,setArmorSlot1EnhancementLv] = useState(10)
+	const [armorSlot2EnhancementLv,setArmorSlot2EnhancementLv] = useState(10)
+	const [armorSlot3EnhancementLv,setArmorSlot3EnhancementLv] = useState(10)
+	
+	const [weaponAbilityList,setWeaponAbilityList] = useState([		
+		"Wellspring Unit Lv.3",
+		"Fixa Fatale Lv.5",
+		"Legaro S Attack II",
+		"Legaro S Efficiet",
+		"Legaro S Efficiet",
+		"Legaro Souls 2",
+		"Legaro Reverij",
+		"Legaro Factalz",
+		"Legaro Crakus",
+		"Legaro Attack Vaz III",
+	])
+	const [armor1AbilityList,setArmor1AbilityList] = useState([])
+	const [armor2AbilityList,setArmor2AbilityList] = useState([])
+	const [armor3AbilityList,setArmor3AbilityList] = useState([])
+	
+	const [criticalHitRate,setCriticalHitRate] = useState(0.05)
+	const [criticalMultiplier,setCriticalMultiplier] = useState(1.2)
+	const [midRange,setMidRange] = useState(126)
+	const [critical,setCritical] = useState(152)
+	const [effective,setEffective] = useState(127)
+	
   return (
   <>
   <div id="main">
    <Col>
 		<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
-		<StatsBox/>
-		<EffectsBox/>
+		<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist}/>
+		<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
 	</Col>
 	<Col>
-		<EquipBox/>
-		<EquippedWeaponBox/>
+		<EquipBox weapon={weapon} setWeapon={setWeapon} armorSlot1={armorSlot1} setArmorSlot1={setArmorSlot1} armorSlot2={armorSlot2} setArmorSlot2={setArmorSlot2} armorSlot3={armorSlot3} setArmorSlot3={setArmorSlot3} weaponEnhancementLv={weaponEnhancementLv} setWeaponEnhancementLv={setWeaponEnhancementLv} armorSlot1EnhancementLv={armorSlot1EnhancementLv} setArmorSlot1EnhancementLv={setArmorSlot1EnhancementLv} armorSlot2EnhancementLv={armorSlot2EnhancementLv} setArmorSlot2EnhancementLv={setArmorSlot2EnhancementLv} armorSlot3EnhancementLv={armorSlot3EnhancementLv} setArmorSlot3EnhancementLv={setArmorSlot3EnhancementLv}/>
+		<EquippedWeaponBox weapon={weapon} armorSlot1={armorSlot1} armorSlot2={armorSlot2} armorSlot3={armorSlot3} weaponAbilityList={weaponAbilityList} setWeaponAbilityList={setWeaponAbilityList} armor1AbilityList={armor1AbilityList} setArmor1AbilityList={setArmor1AbilityList} armor2AbilityList={armor2AbilityList} setArmor2AbilityList={setArmor2AbilityList} armor3AbilityList={armor3AbilityList} setArmor3AbilityList={setArmor3AbilityList} weaponEnhancementLv={weaponEnhancementLv}armorSlot1EnhancementLv={armorSlot1EnhancementLv}armorSlot2EnhancementLv={armorSlot2EnhancementLv}armorSlot3EnhancementLv={armorSlot3EnhancementLv}/>
 	</Col>
 	<Col>
-		<DamageBox/>
+		<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 	</Col>
 </div></>
   );
