@@ -32,3 +32,15 @@ jobs:
 
     - name: Build
       run: npm run build
+      
+    - name: Deploy
+      run: 
+        git config --global user.name sigonasr2
+        git config --global user.email sigonasr2@yahoo.com
+        git remote set-url origin https://sigonasr2@github.com/ngsplanner
+        npm run deploy
+      env:
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
+        repository: ${{ github.repository }}
