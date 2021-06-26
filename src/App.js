@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import React, {useState,useEffect,useRef,useReducer} from 'react';
+import React, {useState,useEffect} from 'react';
 
 function Col(p) {
 	return <div className="con">
@@ -18,15 +17,12 @@ function Box(p) {
 }
 
 function EditBox(p) {
-	const [loaded,setLoaded] = useState(false)
 	useEffect(()=>{
 		setTimeout(()=>{document.getElementById("editBox").focus()},100)
-		setLoaded(true)
 	})
-return <input id="editBox" onKeyDown={(e)=>{
-	if (e.key==="Enter") {p.setEdit(false)}
-}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
-	
+	return <input id="editBox" onKeyDown={(e)=>{
+		if (e.key==="Enter") {p.setEdit(false)}
+	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
 	</input>
 }
 
@@ -119,14 +115,14 @@ const ABILITY_DEFAULT_ICON = "icons/UINGSItemSpecialAbility.png"
 
 function Class(p) {
 	const class_obj = CLASSES[p.name]
-	return <><img src={class_obj.icon}/>{class_obj.name}</>
+	return <><img alt="" src={class_obj.icon}/>{class_obj.name}</>
 }
 
 function ClassSelector(p){
 	return <div className="popup">
 		Class Selector<br/>
 		{Object.keys(CLASSES).map((cl,i)=>{
-		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
 		})}
 	</div>
 }
@@ -175,7 +171,7 @@ function EffectListing(p) {
 }
 
 function PageControlButton(p) {
-	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage==p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
+	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
 }
 
 function PageControl(p) {
@@ -195,7 +191,7 @@ function EffectsBox(p) {
 			<PageControl pages={2} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
 			<h3>Effect Name</h3>
 			{
-				currentPage==1?
+				currentPage===1?
 				<ul className="bu">
 					{p.effectList.map((ef,i)=>{
 							return <EffectListing key={i} name={ef}/>
@@ -225,28 +221,28 @@ function EquippedWeaponBox(p) {
 	
 	useEffect(()=>{
 		switch (currentPage) {
-			case 2:{
+			case 2:
 				setSelectedEquip(p.armorSlot1)
 				setSelectedEquipEnhancementLv(p.armorSlot1EnhancementLv)
 				setSelectedEquipAbilities(p.armorSlot1AbilityList)
-			}break;
-			case 3:{
+			break;
+			case 3:
 				setSelectedEquip(p.armorSlot2)
 				setSelectedEquipEnhancementLv(p.armorSlot2EnhancementLv)
 				setSelectedEquipAbilities(p.armorSlot2AbilityList)
-			}break;
-			case 4:{
+			break;
+			case 4:
 				setSelectedEquip(p.armorSlot3)
 				setSelectedEquipEnhancementLv(p.armorSlot3EnhancementLv)
 				setSelectedEquipAbilities(p.armorSlot3AbilityList)
-			}break;
+			break;
 			default:{
 				setSelectedEquip(p.weapon)
 				setSelectedEquipEnhancementLv(p.weaponEnhancementLv)
 				setSelectedEquipAbilities(p.weaponAbilityList)
 			}
 		}
-	},[currentPage])
+	},[currentPage,p.armorSlot1,p.armorSlot1EnhancementLv,p.armorSlot1AbilityList,p.armorSlot2,p.armorSlot2EnhancementLv,p.armorSlot2AbilityList,p.armorSlot3,p.armorSlot3EnhancementLv,p.armorSlot3AbilityList,p.weapon,p.weaponEnhancementLv,p.weaponAbilityList])
 	
 	return <Box title="Equipped Weapon">
 		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
@@ -281,7 +277,7 @@ function DamageBox(p) {
 		<PageControl pages={3} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
 		<br /><br />
 		{
-			currentPage==1&&
+			currentPage===1&&
 			<table className="ba">
 			<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
 			<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
@@ -358,7 +354,7 @@ function App() {
   <div id="main">
    <Col>
 		<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
-		<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist}/>
+		<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 		<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
 	</Col>
 	<Col>
