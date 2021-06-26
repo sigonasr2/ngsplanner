@@ -200,10 +200,12 @@ td:last-child {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
 	border-bottom: 4px solid #ffd602;
 }*/
-.boxmenu li:first-child {
+.boxmenu .selected{
 	background: linear-gradient(135deg,#60461b,#b0a34e);
 	border-bottom: 4px solid #ffd602;
-	margin-left: 15px;
+}
+.boxmenu .selected:hover{
+	cursor:pointer;
 }
 .boxmenu li {
 	background-color: silver;
@@ -217,6 +219,7 @@ td:last-child {
 .boxmenu li:hover {
 	background: linear-gradient(135deg,#b0a34e,#ffd602);
 	border-bottom: 4px solid #ffd602;
+	cursor:pointer;
 }
 .box h3 {
 	background-image: url("tr_bg.png");

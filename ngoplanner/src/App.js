@@ -174,19 +174,35 @@ function EffectListing(p) {
 		</li>
 }
 
+function PageControlButton(p) {
+	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage==p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
+}
+
+function PageControl(p) {
+	var pages = []
+	for (var i=0;i<p.pages;i++) {
+		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
+	}
+	return <ul className="boxmenu">
+			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
+		</ul>
+}
+
 function EffectsBox(p) {
-	const [page,setPage] = useState(1)
+	const [currentPage,setCurrentPage]=useState(1)
+	
 	return <Box title="Current Effects">
-			<ul className="boxmenu">
-				<li>1</li>
-				<li>2</li>
-			</ul>
+			<PageControl pages={2} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
 			<h3>Effect Name</h3>
-			<ul className="bu">
-				{p.effectList.map((ef,i)=>{
-						return <EffectListing key={i} name={ef}/>
-				})}
-			</ul>
+			{
+				currentPage==1?
+				<ul className="bu">
+					{p.effectList.map((ef,i)=>{
+							return <EffectListing key={i} name={ef}/>
+					})}
+				</ul>:
+				<></>
+			}
 		</Box>
 }
 
@@ -202,30 +218,54 @@ function EquipBox(p) {
 }
 
 function EquippedWeaponBox(p) {
-	console.log(p.weaponAbilityList)
+	const [currentPage,setCurrentPage] = useState(1)
+	const [selectedEquip,setSelectedEquip] = useState(p.weapon)
+	const [selectedEquipEnhancementLv,setSelectedEquipEnhancementLv] = useState(p.weaponEnhancementLv)
+	const [selectedEquipAbilities,setSelectedEquipAbilities] = useState(p.weaponAbilityList)
+	
+	useEffect(()=>{
+		switch (currentPage) {
+			case 2:{
+				setSelectedEquip(p.armorSlot1)
+				setSelectedEquipEnhancementLv(p.armorSlot1EnhancementLv)
+				setSelectedEquipAbilities(p.armorSlot1AbilityList)
+			}break;
+			case 3:{
+				setSelectedEquip(p.armorSlot2)
+				setSelectedEquipEnhancementLv(p.armorSlot2EnhancementLv)
+				setSelectedEquipAbilities(p.armorSlot2AbilityList)
+			}break;
+			case 4:{
+				setSelectedEquip(p.armorSlot3)
+				setSelectedEquipEnhancementLv(p.armorSlot3EnhancementLv)
+				setSelectedEquipAbilities(p.armorSlot3AbilityList)
+			}break;
+			default:{
+				setSelectedEquip(p.weapon)
+				setSelectedEquipEnhancementLv(p.weaponEnhancementLv)
+				setSelectedEquipAbilities(p.weaponAbilityList)
+			}
+		}
+	},[currentPage])
+	
 	return <Box title="Equipped Weapon">
-		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />{p.weapon}+{p.weaponEnhancementLv}</h2>
-		<ul className="boxmenu">
-		<li>W</li>
-		<li>1</li>
-		<li>2</li>
-		<li>3</li>
-		</ul>
+		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
+		<PageControl pages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} pageNames={["W",1,2,3]}/>
 		<div className="de">
 			<div>
 				<h3>Abilitiy Details</h3>
 				<ul className="aug">
 				{
-					p.weaponAbilityList.map((ability,i)=>{
+					selectedEquipAbilities?selectedEquipAbilities.map((ability,i)=>{
 						return <li key={i}><img alt="" src={ABILITIES[ability]?ABILITIES[ability].icon:ABILITY_DEFAULT_ICON} /> {ability}</li>
-						})
+						}):<></>
 				}
 				</ul>
 			</div>
 			<div>
 				<h3>Properties</h3>
 				<ul className="pr">
-				<li>Enhancement Lv.&emsp;<span>+{p.weaponEnhancementLv}</span></li>
+				<li>Enhancement Lv.&emsp;<span>+{selectedEquipEnhancementLv}</span></li>
 				<li>Multi-Weapon&emsp;<span>-</span></li>
 				<li>Element&emsp;<span>-</span></li>
 				</ul>
@@ -235,20 +275,21 @@ function EquippedWeaponBox(p) {
 }
 
 function DamageBox(p) {
+	const [currentPage,setCurrentPage] = useState(1)
+	
 	return <Box title="Damage">
-		<ul className="boxmenu">
-		<li>1</li>
-		<li>2</li>
-		<li>3</li>
-		</ul>
+		<PageControl pages={3} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
 		<br /><br />
-		<table className="ba">
-		<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
-		<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
-		<ListRow title="Midrange">{p.midRange}</ListRow>
-		<ListRow title="Critical">{p.critical}</ListRow>
-		<ListRow title="Effective"><span className="ye">{p.effective}</span></ListRow>
-		</table>
+		{
+			currentPage==1&&
+			<table className="ba">
+			<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
+			<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
+			<ListRow title="Midrange">{p.midRange}</ListRow>
+			<ListRow title="Critical">{p.critical}</ListRow>
+			<ListRow title="Effective"><span className="ye">{p.effective}</span></ListRow>
+			</table>
+		}
 		</Box>
 }
 
