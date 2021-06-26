@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef,useReducer} from 'react';
 
 function Col(p) {
 	return <div className="con">
@@ -31,13 +31,12 @@ return <input id="editBox" onKeyDown={(e)=>{
 }
 
 function EditableBox(p) {
-	const [name,setName] = useState(p.data)
 	const [edit,setEdit] = useState(false)
 	return <>
 		<div className="hover" onClick={(f)=>{setEdit(true)}}>
 			{edit?
-			<EditBox maxlength={p.maxlength} setEdit={setEdit} originalName={name} setName={setName} value={name}/>
-			:<>{name}</>}
+			<EditBox maxlength={p.maxlength} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
+			:<>{p.data}</>}
 		</div>
 	</>
 }
@@ -91,20 +90,18 @@ function EditableClass(p){
 	</>
 }
 
-function MainBox() {
-	const [className,setClassName] = useState("RANGER")
-	const [secondaryClassName,setSecondaryClassName] = useState("FORCE")
+function MainBox(p) {
 	return <Box title="NGS Planner">
 		<table className="ba">
-			<ListRow title="Author"><EditableBox data="Dudley"/></ListRow>
-			<ListRow title="Build Name"><EditableBox data="Fatimah"/></ListRow>
-			<ListRow title="Class" content={<EditableClass setClassName={setClassName} class={className}></EditableClass>}><span className="ye">Lv.20</span></ListRow>
-			<ListRow content={<><EditableClass setClassName={setSecondaryClassName} class={secondaryClassName}></EditableClass></>}>Lv.15</ListRow>
+			<ListRow title="Author"><EditableBox setData={p.setAuthor} data={p.author}/></ListRow>
+			<ListRow title="Build Name"><EditableBox setData={p.setBuildName} data={p.buildName}/></ListRow>
+			<ListRow title="Class" content={<EditableClass setClassName={p.setClassName} class={p.className}></EditableClass>}><span className="ye">Lv.20</span></ListRow>
+			<ListRow content={<><EditableClass setClassName={p.setSecondaryClassName} class={p.secondaryClassName}></EditableClass></>}>Lv.15</ListRow>
 		</table>
 	   </Box>
 }
 
-function StatsBox() {
+function StatsBox(p) {
 	 return <Box title="Stats">
 			<table className="st">
 				<ListRow title="Battle Power" content={1344}></ListRow>
@@ -118,7 +115,7 @@ function StatsBox() {
 		</Box>
 }
 
-function EffectsBox() {
+function EffectsBox(p) {
 	return <Box title="Current Effects">
 			<ul className="boxmenu">
 				<li>1</li>
@@ -147,7 +144,7 @@ function EffectsBox() {
 		</Box>
 }
 
-function EquipBox() {
+function EquipBox(p) {
 	return <Box title="Equip">
 			<div className="we">
 				<div><h3>Weapon</h3><br /><img alt="" src="https://i.imgur.com/uc1iBck.png" /><br />Ophistia Shooter+35</div>
@@ -158,7 +155,7 @@ function EquipBox() {
 		</Box>
 }
 
-function EquippedWeaponBox() {
+function EquippedWeaponBox(p) {
 	return <Box title="Equipped Weapon">
 		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />Ophistia Shooter+35</h2>
 		<ul className="boxmenu">
@@ -195,7 +192,7 @@ function EquippedWeaponBox() {
 	</Box>
 }
 
-function DamageBox() {
+function DamageBox(p) {
 	return <Box title="Damage">
 		<ul className="boxmenu">
 		<li>1</li>
@@ -222,11 +219,16 @@ function ListRow(p) {
 }
 
 function App() {
+	const [author,setAuthor] = useState("Dudley")
+	const [buildName,setBuildName] = useState("Fatimah")
+	const [className,setClassName] = useState("RANGER")
+	const [secondaryClassName,setSecondaryClassName] = useState("FORCE")
+	
   return (
   <>
   <div id="main">
    <Col>
-		<MainBox/>
+		<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
 		<StatsBox/>
 		<EffectsBox/>
 	</Col>
