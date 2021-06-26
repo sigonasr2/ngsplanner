@@ -312,3 +312,27 @@ td:last-child {
 	background-color:rgba(255,255,0,0.4);
 	cursor:pointer;
 }
+
+input#editBox{
+	height:18px;
+	width:50%;
+	padding: 0px;
+	margin: 0px;
+	text-align:right;
+}
+
+.popup{
+	position:absolute;
+	background-color: rgba(128,128,128,1);
+	max-width: 250px;
+	min-width: 100px;
+	padding: 20px;
+}
+.popup button{
+	margin:5px;
+	width:48px;
+	font-size:12px;
+	overflow:wrap;
+	background-color:rgba(64,64,96,0.9);
+	color:rgba(210,210,210,1);
+}

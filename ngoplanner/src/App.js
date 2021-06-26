@@ -25,7 +25,7 @@ function EditBox(p) {
 	})
 return <input id="editBox" onKeyDown={(e)=>{
 	if (e.key==="Enter") {p.setEdit(false)}
-}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{p.setName(f.currentTarget.value)}}>
+}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
 	
 	</input>
 }
@@ -36,19 +36,70 @@ function EditableBox(p) {
 	return <>
 		<div className="hover" onClick={(f)=>{setEdit(true)}}>
 			{edit?
-			<EditBox maxlength={p.maxlength} setEdit={setEdit} setName={setName} value={name}/>
+			<EditBox maxlength={p.maxlength} setEdit={setEdit} originalName={name} setName={setName} value={name}/>
 			:<>{name}</>}
 		</div>
 	</>
 }
 
+const CLASSES = {
+	HUNTER:{
+		name:"Hunter",
+		icon:"icons/UINGSClassHu.png"
+	},
+	FIGHTER:{
+		name:"Fighter",
+		icon:"icons/UINGSClassFi.png"
+	},
+	RANGER:{
+		name:"Ranger",
+		icon:"icons/UINGSClassRa.png"
+	},
+	GUNNER:{
+		name:"Gunner",
+		icon:"icons/UINGSClassGu.png"
+	},
+	FORCE:{
+		name:"Force",
+		icon:"icons/UINGSClassFo.png"
+	},
+	TECHTER:{
+		name:"Techter",
+		icon:"icons/UINGSClassTe.png"
+	}
+}
+
+function Class(p) {
+	const class_obj = CLASSES[p.name]
+	return <><img src={class_obj.icon}/>{class_obj.name}</>
+}
+
+function ClassSelector(p){
+	return <div className="popup">
+		Class Selector<br/>
+		{Object.keys(CLASSES).map((cl)=>{
+		return <button className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+		})}
+	</div>
+}
+
+function EditableClass(p){
+	const [edit,setEdit] = useState(false)
+	return <><span className="hover" onClick={()=>{setEdit(true)}}><Class name={p.class}/>
+	</span>
+	{edit&&<ClassSelector setClassName={p.setClassName} setEdit={setEdit}/>}
+	</>
+}
+
 function MainBox() {
+	const [className,setClassName] = useState("RANGER")
+	const [secondaryClassName,setSecondaryClassName] = useState("FORCE")
 	return <Box title="NGS Planner">
 		<table className="ba">
 			<ListRow title="Author"><EditableBox data="Dudley"/></ListRow>
 			<ListRow title="Build Name"><EditableBox data="Fatimah"/></ListRow>
-			<ListRow title="Class" content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/8/87/UINGSClassRa.png" /> Ranger</>}><span className="ye">Lv.20</span></ListRow>
-			<ListRow content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/3/39/UINGSClassFo.png" /> Force</>}>Lv.15</ListRow>
+			<ListRow title="Class" content={<EditableClass setClassName={setClassName} class={className}></EditableClass>}><span className="ye">Lv.20</span></ListRow>
+			<ListRow content={<><EditableClass setClassName={setSecondaryClassName} class={secondaryClassName}></EditableClass></>}>Lv.15</ListRow>
 		</table>
 	   </Box>
 }
