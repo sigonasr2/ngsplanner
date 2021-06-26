@@ -27,7 +27,7 @@ body {
     background-size: 1903px,2560px;
 	background-color: #e8ecf4;
     background-repeat: no-repeat,repeat-y;
-    background-position: center;
+    background-position: center 0px;
 	color: black;
     font-family: ngs,sans-serif;
 	font-size: 16px;
@@ -306,4 +306,9 @@ td:last-child {
 }
 .ye {
 	color: #ffb74c;
+}
+
+.hover:hover{
+	background-color:rgba(255,255,0,0.4);
+	cursor:pointer;
 }
