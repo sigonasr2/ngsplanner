@@ -166,20 +166,28 @@ function EditableClass(p){
 	</>
 }
 
+function Table(p) {
+	return <table className={p.classes}>
+		<tbody>
+			{p.children}
+		</tbody>
+	</table>
+}
+
 function MainBox(p) {
 	return <Box title="NGS Planner">
-		<table className="ba">
+		<Table classes="ba">
 			<ListRow title="Author"><EditableBox setData={p.setAuthor} data={p.author}/></ListRow>
 			<ListRow title="Build Name"><EditableBox setData={p.setBuildName} data={p.buildName}/></ListRow>
 			<ListRow title="Class" content={<EditableClass setClassName={p.setClassName} class={p.className}></EditableClass>}><span className="ye">Lv.20</span></ListRow>
 			<ListRow content={<><EditableClass setClassName={p.setSecondaryClassName} class={p.secondaryClassName}></EditableClass></>}>Lv.15</ListRow>
-		</table>
+		</Table>
 	   </Box>
 }
 
 function StatsBox(p) {
 	 return <Box title="Stats">
-			<table className="st">
+			<Table classes="st">
 				<ListRow title="Battle Power" content={p.bp}></ListRow>
 				<ListRow title="HP" content={p.hp}></ListRow>
 				<ListRow title="PP" content={p.pp}></ListRow>
@@ -187,7 +195,7 @@ function StatsBox(p) {
 				<ListRow title="Weapon Up" content={<><img alt="" src="/ngsplanner/icons/MEL.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="/ngsplanner/icons/RNG.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
 				<ListRow content={<><img alt="" src="/ngsplanner/icons/TEC.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
 				<ListRow title="Damage Resist." content={p.damageResist*100+"%"}></ListRow>
-			</table>
+			</Table>
 		</Box>
 }
 
@@ -309,13 +317,13 @@ function DamageBox(p) {
 		<br /><br />
 		{
 			currentPage===1&&
-			<table className="ba">
-			<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
-			<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
-			<ListRow title="Midrange">{p.midRange}</ListRow>
-			<ListRow title="Critical">{p.critical}</ListRow>
-			<ListRow title="Effective"><span className="ye">{p.effective}</span></ListRow>
-			</table>
+			<Table classes="ba">
+				<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
+				<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
+				<ListRow title="Midrange">{p.midRange}</ListRow>
+				<ListRow title="Critical">{p.critical}</ListRow>
+				<ListRow title="Effective"><span className="ye">{p.effective}</span></ListRow>
+			</Table>
 		}
 		</Box>
 }
