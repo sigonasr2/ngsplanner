@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState,useEffect,useRef} from 'react';
 import ReactWindow from 'reactjs-windows'
 import 'reactjs-windows/dist/index.css'
+const axios = require('axios');
 
 function Col(p) {
 	return <div className="con">
@@ -343,7 +344,14 @@ function PopupWindow(p) {
 	</ReactWindow>
 }
 
-function App() {	
+function App() {
+	useEffect(()=>{
+		axios.get("http://projectdivar.com/ngsplanner")
+		.then((data)=>{
+			console.log(data.data)
+		})
+	})
+	
 	const [author,setAuthor] = useState("Dudley")
 	const [buildName,setBuildName] = useState("Fatimah")
 	const [className,setClassName] = useState("RANGER")
