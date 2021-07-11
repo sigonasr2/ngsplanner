@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState,useEffect,useRef} from 'react';
-//import ReactWindow from 'reactjs-windows'
+import ReactWindow from 'reactjs-windows'
 import 'reactjs-windows/dist/index.css'
 
 function Col(p) {
@@ -181,6 +181,7 @@ function MainBox(p) {
 			<ListRow title="Build Name"><EditableBox setData={p.setBuildName} data={p.buildName}/></ListRow>
 			<ListRow title="Class" content={<EditableClass setClassName={p.setClassName} class={p.className}></EditableClass>}><span className="ye">Lv.20</span></ListRow>
 			<ListRow content={<><EditableClass setClassName={p.setSecondaryClassName} class={p.secondaryClassName}></EditableClass></>}>Lv.15</ListRow>
+			<ListRow><button>Share</button> <button>Save</button></ListRow>
 		</Table>
 	   </Box>
 }
@@ -336,6 +337,12 @@ function ListRow(p) {
 	</tr>
 }
 
+function PopupWindow(p) {
+	return <ReactWindow title="Test Window">
+		This is a test window.
+	</ReactWindow>
+}
+
 function App() {	
 	const [author,setAuthor] = useState("Dudley")
 	const [buildName,setBuildName] = useState("Fatimah")
@@ -404,6 +411,7 @@ function App() {
 		<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 		<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 	</Col>
+	<PopupWindow/>
 </div></>
   );
 }

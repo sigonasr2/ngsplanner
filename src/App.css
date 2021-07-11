@@ -339,3 +339,15 @@ input#editBox{
 	background-color:rgba(64,64,96,0.9);
 	color:rgba(210,210,210,1);
 }
+button{
+	padding:0px 3px 0px 3px;
+	border: 1px black solid;
+	background-color:gray;
+	color:white;
+    	font-family: ngs,sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+   	 -webkit-font-smoothing: antialiased;
+	text-shadow: -1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;
+}
