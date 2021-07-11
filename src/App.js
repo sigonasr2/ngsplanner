@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState,useEffect,useRef} from 'react';
-import ReactWindow from 'reactjs-windows'
+//import ReactWindow from 'reactjs-windows'
 import 'reactjs-windows/dist/index.css'
 
 function Col(p) {
@@ -135,7 +135,7 @@ function useOutsideAlerter(ref,setEdit) {
             // Unbind the event listener on clean up
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [ref]);
+    }, [ref,setEdit]);
 }
 
 
