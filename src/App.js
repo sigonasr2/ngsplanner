@@ -1,5 +1,7 @@
 import './App.css';
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useRef} from 'react';
+import ReactWindow from 'reactjs-windows'
+import 'reactjs-windows/dist/index.css'
 
 function Col(p) {
 	return <div className="con">
@@ -113,18 +115,47 @@ const ABILITIES = {
 
 const ABILITY_DEFAULT_ICON = "/ngsplanner/icons/UINGSItemSpecialAbility.png"
 
+/**
+ * Hook that alerts clicks outside of the passed ref
+ */
+function useOutsideAlerter(ref,setEdit) {
+    useEffect(() => {
+        /**
+         * Alert if clicked on outside of element
+         */
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setEdit(false)
+            }
+        }
+
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+}
+
+
 function Class(p) {
 	const class_obj = CLASSES[p.name]
 	return <><img alt="" src={class_obj.icon}/>{class_obj.name}</>
 }
 
 function ClassSelector(p){
-	return <div className="popup">
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef,p.setEdit);
+	return <div className="popup" ref={wrapperRef}>
 		Class Selector<br/>
 		{Object.keys(CLASSES).map((cl,i)=>{
 		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
 		})}
 	</div>
+	/*return <ReactWindow title="Test Window">
+		This is a test window.
+	</ReactWindow>*/
 }
 
 function EditableClass(p){
@@ -245,7 +276,7 @@ function EquippedWeaponBox(p) {
 	},[currentPage,p.armorSlot1,p.armorSlot1EnhancementLv,p.armorSlot1AbilityList,p.armorSlot2,p.armorSlot2EnhancementLv,p.armorSlot2AbilityList,p.armorSlot3,p.armorSlot3EnhancementLv,p.armorSlot3AbilityList,p.weapon,p.weaponEnhancementLv,p.weaponAbilityList])
 	
 	return <Box title="Equipped Weapon">
-		<h2><img alt="" src="https://pso2na.arks-visiphone.com/images/b/bc/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
+		<h2><img alt="" src="/ngsplanner/icons/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
 		<PageControl pages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} pageNames={["W",1,2,3]}/>
 		<div className="de">
 			<div>
@@ -297,7 +328,7 @@ function ListRow(p) {
 	</tr>
 }
 
-function App() {
+function App() {	
 	const [author,setAuthor] = useState("Dudley")
 	const [buildName,setBuildName] = useState("Fatimah")
 	const [className,setClassName] = useState("RANGER")

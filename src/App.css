@@ -326,7 +326,7 @@ input#editBox{
 
 .popup{
 	position:absolute;
-	background-color: rgba(128,128,128,1);
+	background-color: rgba(128,128,128,0.9);
 	max-width: 250px;
 	min-width: 100px;
 	padding: 20px;
