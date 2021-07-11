@@ -346,7 +346,7 @@ function PopupWindow(p) {
 
 function App() {
 	useEffect(()=>{
-		axios.get("http://projectdivar.com/ngsplanner")
+		axios.get("https://projectdivar.com:4504/ngsplanner")
 		.then((data)=>{
 			console.log(data.data)
 		})
