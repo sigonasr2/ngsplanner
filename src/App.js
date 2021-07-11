@@ -40,27 +40,27 @@ function EditableBox(p) {
 const CLASSES = {
 	HUNTER:{
 		name:"Hunter",
-		icon:"icons/UINGSClassHu.png"
+		icon:"/ngsplanner/icons/UINGSClassHu.png"
 	},
 	FIGHTER:{
 		name:"Fighter",
-		icon:"icons/UINGSClassFi.png"
+		icon:"/ngsplanner/icons/UINGSClassFi.png"
 	},
 	RANGER:{
 		name:"Ranger",
-		icon:"icons/UINGSClassRa.png"
+		icon:"/ngsplanner/icons/UINGSClassRa.png"
 	},
 	GUNNER:{
 		name:"Gunner",
-		icon:"icons/UINGSClassGu.png"
+		icon:"/ngsplanner/icons/UINGSClassGu.png"
 	},
 	FORCE:{
 		name:"Force",
-		icon:"icons/UINGSClassFo.png"
+		icon:"/ngsplanner/icons/UINGSClassFo.png"
 	},
 	TECHTER:{
 		name:"Techter",
-		icon:"icons/UINGSClassTe.png"
+		icon:"/ngsplanner/icons/UINGSClassTe.png"
 	}
 }
 
@@ -70,48 +70,48 @@ const EFFECTS = {
 			"[Meat] Potency +10.0%",
 			"[Crisp] Potency to Weak Point +5.0%"
 		],
-		icon:"icons/TQ8EBW2.png"
+		icon:"/ngsplanner/icons/TQ8EBW2.png"
 	},
 	"Shifta / Deband":{
 		perks:[
 			"Potency +5.0%",
 			"Damage Resistance +10.0%"
 		],
-		icon:"icons/VIYYNIm.png"
+		icon:"/ngsplanner/icons/VIYYNIm.png"
 	},
 	"Region Mag Boost":{
 		perks:[
 			"Potency +5.0%",
 		],
-		icon:"icons/N6M74Qr.png"
+		icon:"/ngsplanner/icons/N6M74Qr.png"
 	},
 }
 
 const EQUIPMENT = {
 	"Ophistia Shooter":{
-		icon:"icons/uc1iBck.png"
+		icon:"/ngsplanner/icons/uc1iBck.png"
 	},
 	"Klauzdyne":{
-		icon:"icons/uldt9lR.png"
+		icon:"/ngsplanner/icons/uldt9lR.png"
 	},
 	"Klauznum":{
-		icon:"icons/F0t58xP.png"
+		icon:"/ngsplanner/icons/F0t58xP.png"
 	},
 	"Klauzment":{
-		icon:"icons/20M6Z7t.png"
+		icon:"/ngsplanner/icons/20M6Z7t.png"
 	}
 }
 
 const ABILITIES = {
 	"Wellspring Unit Lv.3":{
-		icon:"icons/NGSUIItemPotentialAbility.png"
+		icon:"/ngsplanner/icons/NGSUIItemPotentialAbility.png"
 	},
 	"Fixa Fatale Lv.5":{
-		icon:"icons/UINGSItemPresetAbility.png"
+		icon:"/ngsplanner/icons/UINGSItemPresetAbility.png"
 	}
 }
 
-const ABILITY_DEFAULT_ICON = "icons/UINGSItemSpecialAbility.png"
+const ABILITY_DEFAULT_ICON = "/ngsplanner/icons/UINGSItemSpecialAbility.png"
 
 function Class(p) {
 	const class_obj = CLASSES[p.name]
@@ -153,8 +153,8 @@ function StatsBox(p) {
 				<ListRow title="HP" content={p.hp}></ListRow>
 				<ListRow title="PP" content={p.pp}></ListRow>
 				<ListRow title="Defense" content={p.def}></ListRow>
-				<ListRow title="Weapon Up" content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/3/37/NGSUIStatSATK.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="https://pso2na.arks-visiphone.com/images/c/c5/NGSUIStatRATK.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
-				<ListRow content={<><img alt="" src="https://pso2na.arks-visiphone.com/images/a/ae/NGSUIStatTATK.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
+				<ListRow title="Weapon Up" content={<><img alt="" src="/ngsplanner/icons/MEL.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="/ngsplanner/icons/RNG.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
+				<ListRow content={<><img alt="" src="/ngsplanner/icons/TEC.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
 				<ListRow title="Damage Resist." content={p.damageResist*100+"%"}></ListRow>
 			</table>
 		</Box>
