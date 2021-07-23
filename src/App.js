@@ -414,7 +414,7 @@ function TableEditor(p) {
 			var cols = data.data.fields
 			var rows = data.data.rows
 			
-			setFields(cols.filter((col)=>col.dataTypeID!==23).map((col)=>col.name))
+			setFields(cols.filter((col)=>col.name!=="id").map((col)=>col.name))
 			setData(rows)
 		})
 	},[p.path])
@@ -429,7 +429,7 @@ function TableEditor(p) {
 				</tr>
 			  </thead>
 			  <tbody>
-					{data.map((dat)=><tr key={dat.id}>{fields.map((col,i)=><td key={i}><EditableBackendBox callback={(value)=>{console.log(value)}}>{dat[col]}</EditableBackendBox></td>)}</tr>)}
+					{data.map((dat,i)=><tr key={i}>{fields.map((col,i)=><td key={i}><EditableBackendBox callback={(value)=>{console.log(value)}}>{String(dat[col])}</EditableBackendBox></td>)}</tr>)}
 			  </tbody>
 			</table>
 		</div>
@@ -437,7 +437,7 @@ function TableEditor(p) {
 }
 
 function AdminPanel(p) {
-	return <div id="main">
+	return <div id="main" style={{background:"white"}}>
 	  <div className="w-25"><Box title="Navigation">
 		  <Table classes="st">
 		  <Link to={"/admin/class"}>Class</Link><br/>
@@ -471,6 +471,60 @@ function AdminPanel(p) {
 		<div className="w-75" style={{background:"rgba(20,29,40,0.66)"}}>
 			<Route path="/admin/class">
 				<TableEditor path="/class"/>
+			</Route>
+			<Route path="/admin/classdata">
+				<TableEditor path="/class_level_data"/>
+			</Route>
+			<Route path="/admin/classweaponcompatibility">
+				<TableEditor path="/class_weapon_type_data"/>
+			</Route>
+			<Route path="/admin/weapons">
+				<TableEditor path="/weapon"/>
+			</Route>
+			<Route path="/admin/weaponexistencedata">
+				<TableEditor path="/weapon_existence_data"/>
+			</Route>
+			<Route path="/admin/weapontypes">
+				<TableEditor path="/weapon_type"/>
+			</Route>
+			<Route path="/admin/armor">
+				<TableEditor path="/armor"/>
+			</Route>
+			<Route path="/admin/potentials">
+				<TableEditor path="/potential"/>
+			</Route>
+			<Route path="/admin/potentialdata">
+				<TableEditor path="/potential_data"/>
+			</Route>
+			<Route path="/admin/builds">
+				<TableEditor path="/builds"/>
+			</Route>
+			<Route path="/admin/skills">
+				<TableEditor path="/skill"/>
+			</Route>
+			<Route path="/admin/skilltypes">
+				<TableEditor path="/skill_type"/>
+			</Route>
+			<Route path="/admin/skilldata">
+				<TableEditor path="/skill_data"/>
+			</Route>
+			<Route path="/admin/augments">
+				<TableEditor path="/augment"/>
+			</Route>
+			<Route path="/admin/augmenttypes">
+				<TableEditor path="/augment_type"/>
+			</Route>
+			<Route path="/admin/food">
+				<TableEditor path="/food"/>
+			</Route>
+			<Route path="/admin/foodmultipliers">
+				<TableEditor path="/food_mult"/>
+			</Route>
+			<Route path="/admin/roles">
+				<TableEditor path="/roles"/>
+			</Route>
+			<Route path="/admin/users">
+				<TableEditor path="/users"/>
 			</Route>
 		</div>
 		</div>
