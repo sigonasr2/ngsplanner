@@ -11,6 +11,7 @@ import {
 
 import { HashLink as Link } from 'react-router-hash-link';
 
+import TestPanel from './TestPanel'; // Dudley's Test Panel
 
 const axios = require('axios');
 
@@ -589,6 +590,9 @@ function App() {
 		<Switch>
 			<Route path="/admin">
 			  <AdminPanel/>
+			</Route>
+			<Route path="/test">
+			  <TestPanel/>
 			</Route>
 			<Route path="/">
 			  <div id="main">
