@@ -591,6 +591,9 @@ function App() {
   <>
 	<Router>
 		<Switch>
+			<Route path="/test">
+			  <AdminPanel/>
+			</Route>
 			<Route path="/admin">
 			  <AdminPanel/>
 			</Route>
