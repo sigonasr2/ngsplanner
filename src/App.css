@@ -222,13 +222,11 @@ td:last-child {
 	cursor:pointer;
 }
 .box h3 {
-	background-image: url("tr_bg.png");
-	background-repeat: no-repeat;
-	background-position: left bottom;
-	font-size: 16px;
+	font-size: 12pt;
 	font-weight: normal;
-	margin: 10px;
 	padding: 0 5px;
+	margin: 5px;
+	border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .we {
 	color: white;
