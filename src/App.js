@@ -2,6 +2,17 @@ import './App.css';
 import React, {useState,useEffect,useRef} from 'react';
 import ReactWindow from 'reactjs-windows'
 import 'reactjs-windows/dist/index.css'
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation
+} from "react-router-dom";
+
+import { HashLink as Link } from 'react-router-hash-link';
+
+
 const axios = require('axios');
 
 function Col(p) {
@@ -344,6 +355,49 @@ function PopupWindow(p) {
 	</ReactWindow>
 }
 
+function AdminPanel(p) {
+	return <div id="main">
+	  <Col><Box title="Navigation">
+		  <Table classes="st">
+		  <Link to={"/admin/class"}>Class</Link><br/>
+		  <Link to={"/admin/classdata"}>Class Data</Link><br/>
+		<Link to={"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
+		<hr/>
+		  <Link to={"/admin/weapons"}>Weapons</Link><br/>
+		<Link to={"/admin/weaponexistencedata"}>Weapon Existence Data</Link><br/>
+		<Link to={"/admin/weapontypes"}>Weapon Types</Link><br/>
+		<Link to={"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
+		<hr/>
+		  <Link to={"/admin/armor"}>Armor</Link><br/>
+		  <Link to={"/admin/potentials"}>Potentials</Link><br/>
+		<Link to={"/admin/potentialdata"}>Potential Data</Link><br/>
+		<hr/>
+		  <Link to={"/admin/builds"}>Builds</Link><br/>
+		<hr/>
+		  <Link to={"/admin/skills"}>Skills</Link><br/>
+		<Link to={"/admin/skilltypes"}>Skill Types</Link><br/>
+		<Link to={"/admin/skilldata"}>Skill Data</Link><br/>
+		<hr/>
+		  <Link to={"/admin/augments"}>Augments</Link><br/>
+		<Link to={"/admin/augmenttypes"}>Augment Types</Link><br/>
+		<hr/>
+		  <Link to={"/admin/food"}>Food</Link><br/>
+		<Link to={"/admin/foodmultipliers"}>Food Multipliers</Link><br/>
+		<hr/>
+		  <Link to={"/admin/roles"}>Roles</Link><br/>
+		<hr/>
+		<Link to={"/admin/users"}>Users</Link><br/></Table></Box></Col>
+		<Col>
+			<Route path="/admin/class">
+				More Data
+			</Route>
+		</Col></div>
+}
+
+function PageLink(p) {
+	return <u className="hover">{p.children}</u>
+}
+
 function App() {
 	useEffect(()=>{
 		axios.get("https://projectdivar.com:4504/ngsplanner")
@@ -405,22 +459,32 @@ function App() {
 	
   return (
   <>
-  <div id="main">
-   <Col>
-		<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
-		<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
-	</Col>
-	<Col>
-		<EquipBox weapon={weapon} setWeapon={setWeapon} armorSlot1={armorSlot1} setArmorSlot1={setArmorSlot1} armorSlot2={armorSlot2} setArmorSlot2={setArmorSlot2} armorSlot3={armorSlot3} setArmorSlot3={setArmorSlot3} weaponEnhancementLv={weaponEnhancementLv} setWeaponEnhancementLv={setWeaponEnhancementLv} armorSlot1EnhancementLv={armorSlot1EnhancementLv} setArmorSlot1EnhancementLv={setArmorSlot1EnhancementLv} armorSlot2EnhancementLv={armorSlot2EnhancementLv} setArmorSlot2EnhancementLv={setArmorSlot2EnhancementLv} armorSlot3EnhancementLv={armorSlot3EnhancementLv} setArmorSlot3EnhancementLv={setArmorSlot3EnhancementLv}/>
-		<EquippedWeaponBox weapon={weapon} armorSlot1={armorSlot1} armorSlot2={armorSlot2} armorSlot3={armorSlot3} weaponAbilityList={weaponAbilityList} setWeaponAbilityList={setWeaponAbilityList} armor1AbilityList={armor1AbilityList} setArmor1AbilityList={setArmor1AbilityList} armor2AbilityList={armor2AbilityList} setArmor2AbilityList={setArmor2AbilityList} armor3AbilityList={armor3AbilityList} setArmor3AbilityList={setArmor3AbilityList} weaponEnhancementLv={weaponEnhancementLv}armorSlot1EnhancementLv={armorSlot1EnhancementLv}armorSlot2EnhancementLv={armorSlot2EnhancementLv}armorSlot3EnhancementLv={armorSlot3EnhancementLv}/>
-	</Col>
-	<Col>
-		
-		<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
-		<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
-	</Col>
-	<PopupWindow/>
-</div></>
+	<Router>
+		<Switch>
+			<Route path="/admin">
+			  <AdminPanel/>
+			</Route>
+			<Route path="/">
+			  <div id="main">
+				   <Col>
+						<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
+						<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
+					</Col>
+					<Col>
+						<EquipBox weapon={weapon} setWeapon={setWeapon} armorSlot1={armorSlot1} setArmorSlot1={setArmorSlot1} armorSlot2={armorSlot2} setArmorSlot2={setArmorSlot2} armorSlot3={armorSlot3} setArmorSlot3={setArmorSlot3} weaponEnhancementLv={weaponEnhancementLv} setWeaponEnhancementLv={setWeaponEnhancementLv} armorSlot1EnhancementLv={armorSlot1EnhancementLv} setArmorSlot1EnhancementLv={setArmorSlot1EnhancementLv} armorSlot2EnhancementLv={armorSlot2EnhancementLv} setArmorSlot2EnhancementLv={setArmorSlot2EnhancementLv} armorSlot3EnhancementLv={armorSlot3EnhancementLv} setArmorSlot3EnhancementLv={setArmorSlot3EnhancementLv}/>
+						<EquippedWeaponBox weapon={weapon} armorSlot1={armorSlot1} armorSlot2={armorSlot2} armorSlot3={armorSlot3} weaponAbilityList={weaponAbilityList} setWeaponAbilityList={setWeaponAbilityList} armor1AbilityList={armor1AbilityList} setArmor1AbilityList={setArmor1AbilityList} armor2AbilityList={armor2AbilityList} setArmor2AbilityList={setArmor2AbilityList} armor3AbilityList={armor3AbilityList} setArmor3AbilityList={setArmor3AbilityList} weaponEnhancementLv={weaponEnhancementLv}armorSlot1EnhancementLv={armorSlot1EnhancementLv}armorSlot2EnhancementLv={armorSlot2EnhancementLv}armorSlot3EnhancementLv={armorSlot3EnhancementLv}/>
+					</Col>
+					<Col>
+						
+						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
+						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
+					</Col>
+					<PopupWindow/>
+				</div>
+			</Route>
+		</Switch>
+	</Router>
+	</>
   );
 }
 
