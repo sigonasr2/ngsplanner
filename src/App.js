@@ -6,14 +6,15 @@ import 'reactjs-windows/dist/index.css'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  useLocation
+  Route
 } from "react-router-dom";
 
 import { HashLink as Link } from 'react-router-hash-link';
 
 
 const axios = require('axios');
+
+const BACKEND_URL = 'https://projectdivar.com:4504';
 
 function Col(p) {
 	return <div className="con">
@@ -32,16 +33,27 @@ function Box(p) {
 
 function EditBox(p) {
 	useEffect(()=>{
-		setTimeout(()=>{document.getElementById("editBox").focus()},100)
+		var timer1 = setTimeout(()=>{document.getElementById("editBox").focus()},100)
+		return () => {
+			clearTimeout(timer1);
+		};
 	})
 	return <input id="editBox" onKeyDown={(e)=>{
 		if (e.key==="Enter") {p.setEdit(false)}
+		else if (e.key==="Escape") {p.setEdit(false)}
 	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
 	</input>
 }
 
 function EditableBox(p) {
 	const [edit,setEdit] = useState(false)
+	
+	useEffect(()=>{
+		if (p.callback) {
+			p.callback()
+		}
+	},[edit])
+	
 	return <>
 		<div className="hover" onClick={(f)=>{setEdit(true)}}>
 			{edit?
@@ -355,9 +367,78 @@ function PopupWindow(p) {
 	</ReactWindow>
 }
 
+
+function EditBackendBox(p) {
+	useEffect(()=>{
+		var timer1 = setTimeout(()=>{document.getElementById("editBox").focus()},100)
+		return () => {
+			clearTimeout(timer1);
+		};
+	})
+	return <input id="editBox" onKeyDown={(e)=>{
+		if (e.key==="Enter") {p.setEdit(false);p.setUpdate(true)}
+		else if (e.key==="Escape") {p.setEdit(false)}
+	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false);p.setUpdate(true)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
+	</input>
+}
+
+function EditableBackendBox(p) {
+	const [update,setUpdate] = useState(false)
+	const [edit,setEdit] = useState(false)
+	const [value,setValue] = useState(p.children)
+	
+	useEffect(()=>{
+		if (p.callback&&update) {
+			p.callback(value)
+			setUpdate(false)
+		}
+	},[update])
+	
+	return <>
+		<div className="hover" onClick={(f)=>{setEdit(true)}}>
+			{edit?
+			<EditBackendBox maxlength={p.maxlength} setUpdate={setUpdate} setEdit={setEdit} originalName={value} setName={setValue} value={value}/>
+			:<>{value}</>}
+		</div>
+	</>
+}
+
+function TableEditor(p) {
+	
+	const [fields,setFields] = useState([])
+	const [data,setData] = useState([])
+	
+	useEffect(()=>{
+		axios.get(BACKEND_URL+p.path)
+		.then((data)=>{
+			var cols = data.data.fields
+			var rows = data.data.rows
+			
+			setFields(cols.filter((col)=>col.dataTypeID!==23).map((col)=>col.name))
+			setData(rows)
+		})
+	},[p.path])
+	
+	return <>
+		<div className="table-responsive">
+			<table className="table text-light">
+			  <caption>List of users</caption>
+			  <thead>
+				<tr>
+					{fields.map((field,i)=><React.Fragment key={i}><th scope="col">{field}</th></React.Fragment>)}
+				</tr>
+			  </thead>
+			  <tbody>
+					{data.map((dat)=><tr key={dat.id}>{fields.map((col,i)=><td key={i}><EditableBackendBox callback={(value)=>{console.log(value)}}>{dat[col]}</EditableBackendBox></td>)}</tr>)}
+			  </tbody>
+			</table>
+		</div>
+	</>
+}
+
 function AdminPanel(p) {
 	return <div id="main">
-	  <Col><Box title="Navigation">
+	  <div className="w-25"><Box title="Navigation">
 		  <Table classes="st">
 		  <Link to={"/admin/class"}>Class</Link><br/>
 		  <Link to={"/admin/classdata"}>Class Data</Link><br/>
@@ -386,25 +467,16 @@ function AdminPanel(p) {
 		<hr/>
 		  <Link to={"/admin/roles"}>Roles</Link><br/>
 		<hr/>
-		<Link to={"/admin/users"}>Users</Link><br/></Table></Box></Col>
-		<Col>
+		<Link to={"/admin/users"}>Users</Link><br/></Table></Box></div>
+		<div className="w-75" style={{background:"rgba(20,29,40,0.66)"}}>
 			<Route path="/admin/class">
-				More Data
+				<TableEditor path="/class"/>
 			</Route>
-		</Col></div>
-}
-
-function PageLink(p) {
-	return <u className="hover">{p.children}</u>
+		</div>
+		</div>
 }
 
 function App() {
-	useEffect(()=>{
-		axios.get("https://projectdivar.com:4504/ngsplanner")
-		.then((data)=>{
-			console.log(data.data)
-		})
-	})
 	
 	const [author,setAuthor] = useState("Dudley")
 	const [buildName,setBuildName] = useState("Fatimah")
