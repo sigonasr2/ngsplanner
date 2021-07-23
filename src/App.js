@@ -1,4 +1,6 @@
-import './App.css';
+//import './App.css'; Old CSS
+import './reset.css'; // Generic reset
+import './style.css'; // The new new
 import React, {useState,useEffect,useRef} from 'react';
 import ReactWindow from 'reactjs-windows'
 import 'reactjs-windows/dist/index.css'
@@ -11,6 +13,7 @@ import {
 
 import { HashLink as Link } from 'react-router-hash-link';
 
+import TestHeader from './TestHeader'; // Test Header!
 import TestPanel from './TestPanel'; // Dudley's Test Panel
 
 const axios = require('axios');
@@ -592,7 +595,8 @@ function App() {
 			  <AdminPanel/>
 			</Route>
 			<Route path="/test">
-			  <TestPanel/>
+			<TestHeader/>
+			<div id="main"><TestPanel/></div>
 			</Route>
 			<Route path="/">
 			  <div id="main">
