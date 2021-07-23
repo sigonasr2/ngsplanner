@@ -43,27 +43,27 @@ function EditableBox(p) {
 const CLASSES = {
 	HUNTER:{
 		name:"Hunter",
-		icon:"/ngsplanner/icons/UINGSClassHu.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSClassHu.png"
 	},
 	FIGHTER:{
 		name:"Fighter",
-		icon:"/ngsplanner/icons/UINGSClassFi.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSClassFi.png"
 	},
 	RANGER:{
 		name:"Ranger",
-		icon:"/ngsplanner/icons/UINGSClassRa.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSClassRa.png"
 	},
 	GUNNER:{
 		name:"Gunner",
-		icon:"/ngsplanner/icons/UINGSClassGu.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSClassGu.png"
 	},
 	FORCE:{
 		name:"Force",
-		icon:"/ngsplanner/icons/UINGSClassFo.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSClassFo.png"
 	},
 	TECHTER:{
 		name:"Techter",
-		icon:"/ngsplanner/icons/UINGSClassTe.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSClassTe.png"
 	}
 }
 
@@ -73,48 +73,48 @@ const EFFECTS = {
 			"[Meat] Potency +10.0%",
 			"[Crisp] Potency to Weak Point +5.0%"
 		],
-		icon:"/ngsplanner/icons/TQ8EBW2.png"
+		icon:process.env.PUBLIC_URL+"/icons/TQ8EBW2.png"
 	},
 	"Shifta / Deband":{
 		perks:[
 			"Potency +5.0%",
 			"Damage Resistance +10.0%"
 		],
-		icon:"/ngsplanner/icons/VIYYNIm.png"
+		icon:process.env.PUBLIC_URL+"/icons/VIYYNIm.png"
 	},
 	"Region Mag Boost":{
 		perks:[
 			"Potency +5.0%",
 		],
-		icon:"/ngsplanner/icons/N6M74Qr.png"
+		icon:process.env.PUBLIC_URL+"/icons/N6M74Qr.png"
 	},
 }
 
 const EQUIPMENT = {
 	"Ophistia Shooter":{
-		icon:"/ngsplanner/icons/uc1iBck.png"
+		icon:process.env.PUBLIC_URL+"/icons/uc1iBck.png"
 	},
 	"Klauzdyne":{
-		icon:"/ngsplanner/icons/uldt9lR.png"
+		icon:process.env.PUBLIC_URL+"/icons/uldt9lR.png"
 	},
 	"Klauznum":{
-		icon:"/ngsplanner/icons/F0t58xP.png"
+		icon:process.env.PUBLIC_URL+"/icons/F0t58xP.png"
 	},
 	"Klauzment":{
-		icon:"/ngsplanner/icons/20M6Z7t.png"
+		icon:process.env.PUBLIC_URL+"/icons/20M6Z7t.png"
 	}
 }
 
 const ABILITIES = {
 	"Wellspring Unit Lv.3":{
-		icon:"/ngsplanner/icons/NGSUIItemPotentialAbility.png"
+		icon:process.env.PUBLIC_URL+"/icons/NGSUIItemPotentialAbility.png"
 	},
 	"Fixa Fatale Lv.5":{
-		icon:"/ngsplanner/icons/UINGSItemPresetAbility.png"
+		icon:process.env.PUBLIC_URL+"/icons/UINGSItemPresetAbility.png"
 	}
 }
 
-const ABILITY_DEFAULT_ICON = "/ngsplanner/icons/UINGSItemSpecialAbility.png"
+const ABILITY_DEFAULT_ICON = process.env.PUBLIC_URL+"/icons/UINGSItemSpecialAbility.png"
 
 /**
  * Hook that alerts clicks outside of the passed ref
@@ -194,8 +194,8 @@ function StatsBox(p) {
 				<ListRow title="HP" content={p.hp}></ListRow>
 				<ListRow title="PP" content={p.pp}></ListRow>
 				<ListRow title="Defense" content={p.def}></ListRow>
-				<ListRow title="Weapon Up" content={<><img alt="" src="/ngsplanner/icons/MEL.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="/ngsplanner/icons/RNG.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
-				<ListRow content={<><img alt="" src="/ngsplanner/icons/TEC.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
+				<ListRow title="Weapon Up" content={<><img alt="" src="/icons/MEL.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="/icons/RNG.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
+				<ListRow content={<><img alt="" src="/icons/TEC.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
 				<ListRow title="Damage Resist." content={p.damageResist*100+"%"}></ListRow>
 			</Table>
 		</Box>
@@ -286,7 +286,7 @@ function EquippedWeaponBox(p) {
 	},[currentPage,p.armorSlot1,p.armorSlot1EnhancementLv,p.armorSlot1AbilityList,p.armorSlot2,p.armorSlot2EnhancementLv,p.armorSlot2AbilityList,p.armorSlot3,p.armorSlot3EnhancementLv,p.armorSlot3AbilityList,p.weapon,p.weaponEnhancementLv,p.weaponAbilityList])
 	
 	return <Box title="Equipped Weapon">
-		<h2><img alt="" src="/ngsplanner/icons/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
+		<h2><img alt="" src="/icons/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
 		<PageControl pages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} pageNames={["W",1,2,3]}/>
 		<div className="de">
 			<div>
