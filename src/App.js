@@ -637,7 +637,6 @@ function App() {
   return (
   <>
 	<HashRouter>
-	<Link to={process.env.PUBLIC_URL+"/admin"}>Test</Link>
 		<Switch>
 			<Route path={process.env.PUBLIC_URL+"/test"}>
 			  <AdminPanel/>
