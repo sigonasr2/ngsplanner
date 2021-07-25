@@ -58,7 +58,7 @@ function EditableBox(p) {
 		if (p.callback) {
 			p.callback()
 		}
-	},[edit])
+	},[edit,p])
 	
 	return <>
 		<div className="hover" onClick={(f)=>{setEdit(true)}}>
@@ -406,7 +406,7 @@ function EditableBackendBox(p) {
 				setValue(originalValue)
 			})
 		}
-	},[update])
+	},[update,originalValue,p,value])
 	
 	return <>
 		<div className="hover table-padding" onClick={(f)=>{setEdit(true)}}>
@@ -434,17 +434,6 @@ function TableEditor(p) {
 	const [update,setUpdate] = useState(false)
 	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
 	
-	function updateData() {
-		axios.get(BACKEND_URL+p.path)
-		.then((data)=>{
-			var cols = data.data.fields
-			var rows = data.data.rows
-			
-			setFields(cols.filter((col)=>col.name!=="id").map((col)=>col.name))
-			setData(rows)
-		})
-	}
-	
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
 		.then(()=>{
@@ -456,15 +445,22 @@ function TableEditor(p) {
 	}
 	
 	useEffect(()=>{
-		updateData()
+		setUpdate(true)
 	},[p.path])
 	
 	useEffect(()=>{
 		if (update) {
-			updateData()
+			axios.get(BACKEND_URL+p.path)
+			.then((data)=>{
+				var cols = data.data.fields
+				var rows = data.data.rows
+				
+				setFields(cols.filter((col)=>col.name!=="id").map((col)=>col.name))
+				setData(rows)
+			})
 			setUpdate(false)
 		}
-	},[update])
+	},[update,p.path])
 	
 	return <>
 		<div className="table-responsive">
@@ -484,7 +480,7 @@ function TableEditor(p) {
 							id:dat.id
 						})
 					}}>{String(dat[col])}</EditableBackendBox></td>)}</tr>)}
-						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<input id={"submitField"+i} onBlur={(i==fields.length-1)?(f)=>{setSubmitVal({field:col,value:f.currentTarget.value});SubmitBoxes();document.getElementById("submitField0").focus()}:(f)=>{setSubmitVal({field:col,value:f.currentTarget.value})}}/>}</td>)}</tr>}
+						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<input id={"submitField"+i} onBlur={(i===fields.length-1)?(f)=>{setSubmitVal({field:col,value:f.currentTarget.value});SubmitBoxes();document.getElementById("submitField0").focus()}:(f)=>{setSubmitVal({field:col,value:f.currentTarget.value})}}/>}</td>)}</tr>}
 			  </tbody>
 			</table>
 		</div>
