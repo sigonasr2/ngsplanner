@@ -637,6 +637,7 @@ function App() {
   return (
   <>
 	<Router>
+	<Link to="/admin">Test</Link>
 		<Switch>
 			<Route path="/test">
 			  <AdminPanel/>
