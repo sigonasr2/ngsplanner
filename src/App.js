@@ -2,7 +2,7 @@
 import './reset.css'; // Generic reset
 import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
-import ReactWindow from 'reactjs-windows'
+import Modal from 'react-modal'
 import 'reactjs-windows/dist/index.css'
 
 import {XSquareFill} from 'react-bootstrap-icons'
@@ -183,9 +183,6 @@ function ClassSelector(p){
 		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
 		})}
 	</div>
-	/*return <ReactWindow title="Test Window">
-		This is a test window.
-	</ReactWindow>*/
 }
 
 function EditableClass(p){
@@ -368,9 +365,9 @@ function ListRow(p) {
 }
 
 function PopupWindow(p) {
-	return <ReactWindow title="Test Window">
-		This is a test window.
-	</ReactWindow>
+	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true}>
+		This is a test modal.
+	</Modal>
 }
 
 
@@ -633,6 +630,8 @@ function App() {
 	const [midRange,setMidRange] = useState(126)
 	const [critical,setCritical] = useState(152)
 	const [effective,setEffective] = useState(127)
+
+	const [modalOpen,setModalOpen] = useState(true)
 	
   return (
   <>
@@ -663,7 +662,7 @@ function App() {
 						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 					</Col>
-					<PopupWindow/>
+					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen}/>
 				</div>
 			</Route>
 		</Switch>
