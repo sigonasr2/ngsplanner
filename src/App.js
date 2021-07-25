@@ -3,7 +3,6 @@ import './reset.css'; // Generic reset
 import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
 import Modal from 'react-modal'
-import 'reactjs-windows/dist/index.css'
 
 import {XSquareFill} from 'react-bootstrap-icons'
 
