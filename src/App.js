@@ -8,7 +8,7 @@ import 'reactjs-windows/dist/index.css'
 import {XSquareFill} from 'react-bootstrap-icons'
 
 import {
-  BrowserRouter as Router,
+  HashRouter,
   Switch,
   Route
 } from "react-router-dom";
@@ -636,7 +636,7 @@ function App() {
 	
   return (
   <>
-	<Router>
+	<HashRouter>
 	<Link to={process.env.PUBLIC_URL+"/admin"}>Test</Link>
 		<Switch>
 			<Route path={process.env.PUBLIC_URL+"/test"}>
@@ -668,7 +668,7 @@ function App() {
 				</div>
 			</Route>
 		</Switch>
-	</Router>
+	</HashRouter>
 	</>
   );
 }
