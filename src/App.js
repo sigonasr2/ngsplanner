@@ -491,90 +491,90 @@ function AdminPanel(p) {
 	return <div id="main" style={{background:"white"}}>
 	  <div className="w-25"><Box title="Navigation">
 		  <Table classes="st">
-		  <Link to={"/admin/class"}>Class</Link><br/>
-		  <Link to={"/admin/classdata"}>Class Data</Link><br/>
-		<Link to={"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/classdata"}>Class Data</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
 		<hr/>
-		  <Link to={"/admin/weapons"}>Weapons</Link><br/>
-		<Link to={"/admin/weaponexistencedata"}>Weapon Existence Data</Link><br/>
-		<Link to={"/admin/weapontypes"}>Weapon Types</Link><br/>
-		<Link to={"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/weapons"}>Weapons</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>Weapon Existence Data</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/weapontypes"}>Weapon Types</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
 		<hr/>
-		  <Link to={"/admin/armor"}>Armor</Link><br/>
-		  <Link to={"/admin/potentials"}>Potentials</Link><br/>
-		<Link to={"/admin/potentialdata"}>Potential Data</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/armor"}>Armor</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/potentials"}>Potentials</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/potentialdata"}>Potential Data</Link><br/>
 		<hr/>
-		  <Link to={"/admin/builds"}>Builds</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/builds"}>Builds</Link><br/>
 		<hr/>
-		  <Link to={"/admin/skills"}>Skills</Link><br/>
-		<Link to={"/admin/skilltypes"}>Skill Types</Link><br/>
-		<Link to={"/admin/skilldata"}>Skill Data</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/skills"}>Skills</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/skilltypes"}>Skill Types</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/skilldata"}>Skill Data</Link><br/>
 		<hr/>
-		  <Link to={"/admin/augments"}>Augments</Link><br/>
-		<Link to={"/admin/augmenttypes"}>Augment Types</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/augments"}>Augments</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/augmenttypes"}>Augment Types</Link><br/>
 		<hr/>
-		  <Link to={"/admin/food"}>Food</Link><br/>
-		<Link to={"/admin/foodmultipliers"}>Food Multipliers</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/food"}>Food</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>Food Multipliers</Link><br/>
 		<hr/>
-		  <Link to={"/admin/roles"}>Roles</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/roles"}>Roles</Link><br/>
 		<hr/>
-		<Link to={"/admin/users"}>Users</Link><br/></Table></Box></div>
+		<Link to={process.env.PUBLIC_URL+"/admin/users"}>Users</Link><br/></Table></Box></div>
 		<div className="w-75" style={{background:"rgba(20,29,40,0.66)"}}>
-			<Route path="/admin/class">
+			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
 				<TableEditor path="/class"/>
 			</Route>
-			<Route path="/admin/classdata">
+			<Route path={process.env.PUBLIC_URL+"/admin/classdata"}>
 				<TableEditor path="/class_level_data"/>
 			</Route>
-			<Route path="/admin/classweaponcompatibility">
+			<Route path={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>
 				<TableEditor path="/class_weapon_type_data"/>
 			</Route>
-			<Route path="/admin/weapons">
+			<Route path={process.env.PUBLIC_URL+"/admin/weapons"}>
 				<TableEditor path="/weapon"/>
 			</Route>
-			<Route path="/admin/weaponexistencedata">
+			<Route path={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>
 				<TableEditor path="/weapon_existence_data"/>
 			</Route>
-			<Route path="/admin/weapontypes">
+			<Route path={process.env.PUBLIC_URL+"/admin/weapontypes"}>
 				<TableEditor path="/weapon_type"/>
 			</Route>
-			<Route path="/admin/armor">
+			<Route path={process.env.PUBLIC_URL+"/admin/armor"}>
 				<TableEditor path="/armor"/>
 			</Route>
-			<Route path="/admin/potentials">
+			<Route path={process.env.PUBLIC_URL+"/admin/potentials"}>
 				<TableEditor path="/potential"/>
 			</Route>
-			<Route path="/admin/potentialdata">
+			<Route path={process.env.PUBLIC_URL+"/admin/potentialdata"}>
 				<TableEditor path="/potential_data"/>
 			</Route>
-			<Route path="/admin/builds">
+			<Route path={process.env.PUBLIC_URL+"/admin/builds"}>
 				<TableEditor path="/builds"/>
 			</Route>
-			<Route path="/admin/skills">
+			<Route path={process.env.PUBLIC_URL+"/admin/skills"}>
 				<TableEditor path="/skill"/>
 			</Route>
-			<Route path="/admin/skilltypes">
+			<Route path={process.env.PUBLIC_URL+"/admin/skilltypes"}>
 				<TableEditor path="/skill_type"/>
 			</Route>
-			<Route path="/admin/skilldata">
+			<Route path={process.env.PUBLIC_URL+"/admin/skilldata"}>
 				<TableEditor path="/skill_data"/>
 			</Route>
-			<Route path="/admin/augments">
+			<Route path={process.env.PUBLIC_URL+"/admin/augments"}>
 				<TableEditor path="/augment"/>
 			</Route>
-			<Route path="/admin/augmenttypes">
+			<Route path={process.env.PUBLIC_URL+"/admin/augmenttypes"}>
 				<TableEditor path="/augment_type"/>
 			</Route>
-			<Route path="/admin/food">
+			<Route path={process.env.PUBLIC_URL+"/admin/food"}>
 				<TableEditor path="/food"/>
 			</Route>
-			<Route path="/admin/foodmultipliers">
+			<Route path={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>
 				<TableEditor path="/food_mult"/>
 			</Route>
-			<Route path="/admin/roles">
+			<Route path={process.env.PUBLIC_URL+"/admin/roles"}>
 				<TableEditor path="/roles"/>
 			</Route>
-			<Route path="/admin/users">
+			<Route path={process.env.PUBLIC_URL+"/admin/users"}>
 				<TableEditor path="/users"/>
 			</Route>
 		</div>
@@ -637,19 +637,19 @@ function App() {
   return (
   <>
 	<Router>
-	<Link to="/admin">Test</Link>
+	<Link to={process.env.PUBLIC_URL+"/admin"}>Test</Link>
 		<Switch>
-			<Route path="/test">
+			<Route path={process.env.PUBLIC_URL+"/test"}>
 			  <AdminPanel/>
 			</Route>
-			<Route path="/admin">
+			<Route path={process.env.PUBLIC_URL+"/admin"}>
 			  <AdminPanel/>
 			</Route>
-			<Route path="/test">
+			<Route path={process.env.PUBLIC_URL+"/test"}>
 			<TestHeader/>
 			<div id="main"><TestPanel/></div>
 			</Route>
-			<Route path="/">
+			<Route path={process.env.PUBLIC_URL+"/"}>
 			  <div id="main">
 				   <Col>
 						<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
