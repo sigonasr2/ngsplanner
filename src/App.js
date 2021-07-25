@@ -649,7 +649,7 @@ function App() {
 			<TestHeader/>
 			<div id="main"><TestPanel/></div>
 			</Route>
-			<Route path={process.env.PUBLIC_URL+"/"}>
+			<Route path="/">
 			  <div id="main">
 				   <Col>
 						<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
