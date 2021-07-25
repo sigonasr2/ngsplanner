@@ -1,9 +1,11 @@
 //import './App.css'; Old CSS
 import './reset.css'; // Generic reset
 import './style.css'; // The new new
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef,useReducer} from 'react';
 import ReactWindow from 'reactjs-windows'
 import 'reactjs-windows/dist/index.css'
+
+import {XSquareFill} from 'react-bootstrap-icons'
 
 import {
   BrowserRouter as Router,
@@ -390,18 +392,26 @@ function EditableBackendBox(p) {
 	const [update,setUpdate] = useState(false)
 	const [edit,setEdit] = useState(false)
 	const [value,setValue] = useState(p.children)
+	const [originalValue,setOriginalValue] = useState(p.children)
 	
 	useEffect(()=>{
 		if (p.callback&&update) {
 			p.callback(value)
-			setUpdate(false)
+			.then(()=>{
+				setUpdate(false)
+				setOriginalValue(value)
+			})
+			.catch(()=>{
+				setUpdate(false)
+				setValue(originalValue)
+			})
 		}
 	},[update])
 	
 	return <>
-		<div className="hover" onClick={(f)=>{setEdit(true)}}>
+		<div className="hover table-padding" onClick={(f)=>{setEdit(true)}}>
 			{edit?
-			<EditBackendBox maxlength={p.maxlength} setUpdate={setUpdate} setEdit={setEdit} originalName={value} setName={setValue} value={value}/>
+			<EditBackendBox maxlength={p.maxlength} setUpdate={setUpdate} setEdit={setEdit} originalName={originalValue} setName={setValue} value={value}/>
 			:<>{value}</>}
 		</div>
 	</>
@@ -409,10 +419,22 @@ function EditableBackendBox(p) {
 
 function TableEditor(p) {
 	
+	const initialVals={}
+	
+	function updateVals(state,update) {
+		if (update==='Clear') {
+			return initialVals
+		}
+		state[update.field]=update.value
+		return state
+	}
+	
 	const [fields,setFields] = useState([])
 	const [data,setData] = useState([])
+	const [update,setUpdate] = useState(false)
+	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
 	
-	useEffect(()=>{
+	function updateData() {
 		axios.get(BACKEND_URL+p.path)
 		.then((data)=>{
 			var cols = data.data.fields
@@ -421,19 +443,48 @@ function TableEditor(p) {
 			setFields(cols.filter((col)=>col.name!=="id").map((col)=>col.name))
 			setData(rows)
 		})
+	}
+	
+	function SubmitBoxes() {
+		axios.post(BACKEND_URL+p.path,submitVals)
+		.then(()=>{
+			setUpdate(true)
+		})
+		.catch((err)=>{
+			alert(JSON.stringify(err.response.data))
+		})
+	}
+	
+	useEffect(()=>{
+		updateData()
 	},[p.path])
+	
+	useEffect(()=>{
+		if (update) {
+			updateData()
+			setUpdate(false)
+		}
+	},[update])
 	
 	return <>
 		<div className="table-responsive">
-			<table className="table text-light">
+			<table cellPadding="10" className="table text-light table-padding">
 			  <caption>List of users</caption>
 			  <thead>
 				<tr>
-					{fields.map((field,i)=><React.Fragment key={i}><th scope="col">{field}</th></React.Fragment>)}
+					<th className="table-padding"></th>
+					{fields.map((field,i)=><React.Fragment key={i}><th scope="col" className="table-padding">{field}</th></React.Fragment>)}
 				</tr>
 			  </thead>
 			  <tbody>
-					{data.map((dat,i)=><tr key={i}>{fields.map((col,i)=><td key={i}><EditableBackendBox callback={(value)=>{console.log(value)}}>{String(dat[col])}</EditableBackendBox></td>)}</tr>)}
+					{data.map((dat)=><tr key={dat.id}>
+					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table"><EditableBackendBox callback={(value)=>{
+						return axios.patch(BACKEND_URL+p.path,{
+							[col]:value,
+							id:dat.id
+						})
+					}}>{String(dat[col])}</EditableBackendBox></td>)}</tr>)}
+						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<input id={"submitField"+i} onBlur={(i==fields.length-1)?(f)=>{setSubmitVal({field:col,value:f.currentTarget.value});SubmitBoxes();document.getElementById("submitField0").focus()}:(f)=>{setSubmitVal({field:col,value:f.currentTarget.value})}}/>}</td>)}</tr>}
 			  </tbody>
 			</table>
 		</div>
