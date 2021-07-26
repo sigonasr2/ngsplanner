@@ -315,7 +315,7 @@ function EquippedWeaponBox(p) {
 		<PageControl pages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} pageNames={["W",1,2,3]}/>
 		<div className="de">
 			<div>
-				<h3>Abilitiy Details</h3>
+				<h3>Ability Details</h3>
 				<ul className="aug">
 				{
 					selectedEquipAbilities?selectedEquipAbilities.map((ability,i)=>{
@@ -364,9 +364,8 @@ function ListRow(p) {
 }
 
 function PopupWindow(p) {
-	//<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here</PopupWindow>
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true}>
-		<h1>{p.title}<XSquareFill onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/></h1>
+		<h1>{p.title}<XSquare onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/></h1>
 		{p.children}
 	</Modal>
 }
@@ -663,7 +662,7 @@ function App() {
 						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 					</Col>
-					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here</PopupWindow>
+					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here. {process.env.REACT_APP_TEST}</PopupWindow>
 				</div>
 			</Route>
 		</Switch>
