@@ -4,7 +4,7 @@ import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
 import Modal from 'react-modal'
 
-import {XSquareFill} from 'react-bootstrap-icons'
+import {XSquare, XSquareFill} from 'react-bootstrap-icons'
 
 import {
   HashRouter,
@@ -364,8 +364,10 @@ function ListRow(p) {
 }
 
 function PopupWindow(p) {
+	//<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here</PopupWindow>
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true}>
-		This is a test modal.
+		<h1>{p.title}<XSquareFill onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/></h1>
+		{p.children}
 	</Modal>
 }
 
@@ -661,7 +663,7 @@ function App() {
 						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 					</Col>
-					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here</PopupWindow>
 				</div>
 			</Route>
 		</Switch>

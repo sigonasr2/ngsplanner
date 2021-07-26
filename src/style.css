@@ -885,3 +885,11 @@ button{
 	color:rgba(200,0,0,1);
 	cursor:pointer;
 }
+.modalCloseButton{
+	float:right;
+	color:#151f25;
+}
+.modalCloseButton:hover{
+	color:#454f85;
+	cursor:pointer;
+}
