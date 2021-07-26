@@ -19,7 +19,7 @@ import TestPanel from './TestPanel'; // Dudley's Test Panel
 
 const axios = require('axios');
 
-const BACKEND_URL = 'https://projectdivar.com:4504';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
 
 function Col(p) {
 	return <div className="con">
@@ -662,7 +662,7 @@ function App() {
 						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 					</Col>
-					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here. {process.env.REACT_APP_TEST}</PopupWindow>
+					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here.{BACKEND_URL}</PopupWindow>
 				</div>
 			</Route>
 		</Switch>
