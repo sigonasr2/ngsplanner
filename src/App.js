@@ -19,7 +19,7 @@ import TestPanel from './TestPanel'; // Dudley's Test Panel
 
 const axios = require('axios');
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
+const BACKEND_URL = process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
 
 function Col(p) {
 	return <div className="con">
