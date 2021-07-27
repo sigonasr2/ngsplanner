@@ -430,6 +430,7 @@ function TableEditor(p) {
 	const [data,setData] = useState([])
 	const [update,setUpdate] = useState(false)
 	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
+	const [report,setReport] = useState("")
 	
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
@@ -455,6 +456,9 @@ function TableEditor(p) {
 				setFields(cols.filter((col)=>col.name!=="id").map((col)=>col.name))
 				setData(rows)
 			})
+			.catch((err)=>{
+				setReport(JSON.stringify(err))
+			})
 			setUpdate(false)
 		}
 	},[update,p.path])
@@ -462,7 +466,7 @@ function TableEditor(p) {
 	return <>
 		<div className="table-responsive">
 			<table cellPadding="10" className="table text-light table-padding">
-			  <caption>List of users</caption>
+			  <caption>{JSON.stringify(report)}</caption>
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>

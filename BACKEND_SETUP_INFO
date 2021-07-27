@@ -1,0 +1,14 @@
+The backend can be run for local testing by loading a 
+new docker-compose workspace provided by the projectdivar 
+git repository.
+
+once loaded, you can seed the database using the seed files
+from the ngsplanner_backend repository. You can use the locally
+created .docker_terminal command to access the terminal of the
+projectdivar_postgres_1 instance. Finally, you need to
+add a .env file for your environment that includes:
+
+REACT_APP_BACKEND_URL=https://4501-scarlet-echidna-bpwfvar6.ws-us11.gitpod.io/ngsplanner
+
+Replacing the URL with the URL that points to the /server docker
+hosted backend. 
