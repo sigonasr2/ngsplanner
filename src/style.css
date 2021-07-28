@@ -898,4 +898,19 @@ button{
 }
 .submitting{
 	border: 1px solid rgba(0,150,200,1);
+    background: linear-gradient(-45deg, #2317c7, #3ce77e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: submitgradient 1s ease infinite;
+}
+
+@keyframes submitgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
