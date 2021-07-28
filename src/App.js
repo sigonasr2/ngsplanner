@@ -22,6 +22,10 @@ const axios = require('axios');
 
 const BACKEND_URL = process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
 
+const MELEE_DMG = 0
+const RANGE_DMG = 1
+const TECH_DMG = 2
+
 function Col(p) {
 	return <div className="con">
 		{p.children}
@@ -502,7 +506,7 @@ function TableEditor(p) {
 }
 
 function AdminPanel(p) {
-	return <div id="main" style={{background:"white"}}>
+	return <div id="main">
 	  <div className="w-25"><Box title="Navigation">
 		  <Table classes="adminNav">
 		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
@@ -533,7 +537,7 @@ function AdminPanel(p) {
 		  <Link to={process.env.PUBLIC_URL+"/admin/roles"}>Roles</Link><br/>
 		<hr/>
 		<Link to={process.env.PUBLIC_URL+"/admin/users"}>Users</Link><br/></Table></Box></div>
-		<div className="w-75" style={{background:"rgba(20,29,40,0.66)"}}>
+		<div className="w-75">
 			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
 				<TableEditor path="/class"/>
 			</Route>
@@ -599,6 +603,10 @@ function EditStatBox(p) {
 
 	const [value,setValue] = useState(p.value)
 
+	useEffect(()=>{
+		setValue(p.value)
+	},[p.value])
+
 	return <><input value={value} onChange={(f)=>{setValue(f.currentTarget.value);p.callback(f.currentTarget.value)}}/> ({value})<br/></>
 }
 
@@ -608,7 +616,7 @@ function DamageCalculator(p) {
 	const [update,setUpdate] = useState(false)
 
 	useEffect(()=>{
-		axios.get(BACKEND_URL+"/augments")
+		axios.get(BACKEND_URL+"/augment")
 		.then((data)=>{
 			var augmentData = {}
 			data.data.rows.forEach((entry)=>{augmentData[entry.id]=entry})
@@ -618,27 +626,36 @@ function DamageCalculator(p) {
 
 	const character = {
 		weapon:{
-			augments:[7,2,5]
+			augments:[13,7,2,5]
 		},
 		armor1:{
-			augments:[1,5]
+			augments:[13,1,5]
 		},
 		armor2:{
-			augments:[2,8]
+			augments:[13,2,8]
 		},
 		armor3:{
-			augments:[4,1]
+			augments:[13,4,1]
 		}
 	}
 
-	function ParseAugments(equip) {
-		var variance_total = 0
-		for (var i=0;i<equip.augments.length;i++) {
-			var variance = augmentData[equip.augments[i].id].variance
-			if (variance_total!==0) {
-				variance_total+=variance
+	useEffect(()=>{
+		if (Object.keys(augmentData).length>0) {
+			ParseAllAugments(character)
+		}
+	},[augmentData])
+
+	function ParseAllAugments(character) {
+		var searchFields = [{field:"variance",variable:0},{field:"mel_dmg",variable:0}]
+		for (var equip of [character.weapon,character.armor1,character.armor2,character.armor3]) {
+			for (var field of searchFields) {
+				for (var i=0;i<equip.augments.length;i++) {
+					var variance = augmentData[equip.augments[i]][field.field]
+					field.variable+=variance
+				}
 			}
 		}
+		setAugDmgVariance(searchFields[0].variable)
 	}
 
 	const [rawDmg,setRawDmg] = useState(0)
@@ -751,10 +768,8 @@ function App() {
   <>
 	<HashRouter>
 		<Switch>
-			<Route path={process.env.PUBLIC_URL+"/test"}>
-			  <AdminPanel/>
-			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin"}>
+			<TestHeader/>
 			  <AdminPanel/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/test"}>

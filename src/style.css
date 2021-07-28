@@ -872,15 +872,19 @@ button{
 .w-25{
 	min-width:240px;
 	max-width:24%;
+	margin-right: 1%;
 }
 .w-75{
 	min-width:75%;
 	max-width:75%;
 }
-.table-responsive{;
+.table-responsive{
 	color:rgba(220,220,220);
 	overflow-y:hidden;
-	overflow-x:scroll;
+	overflow-x:auto;
+}
+.table-responsive table {
+	background-color: rgba(20,29,40,0.66);
 }
 .table{
 	border: 1px solid black;
