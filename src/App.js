@@ -31,7 +31,9 @@ function Col(p) {
 function Box(p) {
 	return <>
 		<div className="box">
-		<h1>&#9830;&ensp;{p.title}</h1>
+		<div className="boxTitleBar">
+		<h1>{p.title}</h1>
+		</div>
 			{p.children}
 		</div>
 	</>
@@ -194,11 +196,11 @@ function EditableClass(p){
 }
 
 function Table(p) {
-	return <table className={p.classes}>
-		<tbody>
+	return <p className={p.classes}>
+
 			{p.children}
-		</tbody>
-	</table>
+
+	</p>
 }
 
 function MainBox(p) {
@@ -502,7 +504,7 @@ function TableEditor(p) {
 function AdminPanel(p) {
 	return <div id="main" style={{background:"white"}}>
 	  <div className="w-25"><Box title="Navigation">
-		  <Table classes="st">
+		  <Table classes="adminNav">
 		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/classdata"}>Class Data</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
@@ -593,6 +595,103 @@ function AdminPanel(p) {
 		</div>
 }
 
+function EditStatBox(p) {
+
+	const [value,setValue] = useState(p.value)
+
+	return <><input value={value} onChange={(f)=>{setValue(f.currentTarget.value);p.callback(f.currentTarget.value)}}/> ({value})<br/></>
+}
+
+function DamageCalculator(p) {
+
+	const [augmentData,setAugmentData] = useState({})
+	const [update,setUpdate] = useState(false)
+
+	useEffect(()=>{
+		axios.get(BACKEND_URL+"/augments")
+		.then((data)=>{
+			var augmentData = {}
+			data.data.rows.forEach((entry)=>{augmentData[entry.id]=entry})
+			setAugmentData(augmentData)
+		})
+	},[update])
+
+	const character = {
+		weapon:{
+			augments:[7,2,5]
+		},
+		armor1:{
+			augments:[1,5]
+		},
+		armor2:{
+			augments:[2,8]
+		},
+		armor3:{
+			augments:[4,1]
+		}
+	}
+
+	function ParseAugments(equip) {
+		var variance_total = 0
+		for (var i=0;i<equip.augments.length;i++) {
+			var variance = augmentData[equip.augments[i].id].variance
+			if (variance_total!==0) {
+				variance_total+=variance
+			}
+		}
+	}
+
+	const [rawDmg,setRawDmg] = useState(0)
+	
+	const [weaponTotalAtk,setWeaponTotalAtk] = useState(100)
+	
+		const [weaponBaseAtk,setWeaponBaseAtk] = useState(1)
+		const [weaponEnhanceLvl,setWeaponEnhanceLvl] = useState(1)
+
+	useEffect(()=>{
+		setWeaponTotalAtk(weaponBaseAtk+weaponEnhanceLvl)
+	},[weaponBaseAtk,weaponEnhanceLvl])
+
+	const [dmgVariance,setDmgVariance] = useState(1)
+
+		const [weaponDmgVariance,setWeaponDmgVariance] = useState(1)
+		const [augDmgVariance,setAugDmgVariance] = useState(1)
+
+	useEffect(()=>{
+		setDmgVariance(weaponDmgVariance+augDmgVariance)
+	},[weaponDmgVariance,augDmgVariance])
+
+	const [baseAtk,setBaseAtk] = useState(100)
+	const [enemyDef,setEnemyDef] = useState(5)
+	const [multipliers,setMultipliers] = useState(1)
+
+	useEffect(()=>{
+		setRawDmg(((weaponTotalAtk*dmgVariance)+baseAtk-enemyDef)*multipliers/5)
+	},[weaponTotalAtk,dmgVariance,baseAtk,enemyDef,multipliers])
+
+	return <>
+		<div style={{background:"rgba(200,255,200,1)"}}>
+			Weapon Total Atk:<EditStatBox value={weaponTotalAtk} callback={(val)=>{setWeaponTotalAtk(val)}}/>
+			<ul>
+				<li>●Weapon Base Atk:<EditStatBox value={weaponBaseAtk} callback={(val)=>{setWeaponBaseAtk(val)}}/></li>
+				<li>●Weapon Enhance Lvl:<EditStatBox value={weaponEnhanceLvl} callback={(val)=>{setWeaponEnhanceLvl(val)}}/></li>
+			</ul>
+			<br/><br/><br/>
+			Damage Variance:<EditStatBox value={dmgVariance} callback={(val)=>{setDmgVariance(val)}}/>
+			<ul>
+				<li>●Weapon Damage Variance:<EditStatBox value={weaponDmgVariance} callback={(val)=>{setWeaponDmgVariance(val)}}/></li>
+				<li>●Augment Damage Variance:<EditStatBox value={augDmgVariance} callback={(val)=>{setAugDmgVariance(val)}}/></li>
+			</ul>
+			<br/><br/><br/>
+			Base Attack:<EditStatBox value={baseAtk} callback={(val)=>{setBaseAtk(val)}}/>
+			Enemy Defense:<EditStatBox value={enemyDef} callback={(val)=>{setEnemyDef(val)}}/>
+			Multipliers:<EditStatBox value={multipliers} callback={(val)=>{setMultipliers(val)}}/>
+			<br/><br/><br/>
+			Raw Dmg:{rawDmg}
+		</div>
+	</>
+}
+
 function App() {
 	
 	const [author,setAuthor] = useState("Dudley")
@@ -661,6 +760,9 @@ function App() {
 			<Route path={process.env.PUBLIC_URL+"/test"}>
 			<TestHeader/>
 			<div id="main"><TestPanel/></div>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/formula"}>
+				<DamageCalculator/>
 			</Route>
 			<Route path="/">
 			  <div id="main">

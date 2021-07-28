@@ -20,6 +20,18 @@
   font-family: "ngs4";
   src: url("./fonts/1.woff") format("woff");
 }
+a, a:visited {
+	color: white;
+	text-decoration: none;
+}
+a:hover, a:active {
+	color: white;
+	text-decoration: none;
+	background-color: rgba(113,169,189,0.33);
+}
+hr {
+	border-bottom: 1px solid rgba(128,128,128,0.5);
+}
 img {
 	vertical-align: middle;
 }
@@ -919,4 +931,15 @@ button{
 .submitbutton:hover{
 	color:rgba(0,200,0,1);
 	cursor:pointer;
+}
+
+/* Admin Panel */
+
+.adminNav {
+	font-size: 12pt;
+	line-height: 1.5em;
+}
+p.adminNav hr {
+	border-bottom: 1px solid white;
+	margin: 10px 0;
 }
