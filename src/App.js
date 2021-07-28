@@ -374,13 +374,19 @@ function InputBox(p) {
 	const [value,setValue] = useState(p.value)
 	const [failed,setFailed] = useState(false)
 	const [sending,setSending] = useState(false)
-	return <input className={failed?"failedInput":sending?"submitting":""} onChange={(f)=>{setValue(f.currentTarget.value)}} onBlur={(f)=>{
+
+	function changeFunc(f){setValue(f.currentTarget.value)}
+	function blurFunc(f){
 		setSending(true)
 		setFailed(false)
 		p.callback(f.currentTarget.value)
 		.then(()=>{setFailed(false)})
 		.catch(()=>{setFailed(true)})
-		.then(()=>{setSending(false)})}} value={value}/>
+		.then(()=>{setSending(false)})}
+
+	return p.data?<select className={failed?"failedInput":sending?"submitting":""} value={value} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
+		{p.data.map((item)=><option value={item.id}>{item.id} - {item.name||item.username}</option>)}
+	</select>:<input className={failed?"failedInput":sending?"submitting":""} value={value} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
 }
 
 function TableEditor(p) {
@@ -429,7 +435,7 @@ function TableEditor(p) {
 				var dependency_map = {}
 				var promise_list = []
 
-				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")||col.name=="user_id").forEach((col)=>{
+				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")).forEach((col)=>{
 					promise_list.push(axios.get(BACKEND_URL+"/"+col.name.replace("_id",""))
 					.then((data)=>{
 						dependency_map[col.name]=data.data.rows.reverse()
@@ -460,7 +466,7 @@ function TableEditor(p) {
 			  <tbody>
 					{data.map((dat)=><tr key={dat.id}>
 					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
-						<InputBox callback={(value)=>{
+						<InputBox data={dependencies[col.name]} callback={(value)=>{
 						return axios.patch(BACKEND_URL+p.path,{
 							[col.name]:value,
 							id:dat.id
