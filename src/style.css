@@ -893,3 +893,9 @@ button{
 	color:rgba(200,0,0,1);
 	cursor:pointer;
 }
+.failedInput{
+	border: 1px solid rgba(200,0,0,1);
+}
+.submitting{
+	border: 1px solid rgba(0,150,200,1);
+}

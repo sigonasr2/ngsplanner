@@ -370,48 +370,17 @@ function PopupWindow(p) {
 	</Modal>
 }
 
-
-function EditBackendBox(p) {
-	useEffect(()=>{
-		var timer1 = setTimeout(()=>{document.getElementById("editBox").focus()},100)
-		return () => {
-			clearTimeout(timer1);
-		};
-	})
-	return <input id="editBox" onKeyDown={(e)=>{
-		if (e.key==="Enter") {p.setEdit(false);p.setUpdate(true)}
-		else if (e.key==="Escape") {p.setEdit(false)}
-	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false);p.setUpdate(true)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
-	</input>
-}
-
-function EditableBackendBox(p) {
-	const [update,setUpdate] = useState(false)
-	const [edit,setEdit] = useState(false)
-	const [value,setValue] = useState(p.children)
-	const [originalValue,setOriginalValue] = useState(p.children)
-	
-	useEffect(()=>{
-		if (p.callback&&update) {
-			p.callback(value)
-			.then(()=>{
-				setUpdate(false)
-				setOriginalValue(value)
-			})
-			.catch(()=>{
-				setUpdate(false)
-				setValue(originalValue)
-			})
-		}
-	},[update,originalValue,p,value])
-	
-	return <>
-		<div className="hover table-padding" onClick={(f)=>{setEdit(true)}}>
-			{edit?
-			<EditBackendBox maxlength={p.maxlength} setUpdate={setUpdate} setEdit={setEdit} originalName={originalValue} setName={setValue} value={value}/>
-			:<>{value}</>}
-		</div>
-	</>
+function InputBox(p) {
+	const [value,setValue] = useState(p.value)
+	const [failed,setFailed] = useState(false)
+	const [sending,setSending] = useState(false)
+	return <input className={failed?"failedInput":sending?"submitting":""} onChange={(f)=>{setValue(f.currentTarget.value)}} onBlur={(f)=>{
+		setSending(true)
+		setFailed(false)
+		p.callback(f.currentTarget.value)
+		.then(()=>{setFailed(false)})
+		.catch(()=>{setFailed(true)})
+		.then(()=>{setSending(false)})}} value={value}/>
 }
 
 function TableEditor(p) {
@@ -431,6 +400,7 @@ function TableEditor(p) {
 	const [update,setUpdate] = useState(false)
 	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
 	const [report,setReport] = useState("")
+	const [loading,setLoading] = useState(false)
 	
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
@@ -448,43 +418,49 @@ function TableEditor(p) {
 	
 	useEffect(()=>{
 		if (update) {
+			setLoading(true)
 			axios.get(BACKEND_URL+p.path)
 			.then((data)=>{
 				var cols = data.data.fields
 				var rows = data.data.rows
 				
-				setFields(cols.filter((col)=>col.name!=="id").map((col)=>col.name))
+				setFields(cols.filter((col)=>col.name!=="id"))
 				setData(rows)
 			})
 			.catch((err)=>{
 				setReport(JSON.stringify(err))
+			})
+			.then(()=>{
+				setLoading(false)
 			})
 			setUpdate(false)
 		}
 	},[update,p.path])
 	
 	return <>
+	{!loading?
 		<div className="table-responsive">
 			<table cellPadding="10" className="table text-light table-padding">
-			  <caption>{JSON.stringify(report)}</caption>
+			  <caption>{JSON.stringify(fields)}</caption>
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>
-					{fields.map((field,i)=><React.Fragment key={i}><th scope="col" className="table-padding">{field}</th></React.Fragment>)}
+					{fields.map((field,i)=><React.Fragment key={i}><th scope="col" className="table-padding">{field.name}</th></React.Fragment>)}
 				</tr>
 			  </thead>
 			  <tbody>
 					{data.map((dat)=><tr key={dat.id}>
-					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table"><EditableBackendBox callback={(value)=>{
+					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
+						<InputBox callback={(value)=>{
 						return axios.patch(BACKEND_URL+p.path,{
-							[col]:value,
+							[col.name]:value,
 							id:dat.id
 						})
-					}}>{String(dat[col])}</EditableBackendBox></td>)}</tr>)}
-						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<input id={"submitField"+i} onBlur={(i===fields.length-1)?(f)=>{setSubmitVal({field:col,value:f.currentTarget.value});SubmitBoxes();document.getElementById("submitField0").focus()}:(f)=>{setSubmitVal({field:col,value:f.currentTarget.value})}}/>}</td>)}</tr>}
+						}} value={String(dat[col.name])}/></td>)}</tr>)}
+						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<input id={"submitField"+i} onBlur={(i===fields.length-1)?(f)=>{setSubmitVal({field:col.name,value:f.currentTarget.value});SubmitBoxes();document.getElementById("submitField0").focus()}:(f)=>{setSubmitVal({field:col.name,value:f.currentTarget.value})}}/>}</td>)}</tr>}
 			  </tbody>
 			</table>
-		</div>
+		</div>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>}
 	</>
 }
 
