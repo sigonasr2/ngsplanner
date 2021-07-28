@@ -399,7 +399,6 @@ function TableEditor(p) {
 	const [data,setData] = useState([])
 	const [update,setUpdate] = useState(false)
 	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
-	const [report,setReport] = useState("")
 	const [loading,setLoading] = useState(false)
 	
 	function SubmitBoxes() {
@@ -427,9 +426,6 @@ function TableEditor(p) {
 				setFields(cols.filter((col)=>col.name!=="id"))
 				setData(rows)
 			})
-			.catch((err)=>{
-				setReport(JSON.stringify(err))
-			})
 			.then(()=>{
 				setLoading(false)
 			})
@@ -441,7 +437,6 @@ function TableEditor(p) {
 	{!loading?
 		<div className="table-responsive">
 			<table cellPadding="10" className="table text-light table-padding">
-			  <caption>{JSON.stringify(fields)}</caption>
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>
