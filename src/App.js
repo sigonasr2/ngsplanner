@@ -2,9 +2,10 @@
 import './reset.css'; // Generic reset
 import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
+import useGlobalKeyDown from 'react-global-key-down-hook'
 import Modal from 'react-modal'
 
-import {XSquare, XSquareFill} from 'react-bootstrap-icons'
+import {XSquare, XSquareFill, PlusCircle} from 'react-bootstrap-icons'
 
 import {
   HashRouter,
@@ -375,18 +376,32 @@ function InputBox(p) {
 	const [failed,setFailed] = useState(false)
 	const [sending,setSending] = useState(false)
 
-	function changeFunc(f){setValue(f.currentTarget.value)}
+	function changeFunc(f){setValue(f.currentTarget.value)
+		if (p.callback4) {
+			p.callback4(f.currentTarget.value)
+		}}
 	function blurFunc(f){
-		setSending(true)
-		setFailed(false)
-		p.callback(f.currentTarget.value)
-		.then(()=>{setFailed(false)})
-		.catch(()=>{setFailed(true)})
-		.then(()=>{setSending(false)})}
+		if (p.callback) {
+			setSending(true)
+			setFailed(false)
+			p.callback(f.currentTarget.value)
+			.then(()=>{setFailed(false)})
+			.catch(()=>{setFailed(true)})
+			.then(()=>{setSending(false)})}
+		else 
+		if (p.callback3) {
+			p.callback3(f.currentTarget.value)
+		}}
+	function keydownFunc(f){
+		if (p.callback2) {
+			p.callback2(f,value)
+		}
+	}
 
-	return p.data?<select className={failed?"failedInput":sending?"submitting":""} value={value} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
+	return p.data?<select className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
+		{p.includeBlankValue&&<option/>}
 		{p.data.map((item)=><option value={item.id}>{item.id} - {item.name||item.username}</option>)}
-	</select>:<input className={failed?"failedInput":sending?"submitting":""} value={value} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
+	</select>:<input className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
 }
 
 function TableEditor(p) {
@@ -411,12 +426,17 @@ function TableEditor(p) {
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
 		.then(()=>{
+			setSubmitVal("Clear")
 			setUpdate(true)
 		})
 		.catch((err)=>{
 			alert(JSON.stringify(err.response.data))
 		})
 	}
+
+	useGlobalKeyDown(()=>{
+		SubmitBoxes()
+	},['Enter'])
 	
 	useEffect(()=>{
 		setUpdate(true)
@@ -456,7 +476,6 @@ function TableEditor(p) {
 	{!loading?
 		<div className="table-responsive">
 			<table cellPadding="10" className="table text-light table-padding">
-			<caption>{JSON.stringify(dependencies)}</caption>
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>
@@ -464,6 +483,8 @@ function TableEditor(p) {
 				</tr>
 			  </thead>
 			  <tbody>
+						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
+							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{position:'absolute',top:"-1000px"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
 					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox data={dependencies[col.name]} callback={(value)=>{
@@ -472,7 +493,6 @@ function TableEditor(p) {
 							id:dat.id
 						})
 						}} value={String(dat[col.name])}/></td>)}</tr>)}
-						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<input id={"submitField"+i} onBlur={(i===fields.length-1)?(f)=>{setSubmitVal({field:col.name,value:f.currentTarget.value});SubmitBoxes();document.getElementById("submitField0").focus()}:(f)=>{setSubmitVal({field:col.name,value:f.currentTarget.value})}}/>}</td>)}</tr>}
 			  </tbody>
 			</table>
 		</div>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>}

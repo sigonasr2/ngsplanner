@@ -898,19 +898,25 @@ button{
 }
 .submitting{
 	border: 1px solid rgba(0,150,200,1);
-    background: linear-gradient(-45deg, #2317c7, #3ce77e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: submitgradient 1s ease infinite;
+    background: linear-gradient(-90deg, #124425,#000000,  #124425);
+    background-size: 10% 400%;
+    animation: submitgradient 1.5s ease infinite;
 }
 
 @keyframes submitgradient {
     0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
+        background-position: 0% 100%;
     }
     100% {
-        background-position: 0% 50%;
+        background-position: 100% 0%;
     }
+}
+
+.submitbutton{
+	width:32px;
+	height:32px;
+}
+.submitbutton:hover{
+	color:rgba(0,200,0,1);
+	cursor:pointer;
 }
