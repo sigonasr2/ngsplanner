@@ -400,6 +400,7 @@ function TableEditor(p) {
 	const [update,setUpdate] = useState(false)
 	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
 	const [loading,setLoading] = useState(false)
+	const [dependencies,setDependencies] = useState([])
 	
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
@@ -424,7 +425,19 @@ function TableEditor(p) {
 				var rows = data.data.rows
 				
 				setFields(cols.filter((col)=>col.name!=="id"))
+
+				var dependency_map = {}
+				var promise_list = []
+
+				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")||col.name=="user_id").forEach((col)=>{
+					promise_list.push(axios.get(BACKEND_URL+"/"+col.name.replace("_id",""))
+					.then((data)=>{
+						dependency_map[col.name]=data.data.rows.reverse()
+					}))
+				})
+				setDependencies(dependency_map)
 				setData(rows)
+				return Promise.allSettled(promise_list)
 			})
 			.then(()=>{
 				setLoading(false)
@@ -437,6 +450,7 @@ function TableEditor(p) {
 	{!loading?
 		<div className="table-responsive">
 			<table cellPadding="10" className="table text-light table-padding">
+			<caption>{JSON.stringify(dependencies)}</caption>
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>
