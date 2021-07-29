@@ -19,6 +19,7 @@ import TestHeader from './TestHeader'; // Test Header!
 import TestPanel from './TestPanel'; // Dudley's Test Panel
 
 const axios = require('axios');
+const parse = require('csv-parse/lib/sync')
 
 const BACKEND_URL = process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
 
@@ -428,6 +429,9 @@ function TableEditor(p) {
 	const [submitVals,setSubmitVal] = useReducer(updateVals,initialVals)
 	const [loading,setLoading] = useState(false)
 	const [dependencies,setDependencies] = useState([])
+	const [importAllowed,setImportAllowed] = useState(false)
+	const [fileData,setFileData] = useState(undefined)
+	const [debugMessage,setDebugMessage] = useState("")
 	
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
@@ -447,6 +451,26 @@ function TableEditor(p) {
 	useEffect(()=>{
 		setUpdate(true)
 	},[p.path])
+
+	useEffect(()=>{
+		var promises=[]
+		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
+			promises.push(axios.post(BACKEND_URL+p.path,entry))
+		})
+		Promise.allSettled(promises)
+		.then(()=>{
+			setUpdate(true)
+		})
+	},[fileData])
+
+	useEffect(()=>{
+		for (var col of fields) {
+			if (col.name==="name") {
+				setImportAllowed(true)
+				break;
+			}
+		}
+	},[fields])
 	
 	useEffect(()=>{
 		if (update) {
@@ -482,6 +506,14 @@ function TableEditor(p) {
 	{!loading?
 		<div className="table-responsive">
 			<table cellPadding="10" className="table text-light table-padding">
+			  {importAllowed&&<caption><label className="buttonLabel" for="uploads">Import CSV</label><input onChange={(f)=>{
+				const reader = new FileReader()
+				reader.onload=(ev)=>{
+					setFileData(ev.target.result)
+				}
+				reader.readAsText(f.target.files[0])
+			  }} style={{opacity:0}} id="uploads" type="file" accept=".txt,.csv"/></caption>}
+			  {JSON.stringify(debugMessage)}
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>
