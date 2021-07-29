@@ -535,8 +535,9 @@ function AdminPanel(p) {
 		<Link to={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>Food Multipliers</Link><br/>
 		<hr/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/roles"}>Roles</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/users"}>Users</Link><br/>
 		<hr/>
-		<Link to={process.env.PUBLIC_URL+"/admin/users"}>Users</Link><br/></Table></Box></div>
+		  <Link to={process.env.PUBLIC_URL+"/admin/database_audit"}>Database Audit</Link><br/></Table></Box></div>
 		<div className="w-75">
 			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
 				<TableEditor path="/class"/>
@@ -594,6 +595,9 @@ function AdminPanel(p) {
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/users"}>
 				<TableEditor path="/users"/>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/admin/database_audit"}>
+				<TableEditor path="/database_audit"/>
 			</Route>
 		</div>
 		</div>
