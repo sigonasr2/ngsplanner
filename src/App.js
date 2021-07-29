@@ -23,9 +23,9 @@ const parse = require('csv-parse/lib/sync')
 
 const BACKEND_URL = process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
 
-const MELEE_DMG = 0
+/*const MELEE_DMG = 0
 const RANGE_DMG = 1
-const TECH_DMG = 2
+const TECH_DMG = 2 //NOT USED YET*/
 
 function Col(p) {
 	return <div className="con">
@@ -431,7 +431,6 @@ function TableEditor(p) {
 	const [dependencies,setDependencies] = useState([])
 	const [importAllowed,setImportAllowed] = useState(false)
 	const [fileData,setFileData] = useState(undefined)
-	const [debugMessage,setDebugMessage] = useState("")
 	
 	function SubmitBoxes() {
 		axios.post(BACKEND_URL+p.path,submitVals)
@@ -461,7 +460,7 @@ function TableEditor(p) {
 		.then(()=>{
 			setUpdate(true)
 		})
-	},[fileData])
+	},[fileData,p.path])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -513,7 +512,6 @@ function TableEditor(p) {
 				}
 				reader.readAsText(f.target.files[0])
 			  }} style={{opacity:0}} id="uploads" type="file" accept=".txt,.csv"/></caption>}
-			  {JSON.stringify(debugMessage)}
 			  <thead>
 				<tr>
 					<th className="table-padding"></th>
@@ -649,7 +647,7 @@ function EditStatBox(p) {
 function DamageCalculator(p) {
 
 	const [augmentData,setAugmentData] = useState({})
-	const [update,setUpdate] = useState(false)
+	//const [update,setUpdate] = useState(false)
 
 	useEffect(()=>{
 		axios.get(BACKEND_URL+"/augment")
@@ -658,7 +656,7 @@ function DamageCalculator(p) {
 			data.data.rows.forEach((entry)=>{augmentData[entry.id]=entry})
 			setAugmentData(augmentData)
 		})
-	},[update])
+	},[])
 
 	const character = {
 		weapon:{
@@ -677,22 +675,18 @@ function DamageCalculator(p) {
 
 	useEffect(()=>{
 		if (Object.keys(augmentData).length>0) {
-			ParseAllAugments(character)
-		}
-	},[augmentData])
-
-	function ParseAllAugments(character) {
-		var searchFields = [{field:"variance",variable:0},{field:"mel_dmg",variable:0}]
-		for (var equip of [character.weapon,character.armor1,character.armor2,character.armor3]) {
-			for (var field of searchFields) {
-				for (var i=0;i<equip.augments.length;i++) {
-					var variance = augmentData[equip.augments[i]][field.field]
-					field.variable+=variance
+			var searchFields = [{field:"variance",variable:0},{field:"mel_dmg",variable:0}]
+			for (var equip of [character.weapon,character.armor1,character.armor2,character.armor3]) {
+				for (var field of searchFields) {
+					for (var i=0;i<equip.augments.length;i++) {
+						var variance = augmentData[equip.augments[i]][field.field]
+						field.variable+=variance
+					}
 				}
 			}
+			setAugDmgVariance(searchFields[0].variable)
 		}
-		setAugDmgVariance(searchFields[0].variable)
-	}
+	},[augmentData,character.armor1,character.armor2,character.armor3,character.weapon])
 
 	const [rawDmg,setRawDmg] = useState(0)
 	
