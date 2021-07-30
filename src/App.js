@@ -479,7 +479,7 @@ function TableEditor(p) {
 				var cols = data.data.fields
 				var rows = data.data.rows
 				
-				setFields(cols.filter((col)=>col.name!=="id"))
+				setFields(cols.filter((col,i)=>col.name!=="id"&&!(i===0&&col.name==="name")))
 
 				var dependency_map = {}
 				var promise_list = []
