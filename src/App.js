@@ -474,6 +474,7 @@ function TableEditor(p) {
 	useEffect(()=>{
 		if (update) {
 			setLoading(true)
+			var dependency_map = {}
 			axios.get(BACKEND_URL+p.path)
 			.then((data)=>{
 				var cols = data.data.fields
@@ -481,7 +482,6 @@ function TableEditor(p) {
 				
 				setFields(cols.filter((col,i)=>col.name!=="id"&&!(i===0&&col.name==="name")))
 
-				var dependency_map = {}
 				var promise_list = []
 
 				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")).forEach((col)=>{
@@ -490,11 +490,11 @@ function TableEditor(p) {
 						dependency_map[col.name]=data.data.rows.reverse()
 					}))
 				})
-				setDependencies(dependency_map)
 				setData(rows)
 				return Promise.allSettled(promise_list)
 			})
 			.then(()=>{
+				setDependencies(dependency_map)
 				setLoading(false)
 			})
 			setUpdate(false)
