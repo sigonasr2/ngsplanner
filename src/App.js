@@ -487,7 +487,7 @@ function TableEditor(p) {
 				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")).forEach((col)=>{
 					promise_list.push(axios.get(BACKEND_URL+"/"+col.name.replace("_id",""))
 					.then((data)=>{
-						dependency_map[col.name]=data.data.rows.reverse()
+						dependency_map[col.name]=data.data.rows.sort((a,b)=>b.id-a.id)
 					}))
 				})
 				setData(rows)
