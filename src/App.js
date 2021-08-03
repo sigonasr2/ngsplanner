@@ -405,10 +405,10 @@ function InputBox(p) {
 		}
 	}
 
-	return p.data?<select className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
+	return p.data?<select disabled={p.lockSubmission} className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
 		{p.includeBlankValue&&<option/>}
 		{p.data.map((item)=><option value={item.id}>{item.id} - {item.name||item.username}</option>)}
-	</select>:<input className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
+	</select>:<input disabled={p.lockSubmission} className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
 }
 
 function TableEditor(p) {
@@ -431,16 +431,23 @@ function TableEditor(p) {
 	const [dependencies,setDependencies] = useState([])
 	const [importAllowed,setImportAllowed] = useState(false)
 	const [fileData,setFileData] = useState(undefined)
+	const [lockSubmission,setLockSubmission] = useState(false)
 	
 	function SubmitBoxes() {
-		axios.post(BACKEND_URL+p.path,submitVals)
-		.then(()=>{
-			setSubmitVal("Clear")
-			setUpdate(true)
-		})
-		.catch((err)=>{
-			alert(JSON.stringify(err.response.data))
-		})
+		if (!lockSubmission) {
+			setLockSubmission(true)
+			axios.post(BACKEND_URL+p.path,submitVals)
+			.then(()=>{
+				setSubmitVal("Clear")
+				setUpdate(true)
+			})
+			.catch((err)=>{
+				alert(JSON.stringify(err.response.data))
+			})
+			.then(()=>{
+				setLockSubmission(false)
+			})
+		}
 	}
 
 	useGlobalKeyDown(()=>{
@@ -523,7 +530,7 @@ function TableEditor(p) {
 							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{position:'absolute',top:"-1000px"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
 					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
-						<InputBox data={dependencies[col.name]} callback={(value)=>{
+						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>{
 						return axios.patch(BACKEND_URL+p.path,{
 							[col.name]:value,
 							id:dat.id
