@@ -3,11 +3,9 @@ useEffect(()=>{
 },[weaponTotalAtk,dmgVariance,baseAtk,enemyDef,multipliers])
 
 **Hello**
-/*
 
-   Chain Build Power = 60 * (Power when building 100 chain with that PA + (Power of 100 Chain, C Point Blank * 1 + Point Blank * 2 + Onslaught) + (Power of S Roll * 3))																													
-　　　　　　　　　  ÷ (Frame Count when building 100 chain with that PA + (Frame Count of C Point Blank * 1 + Point Blank * 2 + Onslaught) + (Frames of S Roll * 3))																													
-　　　　　　　　    = 60 * (PA power * (100 / hit count) + 2*(C Point*1 + Point*2 + Onslaught) + S Roll*3 power)/((PA frames / 1.2)*(100 / hit count)+30+(62*3+38+38*3)/1.2)																													
+
+																												
 
 
 Base Damage = (Attack Power - Enemy Defense)
@@ -37,7 +35,9 @@ Enemy Special Corrections
 High-Level Enemy 				Enemy level  >=5 player level, dmg x 0
 
 
-																											
+
+https://docs.google.com/spreadsheets/d/1F952a5BxqlbnB2DWQWWdjiCB_6xI70Gc6FQDU2OUOT4/edit#gid=0																											
+Data Verfication Data
 https://docs.google.com/spreadsheets/d/1_OgubzM5QFe4rua4Xu0GSMAI8Idoq8r2yI8Ioyec6oY/edit#gid=661779228
 
 
@@ -58,8 +58,8 @@ Patty Size
 3. Calculate the Base Damage using the following formula.
 　Base Damage = (Attack Power - Enemy Defense) * (all multipliers, including Attack Multiplier, Part Multiplier, Main Class Weapon Boost, Class Skill Multiplier, etc.)/5
 4. Round the Base Damage to the nearest whole number to get the final damage."		
-*/
 
+___
 
 **Edge Cases**
    **Hunter**		Volkraptor
@@ -67,7 +67,14 @@ Patty Size
    **Force**		Photon Flare Short Charge
    **Techter**		Deband PP Recovery Boost
 					Deband Ward Bad Condition
-/*
+
+Chain Build Power = 60 * (Power when building 100 chain with that PA + (Power of 100 Chain, C Point Blank * 1 + Point Blank * 2 + Onslaught) + (Power of S Roll * 3))										
+÷ (Frame Count when building 100 chain with that PA + (Frame Count of C Point Blank * 1 + Point Blank * 2 + Onslaught) + (Frames of S Roll * 3))				= 60 * (PA power * (100 / hit count) + 2*(C Point*1 + Point*2 + Onslaught) + S Roll*3 power)/((PA frames / 1.2)*(100 / hit count)+30+(62*3+38+38*3)/1.2)	
+
+___
+
+
+
 
 
 Add photon_art table
