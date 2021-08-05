@@ -77,29 +77,6 @@ ___
 
 
 
-Add photon_art table
-	name
-	weapon_type_id
-	potency
-	power_distribution
-	pp
-	frames
-	dps
-Add enemy_data table
-	level
-	def
-	atk
-
-
-
-
-
-
-
-
-
-
-
 
 
 
