@@ -23,9 +23,19 @@ const parse = require('csv-parse/lib/sync')
 
 const BACKEND_URL = process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
 
-/*const MELEE_DMG = 0
+/*
+Damage types
+const MELEE_DMG = 0
 const RANGE_DMG = 1
-const TECH_DMG = 2 //NOT USED YET*/
+const TECH_DMG = 2
+
+Art properties
+const NORMAL = 0
+const PHOTON_ART = 1
+const WEAPON_ACTION = 2
+const STEP_COUNTER = 3
+const PARRY_COUNTER = 4
+//NOT USED YET*/
 
 function Col(p) {
 	return <div className="con">
@@ -554,6 +564,7 @@ function AdminPanel(p) {
 		<Link to={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>Weapon Existence Data</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/weapontypes"}>Weapon Types</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/photonarts"}>Photon Arts</Link><br/>
 		<hr/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/armor"}>Armor</Link><br/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/potentials"}>Potentials</Link><br/>
@@ -564,9 +575,12 @@ function AdminPanel(p) {
 		  <Link to={process.env.PUBLIC_URL+"/admin/skills"}>Skills</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/skilltypes"}>Skill Types</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/skilldata"}>Skill Data</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/photonarts"}>Photon Arts</Link><br/>
 		<hr/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/augments"}>Augments</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/augmenttypes"}>Augment Types</Link><br/>
+		<hr/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/enemydata"}>Enemy Data</Link><br/>
 		<hr/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/food"}>Food</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>Food Multipliers</Link><br/>
@@ -584,6 +598,9 @@ function AdminPanel(p) {
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>
 				<TableEditor path="/class_weapon_type_data"/>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/admin/photonarts"}>
+				<TableEditor path="/photon_art"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weapons"}>
 				<TableEditor path="/weapon"/>
@@ -620,6 +637,9 @@ function AdminPanel(p) {
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/augmenttypes"}>
 				<TableEditor path="/augment_type"/>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/admin/enemydata"}>
+				<TableEditor path="/enemy_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/food"}>
 				<TableEditor path="/food"/>
@@ -660,23 +680,23 @@ function DamageCalculator(p) {
 		axios.get(BACKEND_URL+"/augment")
 		.then((data)=>{
 			var augmentData = {}
-			data.data.rows.forEach((entry)=>{augmentData[entry.id]=entry})
+			data.data.rows.forEach((entry)=>{augmentData[entry.name]=entry})
 			setAugmentData(augmentData)
 		})
 	},[])
 
 	const character = {
 		weapon:{
-			augments:[13,7,2,5]
+			augments:["1","2"]
 		},
 		armor1:{
-			augments:[13,1,5]
+			augments:["2"]
 		},
 		armor2:{
-			augments:[13,2,8]
+			augments:[]
 		},
 		armor3:{
-			augments:[13,4,1]
+			augments:[]
 		}
 	}
 
@@ -722,6 +742,32 @@ function DamageCalculator(p) {
 	useEffect(()=>{
 		setRawDmg(((weaponTotalAtk*dmgVariance)+baseAtk-enemyDef)*multipliers/5)
 	},[weaponTotalAtk,dmgVariance,baseAtk,enemyDef,multipliers])
+	
+	const [atkmult,setAtkMult] = useState(1);
+	const [partmult,setPartMult] = useState(1);
+	const [elementalWeaknessMult,setElementalWeaknessMult] = useState(1.2)
+	const [mainClassWeaponBoost,setMainClassWeaponBoost] = useState(1.1)
+	const [classSkillMult,setClassSkillMult] = useState(1)
+	const [equipMult,setEquipMult] = useState(1)
+
+	const [augmentEquipMult,setAugmentEquipMult] = useState(1)
+	const [potencyFloorEquipMult,setPotencyFloorEquipMult] = useState(1)
+	const [elementalWeaponEquipMult,setElementalWeaponEquipMult] = useState(1.1)
+	
+	const [critMult,setCritMult] = useState(1.2)
+	const [appropriateDistance,setAppropriateDistance] = useState(1)
+	
+	const [foodBoost,setFoodBoost] = useState(1)
+	const [fieldEffects,setFieldEffects] = useState(1.05)
+	const [statusAilments,setStatusAilments] = useState(1)
+
+	const [enemyCorrectionMult,setEnemyCorrectionMult] = useState(1)
+
+	const [highLevelEnemy,setHighLevelEnemy] = useState(1)
+
+	useEffect(()=>{
+		setMultipliers(atkmult*partmult*elementalWeaknessMult*mainClassWeaponBoost*classSkillMult*equipMult*augmentEquipMult*potencyFloorEquipMult*elementalWeaponEquipMult*critMult*appropriateDistance*foodBoost*fieldEffects*statusAilments*enemyCorrectionMult*highLevelEnemy)
+	},[atkmult,partmult,elementalWeaknessMult,mainClassWeaponBoost,classSkillMult,equipMult,augmentEquipMult,potencyFloorEquipMult,elementalWeaponEquipMult,critMult,appropriateDistance,foodBoost,fieldEffects,statusAilments,enemyCorrectionMult,highLevelEnemy])
 
 	return <>
 		<div style={{background:"rgba(200,255,200,1)"}}>
