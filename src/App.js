@@ -559,6 +559,8 @@ function AdminPanel(p) {
 		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/classdata"}>Class Data</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/classskills"}>Class Skills</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/classskilldata"}>Class Skill Data</Link><br/>
 		<hr/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/weapons"}>Weapons</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>Weapon Existence Data</Link><br/>
@@ -576,6 +578,8 @@ function AdminPanel(p) {
 		<Link to={process.env.PUBLIC_URL+"/admin/skilltypes"}>Skill Types</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/skilldata"}>Skill Data</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/photonarts"}>Photon Arts</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/classskills"}>Class Skills</Link><br/>
+		<Link to={process.env.PUBLIC_URL+"/admin/classskilldata"}>Class Skill Data</Link><br/>
 		<hr/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/augments"}>Augments</Link><br/>
 		<Link to={process.env.PUBLIC_URL+"/admin/augmenttypes"}>Augment Types</Link><br/>
@@ -631,6 +635,12 @@ function AdminPanel(p) {
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skilldata"}>
 				<TableEditor path="/skill_data"/>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/admin/classskills"}>
+				<TableEditor path="/class_skill"/>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/admin/classskilldata"}>
+				<TableEditor path="/class_skill_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/augments"}>
 				<TableEditor path="/augment"/>
@@ -723,7 +733,7 @@ function DamageCalculator(p) {
 		const [weaponEnhanceLvl,setWeaponEnhanceLvl] = useState(1)
 
 	useEffect(()=>{
-		setWeaponTotalAtk(weaponBaseAtk+weaponEnhanceLvl)
+		setWeaponTotalAtk(Number(weaponBaseAtk)+Number(weaponEnhanceLvl))
 	},[weaponBaseAtk,weaponEnhanceLvl])
 
 	const [dmgVariance,setDmgVariance] = useState(1)
@@ -732,7 +742,7 @@ function DamageCalculator(p) {
 		const [augDmgVariance,setAugDmgVariance] = useState(1)
 
 	useEffect(()=>{
-		setDmgVariance(weaponDmgVariance+augDmgVariance)
+		setDmgVariance(Number(weaponDmgVariance)+Number(augDmgVariance))
 	},[weaponDmgVariance,augDmgVariance])
 
 	const [baseAtk,setBaseAtk] = useState(100)
@@ -740,7 +750,7 @@ function DamageCalculator(p) {
 	const [multipliers,setMultipliers] = useState(1)
 
 	useEffect(()=>{
-		setRawDmg(((weaponTotalAtk*dmgVariance)+baseAtk-enemyDef)*multipliers/5)
+		setRawDmg(((Number(weaponTotalAtk)*Number(dmgVariance))+Number(baseAtk)-Number(enemyDef))*Number(multipliers)/5)
 	},[weaponTotalAtk,dmgVariance,baseAtk,enemyDef,multipliers])
 	
 	const [atkmult,setAtkMult] = useState(1);
@@ -766,7 +776,7 @@ function DamageCalculator(p) {
 	const [highLevelEnemy,setHighLevelEnemy] = useState(1)
 
 	useEffect(()=>{
-		setMultipliers(atkmult*partmult*elementalWeaknessMult*mainClassWeaponBoost*classSkillMult*equipMult*augmentEquipMult*potencyFloorEquipMult*elementalWeaponEquipMult*critMult*appropriateDistance*foodBoost*fieldEffects*statusAilments*enemyCorrectionMult*highLevelEnemy)
+		setMultipliers(Number(atkmult)*Number(partmult)*Number(elementalWeaknessMult)*Number(mainClassWeaponBoost)*Number(classSkillMult)*Number(equipMult)*Number(augmentEquipMult)*Number(potencyFloorEquipMult)*Number(elementalWeaponEquipMult)*Number(critMult)*Number(appropriateDistance)*Number(foodBoost)*Number(fieldEffects)*Number(statusAilments)*Number(enemyCorrectionMult)*Number(highLevelEnemy))
 	},[atkmult,partmult,elementalWeaknessMult,mainClassWeaponBoost,classSkillMult,equipMult,augmentEquipMult,potencyFloorEquipMult,elementalWeaponEquipMult,critMult,appropriateDistance,foodBoost,fieldEffects,statusAilments,enemyCorrectionMult,highLevelEnemy])
 
 	return <>
@@ -786,6 +796,28 @@ function DamageCalculator(p) {
 			Base Attack:<EditStatBox value={baseAtk} callback={(val)=>{setBaseAtk(val)}}/>
 			Enemy Defense:<EditStatBox value={enemyDef} callback={(val)=>{setEnemyDef(val)}}/>
 			Multipliers:<EditStatBox value={multipliers} callback={(val)=>{setMultipliers(val)}}/>
+			<ul>
+				<li>●Atk Mult:<EditStatBox value={atkmult} callback={(val)=>{setAtkMult(val)}}/></li>
+				<li>●Part Mult:<EditStatBox value={partmult} callback={(val)=>{setPartMult(val)}}/></li>
+				<li>●Elemental Weakness Mult:<EditStatBox value={elementalWeaknessMult} callback={(val)=>{setElementalWeaknessMult(val)}}/></li>
+				<li>●Main Class Weapon Boost:<EditStatBox value={mainClassWeaponBoost} callback={(val)=>{setMainClassWeaponBoost(val)}}/></li>
+				<li>●Class Skill Mult:<EditStatBox value={classSkillMult} callback={(val)=>{setClassSkillMult(val)}}/></li>
+				<li>●Equip Mult:<EditStatBox value={equipMult} callback={(val)=>{setEquipMult(val)}}/></li>
+				<li>
+					<ul>
+						<li>●Augment Equip Mult:<EditStatBox value={augmentEquipMult} callback={(val)=>{setAugmentEquipMult(val)}}/></li>
+						<li>●Potency Floor Equip Mult:<EditStatBox value={potencyFloorEquipMult} callback={(val)=>{setPotencyFloorEquipMult(val)}}/></li>
+						<li>●Elemental Weapon Equip Mult:<EditStatBox value={elementalWeaponEquipMult} callback={(val)=>{setElementalWeaponEquipMult(val)}}/></li>
+					</ul>
+				</li>
+				<li>●Crit Mult:<EditStatBox value={critMult} callback={(val)=>{setCritMult(val)}}/></li>
+				<li>●Appropriate Distance:<EditStatBox value={appropriateDistance} callback={(val)=>{setAppropriateDistance(val)}}/></li>
+				<li>●Food Boost:<EditStatBox value={foodBoost} callback={(val)=>{setFoodBoost(val)}}/></li>
+				<li>●Field Effects:<EditStatBox value={fieldEffects} callback={(val)=>{setFieldEffects(val)}}/></li>
+				<li>●Status Ailments:<EditStatBox value={statusAilments} callback={(val)=>{setStatusAilments(val)}}/></li>
+				<li>●Enemy Correction Multiplier:<EditStatBox value={enemyCorrectionMult} callback={(val)=>{setEnemyCorrectionMult(val)}}/></li>
+				<li>●High Level Enemy:<EditStatBox value={highLevelEnemy} callback={(val)=>{setHighLevelEnemy(val)}}/></li>
+			</ul>
 			<br/><br/><br/>
 			Raw Dmg:{rawDmg}
 		</div>
@@ -857,7 +889,7 @@ function App() {
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/test"}>
 			<TestHeader/>
-			<div id="main"><TestPanel/></div>
+			<TestPanel/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/formula"}>
 				<DamageCalculator/>
