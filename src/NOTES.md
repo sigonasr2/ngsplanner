@@ -12,8 +12,8 @@ Base Damage = (Attack Power - Enemy Defense)
 * (all multipliers, including Attack Multiplier, Part Multiplier, Main Class Weapon Boost, Class Skill Multiplier, etc.)/5
 
 Attack Multiplier 				based on Normal Atk or PA used						NEED TO ADD TO DB
-Part Multiplier					Usually 1 or 1.5 									CUSTOM FIELD - db later
-Elemental Weakness Multiplier	1.2 												CHECKBOX - db later
+Part Multiplier					Usually 1 or 1.5 									CUSTOM FIELD - db way later?
+Elemental Weakness Multiplier	1.2 												CHECKBOX - db way later?
 Main Class Weapon Boost			1.1 												AUTO - already in db
 Class Skill Multiplier 																NEED TO ADD TO DB
 Equip Multipliers																	
@@ -75,7 +75,38 @@ ___
 
 
 
+TABLE class_skill{
+  id int [pk,increment,unique]
+  name text
+  class_id int
+  icon text
+  description text
+}
 
+TABLE class_skill_data{
+  id int [pk,increment,unique]
+  name text
+  class_skill_id int
+  dependency text
+  level int
+  effect text
+  duration int
+  cooldown int 
+  damage_taken float
+  pa_potency float
+  conditional_buff boolean
+  pp_recovery float
+  property text
+  all_damage_buff float
+  active_pp_recovery float
+  status_ailment_accum float
+  status_ailment_duration float
+  pp_consumption float
+  max_hp_decrease float
+  natural_pp_recovery float
+  added_pp int
+  pb_gauge_fortification float
+}
 
 
 
