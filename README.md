@@ -1,4 +1,7 @@
 # NGS Planner
+
+![](https://cdn.discordapp.com/attachments/746396256842022984/872804680730816552/unknown.png "")
+
 This tool was created for Phantasy Star Online 2: New Genesis. It is used to therorycraft builds and share them with other players!
 
 The goal of NGS Planner is be accurate, accessible, and shareable.
