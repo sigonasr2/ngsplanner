@@ -4,6 +4,7 @@ import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
 import useGlobalKeyDown from 'react-global-key-down-hook'
 import Modal from 'react-modal'
+import Tooltip from "react-simple-tooltip" //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
 
 import {XSquare, XSquareFill, PlusCircle} from 'react-bootstrap-icons'
 
@@ -746,6 +747,10 @@ function DamageCalculator(p) {
 	</>
 }
 
+function TooltipTest(p) {
+	return <>This is some tooltip info!</>
+}
+
 function App() {
 	
 	const [author,setAuthor] = useState("Dudley")
@@ -831,7 +836,12 @@ function App() {
 						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 					</Col>
-					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here.{BACKEND_URL}</PopupWindow>
+					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here.{BACKEND_URL}
+					<br/><br/><Tooltip 
+						arrow={10} background="rgba(40,40,40,0.8)" border="white" radius={10}
+						placement="bottom" fadeDuration={300}
+						content={<TooltipTest/>}
+					>Mouseover Me!</Tooltip></PopupWindow>
 				</div>
 			</Route>
 		</Switch>
