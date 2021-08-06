@@ -826,7 +826,7 @@ function DamageCalculator(p) {
 }
 
 function TooltipTest(p) {
-	return <>This is some tooltip info!</>
+	return <>This is some tooltip info! Does it get larger as we add more content? Or does it stay puny.</>
 }
 
 function App() {
@@ -917,9 +917,9 @@ function App() {
 					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKEND_URL}
 					<br/><br/><Tooltip 
 						arrow={10} background="rgba(40,40,40,0.8)" border="white" radius={10}
-						placement="bottom" fadeDuration={300}
+						offset={-6} placement="bottom" fadeDuration={300} style={{width:"600px"}}
 						content={<TooltipTest/>}
-					>Mouseover Me!</Tooltip></PopupWindow>
+					>Mouseover Me! I need more width to make this work.</Tooltip></PopupWindow>
 				</div>
 			</Route>
 		</Switch>
