@@ -4,7 +4,8 @@ import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
 import useGlobalKeyDown from 'react-global-key-down-hook'
 import Modal from 'react-modal'
-import Tooltip from "react-simple-tooltip" //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
+import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
+import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 
 import {XSquare, XSquareFill, PlusCircle} from 'react-bootstrap-icons'
 
@@ -883,6 +884,7 @@ function App() {
 	const [effective,setEffective] = useState(127)
 
 	const [modalOpen,setModalOpen] = useState(true)
+	const [testMode,setTestMode] = useState(false)
 	
   return (
   <>
@@ -917,9 +919,12 @@ function App() {
 					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKEND_URL}
 					<br/><br/><Tooltip 
 						arrow={10} background="rgba(40,40,40,0.8)" border="white" radius={10}
-						offset={-6} placement="bottom" fadeDuration={300} style={{width:"600px"}}
+						offset={-6} placement="top" fadeDuration={300} style={{width:"600px"}}
 						content={<TooltipTest/>}
-					>Mouseover Me! I need more width to make this work.</Tooltip></PopupWindow>
+					>Mouseover Me! I need more width to make this work.</Tooltip>
+					<br/><br/>
+					<Toggle className="testmode" defaultChecked={testMode} value={testMode} onChange={(t)=>{setTestMode(t.target.checked)}}/>Test Mode: {JSON.stringify(testMode)}
+					</PopupWindow>
 				</div>
 			</Route>
 		</Switch>
