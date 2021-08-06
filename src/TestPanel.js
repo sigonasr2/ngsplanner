@@ -5,19 +5,21 @@ function DefaultTooltip(p) {
 }
 function ExpandTooltip(p) {
 	return <Tooltip
-  arrow={15}
+  background="rgba(38,53,63,0.95);"
+  border="0"
+  arrow={10}
   fadeDuration={200}
   fadeEasing="linear"
-  fixed={true}
+  fixed={false}
   offset={0}
   padding={16}
   placement="top"
-  radius={10}
+  radius={5}
   zIndex={1} 
   className="xTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
 }
 
-function TestPanel() {
+function TestPanel(p) {
     return ( //Futasuke is a genius
 <div className="main">
 <div className="containerA">
@@ -26,6 +28,11 @@ function TestPanel() {
 <h1>Basic Information</h1>
 <div className="boxExit"></div>
 </div>
+
+<div>
+<
+ </div> 
+
 <table className="basicInfo">
   <tr>
     <td>Author</td>
@@ -112,13 +119,12 @@ function TestPanel() {
 <h3>Abilitiy Details</h3>
 <ul>
 <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span className="fixa">Fixa Attack Lv.3</span></li>
-<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Pettas Soul II</span></li>
-<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span className="aug">Alts Secreta II</span></li>
-<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Gigas Precision II</span></li>
-<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span className="aug">Precision III</span></li>
-<li><img alt="" src="./icons/aug_plus.png" /></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
+<li><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
 </ul>
 </div>
 <div className="pr">
@@ -141,7 +147,7 @@ function TestPanel() {
 <table className="statsInfo">
   <tr>
     <td>Battle Power</td>
-	<td className="ri">1344</td>
+	<td className="ri">{p.bp}</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
