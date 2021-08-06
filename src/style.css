@@ -257,6 +257,9 @@ em {
 .da span:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 }
+.basicInfo td {
+	vertical-align: top;
+}
 .basicInfo tr:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));	
 }
@@ -901,6 +904,9 @@ button{
 }
 .webicon:hover{
 	color:rgba(200,0,0,1);
+	cursor:pointer;
+}
+.basichover:hover{
 	cursor:pointer;
 }
 .modalCloseButton{

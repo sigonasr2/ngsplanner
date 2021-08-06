@@ -29,30 +29,25 @@ function TestPanel(p) {
 <div className="boxExit"></div>
 </div>
 
-<div>
-
- </div> 
-
 <table className="basicInfo">
   <tr>
     <td>Author</td>
-	<td>&nbsp;</td>
-    <td>Dudley</td>
+    <td colspan="2">Dudley</td>
   </tr>
   <tr>
     <td>Build Name</td>
-	<td>&nbsp;</td>
-    <td>Fatimah</td>
+    <td colspan="2">Fatimah</td>
   </tr>
   <tr>
     <td>Class</td>
-    <td><img alt="" src="Ra.png" /> Ranger</td>
-    <td><span className="ye">Lv.20</span></td>
-  </tr>
-   <tr>
-    <td>&nbsp;</td>
-    <td><img alt="" src="Fo.png" /> Force</td>
-    <td>Lv.15</td>
+    <td>
+    <img alt="" src="Ra.png" /> Ranger <br />
+    <img alt="" src="Fo.png" /> Force 
+    </td>
+    <td>
+    <span className="ye">Lv.20</span><br />
+    Lv.15
+    </td>
   </tr>
 </table>
 </div>

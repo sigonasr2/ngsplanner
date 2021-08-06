@@ -480,7 +480,7 @@ function TableEditor(p) {
 		.then(()=>{
 			setUpdate(true)
 		})
-	},[fileData,p.path])
+	},[fileData,p.path,p.BACKENDURL])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -519,7 +519,7 @@ function TableEditor(p) {
 			})
 			setUpdate(false)
 		}
-	},[update,p.path])
+	},[update,p.path,p.BACKENDURL])
 	
 	return <>
 	{!loading?
@@ -552,6 +552,19 @@ function TableEditor(p) {
 			  </tbody>
 			</table>
 		</div>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>}
+	</>
+}
+
+function DatabaseEditor(p) {
+	const [loading,setLoading] = useState(false)
+
+	return <>
+		{!loading?<>
+				<button className="basichover" style={{backgroundColor:"navy"}} onClick={()=>{setLoading(true)}}>Apply TEST Database to LIVE Database</button><br/><br/>
+				<button className="basichover" style={{backgroundColor:"maroon"}} onClick={()=>{setLoading(true)}}>Reset TEST database using current LIVE Database</button><br/><br/>
+				<button className="basichover" style={{backgroundColor:"darkgreen"}} onClick={()=>{setLoading(true)}}>Backup current TEST and LIVE Database</button><br/><br/>
+			</>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+		}
 	</>
 }
 
@@ -672,9 +685,7 @@ function AdminPanel(p) {
 				<TableEditor BACKENDURL={GetBackendURL(p)} path="/database_audit"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
-				<button style={{backgroundColor:"navy"}}>Apply TEST Database to LIVE Database</button><br/><br/>
-				<button style={{backgroundColor:"maroon"}}>Reset TEST database using current LIVE Database</button><br/><br/>
-				<button style={{backgroundColor:"darkgreen"}}>Backup current TEST and LIVE Database</button><br/><br/>
+				<DatabaseEditor BACKENDURL={GetBackendURL(p)}/>
 			</Route>
 		</div>
 		</div>
@@ -904,7 +915,7 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
 					<TestHeader/>
-					<TestPanel bp={bp} />
+					<TestPanel bp={bp} className={className} secondaryClassName={secondaryClassName} />
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
