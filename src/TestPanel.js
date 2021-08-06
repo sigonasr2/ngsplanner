@@ -1,4 +1,21 @@
 import React from 'react';
+import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
+function DefaultTooltip(p) {
+	return <Tooltip className="jTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
+}
+function ExpandTooltip(p) {
+	return <Tooltip
+  arrow={15}
+  fadeDuration={200}
+  fadeEasing="linear"
+  fixed={true}
+  offset={0}
+  padding={16}
+  placement="top"
+  radius={10}
+  zIndex={1} 
+  className="xTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
+}
 
 function TestPanel() {
     return ( //Futasuke is a genius
@@ -94,7 +111,8 @@ function TestPanel() {
 <div className="equipAugs">
 <h3>Abilitiy Details</h3>
 <ul>
-<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span className="pot">Dynamo Unit Lv.3</span></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
+<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
 <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span className="fixa">Fixa Attack Lv.3</span></li>
 <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Pettas Soul II</span></li>
 <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span className="aug">Alts Secreta II</span></li>

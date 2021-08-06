@@ -4,7 +4,6 @@ import './style.css'; // The new new
 import React, {useState,useEffect,useRef,useReducer} from 'react';
 import useGlobalKeyDown from 'react-global-key-down-hook'
 import Modal from 'react-modal'
-import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 
 import {XSquare, XSquareFill, PlusCircle} from 'react-bootstrap-icons'
@@ -23,8 +22,6 @@ import TestPanel from './TestPanel'; // Dudley's Test Panel
 const axios = require('axios');
 const parse = require('csv-parse/lib/sync')
 
-const BACKEND_URL = process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKEND_URL||'https://projectdivar.com:4504'; //You can specify a .env file locally with REACT_APP_BACKEND_URL defining a URL to retrieve data from.
-
 /*
 Damage types
 const MELEE_DMG = 0
@@ -38,6 +35,10 @@ const WEAPON_ACTION = 2
 const STEP_COUNTER = 3
 const PARRY_COUNTER = 4
 //NOT USED YET*/
+
+function GetBackendURL(p) {
+	return (process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504')+(p.TESTMODE?"/test":"")
+}
 
 function Col(p) {
 	return <div className="con">
@@ -448,7 +449,7 @@ function TableEditor(p) {
 	function SubmitBoxes() {
 		if (!lockSubmission) {
 			setLockSubmission(true)
-			axios.post(BACKEND_URL+p.path,submitVals)
+			axios.post(p.BACKENDURL+p.path,submitVals)
 			.then(()=>{
 				setSubmitVal("Clear")
 				setUpdate(true)
@@ -473,7 +474,7 @@ function TableEditor(p) {
 	useEffect(()=>{
 		var promises=[]
 		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
-			promises.push(axios.post(BACKEND_URL+p.path,entry))
+			promises.push(axios.post(p.BACKENDURL+p.path,entry))
 		})
 		Promise.allSettled(promises)
 		.then(()=>{
@@ -494,7 +495,7 @@ function TableEditor(p) {
 		if (update) {
 			setLoading(true)
 			var dependency_map = {}
-			axios.get(BACKEND_URL+p.path)
+			axios.get(p.BACKENDURL+p.path)
 			.then((data)=>{
 				var cols = data.data.fields
 				var rows = data.data.rows
@@ -504,7 +505,7 @@ function TableEditor(p) {
 				var promise_list = []
 
 				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")).forEach((col)=>{
-					promise_list.push(axios.get(BACKEND_URL+"/"+col.name.replace("_id",""))
+					promise_list.push(axios.get(p.BACKENDURL+"/"+col.name.replace("_id",""))
 					.then((data)=>{
 						dependency_map[col.name]=data.data.rows.sort((a,b)=>b.id-a.id)
 					}))
@@ -541,9 +542,9 @@ function TableEditor(p) {
 						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
 							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{position:'absolute',top:"-1000px"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
-					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(BACKEND_URL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
+					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>{
-						return axios.patch(BACKEND_URL+p.path,{
+						return axios.patch(p.BACKENDURL+p.path,{
 							[col.name]:value,
 							id:dat.id
 						})
@@ -555,7 +556,7 @@ function TableEditor(p) {
 }
 
 function AdminPanel(p) {
-	return <div id="main">
+	return <div className="main">
 	  <div className="w-25"><Box title="Navigation">
 		  <Table classes="adminNav">
 		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
@@ -597,76 +598,76 @@ function AdminPanel(p) {
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_audit"}>Database Audit</Link><br/></Table></Box></div>
 		<div className="w-75">
 			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
-				<TableEditor path="/class"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classdata"}>
-				<TableEditor path="/class_level_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_level_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>
-				<TableEditor path="/class_weapon_type_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_weapon_type_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/photonarts"}>
-				<TableEditor path="/photon_art"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/photon_art"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weapons"}>
-				<TableEditor path="/weapon"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/weapon"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>
-				<TableEditor path="/weapon_existence_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/weapon_existence_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weapontypes"}>
-				<TableEditor path="/weapon_type"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/weapon_type"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/armor"}>
-				<TableEditor path="/armor"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/armor"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/potentials"}>
-				<TableEditor path="/potential"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/potential"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/potentialdata"}>
-				<TableEditor path="/potential_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/potential_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/builds"}>
-				<TableEditor path="/builds"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/builds"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skills"}>
-				<TableEditor path="/skill"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/skill"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skilltypes"}>
-				<TableEditor path="/skill_type"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/skill_type"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skilldata"}>
-				<TableEditor path="/skill_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/skill_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classskills"}>
-				<TableEditor path="/class_skill"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_skill"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classskilldata"}>
-				<TableEditor path="/class_skill_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_skill_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/augments"}>
-				<TableEditor path="/augment"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/augment"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/augmenttypes"}>
-				<TableEditor path="/augment_type"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/augment_type"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/enemydata"}>
-				<TableEditor path="/enemy_data"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/enemy_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/food"}>
-				<TableEditor path="/food"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/food"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>
-				<TableEditor path="/food_mult"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/food_mult"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/roles"}>
-				<TableEditor path="/roles"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/roles"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/users"}>
-				<TableEditor path="/users"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/users"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/database_audit"}>
-				<TableEditor path="/database_audit"/>
+				<TableEditor BACKENDURL={GetBackendURL(p)} path="/database_audit"/>
 			</Route>
 		</div>
 		</div>
@@ -689,7 +690,7 @@ function DamageCalculator(p) {
 	//const [update,setUpdate] = useState(false)
 
 	useEffect(()=>{
-		axios.get(BACKEND_URL+"/augment")
+		axios.get(p.BACKENDURL+"/augment")
 		.then((data)=>{
 			var augmentData = {}
 			data.data.rows.forEach((entry)=>{augmentData[entry.name]=entry})
@@ -826,9 +827,7 @@ function DamageCalculator(p) {
 	</>
 }
 
-function TooltipTest(p) {
-	return <>This is some tooltip info! Does it get larger as we add more content? Or does it stay puny.</>
-}
+
 
 function App() {
 	
@@ -884,51 +883,48 @@ function App() {
 	const [effective,setEffective] = useState(127)
 
 	const [modalOpen,setModalOpen] = useState(true)
-	const [testMode,setTestMode] = useState(false)
-	
+
+	const [BACKENDURL,setBACKENDURL]=useState(process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504')
+	const [TESTMODE,setTESTMODE] = useState(false)
+
   return (
-  <>
-	<HashRouter>
-		<Switch>
-			<Route path={process.env.PUBLIC_URL+"/admin"}>
-			<TestHeader/>
-			  <AdminPanel/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/test"}>
-			<TestHeader/>
-			<TestPanel/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/formula"}>
-				<DamageCalculator/>
-			</Route>
-			<Route path="/">
-			  <div id="main">
-				   <Col>
-						<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
-						<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
-					</Col>
+  	<>
+		<HashRouter>
+			<Switch>
+				<Route path={process.env.PUBLIC_URL+"/admin"}>
+				<TestHeader/>
+					<AdminPanel BACKENDURL={BACKENDURL} TESTMODE={TESTMODE}/>
+				</Route>
+				<Route path={process.env.PUBLIC_URL+"/test"}>
+					<TestHeader/>
+					<TestPanel/>
+				</Route>
+				<Route path={process.env.PUBLIC_URL+"/formula"}>
+					<DamageCalculator/>
+				</Route>
+				<Route path="/">
+				<div id="main">
 					<Col>
-						<EquipBox weapon={weapon} setWeapon={setWeapon} armorSlot1={armorSlot1} setArmorSlot1={setArmorSlot1} armorSlot2={armorSlot2} setArmorSlot2={setArmorSlot2} armorSlot3={armorSlot3} setArmorSlot3={setArmorSlot3} weaponEnhancementLv={weaponEnhancementLv} setWeaponEnhancementLv={setWeaponEnhancementLv} armorSlot1EnhancementLv={armorSlot1EnhancementLv} setArmorSlot1EnhancementLv={setArmorSlot1EnhancementLv} armorSlot2EnhancementLv={armorSlot2EnhancementLv} setArmorSlot2EnhancementLv={setArmorSlot2EnhancementLv} armorSlot3EnhancementLv={armorSlot3EnhancementLv} setArmorSlot3EnhancementLv={setArmorSlot3EnhancementLv}/>
-						<EquippedWeaponBox weapon={weapon} armorSlot1={armorSlot1} armorSlot2={armorSlot2} armorSlot3={armorSlot3} weaponAbilityList={weaponAbilityList} setWeaponAbilityList={setWeaponAbilityList} armor1AbilityList={armor1AbilityList} setArmor1AbilityList={setArmor1AbilityList} armor2AbilityList={armor2AbilityList} setArmor2AbilityList={setArmor2AbilityList} armor3AbilityList={armor3AbilityList} setArmor3AbilityList={setArmor3AbilityList} weaponEnhancementLv={weaponEnhancementLv}armorSlot1EnhancementLv={armorSlot1EnhancementLv}armorSlot2EnhancementLv={armorSlot2EnhancementLv}armorSlot3EnhancementLv={armorSlot3EnhancementLv}/>
-					</Col>
-					<Col>
-						
-						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
-						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
-					</Col>
-					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKEND_URL}
-					<br/><br/><Tooltip 
-						arrow={10} background="rgba(40,40,40,0.8)" border="white" radius={10}
-						offset={-6} placement="top" fadeDuration={300} style={{width:"600px"}}
-						content={<TooltipTest/>}
-					>Mouseover Me! I need more width to make this work.</Tooltip>
-					<br/><br/>
-					<Toggle className="testmode" defaultChecked={testMode} value={testMode} onChange={(t)=>{setTestMode(t.target.checked)}}/>Test Mode: {JSON.stringify(testMode)}
-					</PopupWindow>
-				</div>
-			</Route>
-		</Switch>
-	</HashRouter>
+							<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
+							<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
+						</Col>
+						<Col>
+							<EquipBox weapon={weapon} setWeapon={setWeapon} armorSlot1={armorSlot1} setArmorSlot1={setArmorSlot1} armorSlot2={armorSlot2} setArmorSlot2={setArmorSlot2} armorSlot3={armorSlot3} setArmorSlot3={setArmorSlot3} weaponEnhancementLv={weaponEnhancementLv} setWeaponEnhancementLv={setWeaponEnhancementLv} armorSlot1EnhancementLv={armorSlot1EnhancementLv} setArmorSlot1EnhancementLv={setArmorSlot1EnhancementLv} armorSlot2EnhancementLv={armorSlot2EnhancementLv} setArmorSlot2EnhancementLv={setArmorSlot2EnhancementLv} armorSlot3EnhancementLv={armorSlot3EnhancementLv} setArmorSlot3EnhancementLv={setArmorSlot3EnhancementLv}/>
+							<EquippedWeaponBox weapon={weapon} armorSlot1={armorSlot1} armorSlot2={armorSlot2} armorSlot3={armorSlot3} weaponAbilityList={weaponAbilityList} setWeaponAbilityList={setWeaponAbilityList} armor1AbilityList={armor1AbilityList} setArmor1AbilityList={setArmor1AbilityList} armor2AbilityList={armor2AbilityList} setArmor2AbilityList={setArmor2AbilityList} armor3AbilityList={armor3AbilityList} setArmor3AbilityList={setArmor3AbilityList} weaponEnhancementLv={weaponEnhancementLv}armorSlot1EnhancementLv={armorSlot1EnhancementLv}armorSlot2EnhancementLv={armorSlot2EnhancementLv}armorSlot3EnhancementLv={armorSlot3EnhancementLv}/>
+						</Col>
+						<Col>
+							
+							<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
+							<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
+						</Col>
+						<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKENDURL}
+						<br/><br/>
+						<Toggle className="testmode" defaultChecked={TESTMODE} value={TESTMODE} onChange={(t)=>{setTESTMODE(t.target.checked)}}/>Test Mode: {JSON.stringify(TESTMODE)}
+						</PopupWindow>
+					</div>
+				</Route>
+			</Switch>
+		</HashRouter>
 	</>
   );
 }

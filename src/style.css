@@ -379,7 +379,15 @@ em {
 	position: absolute;
 	white-space: normal;
 	left: 1em;
-
+}
+.xtooltip {
+	margin: 0 10px 0 0;
+	display: inline;
+	cursor: help;
+}
+div.xtooltip div {
+	min-width: 200px;
+	background-color: rgba(38,53,63,0.9);
 }
 .tooltip:hover span {
 	visibility: visible;
