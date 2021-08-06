@@ -384,7 +384,7 @@ function ListRow(p) {
 
 function PopupWindow(p) {
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true}>
-		<h1>{p.title}<XSquare onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/></h1>
+		<h1>{p.title}{p.showCloseButton&&<XSquare onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/>}</h1>
 		{p.children}
 	</Modal>
 }
@@ -914,7 +914,7 @@ function App() {
 						<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
 						<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
 					</Col>
-					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={false} title="Modal Title">Modal content goes here.{BACKEND_URL}
+					<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKEND_URL}
 					<br/><br/><Tooltip 
 						arrow={10} background="rgba(40,40,40,0.8)" border="white" radius={10}
 						placement="bottom" fadeDuration={300}
