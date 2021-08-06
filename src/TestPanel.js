@@ -2,65 +2,197 @@ import React from 'react';
 
 function TestPanel() {
     return ( //Futasuke is a genius
-
-<div className="container">
-<div className="box itembox">
+<div className="main">
+<div className="containerA">
+<div className="box">
 <div className="boxTitleBar">
-<h1>Weapon Select</h1>
+<h1>Basic Information</h1>
+<div className="boxExit"></div>
+</div>
+<table className="basicInfo">
+  <tr>
+    <td>Author</td>
+	<td>&nbsp;</td>
+    <td>Dudley</td>
+  </tr>
+  <tr>
+    <td>Build Name</td>
+	<td>&nbsp;</td>
+    <td>Fatimah</td>
+  </tr>
+  <tr>
+    <td>Class</td>
+    <td><img alt="" src="Ra.png" /> Ranger</td>
+    <td><span className="ye">Lv.20</span></td>
+  </tr>
+   <tr>
+    <td>&nbsp;</td>
+    <td><img alt="" src="Fo.png" /> Force</td>
+    <td>Lv.15</td>
+  </tr>
+</table>
+</div>
+<div className="box">
+<div className="boxTitleBar">
+<h1>Current Effects</h1>
 <div className="boxExit"></div>
 </div>
 <ul className="boxmenu">
-<li>Rifle</li>
-<li>Launcher</li>
-<li>Rod</li>
-<li>Talis</li>
+<li>1</li>
+<li>2</li>
 </ul>
-<div className="itemBar">
-<div className="itemBarSort">
-<select className="itemBarForm">
-  <option>Standard Sort</option>
-  <option>Rarity</option>
-  <option>Attack</option>
-  <option>Potency</option>
-</select>
-</div>
-<div className="itemBarFilter">
-<input className="itemBarForm" type="text" placeholder="Filter" />
-</div>
-</div>
-<div className="itemlistcontainer customScrollbar">
-<ul className="itemlist">
-<li className="itemwep r1"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/64px-NGSUIItemPrimmRifle.png"} /><em className="rifle">Primm Rifle</em><br /><span className="atk">177</span>					<span className="pot tooltip">Recycler Unit<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>
-<li className="itemwep r2"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/64px-NGSUIItemTzviaRifle.png"} /><em className="rifle">Tzvia Rifle</em><br /><span className="atk">195</span>					<span className="pot tooltip">Indomitable Unit<span>Lv.4: Potency +26%/<br />All Down Resistances +20%</span></span></li>
-<li className="itemwep r3"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/64px-NGSUIItemTheseusRifle.png"} /><em className="rifle">Theseus Rifle</em><br /><span className="atk">223</span>				<span className="pot tooltip">Defensive Formation<span>Lv.4: Potency +22%/<br />Critical Hit Rate increases based on Defense, up to a maximum of +18% at 1,000 Defense.</span></span></li>
-<li className="itemwep r4"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/64px-NGSUIItemResurgirRifle.png"} /><em className="rifle">Resurgir Rifle</em><br /><span className="atk">240</span>				<span className="pot tooltip">Dynamo Unit<span>Lv.4: Potency +21%/<br />Critical Hit Rate +18% for 30 seconds after a successful Sidestep.</span></span></li>
-<li className="itemwep r4"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/64px-NGSUIItemFoursisRifle.png"} /><em className="rifle">Foursis Rifle</em><br /><span className="atk">242</span>				<span className="pot tooltip">Bastion Unit<span>Lv.4: Potency +24%/<br />Creates a barrier that provides Damage Resistance +50% when at Max HP.</span></span></li>
-<li className="itemwep"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/logo_test.png"} /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
-<li className="itemwep"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/logo_test.png"} /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
-<li className="itemwep"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/logo_test.png"} /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
+<h3>Effect Name</h3>
+<ul className="infoBuffs">
+	<li>Food Bost Effect
+		<ul>
+			<li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+			<li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+		</ul>
+	</li>
+	<li>Shifta / Deband
+		<ul>
+			<li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
+			<li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
+		</ul>
+	</li>
+	<li>Region Mag Boost
+		<ul>
+			<li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
+		</ul>
+	</li>
 </ul>
 </div>
 </div>
-<div className="box itembox">
+<div className="containerB">
+<div className="box">
 <div className="boxTitleBar">
-<h1>Food List</h1>
+<h1>Equip</h1>
 <div className="boxExit"></div>
 </div>
-<div className="itemBar">
-<div className="itemBarSort">
+<div className="equipPalette">
+	<div className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" alt="" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" alt="" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" alt="" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" alt="" src="./photon_barrier.png" /></div></div>
 </div>
-<div className="itemBarFilter">
-<input className="itemBarForm" type="text" placeholder="Filter" />
 </div>
+<div className="box">
+<div className="boxTitleBar">
+<h1>Equipped Weapon</h1>
+<div className="boxExit"></div>
 </div>
-<div className="itemlistcontainer customScrollbar">
-<ul className="itemlist">
-<li className="itemwep r1"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+"/icons/food/rich_aelio_herb.png"} /><em className="vege">Rich Aelio Herb</em><br /><span className="atk">177</span>						</li>	
+<h2 className="rifle">Resurgir Rifle+40</h2>
+<ul className="boxmenu">
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+</ul>
+<div className="equipDetails">
+<div className="equipAugs">
+<h3>Abilitiy Details</h3>
+<ul>
+<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span className="pot">Dynamo Unit Lv.3</span></li>
+<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span className="fixa">Fixa Attack Lv.3</span></li>
+<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Pettas Soul II</span></li>
+<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span className="aug">Alts Secreta II</span></li>
+<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Gigas Precision II</span></li>
+<li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span className="aug">Precision III</span></li>
+<li><img alt="" src="./icons/aug_plus.png" /></li>
+</ul>
+</div>
+<div className="pr">
+<h3>Properties</h3>
+<ul>
+<li>Enhancement Lv.&emsp;<span>+35</span></li>
+<li>Multi-Weapon&emsp;<span>-</span></li>
+<li>Element&emsp;<span>-</span></li>
 </ul>
 </div>
 </div>
 </div>
-
+</div>
+<div className="containerC">
+<div className="box">
+<div className="boxTitleBar">
+<h1>Basic Stats</h1>
+<div className="boxExit"></div>
+</div>
+<table className="statsInfo">
+  <tr>
+    <td>Battle Power</td>
+	<td className="ri">1344</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>HP</td>
+	<td>289</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>PP</td>
+    <td>100</td>
+    <td>&nbsp;</td>
+  </tr>
+   <tr>
+    <td>Defense</td>
+    <td>402</td>
+    <td>&nbsp;</td>
+  </tr>
+   <tr>
+    <td>Weapon Up</td>
+    <td className="statsMelWeaponUp"><span className="ye">+34%</span></td>
+    <td className="statsRngWeaponUp"><span className="ye">+34%</span></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td className="statsTecWeaponUp"><span className="ye">+34%</span></td>
+    <td>&nbsp;</td>
+  </tr>
+    <tr>
+    <td>Damage Resist.</td>
+    <td>18%</td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+</div>
+<div className="box">
+<div className="boxTitleBar">
+<h1>Damage Stats</h1>
+<div className="boxExit"></div>
+</div>
+<ul className="boxmenu">
+<li>1</li>
+<li>2</li>
+<li>3</li>
+</ul>
+<table className="basicInfo">
+  <tr>
+    <td>Critical Hit Rate</td>
+    <td>5%</td>
+  </tr>
+   <tr>
+    <td>Critical Multiplier</td>
+    <td>120%</td>
+  </tr>
+  <tr>
+    <td>Midrange</td>
+    <td>126</td>
+  </tr>
+  <tr>
+    <td>Critcal</td>
+    <td>152</td>
+  </tr>
+   <tr>
+    <td>Effective</td>
+    <td><span className="ye">127</span></td>
+  </tr>
+</table>
+</div>
+</div>
+</div>
     )
     }
 

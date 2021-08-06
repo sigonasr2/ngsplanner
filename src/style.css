@@ -111,7 +111,7 @@ em {
 	display:none;
 }
 }
-#main {
+.main {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
