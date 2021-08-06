@@ -380,14 +380,13 @@ em {
 	white-space: normal;
 	left: 1em;
 }
-.xtooltip {
+.xTooltip {
 	margin: 0 10px 0 0;
 	display: inline;
 	cursor: help;
 }
-div.xtooltip div {
+[class*="BaseToolTop"] {
 	min-width: 200px;
-	background-color: rgba(38,53,63,0.9);
 }
 .tooltip:hover span {
 	visibility: visible;

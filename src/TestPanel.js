@@ -30,7 +30,7 @@ function TestPanel(p) {
 </div>
 
 <div>
-<
+
  </div> 
 
 <table className="basicInfo">

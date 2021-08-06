@@ -595,7 +595,9 @@ function AdminPanel(p) {
 		  <Link to={process.env.PUBLIC_URL+"/admin/roles"}>Roles</Link><br/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/users"}>Users</Link><br/>
 		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/database_audit"}>Database Audit</Link><br/></Table></Box></div>
+		  <Link to={process.env.PUBLIC_URL+"/admin/database_audit"}>Database Audit</Link><br/>
+		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
+		</Table></Box></div>
 		<div className="w-75">
 			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
 				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class"/>
@@ -668,6 +670,11 @@ function AdminPanel(p) {
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/database_audit"}>
 				<TableEditor BACKENDURL={GetBackendURL(p)} path="/database_audit"/>
+			</Route>
+			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
+				<button style={{backgroundColor:"navy"}}>Apply TEST Database to LIVE Database</button><br/><br/>
+				<button style={{backgroundColor:"maroon"}}>Reset TEST database using current LIVE Database</button><br/><br/>
+				<button style={{backgroundColor:"darkgreen"}}>Backup current TEST and LIVE Database</button><br/><br/>
 			</Route>
 		</div>
 		</div>
@@ -836,7 +843,7 @@ function App() {
 	const [className,setClassName] = useState("RANGER")
 	const [secondaryClassName,setSecondaryClassName] = useState("FORCE")
 	
-	const [bp,setBP] = useState(1344)
+	const [bp,setBP] = useState(9999)
 	const [hp,setHP] = useState(289)
 	const [pp,setPP] = useState(100)
 	const [def,setDef] = useState(402)
@@ -884,7 +891,7 @@ function App() {
 
 	const [modalOpen,setModalOpen] = useState(true)
 
-	const [BACKENDURL,setBACKENDURL]=useState(process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504')
+	const [BACKENDURL]=useState(process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504')
 	const [TESTMODE,setTESTMODE] = useState(false)
 
   return (
@@ -897,7 +904,7 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
 					<TestHeader/>
-					<TestPanel/>
+					<TestPanel bp={bp} />
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
