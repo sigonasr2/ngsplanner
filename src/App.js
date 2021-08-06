@@ -22,6 +22,8 @@ import TestPanel from './TestPanel'; // Dudley's Test Panel
 const axios = require('axios');
 const parse = require('csv-parse/lib/sync')
 
+Function.prototype.toJSON = function() { return "Unstorable function" }
+
 /*
 Damage types
 const MELEE_DMG = 0
@@ -36,8 +38,10 @@ const STEP_COUNTER = 3
 const PARRY_COUNTER = 4
 //NOT USED YET*/
 
+const BACKENDURL=process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504'
+
 function GetBackendURL(p) {
-	return (process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504')+(p.TESTMODE?"/test":"")
+	return (BACKENDURL)+(p.TESTMODE?"/test":"")
 }
 
 function Col(p) {
@@ -714,7 +718,7 @@ function DamageCalculator(p) {
 			data.data.rows.forEach((entry)=>{augmentData[entry.name]=entry})
 			setAugmentData(augmentData)
 		})
-	},[])
+	},[p.BACKENDURL])
 
 	const character = {
 		weapon:{
@@ -851,16 +855,24 @@ function App() {
 	
 	const [author,setAuthor] = useState("Dudley")
 	const [buildName,setBuildName] = useState("Fatimah")
-	const [className,setClassName] = useState("RANGER")
-	const [secondaryClassName,setSecondaryClassName] = useState("FORCE")
+	const [className,setClassName] = useState("Ranger")
+	const [secondaryClassName,setSecondaryClassName] = useState("Force")
 	
-	const [bp,setBP] = useState(9999)
-	const [hp,setHP] = useState(289)
-	const [pp,setPP] = useState(100)
-	const [def,setDef] = useState(402)
-	const [weaponUp1,setWeaponUp1] = useState(0.34)
-	const [weaponUp2,setWeaponUp2] = useState(0.34)
-	const [weaponUp3,setWeaponUp3] = useState(0.34)
+	const [bp,setBP] = useState(1330)
+	const [hp,setHP] = useState(388)
+	const [pp,setPP] = useState(154)
+	const [weaponTotalAtk,setweaponTotalAtk] = useState(282)
+	const [baseAtk,setbaseAtk] = useState(650)
+	const [statDisplayAtk,setstatDisplayAtk] = useState(282)
+
+	useEffect(()=>{
+		setstatDisplayAtk(Number(weaponTotalAtk)+Number(baseAtk))
+	},[weaponTotalAtk,baseAtk])
+
+	const [def,setDef] = useState(932)
+	const [weaponUp1,setWeaponUp1] = useState(0.317)
+	const [weaponUp2,setWeaponUp2] = useState(0.241)
+	const [weaponUp3,setWeaponUp3] = useState(0.241)
 	const [damageResist,setDamageResist] = useState(0.18)
 	
 	const [effectList,setEffectList] = useState([
@@ -902,8 +914,21 @@ function App() {
 
 	const [modalOpen,setModalOpen] = useState(true)
 
-	const [BACKENDURL]=useState(process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504')
 	const [TESTMODE,setTESTMODE] = useState(false)
+	const [DATA,setDATA] = useState({GetData:()=>{}})
+
+
+	function GetData(table,row,col){
+		return DATA!==undefined?DATA[table]!==undefined?DATA[table][row]!==undefined?DATA[table][row][col]!==undefined?DATA[table][row][col]:DATA[table][row]:DATA[table]:DATA:"no data"
+	}
+	
+
+	useEffect(()=>{
+		axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/data")
+		.then((data)=>{
+			setDATA(data.data)
+		})
+	},[TESTMODE])
 
   return (
   	<>
@@ -911,11 +936,26 @@ function App() {
 			<Switch>
 				<Route path={process.env.PUBLIC_URL+"/admin"}>
 				<TestHeader/>
-					<AdminPanel BACKENDURL={BACKENDURL} TESTMODE={TESTMODE}/>
+					<AdminPanel BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
 					<TestHeader/>
-					<TestPanel bp={bp} className={className} secondaryClassName={secondaryClassName} />
+					<TestPanel
+					author={author} 
+					buildName={buildName} 
+					className={className} 
+					secondaryClassName={secondaryClassName} 
+					bp={bp} 
+					hp={hp} 
+					pp={pp} 
+					def={def} 
+					weaponUp1={weaponUp1} 
+					weaponUp2={weaponUp2} 
+					weaponUp3={weaponUp3} 
+					damageResist={damageResist} 
+					statDisplayAtk={statDisplayAtk} 
+					GetData={GetData}
+					/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
@@ -938,6 +978,13 @@ function App() {
 						<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKENDURL}
 						<br/><br/>
 						<Toggle className="testmode" defaultChecked={TESTMODE} value={TESTMODE} onChange={(t)=>{setTESTMODE(t.target.checked)}}/>Test Mode: {JSON.stringify(TESTMODE)}
+						<br/><br/>{"Fighter Icon URL: "+GetData("class","Fighter","icon")}
+						<br/><br/>Gunner Level Stats:{
+						[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+						.map((numb)=>{
+							var data=GetData("class_level_data","Gunner Lv."+numb);
+							return <><br/>{"Lv."+data.level+": "+data.hp+","+data.atk+","+data.def}</>
+						})}
 						</PopupWindow>
 					</div>
 				</Route>

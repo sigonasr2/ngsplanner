@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
 function DefaultTooltip(p) {
 	return <Tooltip className="jTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
@@ -20,6 +20,31 @@ function ExpandTooltip(p) {
 }
 
 function TestPanel(p) {
+const [bpGraphMax,setbpGraphMax] = useState(1000)
+const [hpGraphMax,sethpGraphMax] = useState(1000)
+const [ppGraphMax,setppGraphMax] = useState(1000)
+const [atkGraphMax,setatkGraphMax] = useState(1000)
+const [defGraphMax,setdefGraphMax] = useState(1000)
+
+
+useEffect(()=>{
+  if (p.bp>1000) {
+    setbpGraphMax(3000)
+    sethpGraphMax(3000)
+    setppGraphMax(3000)
+    setatkGraphMax(3000)
+    setdefGraphMax(3000)
+  } else {
+    setbpGraphMax(1000)
+    sethpGraphMax(1000)
+    setppGraphMax(1000)
+    setatkGraphMax(1000)
+    setdefGraphMax(1000)
+  }
+},[p.bp]) 
+
+console.log(p.GetData("class",p.className,"icon"))
+
     return ( //Futasuke is a genius
 <div className="main">
 <div className="containerA">
@@ -41,7 +66,7 @@ function TestPanel(p) {
   <tr>
     <td>Class</td>
     <td>
-    <img alt="" src="Ra.png" /> Ranger <br />
+    <img alt="" src={process.env.PUBLIC_URL+p.GetData("class",p.className,"icon")} />{p.className}<br />
     <img alt="" src="Fo.png" /> Force 
     </td>
     <td>
@@ -119,7 +144,7 @@ function TestPanel(p) {
 <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
 <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
 <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
-<li><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+<li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
 </ul>
 </div>
 <div className="pr">
@@ -142,37 +167,43 @@ function TestPanel(p) {
 <table className="statsInfo">
   <tr>
     <td>Battle Power</td>
-	<td className="ri">{p.bp}</td>
-    <td>&nbsp;</td>
+	<td>{p.bp}</td>
+  <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
   <tr>
     <td>HP</td>
-	<td>289</td>
-    <td>&nbsp;</td>
+	<td>{p.hp}</td>
+  <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
   <tr>
     <td>PP</td>
-    <td>100</td>
-    <td>&nbsp;</td>
+    <td>{p.pp}</td>
+    <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+  </tr>
+  <tr>
+    <td>Attack</td>
+    <td>{p.statDisplayAtk}</td>
+    <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
    <tr>
     <td>Defense</td>
-    <td>402</td>
-    <td>&nbsp;</td>
+    <td>{p.def}</td>
+    <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
    <tr>
     <td>Weapon Up</td>
-    <td className="statsMelWeaponUp"><span className="ye">+34%</span></td>
-    <td className="statsRngWeaponUp"><span className="ye">+34%</span></td>
+    <td className="statsMelWeaponUp"><span className="ye">+{(p.weaponUp1*100).toFixed(1)}%</span><br />
+    <span className="ye">+{(p.weaponUp3*100).toFixed(1)}%</span></td>
+    <td className="statsRngWeaponUp"><span className="ye">+{(p.weaponUp2*100).toFixed(1)}%</span></td>
   </tr>
   <tr>
-    <td></td>
-    <td className="statsTecWeaponUp"><span className="ye">+34%</span></td>
+    <td>Ailment Resist.</td>
+    <td>{p.damageResist}</td>
     <td>&nbsp;</td>
-  </tr>
+</tr>
     <tr>
     <td>Damage Resist.</td>
-    <td>18%</td>
+    <td>{p.damageResist}</td>
     <td>&nbsp;</td>
 </tr>
 </table>

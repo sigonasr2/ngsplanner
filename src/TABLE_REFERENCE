@@ -1,0 +1,48 @@
+class:
+        name    icon
+class_level_data:
+        class_id        level   hp      atk     def     name
+class_weapon_type_data:
+        class_id        weapon_type_id
+weapon:
+        name    rarity  level_req       atk     potential_id    variance        base_affix_slots        drop_info       pb_gauge_build icon
+weapon_existence_data:
+        weapon_type_id  weapon_id       popularity      editors_choice
+weapon_type:
+        name    dmg_type        icon
+photon_art:
+        name    weapon_type_id  potency dps     power_distribution      pp      frames
+armor:
+        name    rarity  level_req       def     hp      pp      mel_dmg rng_dmg tec_dmg crit_rate       crit_dmg        pp_cost_reduction      active_pp_recovery      natural_pp_recovery     dmg_res all_down_res    burn_res        freeze_res      blind_res      shock_res       panic_res       poison_res      battle_power_value      pb_gauge_build  icon    popularity      editors_choice
+potential:
+        name    icon
+potential_data:
+        potential_id    level   name    mel_dmg rng_dmg tec_dmg crit_rate       crit_dmg        pp_cost_reduction       active_pp_recovery     natural_pp_recovery     dmg_res all_down_res    burn_res        freeze_res      blind_res       shock_res     panic_res        poison_res      battle_power_value      pb_gauge_build
+builds:
+        users_id        creator build_name      class1  created_on      last_modified   data    class2  likes   editors_choice
+skill:
+        name    skill_type_id   icon
+skill_type:
+        name
+skill_data:
+        skill_id        level   name    variance        mel_dmg rng_dmg tec_dmg crit_rate       crit_dmg        pp_cost_reduction      active_pp_recovery      natural_pp_recovery     dmg_res popularity      editors_choice
+class_skill:
+        name    class_id        icon    description
+class_skill_data:
+        name    class_skill_id  level   dependency      effect  duration        cooldown        damage_taken    pa_potency    conditional_buff pp_recovery     property        all_damage_buff active_pp_recovery      status_ailment_accum    status_ailment_duration        pp_consumption  max_hp_decrease natural_pp_recovery     added_pp        pb_gauge_fortification
+augment:
+        augment_type_id name    variance        hp      pp      mel_dmg rng_dmg tec_dmg crit_rate       crit_dmg        pp_cost_reduction      active_pp_recovery      natural_pp_recovery     dmg_res affix_success_rate      all_down_res    burn_res      freeze_res       blind_res       shock_res       panic_res       poison_res      battle_power_value      pb_gauge_build  popularity     editors_choice
+augment_type:
+        name    icon
+enemy_data:
+        level   def     atk
+food:
+        name    potency pp      dmg_res hp      pp_consumption  pp_recovery     weak_point_dmg  hp_recovery     popularity    editors_choice
+food_mult:
+        amount  potency pp      dmg_res hp      pp_consumption  pp_recovery     weak_point_dmg  hp_recovery
+roles:
+        name
+users:
+        username        email   created_on      roles_id        avatar  editors_choice
+database_audit:
+        action  table_name      row_name        row_id  new_value       date    users_id        old_value

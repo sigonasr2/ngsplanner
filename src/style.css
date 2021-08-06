@@ -48,6 +48,9 @@ body {
 	text-align: center;
     -webkit-font-smoothing: antialiased;
 }
+table td {
+	vertical-align: top;
+}
 ul {
 	list-style-type: none;
 	padding-inline-start: 0;
@@ -181,11 +184,24 @@ em {
 .box td:last-child {
 	text-align: right;
 }
+.barGraph {
+	background: linear-gradient(90deg, #65beef, #f5ee3c);
+	display: block;
+	height: 8px;
+}
+.barOverlay {
+	border: 2px solid black;
+	display: block;
+	height: 8px;
+}
+.statsInfo {
+	table-layout:fixed;
+}
 .statsInfo td:nth-child(2) {
 	text-align: right;
 }
 .statsInfo td:last-child {
-	width: 45%;
+	min-width: 55%;
 }
 .statsInfo span {
 
@@ -256,9 +272,6 @@ em {
 }
 .da span:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-}
-.basicInfo td {
-	vertical-align: top;
 }
 .basicInfo tr:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));	
@@ -891,7 +904,7 @@ button{
 .table-responsive table {
 	background-color: rgba(20,29,40,0.66);
 }
-.table{
+.table {
 	border: 1px solid black;
 	border-spacing:1px;
 }
@@ -1107,3 +1120,6 @@ p.adminNav hr {
   .testmode.react-toggle--checked .react-toggle-track:hover {
 	background-color: #00AADD;
   }
+.addAug{
+	height: 37px;
+}
