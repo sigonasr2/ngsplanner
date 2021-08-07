@@ -49,11 +49,11 @@ img {
     -webkit-font-smoothing: antialiased;
 }*/
 body {
-    background-image: url("./icons/d_global_bg_header.png"),url("https://i.imgur.com/3OizLd8.jpg");
-    background-size: 1903px,2560px;
+    background-image: url("https://i.imgur.com/3OizLd8.jpg");
 	background-color: #e8ecf4;
-    background-repeat: no-repeat,repeat-y;
+    background-repeat: no-repeat;
     background-position: center center;
+	background-at
 	color: black;
     font-family: ngs,Arial,sans-serif;
 	font-size: 11pt;
@@ -165,7 +165,7 @@ em {
 	/*min-width: 300px;*/
 	/*max-width: 500px;*/
 	padding-bottom:10px;
-	filter: drop-shadow(0 30px 15px black);
+	filter: drop-shadow(0 10px 10px black);
 }
 /* box hover, save bcuz i will use this in popup menu
 .box:hover {
