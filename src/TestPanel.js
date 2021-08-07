@@ -146,8 +146,8 @@ const [author,setauthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
 const [className,setclassName] = useState("Hunter")
 const [subclassName,setsubclassName] = useState("Force")
-const [level,setLevel] = useState(1)
-const [secondaryLevel,setsecondaryLevel] = useState(1)
+const [level,setLevel] = useState(20)
+const [secondaryLevel,setsecondaryLevel] = useState(20)
 
 const [effectPage,setEffectPage] = useState(1)
 const [weaponPage,setWeaponPage] = useState(1)
@@ -271,7 +271,7 @@ useEffect(()=>{
 <div className="boxExit"></div>
 </div>
 <div className="equipPalette">
-	<div className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
+	<div onClick={()=>{setModalOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>

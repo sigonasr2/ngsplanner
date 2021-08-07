@@ -596,8 +596,8 @@ li.r4 {
 	outline: 2px solid hsl(180, 78%, 50%);
 }
 li.selected:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	border-bottom: 0;
+	background: linear-gradient(135deg,#60461b,#b0a34e);
+	outline: 2px solid hsl(180, 78%, 50%);
 }
 .itemBar {
 	justify-content: center;
@@ -956,17 +956,23 @@ button{
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,.9);
+    background: rgba(0,0,0,0.6);
 	display: grid;
 	justify-items: stretch;
 	justify-content: stretch;    
 	grid-template-columns: 10px 1fr 10px;
 	grid-template-rows: 10px minmax(0, 1fr) 10px;
+	animation: fadeIn 0.15s;
 }
+  @keyframes fadeIn {
+	0% {opacity:0;top:-30px;}
+	100% {opacity:1;top:0;}
+  }
 .modal {
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
+	filter: drop-shadow(0 30px 15px black);
   }
 .boxModal {
 	max-width: 580px;
