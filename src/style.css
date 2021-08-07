@@ -153,12 +153,14 @@ em {
 	/*max-width: 500px;*/
 	padding-bottom:10px;
 }
+/* box hover, save bcuz i will use this in popup menu
 .box:hover {
 	outline: 1px solid rgba(54,255,255,1);
 }
 .box:hover .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,1),rgba(46,94,137,1) 30%,rgba(46,94,137,1) 70%, rgba(47,153,193,1));
 }
+*/
 .box table {
     border-spacing: 0;
 	color: white;
@@ -261,7 +263,15 @@ em {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 }
 .basicInfo {
+	table-layout:fixed;
+	width: 100%;
 	line-height: 23px;
+}
+.basicInfo td:nth-child(2) {
+
+}
+.basicInfo td:nth-child(3) {
+	width: 33%;
 }
 /*.basicInfo tr:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));	
@@ -574,7 +584,7 @@ li.r4 {
 .boxmenu img {
 	vertical-align: middle;
 }
-.boxmenu li:first-child {
+.selected {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
 	border-bottom: 4px solid #ffd602;
 }
@@ -885,6 +895,7 @@ input#editBoxInput {
 	max-width: 250px;
 	min-width: 100px;
 	padding: 20px;
+	
 }
 .popup button{
 	margin:5px;
