@@ -430,7 +430,7 @@ useEffect(()=>{
 <input className="itemBarForm" type="text" placeholder="Filter" />
 </div>
 </div>
-<div className="itemlistcontainer customScrollbar">
+<div className="modalItemListContainer customScrollbar">
 <ul className="itemlist">
 <li className="itemwep r1"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">Primm Rifle</em><br /><span className="atk">177</span>					<span className="pot tooltip">Recycler Unit<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>
 <li className="itemwep r2"><img className="itemimg" alt="" src="64px-NGSUIItemTzviaRifle.png" /><em className="rifle">Tzvia Rifle</em><br /><span className="atk">195</span>					<span className="pot tooltip">Indomitable Unit<span>Lv.4: Potency +26%/<br />All Down Resistances +20%</span></span></li>

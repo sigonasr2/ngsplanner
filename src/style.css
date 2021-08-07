@@ -950,6 +950,8 @@ button{
 	flex-basis: 200px;
 	max-width: 580px;
 	outline: 0;
+	height: 95vh;
+	margin: 0 10px;
   }
 .modalOverlay {
     position: fixed;
@@ -957,14 +959,19 @@ button{
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,.80);
-
+    background: rgba(0,0,0,.9);
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
 }
 .boxModal {
-
+}
+.modalItemListContainer {
+		overflow-y: auto;
+		overflow-x: hidden;
+		margin: 10px 5px 0 0;
+		padding: 2px;
+		max-height: calc(90vh - 115px);
 }
 .webicon{
 	color:maroon;
