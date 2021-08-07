@@ -913,7 +913,7 @@ input#editBoxInput {
 	flex-wrap: wrap;
 }
 .popup2{
-	z-index:5;
+	z-index:999;
 	position: absolute;
 	background-color: rgba(128,128,128,0.9);
 	max-width: 250px;
@@ -970,11 +970,11 @@ button{
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8));
 	display: grid;
 	justify-items: stretch;
 	justify-content: stretch;    
-	grid-template-columns: 10px 1fr 10px;
+	grid-template-columns: 1fr minmax(200px, 580px) 1fr;
 	grid-template-rows: 10px minmax(0, 1fr) 10px;
 	animation: fadeIn 0.15s;
 }
@@ -986,7 +986,7 @@ button{
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
-	filter: drop-shadow(0 30px 15px black);
+	filter: drop-shadow(0 20px 20px black);
   }
 .boxModal {
 	max-width: 580px;
