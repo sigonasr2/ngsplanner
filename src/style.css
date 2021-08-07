@@ -165,7 +165,7 @@ em {
 	/*min-width: 300px;*/
 	/*max-width: 500px;*/
 	padding-bottom:10px;
-	filter: drop-shadow(0 5px 5px black);
+	filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));
 }
 /* box hover, save bcuz i will use this in popup menu
 .box:hover {
@@ -337,6 +337,7 @@ em {
 }
 .equipPaletteSlotWrapper {
 	background-color: rgba(128,128,128,0.50);
+	cursor:pointer;
 	padding: 10px;
 }
 .equipPaletteSlotWrapper span {

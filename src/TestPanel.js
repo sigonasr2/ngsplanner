@@ -152,7 +152,7 @@ const [effectPage,setEffectPage] = useState(1)
 const [weaponPage,setWeaponPage] = useState(1)
 const [statPage,setStatPage] = useState(1)
 
-const [modalOpen,setModalOpen] = useState(true)
+const [modalOpen,setModalOpen] = useState(false)
 const [tabPage,setTabPage] = useState(1)
 const [sortSelector,setSortSelector] = useState("Standard Sort")
 const sortItems=[
