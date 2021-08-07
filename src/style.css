@@ -569,7 +569,7 @@ li.r4 {
 	margin: 0 10px 0 10px;
 	justify-content: flex-start;
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: row nowrap;
 }
 .boxmenu li {
 	background-color: rgba(245, 245, 245,0.66);
@@ -578,7 +578,7 @@ li.r4 {
 	margin: 10px 5px 0 0;
 	padding: 5px;
 	text-align: center;
-	flex-basis: 57px;
+	flex-basis: 27px;
 	white-space: nowrap;
 }
 .boxmenu img {
@@ -588,11 +588,17 @@ li.r4 {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
 	border-bottom: 4px solid #ffd602;
 }
-.boxmenu li:hover {
+.unselected:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	border-bottom: 0;
 	padding-bottom: 9px;
 	outline: 2px solid hsl(180, 78%, 50%);
+}
+li.selected:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	border-bottom: 0;
+	background: linear-gradient(135deg,#60461b,#b0a34e);
+	border-bottom: 4px solid #ffd602;
 }
 .itemBar {
 	justify-content: center;
@@ -955,21 +961,17 @@ button{
 	display: grid;
 	justify-items: stretch;
 	justify-content: stretch;    
-	grid-template-columns: 10px auto 10px;
-	grid-template-rows: 10px auto 10px;
-	grid-template-areas: 
-    ". . ."
-    ". main ."
-    ". . .";
+	grid-template-columns: 10px 1fr 10px;
+	grid-template-rows: 10px minmax(0, 1fr) 10px;
 }
 .modal {
-	background-color: purple;
-	max-width: 580px;
 	outline: 0;
-	grid-area: main;
+	grid-column: 2;
+	grid-row: 2;
   }
 .boxModal {
-
+	max-width: 580px;
+	margin: 0 auto;
 }
 .modalItemListContainer {
 		overflow-y: auto;
