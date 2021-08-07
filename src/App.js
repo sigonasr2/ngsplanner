@@ -22,8 +22,6 @@ import TestPanel from './TestPanel'; // Dudley's Test Panel
 const axios = require('axios');
 const parse = require('csv-parse/lib/sync')
 
-Function.prototype.toJSON = function() { return "Unstorable function" }
-
 /*
 Damage types
 const MELEE_DMG = 0
@@ -579,7 +577,7 @@ function DatabaseEditor(p) {
 			})
 			setUpdate(false)
 		}
-	},[update])
+	},[update,p.BACKENDURL])
 
 	return <>
 		{!loading?<>
@@ -655,6 +653,8 @@ function DatabaseEditor(p) {
 						setLoading(false)
 					})
 				}}><CloudUploadFill/> Restore</button></span><br/></>
+			} else {
+				return <></>
 			}
 		})}
 	</>
@@ -945,15 +945,15 @@ function App() {
 	const [buildName,setBuildName] = useState("Fatimah")
 	const [className,setClassName] = useState("Ranger")
 	const [secondaryClassName,setSecondaryClassName] = useState("Force")
-	const [classLv,setClassLv] = useState(20)
-	const [secondaryClassLv,setSecondaryClassLv] = useState(15)
+	const [classLv] = useState(20)
+	const [secondaryClassLv] = useState(15)
 		
 	
 	const [bp,setBP] = useState(1330)
 	const [hp,setHP] = useState(388)
 	const [pp,setPP] = useState(154)
-	const [weaponTotalAtk,setweaponTotalAtk] = useState(282)
-	const [baseAtk,setbaseAtk] = useState(650)
+	const [weaponTotalAtk] = useState(282)
+	const [baseAtk] = useState(650)
 	const [statDisplayAtk,setstatDisplayAtk] = useState(282)
 
 	useEffect(()=>{

@@ -1,7 +1,6 @@
 import React, { useEffect,useState,useRef } from 'react';
 import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
 import Modal from 'react-modal'
-import {XSquare} from 'react-bootstrap-icons'
 
 /**
  * Hook that alerts clicks outside of the passed ref
@@ -94,7 +93,7 @@ function ExpandTooltip(p) {
 function Class(p) {
   const CLASSES = p.GetData("class")
 	const class_obj = CLASSES[p.name]
-	return class_obj?<><img src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>
+	return class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>
 }
 
 function ClassSelector(p){
@@ -105,7 +104,7 @@ function ClassSelector(p){
     Class Selector<hr/>
       <div className="popup">
         {Object.keys(CLASSES).map((cl,i)=>{
-        return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+        return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
         })}
       </div>
     </div>
@@ -192,7 +191,7 @@ useEffect(()=>{
       return [weapon_type,weapon,potential]
     }))
   }
-},[p.GetData])
+},[p])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -245,19 +244,19 @@ useEffect(()=>{
 	{
     effectPage===1?<><li>Food Boost Effect
       <ul>
-        <li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-        <li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+        <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+        <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
       </ul>
     </li>
     <li>Shifta / Deband
       <ul>
-        <li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
-        <li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
+        <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
+        <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
       </ul>
     </li>
     <li>Region Mag Boost
       <ul>
-        <li><img src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
+        <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
       </ul>
     </li></>:<></>
   }
@@ -271,10 +270,10 @@ useEffect(()=>{
 <div className="boxExit"></div>
 </div>
 <div className="equipPalette">
-	<div onClick={()=>{setModalOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
+	<div onClick={()=>{setModalOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
 </div>
 </div>
 <div className="box">
@@ -289,23 +288,23 @@ useEffect(()=>{
 <h3>Abilitiy Details</h3>
 {weaponPage===1?
   <ul>
-  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
-  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
-  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
-  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
-  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
-  <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
+  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
+  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
+  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
+  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
+  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
+  <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
   </ul>
 :
   <ul>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
 </ul>
 }
 </div>
@@ -361,9 +360,9 @@ useEffect(()=>{
   </tr>
    <tr>
     <td>Weapon Up</td>
-    <td><img src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
-    <img src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
-    <td><img src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
+    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
+    <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
+    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
     <td>&nbsp;</td>
   </tr>
   <tr>
@@ -461,16 +460,16 @@ useEffect(()=>{
     switch (tabPage) {
       case 2:{
         return item[0].name==="Assault Rifle"
-      }break;
+      }
       case 3:{
         return item[0].name==="Launcher"
-      }break;
+      }
       case 4:{
         return item[0].name==="Rod"
-      }break;
+      }
       case 5:{
         return item[0].name==="Talis"
-      }break;
+      }
       default:{
         return true
       }
@@ -485,10 +484,10 @@ useEffect(()=>{
     switch (sortSelector) {
       case "Rarity":{
         return b[1].rarity-a[1].rarity
-      }break;
+      }
       case "Attack":{
         return b[1].atk-a[1].atk
-      }break;
+      }
       default:{
         return 0
       }
