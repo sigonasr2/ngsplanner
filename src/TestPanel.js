@@ -200,9 +200,7 @@ useEffect(()=>{
 <div className="containerA">
 <div className="box">
 <div className="boxTitleBar">
-<h1>Basic Information</h1>
-<div className="boxExit"></div>
-</div>
+<h1>Basic Information</h1></div>
 
 <table className="basicInfo">
   <tr>
@@ -235,9 +233,7 @@ useEffect(()=>{
 </div>
 <div className="box">
 <div className="boxTitleBar">
-<h1>Current Effects</h1>
-<div className="boxExit"></div>
-</div>
+<h1>Current Effects</h1></div>
 <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
 <h3>Effect Name</h3>
 <ul className="infoBuffs">
@@ -266,9 +262,7 @@ useEffect(()=>{
 <div className="containerB">
 <div className="box">
 <div className="boxTitleBar">
-<h1>Equip</h1>
-<div className="boxExit"></div>
-</div>
+<h1>Equip</h1></div>
 <div className="equipPalette">
 	<div onClick={()=>{setModalOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
@@ -278,9 +272,7 @@ useEffect(()=>{
 </div>
 <div className="box">
 <div className="boxTitleBar">
-<h1>Equipped Weapon</h1>
-<div className="boxExit"></div>
-</div>
+<h1>Equipped Weapon</h1></div>
 <h2 className="rifle">Resurgir Rifle+40</h2>
 <PageControl pages={6} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
 <div className="equipDetails">
@@ -329,9 +321,7 @@ useEffect(()=>{
 <div className="containerC">
 <div className="box">
 <div className="boxTitleBar">
-<h1>Basic Stats</h1>
-<div className="boxExit"></div>
-</div>
+<h1>Basic Stats</h1></div>
 <table className="statsInfo">
   <tr>
     <td>Battle Power</td>
@@ -381,9 +371,7 @@ useEffect(()=>{
 </div>
 <div className="box">
 <div className="boxTitleBar">
-<h1>Damage Stats</h1>
-<div className="boxExit"></div>
-</div>
+<h1>Damage Stats</h1></div>
 <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
 <table className="basicInfo">
   {statPage===1?<>

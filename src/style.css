@@ -165,7 +165,7 @@ em {
 	/*min-width: 300px;*/
 	/*max-width: 500px;*/
 	padding-bottom:10px;
-/*	filter: drop-shadow(0 10px 10px black);*/
+	filter: drop-shadow(0 5px 5px black);
 }
 /* box hover, save bcuz i will use this in popup menu
 .box:hover {
@@ -221,9 +221,9 @@ em {
 .statsInfo td:nth-child(3) {
 	width: 50%;
 }
-.statsInfo span {
+/*.statsInfo span {
 
-}
+}*/
 .boxTitleBar {
 	/* background-color: #495a61; */
 	background-color: rgba(128,128,128,0.50);
@@ -986,7 +986,7 @@ button{
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
-	filter: drop-shadow(0 20px 20px black);
+	filter: drop-shadow(0 15px 20px black);
   }
 .boxModal {
 	max-width: 580px;
