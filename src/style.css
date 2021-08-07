@@ -35,12 +35,25 @@ hr {
 img {
 	vertical-align: middle;
 }
-body {
+/*body {
     background-image: url("./icons/d_global_bg_header.png"),url("./icons/gl_main_bg.jpg");
     background-size: 1903px,2560px;
 	background-color: #e8ecf4;
     background-repeat: no-repeat,repeat-y;
     background-position: center 40px;
+	color: black;
+    font-family: ngs,Arial,sans-serif;
+	font-size: 11pt;
+	font-weight: normal;
+	text-align: center;
+    -webkit-font-smoothing: antialiased;
+}*/
+body {
+    background-image: url("./icons/d_global_bg_header.png"),url("https://i.imgur.com/3OizLd8.jpg");
+    background-size: 1903px,2560px;
+	background-color: #e8ecf4;
+    background-repeat: no-repeat,repeat-y;
+    background-position: center center;
 	color: black;
     font-family: ngs,Arial,sans-serif;
 	font-size: 11pt;
@@ -152,6 +165,7 @@ em {
 	/*min-width: 300px;*/
 	/*max-width: 500px;*/
 	padding-bottom:10px;
+	filter: drop-shadow(0 30px 15px black);
 }
 /* box hover, save bcuz i will use this in popup menu
 .box:hover {
