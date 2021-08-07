@@ -870,17 +870,17 @@ input#editBoxInput {
 	width: 100%;
 }
 .editClass {
+	position: relative;
 	display: inline-block;
 	width: 100%;
 }
 .editClass:hover{
-	display: inline-block;
 	background-color:rgba(0,0,0,0.5);
 	cursor:pointer;
 	outline: 2px solid #30cdef;
 }
 .popup{
-	position:absolute;
+	position: absolute;
 	background-color: rgba(128,128,128,0.9);
 	max-width: 250px;
 	min-width: 100px;

@@ -34,7 +34,7 @@ function EditBox(p) {
 			clearTimeout(timer1);
 		};
 	})
-	return <input id="editBoxInput" onKeyDown={(e)=>{
+	return <input id="editBoxInput" type={p.type} max={p.type==="number"?20:undefined} min={p.type==="number"?1:undefined} onKeyDown={(e)=>{
 		if (e.key==="Enter") {p.setEdit(false)}
 		else if (e.key==="Escape") {p.setEdit(false)}
 	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
@@ -53,8 +53,8 @@ function EditBoxInput(p) {
 	return <>
 		<div className={edit?"editBoxActive":"editBox"} onClick={(f)=>{setEdit(true)}}>
 			{edit?
-			<EditBox maxlength={p.maxlength} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
-			:<>{p.data}</>}
+			<EditBox maxlength={p.maxlength} type={p.type} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
+			:<>{p.prefix}{p.data}</>}
 		</div>
 	</>
 }
@@ -85,12 +85,14 @@ const [defGraphMax,setdefGraphMax] = useState(1000)
 const [author,setauthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
 const [className,setclassName] = useState("Hunter")
-const [subclassName,setsubclassName] = useState("")
+const [subclassName,setsubclassName] = useState("Force")
+const [level,setLevel] = useState(1)
+const [secondaryLevel,setsecondaryLevel] = useState(1)
 
 function Class(p) {
   const CLASSES = p.GetData("class")
 	const class_obj = CLASSES[p.name]
-	return class_obj?<><img src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<><span>itor</span></>
+	return class_obj?<><img src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>
 }
 
 function ClassSelector(p){
@@ -152,12 +154,19 @@ useEffect(()=>{
   <tr>
     <td>Class</td>
     <td>
-    <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass><br />
+    <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
+    </td>
+    <td>
+    <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
+    </td>
+  </tr>
+  <tr>
+    <td>Sub-Class</td>
+    <td>
     <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
     </td>
     <td>
-    <span className="ye">Lv.{p.classLv}</span><br />
-    Lv.{p.secondaryClassLv}
+    <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
     </td>
   </tr>
 </table>
