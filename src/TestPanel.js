@@ -101,12 +101,15 @@ function ClassSelector(p){
   const CLASSES = p.GetData("class")
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef,p.setEdit);
-	return <div className="popup" ref={wrapperRef}>
-		Class Selector<br/>
-		{Object.keys(CLASSES).map((cl,i)=>{
-		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
-		})}
-	</div>
+	return <><div className="popup2" ref={wrapperRef}>
+    Class Selector<hr/>
+      <div className="popup">
+        {Object.keys(CLASSES).map((cl,i)=>{
+        return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+        })}
+      </div>
+    </div>
+  </>
 }
 
 function EditableClass(p){
@@ -119,7 +122,7 @@ function EditableClass(p){
 
 function PopupWindow(p) {
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-<div className="box">
+<div className="box boxModal">
 <div className="boxTitleBar">
 <h1>{p.title}</h1>
 {p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}

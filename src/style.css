@@ -549,17 +549,17 @@ li.r4 {
 	clear: both;
 }
 .itemlistcontainer {
-	max-height: 400px;
+/*	max-height: 400px;*/
 	overflow-y: scroll;
 	overflow-x: hidden;
 	margin: 10px 5px 0 0;
 	padding: 2px;
-}
+}/*
 @media screen and (min-width:390px) and (max-width:860px) {
 .itemlistcontainer {
 	max-height: 300px;
 }
-}
+}*/
 .itemlist li:hover, .treeList li:hover {
 	background-color: rgba(113,169,189,0.33);
 	outline: 2px solid rgba(54,255,255,0.66);
@@ -890,12 +890,16 @@ input#editBoxInput {
 	outline: 2px solid #30cdef;
 }
 .popup{
+	display: flex;
+	flex-wrap: wrap;
+}
+.popup2{
+	z-index:5;
 	position: absolute;
 	background-color: rgba(128,128,128,0.9);
 	max-width: 250px;
 	min-width: 100px;
 	padding: 20px;
-	
 }
 .popup button{
 	margin:5px;
@@ -942,16 +946,10 @@ button{
 	padding: 4px;
 }
 .modal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: papayawhip;
+	flex-grow: 1;
+	flex-basis: 200px;
+	max-width: 580px;
 	outline: 0;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: center;
   }
 .modalOverlay {
     position: fixed;
@@ -959,7 +957,14 @@ button{
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,.33);
+    background: rgba(0,0,0,.80);
+
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+}
+.boxModal {
+
 }
 .webicon{
 	color:maroon;
