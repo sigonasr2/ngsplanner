@@ -35,7 +35,7 @@ hr {
 img {
 	vertical-align: middle;
 }
-/*body {
+body {
     background-image: url("./icons/d_global_bg_header.png"),url("./icons/gl_main_bg.jpg");
     background-size: 1903px,2560px;
 	background-color: #e8ecf4;
@@ -47,8 +47,8 @@ img {
 	font-weight: normal;
 	text-align: center;
     -webkit-font-smoothing: antialiased;
-}*/
-body {
+}
+/*body {
     background-image: url("https://i.imgur.com/3OizLd8.jpg");
 	background-color: #e8ecf4;
     background-repeat: no-repeat;
@@ -60,7 +60,7 @@ body {
 	font-weight: normal;
 	text-align: center;
     -webkit-font-smoothing: antialiased;
-}
+}*/
 table td {
 	vertical-align: top;
 }
@@ -165,7 +165,7 @@ em {
 	/*min-width: 300px;*/
 	/*max-width: 500px;*/
 	padding-bottom:10px;
-	filter: drop-shadow(0 10px 10px black);
+/*	filter: drop-shadow(0 10px 10px black);*/
 }
 /* box hover, save bcuz i will use this in popup menu
 .box:hover {
@@ -974,7 +974,7 @@ button{
 	display: grid;
 	justify-items: stretch;
 	justify-content: stretch;    
-	grid-template-columns: 1fr minmax(200px, 580px) 1fr;
+	grid-template-columns: minmax(10px, 1fr) minmax(200px, 580px) minmax(10px, 1fr);
 	grid-template-rows: 10px minmax(0, 1fr) 10px;
 	animation: fadeIn 0.15s;
 }
