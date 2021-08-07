@@ -945,14 +945,6 @@ button{
 .table-padding{
 	padding: 4px;
 }
-.modal {
-	flex-grow: 1;
-	flex-basis: 200px;
-	max-width: 580px;
-	outline: 0;
-	height: 95vh;
-	margin: 0 10px;
-  }
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -960,11 +952,24 @@ button{
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,.9);
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: center;
+	display: grid;
+	justify-items: stretch;
+	justify-content: stretch;    
+	grid-template-columns: 10px auto 10px;
+	grid-template-rows: 10px auto 10px;
+	grid-template-areas: 
+    ". . ."
+    ". main ."
+    ". . .";
 }
+.modal {
+	background-color: purple;
+	max-width: 580px;
+	outline: 0;
+	grid-area: main;
+  }
 .boxModal {
+
 }
 .modalItemListContainer {
 		overflow-y: auto;

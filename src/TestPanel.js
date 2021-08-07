@@ -121,25 +121,28 @@ function EditableClass(p){
 }
 
 function PopupWindow(p) {
+  const [filter,setFilter] = useState("")
+  const [page,setPage] = useState(1)
+
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-<div className="box boxModal">
-<div className="boxTitleBar">
-<h1>{p.title}</h1>
-{p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
-</div>
-<PageControl pages={p.pageNames.length} pageNames={p.pageNames}/>
-<div className="itemBar">
-<div className="itemBarSort">
-<select className="itemBarForm">
-  {p.sortItems.map((item)=><option>{item.name}</option>)}
-</select>
-</div>
-<div className="itemBarFilter">
-{p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" />}
-</div>
-</div>
-{p.children}
-</div>
+    <div className="box boxModal">
+    <div className="boxTitleBar">
+    <h1>{p.title}</h1>
+    {p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
+    </div>
+    <PageControl  pages={p.pageNames.length} pageNames={p.pageNames}  currentPage={page} setCurrentPage={setPage}/>
+    <div className="itemBar">
+      <div className="itemBarSort">
+        <select className="itemBarForm">
+          {p.sortItems.map((item)=><option value={item.name}>{item.name}</option>)}
+        </select>
+      </div>
+      <div className="itemBarFilter">
+        {p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
+      </div>
+    </div>
+    {p.children}
+  </div>
 	</Modal>
 } 
 

@@ -555,7 +555,7 @@ function TableEditor(p) {
 						}} value={String(dat[col.name])}/></td>)}</tr>)}
 			  </tbody>
 			</table>
-		</div>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>}
+		</div>:<><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/></>}
 	</>
 }
 
