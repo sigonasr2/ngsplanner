@@ -36,7 +36,7 @@ img {
 	vertical-align: middle;
 }
 body {
-    background-image: url("../public/icons/d_global_bg_header.png"),url("../public/icons/gl_main_bg.jpg");
+    background-image: url("./icons/d_global_bg_header.png"),url("./icons/gl_main_bg.jpg");
     background-size: 1903px,2560px;
 	background-color: #e8ecf4;
     background-repeat: no-repeat,repeat-y;
@@ -442,7 +442,7 @@ em {
 	text-overflow: ellipsis;
 }
 .aug:before {
-	content:url("../public/icons/UINGSItemSpecialAbility.png");
+	content:url("./icons/UINGSItemSpecialAbility.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -457,17 +457,17 @@ em {
 	clear:both;
 }
 .rifle:before {
-    content: url("../public/icons/NGSUIItemAssaultRifleMini.png");
+    content: url("./icons/NGSUIItemAssaultRifleMini.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
 .gb:before {
-    content: url("../public/icons/NGSUIItemGunbladeMini.png");
+    content: url("./icons/NGSUIItemGunbladeMini.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
 .vege:before {
-    content: url("../public/icons/food/vege.png");
+    content: url("./icons/food/vege.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -480,25 +480,25 @@ em {
 	box-sizing: content-box;
 }
 li.r1 {
-    background-image: url("../public/icons/NGSUIRarity1Star.png");
+    background-image: url("./icons/NGSUIRarity1Star.png");
 }
 .r1 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
 }
 li.r2 {
-    background-image: url("../public/icons/NGSUIRarity2Star.png");
+    background-image: url("./icons/NGSUIRarity2Star.png");
 }
 .r2 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
 }
 li.r3 {
-    background-image: url("../public/icons/NGSUIRarity3Star.png");
+    background-image: url("./icons/NGSUIRarity3Star.png");
 }
 .r3 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
 }
 li.r4 {
-    background-image: url("../public/icons/NGSUIRarity4Star.png");
+    background-image: url("./icons/NGSUIRarity4Star.png");
 }
 .r4 img  {
 	background: radial-gradient(rgb(101,178,77),rgb(83,146,63));
@@ -525,7 +525,7 @@ li.r4 {
 	margin-right: 10px;
 }
 .atk:before {
-	content: url("../public/icons/NGSUIStatATKOutline.png");
+	content: url("./icons/NGSUIStatATKOutline.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -533,7 +533,7 @@ li.r4 {
 	color: rgb(255,135,80);
 }
 .fixa:before {
-	content: url("../public/icons/UINGSItemPresetAbility.png");
+	content: url("./icons/UINGSItemPresetAbility.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -541,7 +541,7 @@ li.r4 {
 	color: rgb(255,255,0);
 }
 .pot:before {
-	content: url("../public/icons/NGSUIItemPotentialAbility.png");
+	content: url("./icons/NGSUIItemPotentialAbility.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -704,10 +704,10 @@ option {
 	background-origin: content-box;
 }
 li.treeListMain {
-	background-image: url("../public/icons/class_main.png");
+	background-image: url("./icons/class_main.png");
 }
 li.treeListSub {
-	background-image: url("../public/icons/class_sub.png");
+	background-image: url("./icons/class_sub.png");
 }
 .treeList li img {
 	vertical-align: middle;
@@ -763,7 +763,7 @@ div.skillMaxed {
 .skillTreeGrid div:hover {
 	outline: 2px solid rgba(54,255,255,0.66);
 	background-color: rgba(113,169,189,0.33);
-	background-image: url("../public/icons/skilltree_div_overlay.png");
+	background-image: url("./icons/skilltree_div_overlay.png");
 	background-repeat: no-repeat;
 }
 .skillTreeGrid div.skillActive:hover, .skillTreeGrid div.skillMaxed:hover  {
@@ -793,7 +793,7 @@ div.skillMaxed .skillAllocated {
 	position: absolute;
 	height: 22px;
 	width: 175px;
-	background-image: url("../public/icons/skilltree_req_unlock.png");
+	background-image: url("./icons/skilltree_req_unlock.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	top: -34px;
@@ -805,7 +805,7 @@ div.skillMaxed .skillAllocated {
 	position: absolute;
 	height: 22px;
 	width: 175px;
-	background-image: url("../public/icons/skilltree_req_lock.png");
+	background-image: url("./icons/skilltree_req_lock.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	top: -34px;
@@ -895,7 +895,7 @@ input#editBoxInput {
 	max-width: 250px;
 	min-width: 100px;
 	padding: 20px;
-	z-index: 2;
+	
 }
 .popup button{
 	margin:5px;

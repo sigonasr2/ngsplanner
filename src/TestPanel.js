@@ -33,7 +33,7 @@ function EditBox(p) {
 		return () => {
 			clearTimeout(timer1);
 		};
-	},[p.edit])
+	})
 	return <input id="editBoxInput" type={p.type} max={p.type==="number"?20:undefined} min={p.type==="number"?1:undefined} onKeyDown={(e)=>{
 		if (e.key==="Enter") {p.setEdit(false)}
 		else if (e.key==="Escape") {p.setEdit(false)}
@@ -53,7 +53,7 @@ function EditBoxInput(p) {
 	return <>
 		<div className={edit?"editBoxActive":"editBox"} onClick={(f)=>{setEdit(true)}}>
 			{edit?
-			<EditBox maxlength={p.maxlength} type={p.type} edit={edit} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
+			<EditBox maxlength={p.maxlength} type={p.type} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
 			:<>{p.prefix}{p.data}</>}
 		</div>
 	</>
@@ -86,11 +86,8 @@ const [author,setauthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
 const [className,setclassName] = useState("Hunter")
 const [subclassName,setsubclassName] = useState("Force")
-const [level,setLevel] = useState(20)
-const [secondaryLevel,setsecondaryLevel] = useState(20)
-const [effectPage,setEffectPage]=useState(1)
-const [weaponPage,setWeaponPage]=useState(1)
-const [statsPage,setStatsPage]=useState(1)
+const [level,setLevel] = useState(1)
+const [secondaryLevel,setsecondaryLevel] = useState(1)
 
 function Class(p) {
   const CLASSES = p.GetData("class")
@@ -118,21 +115,6 @@ function EditableClass(p){
 	</>
 }
 
-
-function PageControlButton(p) {
-	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
-}
-
-function PageControl(p) {
-	var pages = []
-	for (var i=0;i<p.pages;i++) {
-		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
-	}
-	return <ul className="boxmenu">
-			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
-		</ul>
-}
-
 useEffect(()=>{
   if (p.bp>1000) {
     setbpGraphMax(3000)
@@ -157,7 +139,9 @@ useEffect(()=>{
 <div className="box">
 <div className="boxTitleBar">
 <h1>Basic Information</h1>
+<div className="boxExit"></div>
 </div>
+
 <table className="basicInfo">
   <tr>
     <td>Author</td>
@@ -173,7 +157,7 @@ useEffect(()=>{
     <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
     </td>
     <td>
-    <span className="ye"><EditBoxInput callback={()=>{if (level<1) {setLevel(1)} else if (level>20) {setLevel(20)}}} prefix="Lv." setData={setLevel} data={level} type="number"/></span>
+    <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
     </td>
   </tr>
   <tr>
@@ -182,7 +166,7 @@ useEffect(()=>{
     <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
     </td>
     <td>
-    <EditBoxInput callback={()=>{if (level<1) {setLevel(1)} else if (level>20) {setLevel(20)}}}  prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
+    <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
     </td>
   </tr>
 </table>
@@ -190,12 +174,15 @@ useEffect(()=>{
 <div className="box">
 <div className="boxTitleBar">
 <h1>Current Effects</h1>
+<div className="boxExit"></div>
 </div>
-<PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
+<ul className="boxmenu">
+<li>1</li>
+<li>2</li>
+</ul>
 <h3>Effect Name</h3>
 <ul className="infoBuffs">
-{ 
-  effectPage===1?<><li>Food Bost Effect
+	<li>Food Bost Effect
 		<ul>
 			<li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
 			<li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
@@ -211,8 +198,7 @@ useEffect(()=>{
 		<ul>
 			<li><img src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
 		</ul>
-	</li></>:<></>
-}
+	</li>
 </ul>
 </div>
 </div>
@@ -220,17 +206,19 @@ useEffect(()=>{
 <div className="box">
 <div className="boxTitleBar">
 <h1>Equip</h1>
+<div className="boxExit"></div>
 </div>
 <div className="equipPalette">
-	<div className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" src={process.env.PUBLIC_URL+"/64px-NGSUIItemResurgirRifle.png"} /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" src={process.env.PUBLIC_URL+"/photon_barrier.png"} /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" src={process.env.PUBLIC_URL+"/photon_barrier.png"} /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" src={process.env.PUBLIC_URL+"/photon_barrier.png"} /></div></div>
+	<div className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
 </div>
 </div>
 <div className="box">
 <div className="boxTitleBar">
 <h1>Equipped Weapon</h1>
+<div className="boxExit"></div>
 </div>
 <h2 className="rifle">Resurgir Rifle+40</h2>
 <ul className="boxmenu">
@@ -269,6 +257,7 @@ useEffect(()=>{
 <div className="box">
 <div className="boxTitleBar">
 <h1>Basic Stats</h1>
+<div className="boxExit"></div>
 </div>
 <table className="statsInfo">
   <tr>
@@ -320,6 +309,7 @@ useEffect(()=>{
 <div className="box">
 <div className="boxTitleBar">
 <h1>Damage Stats</h1>
+<div className="boxExit"></div>
 </div>
 <ul className="boxmenu">
 <li>1</li>
