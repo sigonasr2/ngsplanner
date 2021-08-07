@@ -53,7 +53,7 @@ body {
 	background-color: #e8ecf4;
     background-repeat: no-repeat;
     background-position: center center;
-	background-at
+	background-attachment: fixed;
 	color: black;
     font-family: ngs,Arial,sans-serif;
 	font-size: 11pt;
