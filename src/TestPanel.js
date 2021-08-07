@@ -119,8 +119,13 @@ function EditableClass(p){
 
 function PopupWindow(p) {
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-		<h1>{p.title}{p.showCloseButton&&<XSquare onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/>}</h1>
-		{p.children}
+<div className="box">
+<div className="boxTitleBar">
+<h1>{p.title}</h1>
+{p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
+</div>
+{p.children}
+</div>
 	</Modal>
 } 
 
@@ -162,9 +167,7 @@ useEffect(()=>{
 
 //console.log(p.GetData("class",p.className,"icon"))
 
-    return ( //Futasuke is a genius
-
-    <>
+    return (<>
 <div className="main">
 <div className="containerA">
 <div className="box">
@@ -255,23 +258,42 @@ useEffect(()=>{
 <div className="equipDetails">
 <div className="equipAugs">
 <h3>Abilitiy Details</h3>
-<ul>
-<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
-<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
-<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
-<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
-<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
-<li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+{weaponPage===1?
+  <ul>
+  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
+  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
+  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
+  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
+  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
+  <li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
+  <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+  </ul>
+:
+  <ul>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+     <li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
 </ul>
+}
 </div>
 <div className="pr">
 <h3>Properties</h3>
-<ul>
-<li>Enhancement Lv.&emsp;<span>+35</span></li>
-<li>Multi-Weapon&emsp;<span>-</span></li>
-<li>Element&emsp;<span>-</span></li>
-</ul>
+{weaponPage===1?
+  <ul>
+    <li>Enhancement Lv.&emsp;<span>+35</span></li>
+    <li>Multi-Weapon&emsp;<span>-</span></li>
+    <li>Element&emsp;<span>-</span></li>
+  </ul>:
+  <ul>
+    <li>Enhancement Lv.&emsp;<span>-</span></li>
+    <li>Multi-Weapon&emsp;<span>-</span></li>
+    <li>Element&emsp;<span>-</span></li>
+  </ul>
+}
 </div>
 </div>
 </div>
@@ -336,35 +358,91 @@ useEffect(()=>{
 </div>
 <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
 <table className="basicInfo">
-  <tr>
-    <td>Critical Hit Rate</td>
-    <td>5%</td>
-  </tr>
-   <tr>
-    <td>Critical Multiplier</td>
-    <td>120%</td>
-  </tr>
-  <tr>
-    <td>Midrange</td>
-    <td>126</td>
-  </tr>
-  <tr>
-    <td>Critcal</td>
-    <td>152</td>
-  </tr>
-   <tr>
-    <td>Effective</td>
-    <td><span className="ye">127</span></td>
-  </tr>
+  {statPage===1?<>
+    <tr>
+      <td>Critical Hit Rate</td>
+      <td>5%</td>
+    </tr>
+    <tr>
+      <td>Critical Multiplier</td>
+      <td>120%</td>
+    </tr>
+    <tr>
+      <td>Midrange</td>
+      <td>126</td>
+    </tr>
+    <tr>
+      <td>Critcal</td>
+      <td>152</td>
+    </tr>
+    <tr>
+      <td>Effective</td>
+      <td><span className="ye">127</span></td>
+    </tr>
+  </>:<>
+    <tr>
+      <td>Critical Hit Rate</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Critical Multiplier</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Midrange</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Critcal</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Effective</td>
+      <td><span className="ye">-</span></td>
+    </tr>
+    </>
+  }
 </table>
 </div>
 </div>
 </div>
 
-<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.</PopupWindow>
+<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">
+<ul className="boxmenu">
+<li>Rifle</li>
+<li>Launcher</li>
+<li>Rod</li>
+<li>Talis</li>
+</ul>
+<div className="itemBar">
+<div className="itemBarSort">
+<select className="itemBarForm">
+  <option>Standard Sort</option>
+  <option>Rarity</option>
+  <option>Attack</option>
+  <option>Potency</option>
+</select>
+</div>
+<div className="itemBarFilter">
+<input className="itemBarForm" type="text" placeholder="Filter" />
+</div>
+</div>
+<div className="itemlistcontainer customScrollbar">
+<ul className="itemlist">
+<li className="itemwep r1"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">Primm Rifle</em><br /><span className="atk">177</span>					<span className="pot tooltip">Recycler Unit<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>
+<li className="itemwep r2"><img className="itemimg" alt="" src="64px-NGSUIItemTzviaRifle.png" /><em className="rifle">Tzvia Rifle</em><br /><span className="atk">195</span>					<span className="pot tooltip">Indomitable Unit<span>Lv.4: Potency +26%/<br />All Down Resistances +20%</span></span></li>
+<li className="itemwep r3"><img className="itemimg" alt="" src="64px-NGSUIItemTheseusRifle.png" /><em className="rifle">Theseus Rifle</em><br /><span className="atk">223</span>				<span className="pot tooltip">Defensive Formation<span>Lv.4: Potency +22%/<br />Critical Hit Rate increases based on Defense, up to a maximum of +18% at 1,000 Defense.</span></span></li>
+<li className="itemwep r4"><img className="itemimg" alt="" src="64px-NGSUIItemResurgirRifle.png" /><em className="rifle">Resurgir Rifle</em><br /><span className="atk">240</span>				<span className="pot tooltip">Dynamo Unit<span>Lv.4: Potency +21%/<br />Critical Hit Rate +18% for 30 seconds after a successful Sidestep.</span></span></li>
+<li className="itemwep r4"><img className="itemimg" alt="" src="64px-NGSUIItemFoursisRifle.png" /><em className="rifle">Foursis Rifle</em><br /><span className="atk">242</span>				<span className="pot tooltip">Bastion Unit<span>Lv.4: Potency +24%/<br />Creates a barrier that provides Damage Resistance +50% when at Max HP.</span></span></li>
+<li className="itemwep"><img className="itemimg" alt="" src="logo_test.png" /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
+<li className="itemwep"><img className="itemimg" alt="" src="logo_test.png" /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
+<li className="itemwep"><img className="itemimg" alt="" src="logo_test.png" /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
+</ul>
+</div>
+</PopupWindow>
 
 </>
-    )
-    }
+)
+}
 
 export default TestPanel;
