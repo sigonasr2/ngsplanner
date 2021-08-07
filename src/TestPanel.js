@@ -43,7 +43,7 @@ useEffect(()=>{
   }
 },[p.bp]) 
 
-console.log(p.GetData("class",p.className,"icon"))
+//console.log(p.GetData("class",p.className,"icon"))
 
     return ( //Futasuke is a genius
 <div className="main">
@@ -66,12 +66,12 @@ console.log(p.GetData("class",p.className,"icon"))
   <tr>
     <td>Class</td>
     <td>
-    <img alt="" src={process.env.PUBLIC_URL+p.GetData("class",p.className,"icon")} />{p.className}<br />
-    <img alt="" src="Fo.png" /> Force 
+    <img alt="" src={process.env.PUBLIC_URL+p.GetData("class",p.className,"icon")} /> {p.className}<br />
+    <img alt="" src={process.env.PUBLIC_URL+p.GetData("class",p.secondaryClassName,"icon")} /> {p.secondaryClassName} 
     </td>
     <td>
-    <span className="ye">Lv.20</span><br />
-    Lv.15
+    <span className="ye">Lv.{p.classLv}</span><br />
+    Lv.{p.secondaryClassLv}
     </td>
   </tr>
 </table>
@@ -168,42 +168,45 @@ console.log(p.GetData("class",p.className,"icon"))
   <tr>
     <td>Battle Power</td>
 	<td>{p.bp}</td>
-  <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+  <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
   <tr>
     <td>HP</td>
 	<td>{p.hp}</td>
-  <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+  <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
   <tr>
     <td>PP</td>
     <td>{p.pp}</td>
-    <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+    <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
   <tr>
     <td>Attack</td>
     <td>{p.statDisplayAtk}</td>
-    <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+    <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
    <tr>
     <td>Defense</td>
     <td>{p.def}</td>
-    <td><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+    <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
   </tr>
    <tr>
     <td>Weapon Up</td>
-    <td className="statsMelWeaponUp"><span className="ye">+{(p.weaponUp1*100).toFixed(1)}%</span><br />
-    <span className="ye">+{(p.weaponUp3*100).toFixed(1)}%</span></td>
-    <td className="statsRngWeaponUp"><span className="ye">+{(p.weaponUp2*100).toFixed(1)}%</span></td>
+    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
+    <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
+    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td>Ailment Resist.</td>
     <td>{p.damageResist}</td>
     <td>&nbsp;</td>
+    <td>&nbsp;</td>
 </tr>
     <tr>
     <td>Damage Resist.</td>
     <td>{p.damageResist}</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
 </tr>
 </table>

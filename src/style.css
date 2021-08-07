@@ -196,30 +196,17 @@ em {
 }
 .statsInfo {
 	table-layout:fixed;
+	width: 100%;
+	line-height: 23px;
 }
 .statsInfo td:nth-child(2) {
 	text-align: right;
 }
-.statsInfo td:last-child {
-	min-width: 55%;
+.statsInfo td:nth-child(3) {
+	width: 50%;
 }
 .statsInfo span {
 
-}
-.statsMelWeaponUp:before {
-	content: url("./icons/mel.png");
-	margin-right: 5px;
-	vertical-align: middle;
-}
-.statsRngWeaponUp:before  {
-	content: url("./icons/rng.png");
-	margin-right: 5px;
-	vertical-align: middle;
-}
-.statsTecWeaponUp:before  {
-	content: url("./icons/tec.png");
-	margin-right: 5px;
-	vertical-align: middle;
 }
 .boxTitleBar {
 	/* background-color: #495a61; */
@@ -272,6 +259,9 @@ em {
 }
 .da span:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+}
+.basicInfo {
+	line-height: 23px;
 }
 .basicInfo tr:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));	

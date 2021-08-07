@@ -94,27 +94,27 @@ function EditableBox(p) {
 }
 
 const CLASSES = {
-	HUNTER:{
+	Hunter:{
 		name:"Hunter",
 		icon:process.env.PUBLIC_URL+"/icons/UINGSClassHu.png"
 	},
-	FIGHTER:{
+	Fighter:{
 		name:"Fighter",
 		icon:process.env.PUBLIC_URL+"/icons/UINGSClassFi.png"
 	},
-	RANGER:{
+	Ranger:{
 		name:"Ranger",
 		icon:process.env.PUBLIC_URL+"/icons/UINGSClassRa.png"
 	},
-	GUNNER:{
+	Gunner:{
 		name:"Gunner",
 		icon:process.env.PUBLIC_URL+"/icons/UINGSClassGu.png"
 	},
-	FORCE:{
+	Force:{
 		name:"Force",
 		icon:process.env.PUBLIC_URL+"/icons/UINGSClassFo.png"
 	},
-	TECHTER:{
+	Techter:{
 		name:"Techter",
 		icon:process.env.PUBLIC_URL+"/icons/UINGSClassTe.png"
 	}
@@ -561,14 +561,29 @@ function TableEditor(p) {
 
 function DatabaseEditor(p) {
 	const [loading,setLoading] = useState(false)
+	const [message,setMessage] = useState(<span style={{color:"black"}}></span>)
 
 	return <>
 		{!loading?<>
-				<button className="basichover" style={{backgroundColor:"navy"}} onClick={()=>{setLoading(true)}}>Apply TEST Database to LIVE Database</button><br/><br/>
+				<button className="basichover" style={{backgroundColor:"navy"}} onClick={()=>{
+					setLoading(true)
+					setMessage(<span style={{color:"black"}}>Uploading Test Database to Production...</span>)
+					axios.post(p.BACKENDURL+"/databases/testtolive")
+					.then(()=>{
+						setMessage(<span style={{color:"green"}}>Success! Test Database is now live!</span>)
+					})
+					.catch((err)=>{
+						setMessage(<span style={{color:"red"}}>{err.message}</span>)
+					})
+					.then(()=>{
+						setLoading(false)
+					})
+				}}>Apply TEST Database to LIVE Database</button><br/><br/>
 				<button className="basichover" style={{backgroundColor:"maroon"}} onClick={()=>{setLoading(true)}}>Reset TEST database using current LIVE Database</button><br/><br/>
 				<button className="basichover" style={{backgroundColor:"darkgreen"}} onClick={()=>{setLoading(true)}}>Backup current TEST and LIVE Database</button><br/><br/>
 			</>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		}
+		{message}
 	</>
 }
 
@@ -755,11 +770,11 @@ function DamageCalculator(p) {
 	const [weaponTotalAtk,setWeaponTotalAtk] = useState(100)
 	
 		const [weaponBaseAtk,setWeaponBaseAtk] = useState(1)
-		const [weaponEnhanceLvl,setWeaponEnhanceLvl] = useState(1)
+		const [weaponEnhanceLv,setweaponEnhanceLv] = useState(1)
 
 	useEffect(()=>{
-		setWeaponTotalAtk(Number(weaponBaseAtk)+Number(weaponEnhanceLvl))
-	},[weaponBaseAtk,weaponEnhanceLvl])
+		setWeaponTotalAtk(Number(weaponBaseAtk)+Number(weaponEnhanceLv))
+	},[weaponBaseAtk,weaponEnhanceLv])
 
 	const [dmgVariance,setDmgVariance] = useState(1)
 
@@ -809,7 +824,7 @@ function DamageCalculator(p) {
 			Weapon Total Atk:<EditStatBox value={weaponTotalAtk} callback={(val)=>{setWeaponTotalAtk(val)}}/>
 			<ul>
 				<li>●Weapon Base Atk:<EditStatBox value={weaponBaseAtk} callback={(val)=>{setWeaponBaseAtk(val)}}/></li>
-				<li>●Weapon Enhance Lvl:<EditStatBox value={weaponEnhanceLvl} callback={(val)=>{setWeaponEnhanceLvl(val)}}/></li>
+				<li>●Weapon Enhance Lv:<EditStatBox value={weaponEnhanceLv} callback={(val)=>{setweaponEnhanceLv(val)}}/></li>
 			</ul>
 			<br/><br/><br/>
 			Damage Variance:<EditStatBox value={dmgVariance} callback={(val)=>{setDmgVariance(val)}}/>
@@ -857,6 +872,9 @@ function App() {
 	const [buildName,setBuildName] = useState("Fatimah")
 	const [className,setClassName] = useState("Ranger")
 	const [secondaryClassName,setSecondaryClassName] = useState("Force")
+	const [classLv,setClassLv] = useState(20)
+	const [secondaryClassLv,setSecondaryClassLv] = useState(15)
+		
 	
 	const [bp,setBP] = useState(1330)
 	const [hp,setHP] = useState(388)
@@ -944,7 +962,9 @@ function App() {
 					author={author} 
 					buildName={buildName} 
 					className={className} 
-					secondaryClassName={secondaryClassName} 
+					secondaryClassName={secondaryClassName}
+					classLv={classLv} 
+					secondaryClassLv={secondaryClassLv} 
 					bp={bp} 
 					hp={hp} 
 					pp={pp} 
