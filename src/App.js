@@ -1007,10 +1007,12 @@ function App() {
 
 	const [TESTMODE,setTESTMODE] = useState(false)
 	const [DATA,setDATA] = useState({GetData:()=>{}})
+	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 
 
-	function GetData(table,row,col){
-		return DATA!==undefined?DATA[table]!==undefined?DATA[table][row]!==undefined?DATA[table][row][col]!==undefined?DATA[table][row][col]:DATA[table][row]:DATA[table]:DATA:"no data"
+	function GetData(table,row,col,id){
+		var data = id?DATAID:DATA
+		return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
 	}
 	
 
@@ -1018,6 +1020,10 @@ function App() {
 		axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/data")
 		.then((data)=>{
 			setDATA(data.data)
+		})
+		axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/dataid")
+		.then((data)=>{
+			setDATAID(data.data)
 		})
 	},[TESTMODE])
 

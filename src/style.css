@@ -580,6 +580,7 @@ li.r4 {
 	text-align: center;
 	flex-basis: 27px;
 	white-space: nowrap;
+	cursor: pointer;
 }
 .boxmenu img {
 	vertical-align: middle;
@@ -597,8 +598,6 @@ li.r4 {
 li.selected:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	border-bottom: 0;
-	background: linear-gradient(135deg,#60461b,#b0a34e);
-	border-bottom: 4px solid #ffd602;
 }
 .itemBar {
 	justify-content: center;

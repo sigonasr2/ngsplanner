@@ -62,7 +62,7 @@ function EditBoxInput(p) {
 }
 
 function PageControlButton(p) {
-	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
+	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":"unselected"}>{p.pageName?p.pageName:p.page}</li>
 }
 
 function PageControl(p) {
@@ -121,8 +121,6 @@ function EditableClass(p){
 }
 
 function PopupWindow(p) {
-  const [filter,setFilter] = useState("")
-  const [page,setPage] = useState(1)
 
 	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
     <div className="box boxModal">
@@ -130,17 +128,8 @@ function PopupWindow(p) {
     <h1>{p.title}</h1>
     {p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
     </div>
-    <PageControl  pages={p.pageNames.length} pageNames={p.pageNames}  currentPage={page} setCurrentPage={setPage}/>
-    <div className="itemBar">
-      <div className="itemBarSort">
-        <select className="itemBarForm">
-          {p.sortItems.map((item)=><option value={item.name}>{item.name}</option>)}
-        </select>
-      </div>
-      <div className="itemBarFilter">
-        {p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
-      </div>
-    </div>
+    <PageControl  pages={p.pageNames.length} pageNames={p.pageNames}  currentPage={p.page} setCurrentPage={p.setPage}/>
+    
     {p.children}
   </div>
 	</Modal>
@@ -165,6 +154,15 @@ const [weaponPage,setWeaponPage] = useState(1)
 const [statPage,setStatPage] = useState(1)
 
 const [modalOpen,setModalOpen] = useState(true)
+const [tabPage,setTabPage] = useState(1)
+const [sortSelector,setSortSelector] = useState("Standard Sort")
+const sortItems=[
+  {name:"Standard Sort",value:"id"},
+  {name:"Rarity",value:"rarity"},
+  {name:"Attack",value:"atk"},
+  {name:"Potency",value:"potency"}]
+const [filter,setFilter] = useState("")
+const filterEnabled=true
 
 useEffect(()=>{
   if (p.bp>1000) {
@@ -181,6 +179,20 @@ useEffect(()=>{
     setdefGraphMax(1000)
   }
 },[p.bp]) 
+
+const [itemList,setItemList] = useState([])
+
+useEffect(()=>{
+  var dat1=p.GetData("weapon_existence_data")
+  if (Array.isArray(dat1)) {
+    setItemList(dat1.map((we)=>{
+      var weapon_type=p.GetData("weapon_type",we.weapon_type_id,undefined,true)
+      var weapon=p.GetData("weapon",we.weapon_id,undefined,true)
+      var potential=p.GetData("potential",weapon.potential_id,undefined,true)
+      return [weapon_type,weapon,potential]
+    }))
+  }
+},[p.GetData])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -424,7 +436,7 @@ useEffect(()=>{
 </div>
 </div>
 
-<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title"
+<PopupWindow page={tabPage} setPage={setTabPage} modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title"
   pageNames={["All","Rifle","Launcher","Rod","Talis"]}
   sortItems={[
     {name:"Standard Sort",value:"id"},
@@ -433,16 +445,55 @@ useEffect(()=>{
     {name:"Potency",value:"potency"}]}
   filter={true}
 >
+  <div className="itemBar">
+      <div className="itemBarSort">
+        <select className="itemBarForm" value={sortSelector} onChange={(f)=>{setSortSelector(f.currentTarget.value)}}>
+          {sortItems.map((item)=><option value={item.name}>{item.name}</option>)}
+        </select>
+      </div>
+      <div className="itemBarFilter">
+        {filterEnabled&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
+      </div>
+    </div>
   <div className="modalItemListContainer customScrollbar">
   <ul className="itemlist">
-  <li className="itemwep r1"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">Primm Rifle</em><br /><span className="atk">177</span>					<span className="pot tooltip">Recycler Unit<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>
-  <li className="itemwep r2"><img className="itemimg" alt="" src="64px-NGSUIItemTzviaRifle.png" /><em className="rifle">Tzvia Rifle</em><br /><span className="atk">195</span>					<span className="pot tooltip">Indomitable Unit<span>Lv.4: Potency +26%/<br />All Down Resistances +20%</span></span></li>
-  <li className="itemwep r3"><img className="itemimg" alt="" src="64px-NGSUIItemTheseusRifle.png" /><em className="rifle">Theseus Rifle</em><br /><span className="atk">223</span>				<span className="pot tooltip">Defensive Formation<span>Lv.4: Potency +22%/<br />Critical Hit Rate increases based on Defense, up to a maximum of +18% at 1,000 Defense.</span></span></li>
-  <li className="itemwep r4"><img className="itemimg" alt="" src="64px-NGSUIItemResurgirRifle.png" /><em className="rifle">Resurgir Rifle</em><br /><span className="atk">240</span>				<span className="pot tooltip">Dynamo Unit<span>Lv.4: Potency +21%/<br />Critical Hit Rate +18% for 30 seconds after a successful Sidestep.</span></span></li>
-  <li className="itemwep r4"><img className="itemimg" alt="" src="64px-NGSUIItemFoursisRifle.png" /><em className="rifle">Foursis Rifle</em><br /><span className="atk">242</span>				<span className="pot tooltip">Bastion Unit<span>Lv.4: Potency +24%/<br />Creates a barrier that provides Damage Resistance +50% when at Max HP.</span></span></li>
-  <li className="itemwep"><img className="itemimg" alt="" src="logo_test.png" /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
-  <li className="itemwep"><img className="itemimg" alt="" src="logo_test.png" /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
-  <li className="itemwep"><img className="itemimg" alt="" src="logo_test.png" /><em className="gb">Test</em><br /><span className="atk">999</span>												<span className="pot tooltip" title="Test">Test<span>Test</span></span></li>
+  {itemList.filter((item)=>{
+    switch (tabPage) {
+      case 2:{
+        return item[0].name==="Assault Rifle"
+      }break;
+      case 3:{
+        return item[0].name==="Launcher"
+      }break;
+      case 4:{
+        return item[0].name==="Rod"
+      }break;
+      case 5:{
+        return item[0].name==="Talis"
+      }break;
+      default:{
+        return true
+      }
+    }
+  }).filter((item)=>{
+    if (filter.length>0) {
+      return (item[1].name.toLowerCase()+" "+item[0].name.toLowerCase()).includes(filter.toLowerCase())
+    } else {
+      return true
+    }
+  }).sort((a,b)=>{
+    switch (sortSelector) {
+      case "Rarity":{
+        return b[1].rarity-a[1].rarity
+      }break;
+      case "Attack":{
+        return b[1].atk-a[1].atk
+      }break;
+      default:{
+        return 0
+      }
+    }
+  }).map((item)=><li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name}<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>)}
   </ul>
   </div>
 </PopupWindow>
