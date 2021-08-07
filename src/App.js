@@ -579,8 +579,33 @@ function DatabaseEditor(p) {
 						setLoading(false)
 					})
 				}}>Apply TEST Database to LIVE Database</button><br/><br/>
-				<button className="basichover" style={{backgroundColor:"maroon"}} onClick={()=>{setLoading(true)}}>Reset TEST database using current LIVE Database</button><br/><br/>
-				<button className="basichover" style={{backgroundColor:"darkgreen"}} onClick={()=>{setLoading(true)}}>Backup current TEST and LIVE Database</button><br/><br/>
+				<button className="basichover" style={{backgroundColor:"maroon"}}  onClick={()=>{
+					setLoading(true)
+					setMessage(<span style={{color:"black"}}>Restoring Test Database using Live Database...</span>)
+					axios.post(p.BACKENDURL+"/databases/livetotest")
+					.then(()=>{
+						setMessage(<span style={{color:"green"}}>Success! Live Database has been applied to the Test Database!</span>)
+					})
+					.catch((err)=>{
+						setMessage(<span style={{color:"red"}}>{err.message}</span>)
+					})
+					.then(()=>{
+						setLoading(false)
+					})
+				}}>Reset TEST database using current LIVE Database</button><br/><br/>
+				<button className="basichover" style={{backgroundColor:"darkgreen"}}  onClick={()=>{
+					setLoading(true)
+					setMessage(<span style={{color:"black"}}>Backing up the Live database...</span>)
+					axios.post(p.BACKENDURL+"/databases/backup")
+					.then(()=>{
+						setMessage(<span style={{color:"green"}}>Success! Live Database has been saved!</span>)
+					})
+					.catch((err)=>{
+						setMessage(<span style={{color:"red"}}>{err.message}</span>)
+					})
+					.then(()=>{
+						setLoading(false)
+					})}}>Backup current LIVE Database</button><br/><br/>
 			</>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		}
 		{message}
