@@ -1,8 +1,64 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
-function DefaultTooltip(p) {
-	return <Tooltip className="jTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
+
+/**
+ * Hook that alerts clicks outside of the passed ref
+ */
+ function useOutsideAlerter(ref,setEdit) {
+  useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+              setEdit(false)
+          }
+      }
+
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, [ref,setEdit]);
 }
+
+function EditBox(p) {
+	useEffect(()=>{
+		var timer1 = setTimeout(()=>{
+      document.getElementById("editBoxInput").focus()
+      document.getElementById("editBoxInput").select()
+  },100)
+		return () => {
+			clearTimeout(timer1);
+		};
+	})
+	return <input id="editBoxInput" onKeyDown={(e)=>{
+		if (e.key==="Enter") {p.setEdit(false)}
+		else if (e.key==="Escape") {p.setEdit(false)}
+	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
+	</input>
+}
+
+function EditBoxInput(p) {
+	const [edit,setEdit] = useState(false)
+	
+	useEffect(()=>{
+		if (p.callback) {
+			p.callback()
+		}
+	},[edit,p])
+	
+	return <>
+		<div className={edit?"editBoxActive":"editBox"} onClick={(f)=>{setEdit(true)}}>
+			{edit?
+			<EditBox maxlength={p.maxlength} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
+			:<>{p.data}</>}
+		</div>
+	</>
+}
+
 function ExpandTooltip(p) {
 	return <Tooltip
   background="rgba(38,53,63,0.95);"
@@ -26,6 +82,36 @@ const [ppGraphMax,setppGraphMax] = useState(1000)
 const [atkGraphMax,setatkGraphMax] = useState(1000)
 const [defGraphMax,setdefGraphMax] = useState(1000)
 
+const [author,setauthor] = useState("Player")
+const [buildName,setbuildName] = useState("Character")
+const [className,setclassName] = useState("Hunter")
+const [subclassName,setsubclassName] = useState("")
+
+function Class(p) {
+  const CLASSES = p.GetData("class")
+	const class_obj = CLASSES[p.name]
+	return class_obj?<><img src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<><span>itor</span></>
+}
+
+function ClassSelector(p){
+  const CLASSES = p.GetData("class")
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef,p.setEdit);
+	return <div className="popup" ref={wrapperRef}>
+		Class Selector<br/>
+		{Object.keys(CLASSES).map((cl,i)=>{
+		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+		})}
+	</div>
+}
+
+function EditableClass(p){
+	const [edit,setEdit] = useState(false)
+	return <><div className="editClass" onClick={()=>{setEdit(!edit)}}><Class GetData={p.GetData} name={p.class}/>
+	</div>
+	{edit&&<ClassSelector GetData={p.GetData} setClassName={p.setClassName} setEdit={setEdit}/>}
+	</>
+}
 
 useEffect(()=>{
   if (p.bp>1000) {
@@ -57,17 +143,17 @@ useEffect(()=>{
 <table className="basicInfo">
   <tr>
     <td>Author</td>
-    <td colspan="2">Dudley</td>
+    <td colspan="2"><EditBoxInput setData={setauthor} data={author}/></td>
   </tr>
   <tr>
     <td>Build Name</td>
-    <td colspan="2">Fatimah</td>
+    <td colspan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
   </tr>
   <tr>
     <td>Class</td>
     <td>
-    <img alt="" src={process.env.PUBLIC_URL+p.GetData("class",p.className,"icon")} /> {p.className}<br />
-    <img alt="" src={process.env.PUBLIC_URL+p.GetData("class",p.secondaryClassName,"icon")} /> {p.secondaryClassName} 
+    <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass><br />
+    <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
     </td>
     <td>
     <span className="ye">Lv.{p.classLv}</span><br />
@@ -89,19 +175,19 @@ useEffect(()=>{
 <ul className="infoBuffs">
 	<li>Food Bost Effect
 		<ul>
-			<li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-			<li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+			<li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+			<li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
 		</ul>
 	</li>
 	<li>Shifta / Deband
 		<ul>
-			<li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
-			<li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
+			<li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
+			<li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
 		</ul>
 	</li>
 	<li>Region Mag Boost
 		<ul>
-			<li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
+			<li><img src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
 		</ul>
 	</li>
 </ul>
@@ -114,10 +200,10 @@ useEffect(()=>{
 <div className="boxExit"></div>
 </div>
 <div className="equipPalette">
-	<div className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" alt="" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" alt="" src="./photon_barrier.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" alt="" src="./photon_barrier.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" alt="" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img className="r4" src="./64px-NGSUIItemResurgirRifle.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
+	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img className="r3" src="./photon_barrier.png" /></div></div>
 </div>
 </div>
 <div className="box">
@@ -138,13 +224,13 @@ useEffect(()=>{
 <div className="equipAugs">
 <h3>Abilitiy Details</h3>
 <ul>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
-<li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
-<li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
+<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
+<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
+<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
+<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
+<li><ExpandTooltip mouseOverText={<img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
+<li className="addAug"><img src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
 </ul>
 </div>
 <div className="pr">
@@ -192,9 +278,9 @@ useEffect(()=>{
   </tr>
    <tr>
     <td>Weapon Up</td>
-    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
-    <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
-    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
+    <td><img src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
+    <img src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
+    <td><img src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
     <td>&nbsp;</td>
   </tr>
   <tr>

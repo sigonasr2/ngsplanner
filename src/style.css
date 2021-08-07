@@ -263,9 +263,9 @@ em {
 .basicInfo {
 	line-height: 23px;
 }
-.basicInfo tr:hover {
+/*.basicInfo tr:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));	
-}
+}*/
 .infoBuffs {
 	margin: 0 auto;
 	width: 90%;
@@ -836,19 +836,48 @@ div.skillMaxed .skillAllocated {
 	max-width: 292px;
 }
 
-/* Sig's Trash CSS */
+/* Sig's Amazing CSS (cuz Dudley edited it) */
 
-.hover:hover{
-	background-color:rgba(255,255,0,0.4);
+
+.editBox {
+	width: 100%;
+}
+.editBox:hover{
+	background-color:rgba(0,0,0,0.5);
+	cursor:pointer;
+	outline: 2px solid #30cdef;
+}
+.editBoxActive {
+	position: relative;
+	width: 100%;
+}
+.editBoxActive:hover {
 	cursor:pointer;
 }
-
-input#editBox{
-	height:18px;
-	width:50%;
-	padding: 0px;
-	margin: 0px;
-	text-align:right;
+input#editBoxInput {
+	position: absolute;
+	left: 0;
+	text-align: right;
+	background-color: #101317;
+	color: white;
+	cursor:pointer;
+	font-family: ngs,sans-serif;
+	font-size: 11pt;
+	height: 28px;
+	outline: 2px solid #30cdef;
+	padding: 0 5px;
+	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
+	width: 100%;
+}
+.editClass {
+	display: inline-block;
+	width: 100%;
+}
+.editClass:hover{
+	display: inline-block;
+	background-color:rgba(0,0,0,0.5);
+	cursor:pointer;
+	outline: 2px solid #30cdef;
 }
 .popup{
 	position:absolute;
@@ -1112,4 +1141,11 @@ p.adminNav hr {
   }
 .addAug{
 	height: 37px;
+}
+.databaseIcon{
+	width:48px;
+	height:48px;
+	padding-right:8px;
+	position:relative;
+	top:16px;
 }

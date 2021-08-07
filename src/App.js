@@ -6,7 +6,7 @@ import useGlobalKeyDown from 'react-global-key-down-hook'
 import Modal from 'react-modal'
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 
-import {XSquare, XSquareFill, PlusCircle} from 'react-bootstrap-icons'
+import {XSquare, XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
 import {
   HashRouter,
@@ -560,8 +560,26 @@ function TableEditor(p) {
 }
 
 function DatabaseEditor(p) {
-	const [loading,setLoading] = useState(false)
+	const [loading,setLoading] = useState(true)
 	const [message,setMessage] = useState(<span style={{color:"black"}}></span>)
+	const [databases,setDatabases] = useState([])
+	const [update,setUpdate] = useState(true)
+
+	useEffect(()=>{
+		if (update) {
+			axios.get(p.BACKENDURL+"/databases")
+			.then((data)=>{
+				setDatabases(data.data)
+			})
+			.catch((err)=>{
+				console.log(err.message)
+			})
+			.then(()=>{
+				setLoading(false)
+			})
+			setUpdate(false)
+		}
+	},[update])
 
 	return <>
 		{!loading?<>
@@ -604,11 +622,41 @@ function DatabaseEditor(p) {
 						setMessage(<span style={{color:"red"}}>{err.message}</span>)
 					})
 					.then(()=>{
-						setLoading(false)
+						setUpdate(true)
 					})}}>Backup current LIVE Database</button><br/><br/>
 			</>:<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		}
 		{message}
+		<hr/>
+		<br/><br/>
+		<h2><u>Current Databases</u></h2>
+		<br/><br/>
+		<span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}><LifePreserver className="databaseIcon" style={{color:"green"}}/>Live Database</span>
+		&nbsp;&nbsp;&nbsp;<span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}><LifePreserver className="databaseIcon" style={{color:"red"}}/>Test Database</span><br/>
+		{databases.map((db)=>{
+			var label = ""
+			if (db.datname!=="ngsplanner"&&db.datname!=="ngsplanner2") {
+				var dateStr = db.datname.replace("ngsplanner","")
+				var date = new Date(dateStr.slice(0,4),dateStr.slice(4,6),dateStr.slice(6,8),dateStr.slice(8,10),dateStr.slice(10,12),dateStr.slice(12,14))
+				label=<><Server className="databaseIcon" style={{color:"blue"}}/>{"Backup from "+date}</>
+				return <><span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}>{label}<button style={{background:"blue"}}
+				onClick={()=>{
+					setLoading(true)
+					axios.post(p.BACKENDURL+"/databases/restorefrombackup",{
+						database:db.datname
+					})
+					.then((data)=>{
+						setMessage(<span style={{color:"green"}}>{"Success! Database has been set to the state from "+date}</span>)
+					})
+					.catch((err)=>{
+						setMessage(<span style={{color:"red"}}>{err.message}</span>)
+					})
+					.then(()=>{
+						setLoading(false)
+					})
+				}}><CloudUploadFill/> Restore</button></span><br/></>
+			}
+		})}
 	</>
 }
 
