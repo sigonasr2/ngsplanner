@@ -1,5 +1,7 @@
 import React, { useEffect,useState,useRef } from 'react';
 import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
+import Modal from 'react-modal'
+import {XSquare} from 'react-bootstrap-icons'
 
 /**
  * Hook that alerts clicks outside of the passed ref
@@ -33,7 +35,7 @@ function EditBox(p) {
 		return () => {
 			clearTimeout(timer1);
 		};
-	})
+	},[p.edit])
 	return <input id="editBoxInput" type={p.type} max={p.type==="number"?20:undefined} min={p.type==="number"?1:undefined} onKeyDown={(e)=>{
 		if (e.key==="Enter") {p.setEdit(false)}
 		else if (e.key==="Escape") {p.setEdit(false)}
@@ -53,10 +55,24 @@ function EditBoxInput(p) {
 	return <>
 		<div className={edit?"editBoxActive":"editBox"} onClick={(f)=>{setEdit(true)}}>
 			{edit?
-			<EditBox maxlength={p.maxlength} type={p.type} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
+			<EditBox edit={edit} maxlength={p.maxlength} type={p.type} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
 			:<>{p.prefix}{p.data}</>}
 		</div>
 	</>
+}
+
+function PageControlButton(p) {
+	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
+}
+
+function PageControl(p) {
+	var pages = []
+	for (var i=0;i<p.pages;i++) {
+		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
+	}
+	return <ul className="boxmenu">
+			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
+		</ul>
 }
 
 function ExpandTooltip(p) {
@@ -74,20 +90,6 @@ function ExpandTooltip(p) {
   zIndex={1} 
   className="xTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
 }
-
-function TestPanel(p) {
-const [bpGraphMax,setbpGraphMax] = useState(1000)
-const [hpGraphMax,sethpGraphMax] = useState(1000)
-const [ppGraphMax,setppGraphMax] = useState(1000)
-const [atkGraphMax,setatkGraphMax] = useState(1000)
-const [defGraphMax,setdefGraphMax] = useState(1000)
-
-const [author,setauthor] = useState("Player")
-const [buildName,setbuildName] = useState("Character")
-const [className,setclassName] = useState("Hunter")
-const [subclassName,setsubclassName] = useState("Force")
-const [level,setLevel] = useState(1)
-const [secondaryLevel,setsecondaryLevel] = useState(1)
 
 function Class(p) {
   const CLASSES = p.GetData("class")
@@ -115,6 +117,33 @@ function EditableClass(p){
 	</>
 }
 
+function PopupWindow(p) {
+	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+		<h1>{p.title}{p.showCloseButton&&<XSquare onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/>}</h1>
+		{p.children}
+	</Modal>
+} 
+
+function TestPanel(p) {
+const [bpGraphMax,setbpGraphMax] = useState(1000)
+const [hpGraphMax,sethpGraphMax] = useState(1000)
+const [ppGraphMax,setppGraphMax] = useState(1000)
+const [atkGraphMax,setatkGraphMax] = useState(1000)
+const [defGraphMax,setdefGraphMax] = useState(1000)
+
+const [author,setauthor] = useState("Player")
+const [buildName,setbuildName] = useState("Character")
+const [className,setclassName] = useState("Hunter")
+const [subclassName,setsubclassName] = useState("Force")
+const [level,setLevel] = useState(1)
+const [secondaryLevel,setsecondaryLevel] = useState(1)
+
+const [effectPage,setEffectPage] = useState(1)
+const [weaponPage,setWeaponPage] = useState(1)
+const [statPage,setStatPage] = useState(1)
+
+const [modalOpen,setModalOpen] = useState(true)
+
 useEffect(()=>{
   if (p.bp>1000) {
     setbpGraphMax(3000)
@@ -134,6 +163,8 @@ useEffect(()=>{
 //console.log(p.GetData("class",p.className,"icon"))
 
     return ( //Futasuke is a genius
+
+    <>
 <div className="main">
 <div className="containerA">
 <div className="box">
@@ -176,29 +207,28 @@ useEffect(()=>{
 <h1>Current Effects</h1>
 <div className="boxExit"></div>
 </div>
-<ul className="boxmenu">
-<li>1</li>
-<li>2</li>
-</ul>
+<PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
 <h3>Effect Name</h3>
 <ul className="infoBuffs">
-	<li>Food Bost Effect
-		<ul>
-			<li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-			<li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
-		</ul>
-	</li>
-	<li>Shifta / Deband
-		<ul>
-			<li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
-			<li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
-		</ul>
-	</li>
-	<li>Region Mag Boost
-		<ul>
-			<li><img src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
-		</ul>
-	</li>
+	{
+    effectPage===1?<><li>Food Boost Effect
+      <ul>
+        <li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+        <li><img src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+      </ul>
+    </li>
+    <li>Shifta / Deband
+      <ul>
+        <li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
+        <li><img src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
+      </ul>
+    </li>
+    <li>Region Mag Boost
+      <ul>
+        <li><img src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
+      </ul>
+    </li></>:<></>
+  }
 </ul>
 </div>
 </div>
@@ -221,14 +251,7 @@ useEffect(()=>{
 <div className="boxExit"></div>
 </div>
 <h2 className="rifle">Resurgir Rifle+40</h2>
-<ul className="boxmenu">
-<li>1</li>
-<li>2</li>
-<li>3</li>
-<li>4</li>
-<li>5</li>
-<li>6</li>
-</ul>
+<PageControl pages={6} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
 <div className="equipDetails">
 <div className="equipAugs">
 <h3>Abilitiy Details</h3>
@@ -311,11 +334,7 @@ useEffect(()=>{
 <h1>Damage Stats</h1>
 <div className="boxExit"></div>
 </div>
-<ul className="boxmenu">
-<li>1</li>
-<li>2</li>
-<li>3</li>
-</ul>
+<PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
 <table className="basicInfo">
   <tr>
     <td>Critical Hit Rate</td>
@@ -341,6 +360,10 @@ useEffect(()=>{
 </div>
 </div>
 </div>
+
+<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.</PopupWindow>
+
+</>
     )
     }
 
