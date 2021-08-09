@@ -69,7 +69,7 @@ function PageControl(p) {
 	for (var i=0;i<p.pages;i++) {
 		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
 	}
-	return <ul className="boxmenu">
+	return pages.length>0&&<ul className="boxmenu">
 			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
 		</ul>
 }
@@ -127,7 +127,7 @@ function PopupWindow(p) {
     <h1>{p.title}</h1>
     {p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
     </div>
-    <PageControl  pages={p.pageNames.length} pageNames={p.pageNames}  currentPage={p.page} setCurrentPage={p.setPage}/>
+    <PageControl  pages={p.pageNames?p.pageNames.length:0} pageNames={p.pageNames}  currentPage={p.page} setCurrentPage={p.setPage}/>
     
     {p.children}
   </div>
@@ -139,30 +139,34 @@ function SelectorWindow(p) {
   const [itemList,setItemList] = useState([])
 
   const [tabPage,setTabPage] = useState(1)
-  const [sortSelector,setSortSelector] = useState(p.sortItems[0])
+  const [sortSelector,setSortSelector] = useState(p.sortItems?p.sortItems[0]:"")
   const [filter,setFilter] = useState("")
   
   useEffect(()=>{
-    setItemList(p.dataFunction())
+    if (p.dataFunction) {
+      setItemList(p.dataFunction())
+    }
   },[p])
   
   return <PopupWindow page={tabPage} setPage={setTabPage} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} showCloseButton={true} title={p.title}
       pageNames={p.pageNames}
       filter={true}
     >
-    <div className="itemBar">
+    {(p.sortItems||p.filter)&&<div className="itemBar">
         <div className="itemBarSort">
-          <select className="itemBarForm" value={sortSelector} onChange={(f)=>{setSortSelector(f.currentTarget.value)}}>
-            {p.sortItems&&p.sortItems.map((item)=><option value={item}>{item}</option>)}
-          </select>
+          {p.sortItems&&<select className="itemBarForm" value={sortSelector} onChange={(f)=>{setSortSelector(f.currentTarget.value)}}>
+            {p.sortItems.map((item)=><option value={item}>{item}</option>)}
+          </select>}
         </div>
         <div className="itemBarFilter">
           {p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
         </div>
       </div>
+    }
     <div className="modalItemListContainer customScrollbar">
     <ul className="itemlist">
     {itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item))}
+    {p.children}
     </ul>
     </div>
   </PopupWindow>
@@ -186,6 +190,7 @@ const [effectPage,setEffectPage] = useState(1)
 const [weaponPage,setWeaponPage] = useState(1)
 const [statPage,setStatPage] = useState(1)
 
+const [classSelectWindowOpen,setClassSelectWindowOpen] = useState(false)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 
 useEffect(()=>{
@@ -209,11 +214,11 @@ useEffect(()=>{
     return (<>
 <div className="main">
 <div className="containerA">
-<div className="box">
+<div className="box basicInfoBox">
 <div className="boxTitleBar">
 <h1>Basic Information</h1></div>
 
-<table className="basicInfo">
+<table className="basicInfoTable">
   <tr>
     <td>Author</td>
     <td colspan="2"><EditBoxInput setData={setauthor} data={author}/></td>
@@ -223,9 +228,9 @@ useEffect(()=>{
     <td colspan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
   </tr>
   <tr>
-    <td>Class</td>
+    <td onClick={()=>{setClassSelectWindowOpen(true)}} >Class</td>
     <td>
-    <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
+<EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
     </td>
     <td>
     <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
@@ -433,6 +438,8 @@ useEffect(()=>{
 </div>
 </div>
 </div>
+
+<SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
 
 <SelectorWindow title="Weapon Selection" modalOpen={weaponSelectWindowOpen} setModalOpen={setWeaponSelectWindowOpen} GetData={p.GetData}
   pageNames={["All","Rifle","Launcher","Rod","Talis"]}

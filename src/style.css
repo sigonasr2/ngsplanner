@@ -158,23 +158,14 @@ em {
 	color: #97e2fc;
 	background-clip: padding-box;
 	background-color: rgba(38,53,63,0.80);
-	/*background-color: #151f25;*/
 	margin: 10px auto;
 	text-align: left;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
-	/*min-width: 300px;*/
-	/*max-width: 500px;*/
 	padding-bottom:10px;
-	filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));
+	/*filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));*/
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 }
-/* box hover, save bcuz i will use this in popup menu
-.box:hover {
-	outline: 1px solid rgba(54,255,255,1);
-}
-.box:hover .boxTitleBar  {
-	background: linear-gradient(45deg, rgba(47,153,193,1),rgba(46,94,137,1) 30%,rgba(46,94,137,1) 70%, rgba(47,153,193,1));
-}
-*/
+
 .box table {
     border-spacing: 0;
 	color: white;
@@ -276,7 +267,10 @@ em {
 .da span:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 }
-.basicInfo {
+.basicInfoBox {
+
+}
+.basicInfoTable {
 	table-layout:fixed;
 	width: 100%;
 	line-height: 23px;
@@ -385,6 +379,7 @@ em {
 	color: white;
 	margin: 0 0 5px 10px;
 	padding: 12px 10px 7px 10px;
+	cursor: pointer;
 }
 .equipAugs li:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
@@ -914,12 +909,13 @@ input#editBoxInput {
 	flex-wrap: wrap;
 }
 .popup2{
-	z-index:999;
+	z-index:5;
 	position: absolute;
 	background-color: rgba(128,128,128,0.9);
 	max-width: 250px;
 	min-width: 100px;
 	padding: 20px;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 }
 .popup button{
 	margin:5px;
@@ -987,12 +983,24 @@ button{
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
-	filter: drop-shadow(0 15px 20px black);
   }
 .boxModal {
 	max-width: 580px;
 	margin: 0 auto;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	outline: 1px solid rgba(54,255,255,1);	
 }
+.boxModal .boxTitleBar {
+	background: linear-gradient(45deg, rgba(47,153,193,1),rgba(46,94,137,1) 30%,rgba(46,94,137,1) 70%, rgba(47,153,193,1));
+}
+/* box hover, save bcuz i will use this in popup menu
+.box:hover {
+	outline: 1px solid rgba(54,255,255,1);
+}
+.box:hover .boxTitleBar  {
+	background: linear-gradient(45deg, rgba(47,153,193,1),rgba(46,94,137,1) 30%,rgba(46,94,137,1) 70%, rgba(47,153,193,1));
+}
+*/
 .modalItemListContainer {
 		overflow-y: auto;
 		overflow-x: hidden;
