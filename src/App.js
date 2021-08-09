@@ -451,7 +451,7 @@ function TableEditor(p) {
 	function SubmitBoxes() {
 		if (!lockSubmission) {
 			setLockSubmission(true)
-			axios.post(p.BACKENDURL+p.path,submitVals)
+			axios.post(p.BACKENDURL+p.path,{...submitVals,pass:p.password})
 			.then(()=>{
 				setSubmitVal("Clear")
 				setUpdate(true)
@@ -476,7 +476,7 @@ function TableEditor(p) {
 	useEffect(()=>{
 		var promises=[]
 		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
-			promises.push(axios.post(p.BACKENDURL+p.path,entry))
+			promises.push(axios.post(p.BACKENDURL+p.path,{...entry,pass:p.password}))
 		})
 		Promise.allSettled(promises)
 		.then(()=>{
@@ -497,7 +497,7 @@ function TableEditor(p) {
 		if (update) {
 			setLoading(true)
 			var dependency_map = {}
-			axios.get(p.BACKENDURL+p.path)
+			axios.get(p.BACKENDURL+p.path+"?pass="+p.password)
 			.then((data)=>{
 				var cols = data.data.fields
 				var rows = data.data.rows
@@ -507,7 +507,7 @@ function TableEditor(p) {
 				var promise_list = []
 
 				cols.filter((col)=>col.name!=="id"&&col.name.includes("_id")).forEach((col)=>{
-					promise_list.push(axios.get(p.BACKENDURL+"/"+col.name.replace("_id",""))
+					promise_list.push(axios.get(p.BACKENDURL+"/"+col.name.replace("_id","")+"?pass="+p.password)
 					.then((data)=>{
 						dependency_map[col.name]=data.data.rows.sort((a,b)=>b.id-a.id)
 					}))
@@ -544,11 +544,12 @@ function TableEditor(p) {
 						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
 							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{position:'absolute',top:"-1000px"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
-					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
+					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id,pass:p.password}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>{
 						return axios.patch(p.BACKENDURL+p.path,{
 							[col.name]:value,
-							id:dat.id
+							id:dat.id,
+							pass:p.password
 						})
 						}} value={String(dat[col.name])}/></td>)}</tr>)}
 			  </tbody>
@@ -565,7 +566,7 @@ function DatabaseEditor(p) {
 
 	useEffect(()=>{
 		if (update) {
-			axios.get(p.BACKENDURL+"/databases")
+			axios.get(p.BACKENDURL+"/databases?pass="+p.password)
 			.then((data)=>{
 				setDatabases(data.data)
 			})
@@ -584,7 +585,7 @@ function DatabaseEditor(p) {
 				<button className="basichover" style={{backgroundColor:"navy"}} onClick={()=>{
 					setLoading(true)
 					setMessage(<span style={{color:"black"}}>Uploading Test Database to Production...</span>)
-					axios.post(p.BACKENDURL+"/databases/testtolive")
+					axios.post(p.BACKENDURL+"/databases/testtolive",{pass:p.password})
 					.then(()=>{
 						setMessage(<span style={{color:"green"}}>Success! Test Database is now live!</span>)
 					})
@@ -598,7 +599,7 @@ function DatabaseEditor(p) {
 				<button className="basichover" style={{backgroundColor:"maroon"}}  onClick={()=>{
 					setLoading(true)
 					setMessage(<span style={{color:"black"}}>Restoring Test Database using Live Database...</span>)
-					axios.post(p.BACKENDURL+"/databases/livetotest")
+					axios.post(p.BACKENDURL+"/databases/livetotest",{pass:p.password})
 					.then(()=>{
 						setMessage(<span style={{color:"green"}}>Success! Live Database has been applied to the Test Database!</span>)
 					})
@@ -612,7 +613,7 @@ function DatabaseEditor(p) {
 				<button className="basichover" style={{backgroundColor:"darkgreen"}}  onClick={()=>{
 					setLoading(true)
 					setMessage(<span style={{color:"black"}}>Backing up the Live database...</span>)
-					axios.post(p.BACKENDURL+"/databases/backup")
+					axios.post(p.BACKENDURL+"/databases/backup",{pass:p.password})
 					.then(()=>{
 						setMessage(<span style={{color:"green"}}>Success! Live Database has been saved!</span>)
 					})
@@ -641,7 +642,8 @@ function DatabaseEditor(p) {
 				onClick={()=>{
 					setLoading(true)
 					axios.post(p.BACKENDURL+"/databases/restorefrombackup",{
-						database:db.datname
+						database:db.datname,
+						pass:p.password
 					})
 					.then((data)=>{
 						setMessage(<span style={{color:"green"}}>{"Success! Database has been set to the state from "+date}</span>)
@@ -661,8 +663,29 @@ function DatabaseEditor(p) {
 }
 
 function AdminPanel(p) {
+	const [verified,setVerified] = useState(false)
+	const [password,setPassword] = useState("")
 	return <div className="main">
-	  <div className="w-25"><Box title="Navigation">
+		{!verified?
+		<div className="w-75">
+			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+			<input type="password" value={password} onChange={(f)=>{setPassword(f.currentTarget.value)}} onKeyDown={(e)=>{
+				if (e.key==="Enter") {
+					axios.post(GetBackendURL(p)+"/passwordcheck",{
+						pass:password
+					})
+					.then((data)=>{
+						if (data.data.verified) {
+							setVerified(data.data.verified)
+						}
+					})
+					.catch((err)=>{
+						setVerified(false)
+						setPassword("")
+					})}}}></input>
+			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+		</div>:<>
+		<div className="w-25"><Box title="Navigation">
 		  <Table classes="adminNav">
 		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
 		  <Link to={process.env.PUBLIC_URL+"/admin/classdata"}>Class Data</Link><br/>
@@ -705,82 +728,82 @@ function AdminPanel(p) {
 		</Table></Box></div>
 		<div className="w-75">
 			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classdata"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_level_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_level_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_weapon_type_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_weapon_type_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/photonarts"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/photon_art"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/photon_art"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weapons"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/weapon"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/weapon"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/weapon_existence_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/weapon_existence_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/weapontypes"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/weapon_type"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/weapon_type"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/armor"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/armor"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/armor"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/potentials"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/potential"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/potential"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/potentialdata"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/potential_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/potential_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/builds"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/builds"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/builds"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skills"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/skill"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/skill"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skilltypes"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/skill_type"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/skill_type"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/skilldata"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/skill_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/skill_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classskills"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_skill"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_skill"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/classskilldata"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/class_skill_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_skill_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/augments"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/augment"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/augment"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/augmenttypes"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/augment_type"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/augment_type"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/enemydata"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/enemy_data"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/enemy_data"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/food"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/food"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/food"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/food_mult"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/food_mult"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/roles"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/roles"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/roles"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/users"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/users"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/users"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/database_audit"}>
-				<TableEditor BACKENDURL={GetBackendURL(p)} path="/database_audit"/>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/database_audit"/>
 			</Route>
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
-				<DatabaseEditor BACKENDURL={GetBackendURL(p)}/>
+				<DatabaseEditor password={password} BACKENDURL={GetBackendURL(p)}/>
 			</Route>
-		</div>
-		</div>
+		</div></>}
+	</div>
 }
 
 function EditStatBox(p) {
