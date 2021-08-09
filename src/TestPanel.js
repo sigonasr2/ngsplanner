@@ -465,7 +465,7 @@ useEffect(()=>{
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name} <span>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description.replace("\\n","\n")}</>)}</span></span></li>}}
+  return <li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name} <span>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description.split("\\n").map((text)=><>{text}<br/></>)}</>)}</span></span></li>}}
   
   />
 
