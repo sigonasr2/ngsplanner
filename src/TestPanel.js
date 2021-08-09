@@ -134,6 +134,40 @@ function PopupWindow(p) {
 	</Modal>
 } 
 
+function SelectorWindow(p) {
+
+  const [itemList,setItemList] = useState([])
+
+  const [tabPage,setTabPage] = useState(1)
+  const [sortSelector,setSortSelector] = useState(p.sortItems[0])
+  const [filter,setFilter] = useState("")
+  
+  useEffect(()=>{
+    setItemList(p.dataFunction())
+  },[p])
+  
+  return <PopupWindow page={tabPage} setPage={setTabPage} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} showCloseButton={true} title={p.title}
+      pageNames={p.pageNames}
+      filter={true}
+    >
+    <div className="itemBar">
+        <div className="itemBarSort">
+          <select className="itemBarForm" value={sortSelector} onChange={(f)=>{setSortSelector(f.currentTarget.value)}}>
+            {p.sortItems&&p.sortItems.map((item)=><option value={item}>{item}</option>)}
+          </select>
+        </div>
+        <div className="itemBarFilter">
+          {p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
+        </div>
+      </div>
+    <div className="modalItemListContainer customScrollbar">
+    <ul className="itemlist">
+    {itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item))}
+    </ul>
+    </div>
+  </PopupWindow>
+}
+
 function TestPanel(p) {
 const [bpGraphMax,setbpGraphMax] = useState(1000)
 const [hpGraphMax,sethpGraphMax] = useState(1000)
@@ -152,16 +186,7 @@ const [effectPage,setEffectPage] = useState(1)
 const [weaponPage,setWeaponPage] = useState(1)
 const [statPage,setStatPage] = useState(1)
 
-const [modalOpen,setModalOpen] = useState(false)
-const [tabPage,setTabPage] = useState(1)
-const [sortSelector,setSortSelector] = useState("Standard Sort")
-const sortItems=[
-  {name:"Standard Sort",value:"id"},
-  {name:"Rarity",value:"rarity"},
-  {name:"Attack",value:"atk"},
-  {name:"Potency",value:"potency"}]
-const [filter,setFilter] = useState("")
-const filterEnabled=true
+const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 
 useEffect(()=>{
   if (p.bp>1000) {
@@ -178,20 +203,6 @@ useEffect(()=>{
     setdefGraphMax(1000)
   }
 },[p.bp]) 
-
-const [itemList,setItemList] = useState([])
-
-useEffect(()=>{
-  var dat1=p.GetData("weapon_existence_data")
-  if (Array.isArray(dat1)) {
-    setItemList(dat1.map((we)=>{
-      var weapon_type=p.GetData("weapon_type",we.weapon_type_id,undefined,true)
-      var weapon=p.GetData("weapon",we.weapon_id,undefined,true)
-      var potential=p.GetData("potential",weapon.potential_id,undefined,true)
-      return [weapon_type,weapon,potential]
-    }))
-  }
-},[p])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -264,7 +275,7 @@ useEffect(()=>{
 <div className="boxTitleBar">
 <h1>Equip</h1></div>
 <div className="equipPalette">
-	<div onClick={()=>{setModalOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
+	<div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
 	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
@@ -423,67 +434,38 @@ useEffect(()=>{
 </div>
 </div>
 
-<PopupWindow page={tabPage} setPage={setTabPage} modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title"
+<SelectorWindow title="Weapon Selection" modalOpen={weaponSelectWindowOpen} setModalOpen={setWeaponSelectWindowOpen} GetData={p.GetData}
   pageNames={["All","Rifle","Launcher","Rod","Talis"]}
-  sortItems={[
-    {name:"Standard Sort",value:"id"},
-    {name:"Rarity",value:"rarity"},
-    {name:"Attack",value:"atk"},
-    {name:"Potency",value:"potency"}]}
+  sortItems={["Standard Sort","Rarity","Attack","Potency"]}
   filter={true}
->
-  <div className="itemBar">
-      <div className="itemBarSort">
-        <select className="itemBarForm" value={sortSelector} onChange={(f)=>{setSortSelector(f.currentTarget.value)}}>
-          {sortItems.map((item)=><option value={item.name}>{item.name}</option>)}
-        </select>
-      </div>
-      <div className="itemBarFilter">
-        {filterEnabled&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
-      </div>
-    </div>
-  <div className="modalItemListContainer customScrollbar">
-  <ul className="itemlist">
-  {itemList.filter((item)=>{
-    switch (tabPage) {
-      case 2:{
-        return item[0].name==="Assault Rifle"
-      }
-      case 3:{
-        return item[0].name==="Launcher"
-      }
-      case 4:{
-        return item[0].name==="Rod"
-      }
-      case 5:{
-        return item[0].name==="Talis"
-      }
-      default:{
-        return true
-      }
+  dataFunction={()=>{
+    var dat1=p.GetData("weapon_existence_data")
+      return Array.isArray(dat1)?dat1.map((we)=>{
+        var weapon_type=p.GetData("weapon_type",we.weapon_type_id,undefined,true)
+        var weapon=p.GetData("weapon",we.weapon_id,undefined,true)
+        var potential=p.GetData("potential",weapon.potential_id,undefined,true)
+        return [weapon_type,weapon,potential]
+      }):[]
+  }}
+  filterFunction={(page,item)=>{
+    switch (page) {
+      case 2:return item[0].name==="Assault Rifle"
+      case 3:return item[0].name==="Launcher"
+      case 4:return item[0].name==="Rod"
+      case 5:return item[0].name==="Talis"
+      default:return true
     }
-  }).filter((item)=>{
-    if (filter.length>0) {
-      return (item[1].name.toLowerCase()+" "+item[0].name.toLowerCase()).includes(filter.toLowerCase())
-    } else {
-      return true
-    }
-  }).sort((a,b)=>{
-    switch (sortSelector) {
-      case "Rarity":{
-        return b[1].rarity-a[1].rarity
-      }
-      case "Attack":{
-        return b[1].atk-a[1].atk
-      }
-      default:{
-        return 0
-      }
-    }
-  }).map((item)=><li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name}<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>)}
-  </ul>
-  </div>
-</PopupWindow>
+  }}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[1].name.toLowerCase()+" "+item[0].name.toLowerCase()).includes(searchText.toLowerCase()):true}
+  sortOrderFunction={(sort,itemA,itemB)=>{
+    switch (sort) {
+      case "Rarity":return itemB[1].rarity-itemA[1].rarity
+      case "Attack":return itemB[1].atk-itemA[1].atk
+      default:return 0
+    }  
+  }}
+  displayFunction={(item)=><li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name}<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>}
+  />
 
 </>
 )
