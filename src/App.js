@@ -1074,32 +1074,20 @@ function App() {
 					<DamageCalculator/>
 				</Route>
 				<Route path="/">
-				<div id="main">
-					<Col>
-							<MainBox author={author} setAuthor={setAuthor} buildName={buildName} setBuildName={setBuildName} className={className} setClassName={setClassName} secondaryClassName={secondaryClassName} setSecondaryClassName={setSecondaryClassName}/>
-							<EffectsBox effectList={effectList} setEffectList={setEffectList}/>
-						</Col>
-						<Col>
-							<EquipBox weapon={weapon} setWeapon={setWeapon} armorSlot1={armorSlot1} setArmorSlot1={setArmorSlot1} armorSlot2={armorSlot2} setArmorSlot2={setArmorSlot2} armorSlot3={armorSlot3} setArmorSlot3={setArmorSlot3} weaponEnhancementLv={weaponEnhancementLv} setWeaponEnhancementLv={setWeaponEnhancementLv} armorSlot1EnhancementLv={armorSlot1EnhancementLv} setArmorSlot1EnhancementLv={setArmorSlot1EnhancementLv} armorSlot2EnhancementLv={armorSlot2EnhancementLv} setArmorSlot2EnhancementLv={setArmorSlot2EnhancementLv} armorSlot3EnhancementLv={armorSlot3EnhancementLv} setArmorSlot3EnhancementLv={setArmorSlot3EnhancementLv}/>
-							<EquippedWeaponBox weapon={weapon} armorSlot1={armorSlot1} armorSlot2={armorSlot2} armorSlot3={armorSlot3} weaponAbilityList={weaponAbilityList} setWeaponAbilityList={setWeaponAbilityList} armor1AbilityList={armor1AbilityList} setArmor1AbilityList={setArmor1AbilityList} armor2AbilityList={armor2AbilityList} setArmor2AbilityList={setArmor2AbilityList} armor3AbilityList={armor3AbilityList} setArmor3AbilityList={setArmor3AbilityList} weaponEnhancementLv={weaponEnhancementLv}armorSlot1EnhancementLv={armorSlot1EnhancementLv}armorSlot2EnhancementLv={armorSlot2EnhancementLv}armorSlot3EnhancementLv={armorSlot3EnhancementLv}/>
-						</Col>
-						<Col>
-							
-							<StatsBox bp={bp} setBP={setBP} hp={hp} setHP={setHP} pp={pp} setPP={setPP} def={def} setDef={setDef} weaponUp1={weaponUp1} setWeaponUp1={setWeaponUp1} weaponUp2={weaponUp2} setWeaponUp2={setWeaponUp2} weaponUp3={weaponUp3} setWeaponUp3={setWeaponUp3} damageResist={damageResist} setDamageResist={setDamageResist}/>
-							<DamageBox criticalHitRate={criticalHitRate} setCriticalHitRate={setCriticalHitRate} criticalMultiplier={criticalMultiplier} setCriticalMultiplier={setCriticalMultiplier} midRange={midRange} setMidRange={setMidRange} critical={critical} setCritical={setCritical} effective={effective} setEffective={setEffective}/>
-						</Col>
-						<PopupWindow modalOpen={modalOpen} setModalOpen={setModalOpen} showCloseButton={true} title="Modal Title">Modal content goes here.{BACKENDURL}
-						<br/><br/>
-						<Toggle className="testmode" defaultChecked={TESTMODE} value={TESTMODE} onChange={(t)=>{setTESTMODE(t.target.checked)}}/>Test Mode: {JSON.stringify(TESTMODE)}
-						<br/><br/>{"Fighter Icon URL: "+GetData("class","Fighter","icon")}
-						<br/><br/>Gunner Level Stats:{
-						[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-						.map((numb)=>{
-							var data=GetData("class_level_data","Gunner Lv."+numb);
-							return <><br/>{"Lv."+data.level+": "+data.hp+","+data.atk+","+data.def}</>
-						})}
-						</PopupWindow>
-					</div>
+				<div className="modalOverlay">
+				<div className="modal">
+				<div className="box boxModal" style={{textAlign:"center"}}>
+				<div className="boxTitleBar"><h1>Under Construction</h1></div>
+				<br /><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
+				<p style={{textAlign:"justify",width:"33%",margin:"0 auto"}}>
+				NGSplanner.com is currently under construction! Please check back after Sig yells at me enough to help finish it.<br />
+				</p>
+				<p style={{textAlign:"center",width:"66%",margin:"0 auto"}}>
+				Repo: <a href="https://github.com/sigonasr2/ngsplanner/">github.com/sigonasr2/ngsplanner</a>
+				</p>
+				</div>
+				</div>
+				</div>
 				</Route>
 			</Switch>
 		</HashRouter>

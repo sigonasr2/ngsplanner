@@ -87,7 +87,7 @@ function ExpandTooltip(p) {
   placement="top"
   radius={5}
   zIndex={1} 
-  className="xTooltip" content={p.tooltip}>{p.mouseOverText}</Tooltip>
+  className="xTooltip" content={p.tooltip}>{p.children}</Tooltip>
 }
 
 function Class(p) {
@@ -162,12 +162,13 @@ function SelectorWindow(p) {
           {p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
         </div>
       </div>
-    }
+    }<div className="tooltipAnchor">
     <div className="modalItemListContainer customScrollbar">
     <ul className="itemlist">
     {itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item))}
     {p.children}
     </ul>
+    </div>
     </div>
   </PopupWindow>
 }
@@ -292,23 +293,36 @@ useEffect(()=>{
               <h1>Equipped Weapon</h1></div>
               <h2 className="rifle">Resurgir Rifle+40</h2>
               <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
-              <div className="equipDetails">
-              <div className="equipAugs">
-              {weaponPage===1?
-                <ul>
-                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
-                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
-                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
-                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
-                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
-                  <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-                </ul>  
+
+
+              {weaponPage===3?
+                <div class="equipDetails">
+<div class="equipAugs">
+<h3>Ability Details</h3>
+<ul>
+<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span class="pot">Dynamo Unit Lv.3</span></li>
+<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span class="fixa">Fixa Attack Lv.3</span></li>
+<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Pettas Soul II</span></li>
+<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span class="aug">Alts Secreta II</span></li>
+<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Gigas Precision II</span></li>
+<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span class="aug">Precision III</span></li>
+<li><img alt="" src="./icons/aug_plus.png" /></li>
+</ul>
+</div>
+<div class="pr">
+<h3>Stat Adjustment</h3>
+<ul>
+<li>Enhancement Lv.&emsp;<span>+35</span></li>
+<li>Multi-Weapon&emsp;<span>-</span></li>
+<li>Element&emsp;<span>-</span></li>
+</ul>
+</div>
+</div>
               :
               <>hi</>
               }
-            </div>
-          </div>
+
+
         </div>
       </div>
       <div className="containerC">
@@ -465,7 +479,9 @@ useEffect(()=>{
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name} <span>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description.replace("\\n","\n")}</>)}</span></span></li>}}
+  return <li className={"itemwep r"+item[1].rarity}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em></div><br /><span className="atk">{item[1].atk}</span> <ExpandTooltip tooltip={<>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description.split("\\n").map((it)=><>{it}<br/> </>)}</>)}</>}>
+    <span className="pot">{item[2].name}</span>
+    </ExpandTooltip></li>}}
   
   />
 

@@ -40,7 +40,7 @@ body {
     background-size: 1903px,2560px;
 	background-color: #e8ecf4;
     background-repeat: no-repeat,repeat-y;
-    background-position: center 40px;
+    background-position: center 0;
 	color: black;
     font-family: ngs,Arial,sans-serif;
 	font-size: 11pt;
@@ -267,16 +267,10 @@ em {
 .da span:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 }
-.basicInfoBox {
-
-}
 .basicInfoTable {
 	table-layout:fixed;
 	width: 100%;
 	line-height: 23px;
-}
-.basicInfo td:nth-child(2) {
-
 }
 .basicInfo td:nth-child(3) {
 	width: 33%;
@@ -312,9 +306,6 @@ em {
 	color: white;
 }
 .box h3 {
-/*	background-image: url("tr_bg.png");
-	background-repeat: no-repeat;
-	background-position: left bottom;*/
 	font-size: 12pt;
 	font-weight: normal;
 	padding: 0 5px;
@@ -406,11 +397,18 @@ em {
 	white-space: normal;
 	left: 1em;
 }
+.tooltipAnchor {
+    position: relative;
+}
 .xTooltip {
 	margin: 0 10px 0 0;
 	display: inline;
 	cursor: help;
+	color: white;
+	font-size:10pt;
+	text-align: left;
 }
+
 [class*="BaseToolTop"] {
 	min-width: 200px;
 }
@@ -429,15 +427,12 @@ em {
 .pr li span {
 	color:white
 }
-/*.pr li:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-}*/
 .ye {
 	color: #ffb74c;
 }
 .itemlist {
 	margin: 0 10px;
-	position: relative;
+
 }
 .itemlist li {
 	background-color: rgba(128,128,128,0.33);
@@ -447,9 +442,7 @@ em {
     background-repeat: no-repeat;
     background-position: right top;
 	background-origin: content-box;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+
 }
 .aug:before {
 	content:url("./icons/UINGSItemSpecialAbility.png");
@@ -459,9 +452,15 @@ em {
 .itemwep {
 	font-size: 10pt;
 }
+.itemWeaponWrapper {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-right: 16px;
+}
 .itemwep em {
 	font-size: 12pt;
-	line-height: 28px;	
+	line-height: 28px;
 }
 .itemwep:after {
 	clear:both;
@@ -648,20 +647,29 @@ option {
 	background-color: rgb(128,128,128);
 }
 .boxExit {
-	padding: 9px 9px 3px 9px;
+	padding: 4px 9px 8px 9px;
 	margin: 4px;
 }
 .boxExit:hover {
 	background-color: hsl(0, 100%, 33%);
 	outline: 2px solid hsl(0, 100%, 50%);
 }
-.boxExit:after {
+/*.boxExit:after {
     content: ' \2573';
 	font-size:9pt;
-}
-/*.itembox:hover {
-	border: 1px solid #36ffff;
 }*/
+.boxExit:before, .boxExit:after {
+	height: 28px;
+	background-color:white;
+	width: 2px;
+	content: " ";
+}
+.boxExit:before {
+	transform: rotate(45deg);
+}
+.boxExit:after {
+	transform: rotate(-45deg);
+}
 .exit {
 	color: white;
 }
