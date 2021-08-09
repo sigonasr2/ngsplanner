@@ -213,230 +213,216 @@ useEffect(()=>{
 
     return (<>
 <div className="main">
-<div className="containerA">
-<div className="box basicInfoBox">
-<div className="boxTitleBar">
-<h1>Basic Information</h1></div>
+  <div className="containerA">
+    <div className="box basicInfoBox">
+      <div className="boxTitleBar">
+      <h1>Basic Information</h1></div>
 
-<table className="basicInfoTable">
-  <tr>
-    <td>Author</td>
-    <td colspan="2"><EditBoxInput setData={setauthor} data={author}/></td>
-  </tr>
-  <tr>
-    <td>Build Name</td>
-    <td colspan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
-  </tr>
-  <tr>
-    <td onClick={()=>{setClassSelectWindowOpen(true)}} >Class</td>
-    <td>
-<EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
-    </td>
-    <td>
-    <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
-    </td>
-  </tr>
-  <tr>
-    <td>Sub-Class</td>
-    <td>
-    <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
-    </td>
-    <td>
-    <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
-    </td>
-  </tr>
-</table>
-</div>
-<div className="box">
-<div className="boxTitleBar">
-<h1>Current Effects</h1></div>
-<PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
-<h3>Effect Name</h3>
-<ul className="infoBuffs">
-	{
-    effectPage===1?<><li>Food Boost Effect
-      <ul>
-        <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-        <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+      <table className="basicInfoTable">
+        <tr>
+          <td>Author</td>
+          <td colspan="2"><EditBoxInput setData={setauthor} data={author}/></td>
+        </tr>
+        <tr>
+          <td>Build Name</td>
+          <td colspan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
+        </tr>
+        <tr>
+          <td onClick={()=>{setClassSelectWindowOpen(true)}} >Class</td>
+          <td>
+      <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
+          </td>
+          <td>
+          <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Sub-Class</td>
+          <td>
+          <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
+          </td>
+          <td>
+          <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
+          </td>
+        </tr>
+      </table>
+      </div>
+      <div className="box">
+      <div className="boxTitleBar">
+      <h1>Current Effects</h1></div>
+      <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
+      <h3>Effect Name</h3>
+      <ul className="infoBuffs">
+        {
+          effectPage===1?<><li>Food Boost Effect
+            <ul>
+              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+            </ul>
+          </li>
+          <li>Shifta / Deband
+            <ul>
+              <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
+              <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
+            </ul>
+          </li>
+          <li>Region Mag Boost
+            <ul>
+              <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
+            </ul>
+          </li></>:<></>
+        }
       </ul>
-    </li>
-    <li>Shifta / Deband
-      <ul>
-        <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
-        <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
-      </ul>
-    </li>
-    <li>Region Mag Boost
-      <ul>
-        <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
-      </ul>
-    </li></>:<></>
-  }
-</ul>
-</div>
-</div>
-<div className="containerB">
-<div className="box">
-<div className="boxTitleBar">
-<h1>Equip</h1></div>
-<div className="equipPalette">
-	<div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
-	<div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
-</div>
-</div>
-<div className="box">
-<div className="boxTitleBar">
-<h1>Equipped Weapon</h1></div>
-<h2 className="rifle">Resurgir Rifle+40</h2>
-<PageControl pages={6} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
-<div className="equipDetails">
-<div className="equipAugs">
-<h3>Abilitiy Details</h3>
-{weaponPage===1?
-  <ul>
-  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
-  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
-  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
-  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
-  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
-  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
-  <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-  </ul>
-:
-  <ul>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-     <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
-</ul>
-}
-</div>
-<div className="pr">
-<h3>Properties</h3>
-{weaponPage===1?
-  <ul>
-    <li>Enhancement Lv.&emsp;<span>+35</span></li>
-    <li>Multi-Weapon&emsp;<span>-</span></li>
-    <li>Element&emsp;<span>-</span></li>
-  </ul>:
-  <ul>
-    <li>Enhancement Lv.&emsp;<span>-</span></li>
-    <li>Multi-Weapon&emsp;<span>-</span></li>
-    <li>Element&emsp;<span>-</span></li>
-  </ul>
-}
-</div>
-</div>
-</div>
-</div>
-<div className="containerC">
-<div className="box">
-<div className="boxTitleBar">
-<h1>Basic Stats</h1></div>
-<table className="statsInfo">
-  <tr>
-    <td>Battle Power</td>
-	<td>{p.bp}</td>
-  <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-  </tr>
-  <tr>
-    <td>HP</td>
-	<td>{p.hp}</td>
-  <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-  </tr>
-  <tr>
-    <td>PP</td>
-    <td>{p.pp}</td>
-    <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-  </tr>
-  <tr>
-    <td>Attack</td>
-    <td>{p.statDisplayAtk}</td>
-    <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-  </tr>
-   <tr>
-    <td>Defense</td>
-    <td>{p.def}</td>
-    <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-  </tr>
-   <tr>
-    <td>Weapon Up</td>
-    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
-    <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
-    <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>Ailment Resist.</td>
-    <td>{p.damageResist}</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-</tr>
-    <tr>
-    <td>Damage Resist.</td>
-    <td>{p.damageResist}</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-</tr>
-</table>
-</div>
-<div className="box">
-<div className="boxTitleBar">
-<h1>Damage Stats</h1></div>
-<PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
-<table className="basicInfo">
-  {statPage===1?<>
-    <tr>
-      <td>Critical Hit Rate</td>
-      <td>5%</td>
-    </tr>
-    <tr>
-      <td>Critical Multiplier</td>
-      <td>120%</td>
-    </tr>
-    <tr>
-      <td>Midrange</td>
-      <td>126</td>
-    </tr>
-    <tr>
-      <td>Critcal</td>
-      <td>152</td>
-    </tr>
-    <tr>
-      <td>Effective</td>
-      <td><span className="ye">127</span></td>
-    </tr>
-  </>:<>
-    <tr>
-      <td>Critical Hit Rate</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>Critical Multiplier</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>Midrange</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>Critcal</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>Effective</td>
-      <td><span className="ye">-</span></td>
-    </tr>
-    </>
-  }
-</table>
-</div>
-</div>
+      </div>
+      </div>
+      <div className="containerB">
+        <div className="box">
+          <div className="boxTitleBar">
+          <h1>Equip</h1></div>
+          <div className="equipPalette">
+              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
+                <div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
+                  <div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
+                  <div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
+                </div>
+              </div>
+
+              <div className="box">
+              <div className="boxTitleBar">
+              <h1>Equipped Weapon</h1></div>
+              <h2 className="rifle">Resurgir Rifle+40</h2>
+              <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
+              <div className="equipDetails">
+              <div className="equipAugs">
+              {weaponPage===1?
+                <ul>
+                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</>}/><span className="pot">Dynamo Unit Lv.3</span></li>
+                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Potency +4%</>}/><span className="fixa">Fixa Attack Lv.3</span></li>
+                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>PP +5<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Pettas Soul II</span></li>
+                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</>}/><span className="aug">Alts Secreta II</span></li>
+                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>HP +10<br />Ranged Weapon Potency +2.0%</>}/><span className="aug">Gigas Precision II</span></li>
+                  <li><ExpandTooltip mouseOverText={<img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} />} tooltip={<>Ranged Weapon Potency +2.0%</>}/><span className="aug">Precision III</span></li>
+                  <li className="addAug"><img alt="" src={process.env.PUBLIC_URL+"/icons/aug_plus.png"} /></li>
+                </ul>  
+              :
+              <>hi</>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="containerC">
+      <div className="box">
+      <div className="boxTitleBar">
+      <h1>Basic Stats</h1></div>
+      <table className="statsInfo">
+        <tr>
+          <td>Battle Power</td>
+        <td>{p.bp}</td>
+        <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+        </tr>
+        <tr>
+          <td>HP</td>
+        <td>{p.hp}</td>
+        <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+        </tr>
+        <tr>
+          <td>PP</td>
+          <td>{p.pp}</td>
+          <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+        </tr>
+        <tr>
+          <td>Attack</td>
+          <td>{p.statDisplayAtk}</td>
+          <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+        </tr>
+        <tr>
+          <td>Defense</td>
+          <td>{p.def}</td>
+          <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+        </tr>
+        <tr>
+          <td>Weapon Up</td>
+          <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
+          <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
+          <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Ailment Resist.</td>
+          <td>
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/burn.png"} /> {(p.burnResist*100).toFixed(1)}%<br />
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/shock.png"} /> {(p.shockResist*100).toFixed(1)}%<br />
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/panic.png"} /> {(p.panicResist*100).toFixed(1)}%<br />
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/stun.png"} /> {(p.stunResist*100).toFixed(1)}%<br />
+          </td>
+          <td>
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/freeze.png"} /> {(p.freezeResist*100).toFixed(1)}%<br />
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/blind.png"} /> {(p.blindResist*100).toFixed(1)}%<br />
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br />
+          </td>
+          <td>&nbsp;</td>
+      </tr>
+          <tr>
+          <td>Damage Resist.</td>
+          <td>{(p.damageResist*100).toFixed(1)}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+      </tr>
+      </table>
+      </div>
+      <div className="box">
+      <div className="boxTitleBar">
+      <h1>Damage Stats</h1></div>
+      <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
+      <table className="basicInfo">
+        {statPage===1?<>
+          <tr>
+            <td>Critical Hit Rate</td>
+            <td>5%</td>
+          </tr>
+          <tr>
+            <td>Critical Multiplier</td>
+            <td>120%</td>
+          </tr>
+          <tr>
+            <td>Midrange</td>
+            <td>126</td>
+          </tr>
+          <tr>
+            <td>Critcal</td>
+            <td>152</td>
+          </tr>
+          <tr>
+            <td>Effective</td>
+            <td><span className="ye">127</span></td>
+          </tr>
+        </>:<>
+          <tr>
+            <td>Critical Hit Rate</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Critical Multiplier</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Midrange</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Critcal</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Effective</td>
+            <td><span className="ye">-</span></td>
+          </tr>
+          </>
+        }
+      </table>
+    </div>
+  </div>
 </div>
 
 <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
@@ -451,7 +437,14 @@ useEffect(()=>{
         var weapon_type=p.GetData("weapon_type",we.weapon_type_id,undefined,true)
         var weapon=p.GetData("weapon",we.weapon_id,undefined,true)
         var potential=p.GetData("potential",weapon.potential_id,undefined,true)
-        return [weapon_type,weapon,potential]
+        var potential_all=p.GetData("potential_data")
+        var potential_tooltip=[]
+        for (var pot in potential_all) {
+          if (pot.includes(potential.name)) {
+            potential_tooltip.push(p.GetData("potential_data",pot))
+          }
+        }
+        return [weapon_type,weapon,potential,potential_tooltip]
       }):[]
   }}
   filterFunction={(page,item)=>{
@@ -471,7 +464,9 @@ useEffect(()=>{
       default:return 0
     }  
   }}
-  displayFunction={(item)=><li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name}<span>Lv.4: Potency +24%/<br />20% chance of Restasigne not being consumed on use. Effect starts 10 sec after equip</span></span></li>}
+  displayFunction={(item)=>{
+  return <li className={"itemwep r"+item[1].rarity}><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em><br /><span className="atk">{item[1].atk}</span>					<span className="pot tooltip">{item[2].name} <span>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description.replace("\\n","\n")}</>)}</span></span></li>}}
+  
   />
 
 </>

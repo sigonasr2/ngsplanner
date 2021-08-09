@@ -965,6 +965,13 @@ function App() {
 	const [weaponUp2,setWeaponUp2] = useState(0.241)
 	const [weaponUp3,setWeaponUp3] = useState(0.241)
 	const [damageResist,setDamageResist] = useState(0.18)
+	const [burnResist,setburnResist] = useState(0)
+	const [shockResist,setshockResist] = useState(0)
+	const [panicResist,setpanicResist] = useState(0)
+	const [stunResist,setstunResist] = useState(0)
+	const [freezeResist,setfreezeResist] = useState(0)
+	const [blindResist,setblindResist] = useState(0)
+	const [poisonResist,setpoisonResist] = useState(0)
 	
 	const [effectList,setEffectList] = useState([
 		"Food Boost Effect",
@@ -1051,7 +1058,14 @@ function App() {
 					weaponUp1={weaponUp1} 
 					weaponUp2={weaponUp2} 
 					weaponUp3={weaponUp3} 
-					damageResist={damageResist} 
+					damageResist={damageResist}
+					burnResist={burnResist} 
+					shockResist={shockResist} 
+					panicResist={panicResist} 
+					stunResist={stunResist} 
+					freezeResist={freezeResist} 
+					blindResist={blindResist} 
+					poisonResist={poisonResist} 
 					statDisplayAtk={statDisplayAtk} 
 					GetData={GetData}
 					/>
