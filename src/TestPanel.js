@@ -213,32 +213,34 @@ useEffect(()=>{
       <h1>Basic Information</h1></div>
 
       <table className="basicInfoTable">
-        <tr>
-          <td>Author</td>
-          <td colspan="2"><EditBoxInput setData={setauthor} data={author}/></td>
-        </tr>
-        <tr>
-          <td>Build Name</td>
-          <td colspan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
-        </tr>
-        <tr>
-          <td onClick={()=>{setClassSelectWindowOpen(true)}} >Class</td>
-          <td>
-      <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
-          </td>
-          <td>
-          <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
-          </td>
-        </tr>
-        <tr>
-          <td>Sub-Class</td>
-          <td>
-          <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
-          </td>
-          <td>
-          <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Author</td>
+            <td colSpan="2"><EditBoxInput setData={setauthor} data={author}/></td>
+          </tr>
+          <tr>
+            <td>Build Name</td>
+            <td colSpan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
+          </tr>
+          <tr>
+            <td onClick={()=>{setClassSelectWindowOpen(true)}} >Class</td>
+            <td>
+        <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
+            </td>
+            <td>
+            <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
+            </td>
+          </tr>
+          <tr>
+            <td>Sub-Class</td>
+            <td>
+            <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
+            </td>
+            <td>
+            <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
+            </td>
+          </tr>
+        </tbody>
       </table>
       </div>
       <div className="box">
@@ -323,59 +325,61 @@ useEffect(()=>{
       <div className="boxTitleBar">
       <h1>Basic Stats</h1></div>
       <table className="statsInfo">
-        <tr>
-          <td>Battle Power</td>
-        <td>{p.bp}</td>
-        <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-        </tr>
-        <tr>
-          <td>HP</td>
-        <td>{p.hp}</td>
-        <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-        </tr>
-        <tr>
-          <td>PP</td>
-          <td>{p.pp}</td>
-          <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-        </tr>
-        <tr>
-          <td>Attack</td>
-          <td>{p.statDisplayAtk}</td>
-          <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-        </tr>
-        <tr>
-          <td>Defense</td>
-          <td>{p.def}</td>
-          <td colspan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
-        </tr>
-        <tr>
-          <td>Weapon Up</td>
-          <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
-          <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
-          <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td>Ailment Resist.</td>
-          <td>
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/burn.png"} /> {(p.burnResist*100).toFixed(1)}%<br />
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/shock.png"} /> {(p.shockResist*100).toFixed(1)}%<br />
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/panic.png"} /> {(p.panicResist*100).toFixed(1)}%<br />
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/stun.png"} /> {(p.stunResist*100).toFixed(1)}%<br />
-          </td>
-          <td>
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/freeze.png"} /> {(p.freezeResist*100).toFixed(1)}%<br />
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/blind.png"} /> {(p.blindResist*100).toFixed(1)}%<br />
-            <img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br />
-          </td>
-          <td>&nbsp;</td>
-      </tr>
+        <tbody>
           <tr>
-          <td>Damage Resist.</td>
-          <td>{(p.damageResist*100).toFixed(1)}%</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-      </tr>
+            <td>Battle Power</td>
+          <td>{p.bp}</td>
+          <td colSpan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+          </tr>
+          <tr>
+            <td>HP</td>
+          <td>{p.hp}</td>
+          <td colSpan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+          </tr>
+          <tr>
+            <td>PP</td>
+            <td>{p.pp}</td>
+            <td colSpan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+          </tr>
+          <tr>
+            <td>Attack</td>
+            <td>{p.statDisplayAtk}</td>
+            <td colSpan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+          </tr>
+          <tr>
+            <td>Defense</td>
+            <td>{p.def}</td>
+            <td colSpan="2"><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></td>
+          </tr>
+          <tr>
+            <td>Weapon Up</td>
+            <td><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /><span className="ye">&nbsp;+{(p.weaponUp1*100).toFixed(1)}%</span><br />
+            <img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /><span className="ye">&nbsp;+{(p.weaponUp3*100).toFixed(1)}%</span></td>
+            <td><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /><span className="ye">&nbsp;+{(p.weaponUp2*100).toFixed(1)}%</span></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>Ailment Resist.</td>
+            <td>
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/burn.png"} /> {(p.burnResist*100).toFixed(1)}%<br />
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/shock.png"} /> {(p.shockResist*100).toFixed(1)}%<br />
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/panic.png"} /> {(p.panicResist*100).toFixed(1)}%<br />
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/stun.png"} /> {(p.stunResist*100).toFixed(1)}%<br />
+            </td>
+            <td>
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/freeze.png"} /> {(p.freezeResist*100).toFixed(1)}%<br />
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/blind.png"} /> {(p.blindResist*100).toFixed(1)}%<br />
+              <img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br />
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+            <tr>
+            <td>Damage Resist.</td>
+            <td>{(p.damageResist*100).toFixed(1)}%</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+      </tbody>
       </table>
       </div>
       <div className="box">
@@ -383,50 +387,52 @@ useEffect(()=>{
       <h1>Damage Stats</h1></div>
       <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
       <table className="basicInfo">
-        {statPage===1?<>
-          <tr>
-            <td>Critical Hit Rate</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>Critical Multiplier</td>
-            <td>120%</td>
-          </tr>
-          <tr>
-            <td>Midrange</td>
-            <td>126</td>
-          </tr>
-          <tr>
-            <td>Critical</td>
-            <td>152</td>
-          </tr>
-          <tr>
-            <td>Effective</td>
-            <td><span className="ye">127</span></td>
-          </tr>
-        </>:<>
-          <tr>
-            <td>Critical Hit Rate</td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>Critical Multiplier</td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>Midrange</td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>Critical</td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>Effective</td>
-            <td><span className="ye">-</span></td>
-          </tr>
-          </>
-        }
+        <tbody>
+          {statPage===1?<>
+            <tr>
+              <td>Critical Hit Rate</td>
+              <td>5%</td>
+            </tr>
+            <tr>
+              <td>Critical Multiplier</td>
+              <td>120%</td>
+            </tr>
+            <tr>
+              <td>Midrange</td>
+              <td>126</td>
+            </tr>
+            <tr>
+              <td>Critical</td>
+              <td>152</td>
+            </tr>
+            <tr>
+              <td>Effective</td>
+              <td><span className="ye">127</span></td>
+            </tr>
+          </>:<>
+            <tr>
+              <td>Critical Hit Rate</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Critical Multiplier</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Midrange</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Critical</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Effective</td>
+              <td><span className="ye">-</span></td>
+            </tr>
+            </>
+          }
+        </tbody>
       </table>
     </div>
   </div>
