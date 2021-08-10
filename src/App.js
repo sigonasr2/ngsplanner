@@ -665,6 +665,47 @@ function DatabaseEditor(p) {
 function AdminPanel(p) {
 	const [verified,setVerified] = useState(false)
 	const [password,setPassword] = useState("")
+
+	const navigationData=[
+		{page:"Class",url:"/admin/class",table:"/class"},
+		{page:"Class Data",url:"/admin/classdata",table:"/class_level_data"},
+		{page:"Class-Weapon Compatibility",url:"/admin/classweaponcompatibility",table:"/class_weapon_type_data"},
+		{page:"Class Skills",url:"/admin/classskills",table:"/class_skill"},
+		{page:"Class Skill Data",url:"/admin/classskilldata",table:"/class_skill_data"},
+		{hr:true},
+		{page:"Weapons",url:"/admin/weapons",table:"/weapon"},
+		{page:"Weapon Existence Data",url:"/admin/weaponexistencedata",table:"/weapon_existence_data"},
+		{page:"Weapon Types",url:"/admin/weapontypes",table:"/weapon_type"},
+		{page:"Class-Weapon Compatibility",url:"/admin/classweaponcompatibility",table:"/class_weapon_type_data",duplicate:true},
+		{page:"Photon Arts",url:"/admin/photonarts",table:"/photon_art"},
+		{hr:true},
+		{page:"Armor",url:"/admin/armor",table:"/armor"},
+		{page:"Potentials",url:"/admin/potentials",table:"/potential"},
+		{page:"Potential Data",url:"/admin/potentialdata",table:"/potential_data"},
+		{hr:true},
+		{page:"Builds",url:"/admin/builds",table:"/builds"},
+		{hr:true},
+		{page:"Skills",url:"/admin/skills",table:"/skill"},
+		{page:"Skill Types",url:"/admin/skilltypes",table:"/skill_type"},
+		{page:"Skill Data",url:"/admin/skilldata",table:"/skill_data"},
+		{page:"Photon Arts",url:"/admin/photonarts",table:"/photon_art",duplicate:true},
+		{page:"Class Skills",url:"/admin/classskills",table:"/class_skill",duplicate:true},
+		{page:"Class Skill Data",url:"/admin/classskilldata",table:"/class_skill_data",duplicate:true},
+		{hr:true},
+		{page:"Augments",url:"/admin/augments",table:"/augment"},
+		{page:"Augment Types",url:"/admin/augmenttypes",table:"/augment_type"},
+		{hr:true},
+		{page:"Enemy Data",url:"/admin/enemydata",table:"/enemy_data"},
+		{hr:true},
+		{page:"Food",url:"/admin/food",table:"/food"},
+		{page:"Food Multipliers",url:"/admin/foodmultipliers",table:"/food_mult"},
+		{hr:true},
+		{page:"Roles",url:"/admin/roles",table:"/roles"},
+		{page:"Users",url:"/admin/users",table:"/users"},
+		{hr:true},
+		{page:"Database Audit",url:"/admin/database_audit",table:"/database_audit"},
+	]
+
 	return <div className="main">
 		{!verified?
 		<div className="w-75">
@@ -687,118 +728,13 @@ function AdminPanel(p) {
 		</div>:<>
 		<div className="w-25"><Box title="Navigation">
 		  <Table classes="adminNav">
-		  <Link to={process.env.PUBLIC_URL+"/admin/class"}>Class</Link><br/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/classdata"}>Class Data</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/classskills"}>Class Skills</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/classskilldata"}>Class Skill Data</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/weapons"}>Weapons</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>Weapon Existence Data</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/weapontypes"}>Weapon Types</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>Class-Weapon Compatibility</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/photonarts"}>Photon Arts</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/armor"}>Armor</Link><br/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/potentials"}>Potentials</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/potentialdata"}>Potential Data</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/builds"}>Builds</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/skills"}>Skills</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/skilltypes"}>Skill Types</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/skilldata"}>Skill Data</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/photonarts"}>Photon Arts</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/classskills"}>Class Skills</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/classskilldata"}>Class Skill Data</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/augments"}>Augments</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/augmenttypes"}>Augment Types</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/enemydata"}>Enemy Data</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/food"}>Food</Link><br/>
-		<Link to={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>Food Multipliers</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/roles"}>Roles</Link><br/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/users"}>Users</Link><br/>
-		<hr/>
-		  <Link to={process.env.PUBLIC_URL+"/admin/database_audit"}>Database Audit</Link><br/>
+		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
 		</Table></Box></div>
 		<div className="w-75">
-			<Route path={process.env.PUBLIC_URL+"/admin/class"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/classdata"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_level_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/classweaponcompatibility"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_weapon_type_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/photonarts"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/photon_art"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/weapons"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/weapon"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/weaponexistencedata"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/weapon_existence_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/weapontypes"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/weapon_type"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/armor"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/armor"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/potentials"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/potential"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/potentialdata"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/potential_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/builds"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/builds"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/skills"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/skill"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/skilltypes"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/skill_type"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/skilldata"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/skill_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/classskills"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_skill"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/classskilldata"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/class_skill_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/augments"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/augment"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/augmenttypes"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/augment_type"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/enemydata"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/enemy_data"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/food"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/food"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/foodmultipliers"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/food_mult"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/roles"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/roles"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/users"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/users"/>
-			</Route>
-			<Route path={process.env.PUBLIC_URL+"/admin/database_audit"}>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path="/database_audit"/>
-			</Route>
+			{navigationData.map((nav)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route path={process.env.PUBLIC_URL+nav.url}>
+				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>
+			</Route>)}
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
 				<DatabaseEditor password={password} BACKENDURL={GetBackendURL(p)}/>
 			</Route>
