@@ -726,7 +726,8 @@ function AdminPanel(p) {
 					})}}}></input>
 			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		</div>:<>
-		<div className="w-25"><Box title="Navigation">
+		<div className="w-25">Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}<br/>
+		<Box title="Navigation">
 		  <Table classes="adminNav">
 		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
@@ -999,7 +1000,7 @@ function App() {
 			<Switch>
 				<Route path={process.env.PUBLIC_URL+"/admin"}>
 				<TestHeader/>
-					<AdminPanel BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
+					<AdminPanel setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
 					<TestHeader/>
