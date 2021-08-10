@@ -195,11 +195,16 @@ const [statPage,setStatPage] = useState(1)
 
 const [classSelectWindowOpen,setClassSelectWindowOpen] = useState(false)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
+const [armorSelectWindowOpen,setArmorSelectWindowOpen] = useState(false)
 
 //Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
 const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
 
 const [selectedWeapon,setSelectedWeapon] = useState([])
+const [selectedArmor1,setSelectedArmor1] = useState([])
+const [selectedArmor2,setSelectedArmor2] = useState([])
+const [selectedArmor3,setSelectedArmor3] = useState([])
+const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 
 useEffect(()=>{
   if (p.bp>1000) {
@@ -291,9 +296,9 @@ useEffect(()=>{
           <h1>Equip</h1></div>
           <div className="equipPalette">
               <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
-                <div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
-                  <div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
-                  <div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
+                <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></div></div>
+                  <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></div></div>
+                  <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></div></div>
                 </div>
               </div>
 
@@ -542,6 +547,39 @@ useEffect(()=>{
   return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{item[WEAPON_WEAPON].name} {item[WEAPON_WEAPONTYPE].name}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
     <span className="pot">{item[WEAPON_POTENTIAL].name}</span>
     </ExpandTooltip></li>}}
+  />
+  
+<SelectorWindow title="Armor Selection" modalOpen={armorSelectWindowOpen} setModalOpen={setArmorSelectWindowOpen} GetData={p.GetData}
+  pageNames={[]}
+  sortItems={["Standard Sort","Rarity","HP","PP","Melee Potency","Range Potency","Tech Potency"]}
+  filter={true}
+  dataFunction={()=>{
+    var dat1=p.GetData("armor")
+      return typeof dat1==="object"&&dat1!==null?Object.keys(dat1).map((armor)=>{
+        return dat1[armor]
+      }):[]
+  }}
+  filterFunction={(page,item)=>true}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.toLowerCase().includes(searchText.toLowerCase()):true}
+  sortOrderFunction={(sort,itemA,itemB)=>{
+    switch (sort) {
+      case "Rarity":return itemB.rarity-itemA.rarity
+      case "HP":return itemB.hp-itemA.hp
+      case "PP":return itemB.pp-itemA.pp
+      case "Melee Potency":return itemB.mel_dmg-itemA.mel_dmg
+      case "Range Potency":return itemB.rng_dmg-itemA.rng_dmg
+      case "Tech Potency":return itemB.tec_dmg-itemA.tec_dmg
+      default:return 0
+    }  
+  }}
+  displayFunction={(item)=>{
+  return <li className={"itemwep r"+item.rarity} onClick={()=>{
+    switch(armorSlotSelection) {
+      case 1:{setSelectedArmor1(item)}break;
+      case 2:{setSelectedArmor2(item)}break;
+      case 3:{setSelectedArmor3(item)}break;
+    }
+    setArmorSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item?.icon)} /><em className="rifle">{item.name}</em></div><br /><span className="atk">{item.def}</span></li>}}
   />
 
 </>
