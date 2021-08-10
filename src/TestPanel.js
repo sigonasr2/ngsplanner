@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useRef } from 'react';
-import Tooltip from 'react-simple-tooltip' //Mess with all tooltip props here: https://cedricdelpoux.github.io/react-simple-tooltip/
+import ReactTooltip from 'react-tooltip' //https://wwayne.github.io/react-tooltip/
 import Modal from 'react-modal'
 
 /**
@@ -75,19 +75,7 @@ function PageControl(p) {
 }
 
 function ExpandTooltip(p) {
-	return <Tooltip
-  background="rgba(38,53,63,0.95);"
-  border="0"
-  arrow={10}
-  fadeDuration={200}
-  fadeEasing="linear"
-  fixed={false}
-  offset={0}
-  padding={16}
-  placement="top"
-  radius={5}
-  zIndex={1} 
-  className="xTooltip" content={p.tooltip}>{p.children}</Tooltip>
+	return <><span data-tip data-for={p.id}>{p.children}</span><ReactTooltip id={p.id} className="xTooltip">{p.tooltip}</ReactTooltip></>
 }
 
 function Class(p) {
@@ -439,6 +427,8 @@ useEffect(()=>{
   </div>
 </div>
 
+<ExpandTooltip id="test" tooltip="Hello!">Testing</ExpandTooltip>
+
 <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
 
 <SelectorWindow title="Weapon Selection" modalOpen={weaponSelectWindowOpen} setModalOpen={setWeaponSelectWindowOpen} GetData={p.GetData}
@@ -479,7 +469,7 @@ useEffect(()=>{
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[1].rarity}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em></div><br /><span className="atk">{item[1].atk}</span> <ExpandTooltip tooltip={<>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description.split("\\n").map((it)=><>{it}<br/> </>)}</>)}</>}>
+  return <li className={"itemwep r"+item[1].rarity}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em></div><br /><span className="atk">{item[1].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[0].id+"_"+item[1].id+"_"+item[2].id+"_"+item[3].id} tooltip={<>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
     <span className="pot">{item[2].name}</span>
     </ExpandTooltip></li>}}
   
