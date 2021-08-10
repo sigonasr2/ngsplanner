@@ -1,7 +1,7 @@
 import React, { useEffect,useState,useRef } from 'react';
 import ReactTooltip from 'react-tooltip' //https://wwayne.github.io/react-tooltip/
 import Modal from 'react-modal'
-import { NICONICONII,DisplayIcon } from './DEFAULTS';
+import { DisplayIcon } from './DEFAULTS';
 
 /**
  * Hook that alerts clicks outside of the passed ref
