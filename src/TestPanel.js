@@ -70,13 +70,26 @@ function PageControl(p) {
 	for (var i=0;i<p.pages;i++) {
 		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
 	}
+  if (p.children!==undefined) {
+      pages.push(<li className="pagecontroldetails">{p.children}</li>)
+  }
+  //console.log(JSON.stringify(p.children))
 	return pages.length>0&&<ul className="boxmenu">
 			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
 		</ul>
 }
 
 function ExpandTooltip(p) {
-	return <><span data-tip data-for={p.id}>{p.children}</span><ReactTooltip id={p.id} className="xTooltip">{p.tooltip}</ReactTooltip></>
+	return <><span data-tip data-for={p.id}>{p.children}</span><ReactTooltip id={p.id} className="xTooltip" overridePosition={ (
+    { left, top },
+    currentEvent, currentTarget, node) => {
+  const d = document.documentElement;
+  left = Math.min(d.clientWidth - node.clientWidth, left);
+  top = Math.min(d.clientHeight - node.clientHeight, top);
+  left = Math.max(0, left);
+  top = Math.max(0, top);
+  return { top, left }
+} }>{p.tooltip}</ReactTooltip></>
 }
 
 function Class(p) {
