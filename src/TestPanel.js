@@ -1,6 +1,7 @@
 import React, { useEffect,useState,useRef } from 'react';
 import ReactTooltip from 'react-tooltip' //https://wwayne.github.io/react-tooltip/
 import Modal from 'react-modal'
+import { urlencoded } from 'express';
 
 /**
  * Hook that alerts clicks outside of the passed ref
@@ -283,42 +284,89 @@ useEffect(()=>{
                 </div>
               </div>
 
-              <div className="box">
-              <div className="boxTitleBar">
+          <div className="box">
+            <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
-              <h2 className="rifle">{selectedWeapon[WEAPON_WEAPON]?.name+" "+selectedWeapon[WEAPON_WEAPONTYPE]?.name}+40</h2>
-              <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
+            <h2 className="rifle">{selectedWeapon[WEAPON_WEAPON]?.name + " " + selectedWeapon[WEAPON_WEAPONTYPE]?.name}+40</h2>
+            <div><PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage} /><div></div></div>
+            {weaponPage === 1 ?
+
+<>
+<div className="itemDetailsGrid1">
+<div className="itemDetailsIcon"><img src={process.env.PUBLIC_URL+"/icons/items/124/ui_item_1150003.png"} /></div><div className="itemDetailsProperties">RARITY, ATTACK, ELEMENT, EQUIP CONDITIONS, NOT TRADABLE</div>
+<div>POTENTIAL 
 
 
-              {weaponPage===3?
-                <div class="equipDetails">
-<div class="equipAugs">
-<h3>Ability Details</h3>
-<ul>
-<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span class="pot">Dynamo Unit Lv.3</span></li>
-<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span class="fixa">Fixa Attack Lv.3</span></li>
-<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Pettas Soul II</span></li>
-<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span class="aug">Alts Secreta II</span></li>
-<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Gigas Precision II</span></li>
-<li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span class="aug">Precision III</span></li>
-<li><img alt="" src="./icons/aug_plus.png" /></li>
-</ul>
 </div>
-<div class="pr">
-<h3>Stat Adjustment</h3>
-<ul>
-<li>Enhancement Lv.&emsp;<span>+35</span></li>
-<li>Multi-Weapon&emsp;<span>-</span></li>
-<li>Element&emsp;<span>-</span></li>
-</ul>
+
 </div>
-</div>
+
+
+
+</>
+
+            :weaponPage === 3 ?
+              <div class="equipDetails">
+                <div class="equipAugs">
+                  <h3>Ability Details</h3>
+                  <ul>
+                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span class="pot">Dynamo Unit Lv.3</span></li>
+                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span class="fixa">Fixa Attack Lv.3</span></li>
+                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Pettas Soul II</span></li>
+                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span class="aug">Alts Secreta II</span></li>
+                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Gigas Precision II</span></li>
+                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span class="aug">Precision III</span></li>
+                    <li><img alt="" src="./icons/aug_plus.png" /></li>
+                  </ul>
+                </div>
+                <div class="pr">
+                  <h3>Stat Adjustment</h3>
+                  <ul>
+                    <li>Enhancement Lv.&emsp;<span>+35</span></li>
+                    <li>Multi-Weapon&emsp;<span>-</span></li>
+                    <li>Element&emsp;<span>-</span></li>
+                  </ul>
+                </div>
+              </div>
               :
               <>hi</>
-              }
+            }
 
 
-        </div>
+          </div>
+
+
+
+
+        <div className="box">
+              <div className="boxTitleBar">
+              <h1>To Do List</h1></div>
+
+<h3>my things to do</h3>
+<ul>
+<li>Finish "Item Details" for Weapons/Armor</li>
+<li>Grids. Grids everywhere.</li>
+<li>Class Skill Window</li>
+<li>PA Select Window</li>
+<li>Food/Buffs Menu</li>
+<li>Get all the fckn icons</li>
+</ul>
+
+<h3>sig's to do list lol</h3>
+<ul>
+<li>Default icon for weapons/armor etc</li>
+<li>make big picture small times 1000</li>
+<li>sig make the page thingie i would do it but im big dum</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
       </div>
       <div className="containerC">
       <div className="box">
