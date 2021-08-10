@@ -3,6 +3,7 @@ import './style.css'; // The new new
 import React, {useState,useEffect,useReducer} from 'react';
 import useGlobalKeyDown from 'react-global-key-down-hook'
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
+import Helmet from 'react-helmet'
 
 import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
@@ -35,6 +36,7 @@ const PARRY_COUNTER = 4
 //NOT USED YET*/
 
 const BACKENDURL=process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504'
+const APP_TITLE = "NGSplanner"
 
 function GetBackendURL(p) {
 	return (BACKENDURL)+(p.TESTMODE?"/test":"")
@@ -400,6 +402,10 @@ function AdminPanel(p) {
 		</Table></Box></div>
 		<div className="w-75">
 			{navigationData.map((nav)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route path={process.env.PUBLIC_URL+nav.url}>
+				<Helmet>
+					<title>{APP_TITLE+" - Admin Panel: "+nav.page}</title>
+				</Helmet>
+				<h2><u>{nav.page}</u></h2>
 				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>
 			</Route>)}
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
@@ -563,6 +569,9 @@ function DamageCalculator(p) {
 	</>
 }
 
+function LoginForm(p) {
+	return <>Login Form here.</>
+}
 
 
 function App() {
@@ -603,6 +612,9 @@ function App() {
 	const [DATA,setDATA] = useState({GetData:()=>{}})
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 
+	const [LOGGEDINUSER,setLOGGEDINUSER] = useState(undefined)
+	const [LOGGEDINHASH,setLOGGEDINHASH] = useState(undefined)
+
 
 	function GetData(table,row,col,id){
 		var data = id?DATAID:DATA
@@ -626,10 +638,16 @@ function App() {
 		<HashRouter>
 			<Switch>
 				<Route path={process.env.PUBLIC_URL+"/admin"}>
+					<Helmet>
+						<title>{APP_TITLE+" - Admin Panel"}</title>
+					</Helmet>
 				<TestHeader/>
 					<AdminPanel setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
+					<Helmet>
+						<title>{APP_TITLE+" - Test"}</title>
+					</Helmet>
 					<TestHeader/>
 					<TestPanel
 					author={author} 
@@ -657,10 +675,27 @@ function App() {
 					GetData={GetData}
 					/>
 				</Route>
+				<Route path={process.env.PUBLIC_URL+"/login"}>
+					<Helmet>
+						<title>{APP_TITLE+" - Login"}</title>
+					</Helmet>
+					<TestHeader/>
+					<LoginForm LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
+				</Route>
+				<Route path={process.env.PUBLIC_URL+"/register"}>
+					<Helmet>
+						<title>{APP_TITLE+" - Register"}</title>
+					</Helmet>
+					<TestHeader/>
+					Register form here.
+				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
 				</Route>
 				<Route path="/">
+					<Helmet>
+						<title>{APP_TITLE}</title>
+					</Helmet>
 				<div className="modalOverlay">
 				<div className="modal">
 				<div className="box boxModal" style={{textAlign:"center"}}>
