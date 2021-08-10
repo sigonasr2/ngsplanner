@@ -182,6 +182,11 @@ const [statPage,setStatPage] = useState(1)
 const [classSelectWindowOpen,setClassSelectWindowOpen] = useState(false)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 
+//Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
+const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
+
+const [selectedWeapon,setSelectedWeapon] = useState([])
+
 useEffect(()=>{
   if (p.bp>1000) {
     setbpGraphMax(3000)
@@ -269,7 +274,7 @@ useEffect(()=>{
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
-              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src="https://i.imgur.com/Xvx0qvt.png" /></div></div>
+              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src={process.env.PUBLIC_URL+selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon} /></div></div>
                 <div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
                   <div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
                   <div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src="https://i.imgur.com/GtusK2X.png" /></div></div>
@@ -279,7 +284,7 @@ useEffect(()=>{
               <div className="box">
               <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
-              <h2 className="rifle">Resurgir Rifle+40</h2>
+              <h2 className="rifle">{selectedWeapon[WEAPON_WEAPON]?.name+" "+selectedWeapon[WEAPON_WEAPONTYPE]?.name}+40</h2>
               <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}/>
 
 
@@ -435,9 +440,9 @@ useEffect(()=>{
   filter={true}
   dataFunction={()=>{
     var dat1=p.GetData("weapon_existence_data")
-      return Array.isArray(dat1)?dat1.map((we)=>{
-        var weapon_type=p.GetData("weapon_type",we.weapon_type_id,undefined,true)
-        var weapon=p.GetData("weapon",we.weapon_id,undefined,true)
+      return Array.isArray(dat1)?dat1.map((weapon_existence_data)=>{
+        var weapon_type=p.GetData("weapon_type",weapon_existence_data.weapon_type_id,undefined,true)
+        var weapon=p.GetData("weapon",weapon_existence_data.weapon_id,undefined,true)
         var potential=p.GetData("potential",weapon.potential_id,undefined,true)
         var potential_all=p.GetData("potential_data")
         var potential_tooltip=[]
@@ -446,19 +451,19 @@ useEffect(()=>{
             potential_tooltip.push(p.GetData("potential_data",pot))
           }
         }
-        return [weapon_type,weapon,potential,potential_tooltip]
+        return [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
       }):[]
   }}
   filterFunction={(page,item)=>{
     switch (page) {
-      case 2:return item[0].name==="Assault Rifle"
-      case 3:return item[0].name==="Launcher"
-      case 4:return item[0].name==="Rod"
-      case 5:return item[0].name==="Talis"
+      case 2:return item[WEAPON_WEAPONTYPE].name==="Assault Rifle"
+      case 3:return item[WEAPON_WEAPONTYPE].name==="Launcher"
+      case 4:return item[WEAPON_WEAPONTYPE].name==="Rod"
+      case 5:return item[WEAPON_WEAPONTYPE].name==="Talis"
       default:return true
     }
   }}
-  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[1].name.toLowerCase()+" "+item[0].name.toLowerCase()).includes(searchText.toLowerCase()):true}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[WEAPON_WEAPON].name.toLowerCase()+" "+item[WEAPON_WEAPONTYPE].name.toLowerCase()).includes(searchText.toLowerCase()):true}
   sortOrderFunction={(sort,itemA,itemB)=>{
     switch (sort) {
       case "Rarity":return itemB[1].rarity-itemA[1].rarity
@@ -467,10 +472,9 @@ useEffect(()=>{
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[1].rarity}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src="64px-NGSUIItemPrimmRifle.png" /><em className="rifle">{item[1].name} {item[0].name}</em></div><br /><span className="atk">{item[1].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[0].id+"_"+item[1].id+"_"+item[2].id+"_"+item[3].id} tooltip={<>{item[3].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
-    <span className="pot">{item[2].name}</span>
+  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={process.env.PUBLIC_URL+item[WEAPON_EXISTENCE_DATA]?.icon} /><em className="rifle">{item[WEAPON_WEAPON].name} {item[WEAPON_WEAPONTYPE].name}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
+    <span className="pot">{item[WEAPON_POTENTIAL].name}</span>
     </ExpandTooltip></li>}}
-  
   />
 
 </>
