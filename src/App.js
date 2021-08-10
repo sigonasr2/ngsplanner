@@ -1,12 +1,10 @@
-//import './App.css'; Old CSS
 import './reset.css'; // Generic reset
 import './style.css'; // The new new
-import React, {useState,useEffect,useRef,useReducer} from 'react';
+import React, {useState,useEffect,useReducer} from 'react';
 import useGlobalKeyDown from 'react-global-key-down-hook'
-import Modal from 'react-modal'
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 
-import {XSquare, XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
+import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
 import {
   HashRouter,
@@ -42,12 +40,6 @@ function GetBackendURL(p) {
 	return (BACKENDURL)+(p.TESTMODE?"/test":"")
 }
 
-function Col(p) {
-	return <div className="con">
-		{p.children}
-	</div>
-}
-
 function Box(p) {
 	return <>
 		<div className="box">
@@ -59,338 +51,12 @@ function Box(p) {
 	</>
 }
 
-function EditBox(p) {
-	useEffect(()=>{
-		var timer1 = setTimeout(()=>{document.getElementById("editBox").focus()},100)
-		return () => {
-			clearTimeout(timer1);
-		};
-	})
-	return <input id="editBox" onKeyDown={(e)=>{
-		if (e.key==="Enter") {p.setEdit(false)}
-		else if (e.key==="Escape") {p.setEdit(false)}
-	}}	maxLength={p.maxlength?p.maxlength:20} onBlur={()=>{p.setEdit(false)}} value={p.value} onChange={(f)=>{f.currentTarget.value.length>0?p.setName(f.currentTarget.value):p.setName(p.originalName)}}>
-	</input>
-}
-
-function EditableBox(p) {
-	const [edit,setEdit] = useState(false)
-	
-	useEffect(()=>{
-		if (p.callback) {
-			p.callback()
-		}
-	},[edit,p])
-	
-	return <>
-		<div className="hover" onClick={(f)=>{setEdit(true)}}>
-			{edit?
-			<EditBox maxlength={p.maxlength} setEdit={setEdit} originalName={p.data} setName={p.setData} value={p.data}/>
-			:<>{p.data}</>}
-		</div>
-	</>
-}
-
-const CLASSES = {
-	Hunter:{
-		name:"Hunter",
-		icon:process.env.PUBLIC_URL+"/icons/UINGSClassHu.png"
-	},
-	Fighter:{
-		name:"Fighter",
-		icon:process.env.PUBLIC_URL+"/icons/UINGSClassFi.png"
-	},
-	Ranger:{
-		name:"Ranger",
-		icon:process.env.PUBLIC_URL+"/icons/UINGSClassRa.png"
-	},
-	Gunner:{
-		name:"Gunner",
-		icon:process.env.PUBLIC_URL+"/icons/UINGSClassGu.png"
-	},
-	Force:{
-		name:"Force",
-		icon:process.env.PUBLIC_URL+"/icons/UINGSClassFo.png"
-	},
-	Techter:{
-		name:"Techter",
-		icon:process.env.PUBLIC_URL+"/icons/UINGSClassTe.png"
-	}
-}
-
-const EFFECTS = {
-	"Food Boost Effect":{
-		perks:[
-			"[Meat] Potency +10.0%",
-			"[Crisp] Potency to Weak Point +5.0%"
-		],
-		icon:process.env.PUBLIC_URL+"/icons/TQ8EBW2.png"
-	},
-	"Shifta / Deband":{
-		perks:[
-			"Potency +5.0%",
-			"Damage Resistance +10.0%"
-		],
-		icon:process.env.PUBLIC_URL+"/icons/VIYYNIm.png"
-	},
-	"Region Mag Boost":{
-		perks:[
-			"Potency +5.0%",
-		],
-		icon:process.env.PUBLIC_URL+"/icons/N6M74Qr.png"
-	},
-}
-
-const EQUIPMENT = {
-	"Ophistia Shooter":{
-		icon:process.env.PUBLIC_URL+"/icons/uc1iBck.png"
-	},
-	"Klauzdyne":{
-		icon:process.env.PUBLIC_URL+"/icons/uldt9lR.png"
-	},
-	"Klauznum":{
-		icon:process.env.PUBLIC_URL+"/icons/F0t58xP.png"
-	},
-	"Klauzment":{
-		icon:process.env.PUBLIC_URL+"/icons/20M6Z7t.png"
-	}
-}
-
-const ABILITIES = {
-	"Wellspring Unit Lv.3":{
-		icon:process.env.PUBLIC_URL+"/icons/NGSUIItemPotentialAbility.png"
-	},
-	"Fixa Fatale Lv.5":{
-		icon:process.env.PUBLIC_URL+"/icons/UINGSItemPresetAbility.png"
-	}
-}
-
-const ABILITY_DEFAULT_ICON = process.env.PUBLIC_URL+"/icons/UINGSItemSpecialAbility.png"
-
-/**
- * Hook that alerts clicks outside of the passed ref
- */
-function useOutsideAlerter(ref,setEdit) {
-    useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
-        function handleClickOutside(event) {
-            if (ref.current && !ref.current.contains(event.target)) {
-                setEdit(false)
-            }
-        }
-
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [ref,setEdit]);
-}
-
-
-function Class(p) {
-	const class_obj = CLASSES[p.name]
-	return <><img alt="" src={class_obj.icon}/>{class_obj.name}</>
-}
-
-function ClassSelector(p){
-    const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef,p.setEdit);
-	return <div className="popup" ref={wrapperRef}>
-		Class Selector<br/>
-		{Object.keys(CLASSES).map((cl,i)=>{
-		return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
-		})}
-	</div>
-}
-
-function EditableClass(p){
-	const [edit,setEdit] = useState(false)
-	return <><span className="hover" onClick={()=>{setEdit(!edit)}}><Class name={p.class}/>
-	</span>
-	{edit&&<ClassSelector setClassName={p.setClassName} setEdit={setEdit}/>}
-	</>
-}
-
 function Table(p) {
 	return <p className={p.classes}>
 
 			{p.children}
 
 	</p>
-}
-
-function MainBox(p) {
-	return <Box title="NGS Planner">
-		<Table classes="ba">
-			<ListRow title="Author"><EditableBox setData={p.setAuthor} data={p.author}/></ListRow>
-			<ListRow title="Build Name"><EditableBox setData={p.setBuildName} data={p.buildName}/></ListRow>
-			<ListRow title="Class" content={<EditableClass setClassName={p.setClassName} class={p.className}></EditableClass>}><span className="ye">Lv.20</span></ListRow>
-			<ListRow content={<><EditableClass setClassName={p.setSecondaryClassName} class={p.secondaryClassName}></EditableClass></>}>Lv.15</ListRow>
-			<ListRow><button>Share</button> <button>Save</button></ListRow>
-		</Table>
-	   </Box>
-}
-
-function StatsBox(p) {
-	 return <Box title="Stats">
-			<Table classes="st">
-				<ListRow title="Battle Power" content={p.bp}></ListRow>
-				<ListRow title="HP" content={p.hp}></ListRow>
-				<ListRow title="PP" content={p.pp}></ListRow>
-				<ListRow title="Defense" content={p.def}></ListRow>
-				<ListRow title="Weapon Up" content={<><img alt="" src="/icons/MEL.png" /> <span className="ye">+{p.weaponUp1*100}%</span></>}><img alt="" src="/icons/RNG.png" /> <span className="ye">+{p.weaponUp2*100}%</span></ListRow>
-				<ListRow content={<><img alt="" src="/icons/TEC.png" /> <span className="ye">+{p.weaponUp3*100}%</span></>}></ListRow>
-				<ListRow title="Damage Resist." content={p.damageResist*100+"%"}></ListRow>
-			</Table>
-		</Box>
-}
-
-function EffectListing(p) {
-	return <li>{p.name}
-			<ul>
-			{EFFECTS[p.name].perks.map((perk,i)=>{
-				return <li key={i}><img alt="" src={EFFECTS[p.name].icon} />&ensp;{perk}</li>
-			})}
-			</ul>
-		</li>
-}
-
-function PageControlButton(p) {
-	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":""}>{p.pageName?p.pageName:p.page}</li>
-}
-
-function PageControl(p) {
-	var pages = []
-	for (var i=0;i<p.pages;i++) {
-		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
-	}
-	return <ul className="boxmenu">
-			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
-		</ul>
-}
-
-function EffectsBox(p) {
-	const [currentPage,setCurrentPage]=useState(1)
-	
-	return <Box title="Current Effects">
-			<PageControl pages={2} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
-			<h3>Effect Name</h3>
-			{
-				currentPage===1?
-				<ul className="bu">
-					{p.effectList.map((ef,i)=>{
-							return <EffectListing key={i} name={ef}/>
-					})}
-				</ul>:
-				<></>
-			}
-		</Box>
-}
-
-function EquipBox(p) {
-	return <Box title="Equip">
-			<div className="we">
-				<div><h3>Weapon</h3><br /><img alt="" src={EQUIPMENT[p.weapon].icon} /><br />{p.weapon}+{p.weaponEnhancementLv}</div>
-				<div><h3>Slot 1</h3><br /><img alt="" src={EQUIPMENT[p.armorSlot1].icon} /><br />{p.armorSlot1}+{p.armorSlot1EnhancementLv}</div>
-				<div><h3>Slot 2</h3><br /><img alt="" src={EQUIPMENT[p.armorSlot2].icon} /><br />{p.armorSlot2}+{p.armorSlot2EnhancementLv}</div>
-				<div><h3>Slot 3</h3><br /><img alt="" src={EQUIPMENT[p.armorSlot3].icon} /><br />{p.armorSlot3}+{p.armorSlot3EnhancementLv}</div>
-			</div>
-		</Box>
-}
-
-function EquippedWeaponBox(p) {
-	const [currentPage,setCurrentPage] = useState(1)
-	const [selectedEquip,setSelectedEquip] = useState(p.weapon)
-	const [selectedEquipEnhancementLv,setSelectedEquipEnhancementLv] = useState(p.weaponEnhancementLv)
-	const [selectedEquipAbilities,setSelectedEquipAbilities] = useState(p.weaponAbilityList)
-	
-	useEffect(()=>{
-		switch (currentPage) {
-			case 2:
-				setSelectedEquip(p.armorSlot1)
-				setSelectedEquipEnhancementLv(p.armorSlot1EnhancementLv)
-				setSelectedEquipAbilities(p.armorSlot1AbilityList)
-			break;
-			case 3:
-				setSelectedEquip(p.armorSlot2)
-				setSelectedEquipEnhancementLv(p.armorSlot2EnhancementLv)
-				setSelectedEquipAbilities(p.armorSlot2AbilityList)
-			break;
-			case 4:
-				setSelectedEquip(p.armorSlot3)
-				setSelectedEquipEnhancementLv(p.armorSlot3EnhancementLv)
-				setSelectedEquipAbilities(p.armorSlot3AbilityList)
-			break;
-			default:{
-				setSelectedEquip(p.weapon)
-				setSelectedEquipEnhancementLv(p.weaponEnhancementLv)
-				setSelectedEquipAbilities(p.weaponAbilityList)
-			}
-		}
-	},[currentPage,p.armorSlot1,p.armorSlot1EnhancementLv,p.armorSlot1AbilityList,p.armorSlot2,p.armorSlot2EnhancementLv,p.armorSlot2AbilityList,p.armorSlot3,p.armorSlot3EnhancementLv,p.armorSlot3AbilityList,p.weapon,p.weaponEnhancementLv,p.weaponAbilityList])
-	
-	return <Box title="Equipped Weapon">
-		<h2><img alt="" src="/icons/NGSUIItemAssaultRifleMini.png" />{selectedEquip}+{selectedEquipEnhancementLv}</h2>
-		<PageControl pages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} pageNames={["W",1,2,3]}/>
-		<div className="de">
-			<div>
-				<h3>Ability Details</h3>
-				<ul className="aug">
-				{
-					selectedEquipAbilities?selectedEquipAbilities.map((ability,i)=>{
-						return <li key={i}><img alt="" src={ABILITIES[ability]?ABILITIES[ability].icon:ABILITY_DEFAULT_ICON} /> {ability}</li>
-						}):<></>
-				}
-				</ul>
-			</div>
-			<div>
-				<h3>Properties</h3>
-				<ul className="pr">
-				<li>Enhancement Lv.&emsp;<span>+{selectedEquipEnhancementLv}</span></li>
-				<li>Multi-Weapon&emsp;<span>-</span></li>
-				<li>Element&emsp;<span>-</span></li>
-				</ul>
-			</div>
-		</div>
-	</Box>
-}
-
-function DamageBox(p) {
-	const [currentPage,setCurrentPage] = useState(1)
-	
-	return <Box title="Damage">
-		<PageControl pages={3} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
-		<br /><br />
-		{
-			currentPage===1&&
-			<Table classes="ba">
-				<ListRow title="Critical Hit Rate">{p.criticalHitRate*100}%</ListRow>
-				<ListRow title="Critical Multiplier">{p.criticalMultiplier*100}%</ListRow>
-				<ListRow title="Midrange">{p.midRange}</ListRow>
-				<ListRow title="Critical">{p.critical}</ListRow>
-				<ListRow title="Effective"><span className="ye">{p.effective}</span></ListRow>
-			</Table>
-		}
-		</Box>
-}
-
-function ListRow(p) {
-	return <tr>
-		<td>{p.title}</td>
-		<td>{p.content}</td>
-		<td>{p.children}</td>
-	</tr>
-}
-
-function PopupWindow(p) {
-	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true}>
-		<h1>{p.title}{p.showCloseButton&&<XSquare onClick={()=>{p.setModalOpen(false)}} className="modalCloseButton"/>}</h1>
-		{p.children}
-	</Modal>
 }
 
 function InputBox(p) {
@@ -482,7 +148,7 @@ function TableEditor(p) {
 		.then(()=>{
 			setUpdate(true)
 		})
-	},[fileData,p.path,p.BACKENDURL])
+	},[fileData,p.path,p.BACKENDURL,p.password])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -521,7 +187,7 @@ function TableEditor(p) {
 			})
 			setUpdate(false)
 		}
-	},[update,p.path,p.BACKENDURL])
+	},[update,p.path,p.BACKENDURL,p.password])
 	
 	return <>
 	{!loading?
@@ -578,7 +244,7 @@ function DatabaseEditor(p) {
 			})
 			setUpdate(false)
 		}
-	},[update,p.BACKENDURL])
+	},[update,p.BACKENDURL,p.password])
 
 	return <>
 		{!loading?<>
@@ -901,17 +567,17 @@ function DamageCalculator(p) {
 
 function App() {
 	
-	const [author,setAuthor] = useState("Dudley")
-	const [buildName,setBuildName] = useState("Fatimah")
-	const [className,setClassName] = useState("Ranger")
-	const [secondaryClassName,setSecondaryClassName] = useState("Force")
+	const [author] = useState("Dudley")
+	const [buildName] = useState("Fatimah")
+	const [className] = useState("Ranger")
+	const [secondaryClassName] = useState("Force")
 	const [classLv] = useState(20)
 	const [secondaryClassLv] = useState(15)
 		
 	
-	const [bp,setBP] = useState(1330)
-	const [hp,setHP] = useState(388)
-	const [pp,setPP] = useState(154)
+	const [bp] = useState(1330)
+	const [hp] = useState(388)
+	const [pp] = useState(154)
 	const [weaponTotalAtk] = useState(282)
 	const [baseAtk] = useState(650)
 	const [statDisplayAtk,setstatDisplayAtk] = useState(282)
@@ -920,58 +586,19 @@ function App() {
 		setstatDisplayAtk(Number(weaponTotalAtk)+Number(baseAtk))
 	},[weaponTotalAtk,baseAtk])
 
-	const [def,setDef] = useState(932)
-	const [weaponUp1,setWeaponUp1] = useState(0.317)
-	const [weaponUp2,setWeaponUp2] = useState(0.241)
-	const [weaponUp3,setWeaponUp3] = useState(0.241)
-	const [damageResist,setDamageResist] = useState(0.18)
-	const [burnResist,setburnResist] = useState(0)
-	const [shockResist,setshockResist] = useState(0)
-	const [panicResist,setpanicResist] = useState(0)
-	const [stunResist,setstunResist] = useState(0)
-	const [freezeResist,setfreezeResist] = useState(0)
-	const [blindResist,setblindResist] = useState(0)
-	const [poisonResist,setpoisonResist] = useState(0)
+	const [def] = useState(932)
+	const [weaponUp1] = useState(0.317)
+	const [weaponUp2] = useState(0.241)
+	const [weaponUp3] = useState(0.241)
+	const [damageResist] = useState(0.18)
+	const [burnResist] = useState(0)
+	const [shockResist] = useState(0)
+	const [panicResist] = useState(0)
+	const [stunResist] = useState(0)
+	const [freezeResist] = useState(0)
+	const [blindResist] = useState(0)
+	const [poisonResist] = useState(0)
 	
-	const [effectList,setEffectList] = useState([
-		"Food Boost Effect",
-		"Shifta / Deband",
-		"Region Mag Boost"
-	])
-	
-	const [weapon,setWeapon] = useState("Ophistia Shooter")
-	const [armorSlot1,setArmorSlot1] = useState("Klauzdyne")
-	const [armorSlot2,setArmorSlot2] = useState("Klauznum")
-	const [armorSlot3,setArmorSlot3] = useState("Klauzment")
-	const [weaponEnhancementLv,setWeaponEnhancementLv] = useState(35)
-	const [armorSlot1EnhancementLv,setArmorSlot1EnhancementLv] = useState(10)
-	const [armorSlot2EnhancementLv,setArmorSlot2EnhancementLv] = useState(10)
-	const [armorSlot3EnhancementLv,setArmorSlot3EnhancementLv] = useState(10)
-	
-	const [weaponAbilityList,setWeaponAbilityList] = useState([		
-		"Wellspring Unit Lv.3",
-		"Fixa Fatale Lv.5",
-		"Legaro S Attack II",
-		"Legaro S Efficiet",
-		"Legaro S Efficiet",
-		"Legaro Souls 2",
-		"Legaro Reverij",
-		"Legaro Factalz",
-		"Legaro Crakus",
-		"Legaro Attack Vaz III",
-	])
-	const [armor1AbilityList,setArmor1AbilityList] = useState([])
-	const [armor2AbilityList,setArmor2AbilityList] = useState([])
-	const [armor3AbilityList,setArmor3AbilityList] = useState([])
-	
-	const [criticalHitRate,setCriticalHitRate] = useState(0.05)
-	const [criticalMultiplier,setCriticalMultiplier] = useState(1.2)
-	const [midRange,setMidRange] = useState(126)
-	const [critical,setCritical] = useState(152)
-	const [effective,setEffective] = useState(127)
-
-	const [modalOpen,setModalOpen] = useState(true)
-
 	const [TESTMODE,setTESTMODE] = useState(false)
 	const [DATA,setDATA] = useState({GetData:()=>{}})
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
