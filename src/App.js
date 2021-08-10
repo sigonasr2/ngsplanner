@@ -570,6 +570,9 @@ function DamageCalculator(p) {
 }
 
 function LoginForm(p) {
+	const [username,setUsername] = useState("")
+	const [password,setPassword] = useState("")
+	const [rememberMe,setRememberMe] = useState(false)
 	return <>Login Form here.</>
 }
 
