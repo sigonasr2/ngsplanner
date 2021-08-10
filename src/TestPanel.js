@@ -397,7 +397,7 @@ useEffect(()=>{
             <td>126</td>
           </tr>
           <tr>
-            <td>Critcal</td>
+            <td>Critical</td>
             <td>152</td>
           </tr>
           <tr>
@@ -418,7 +418,7 @@ useEffect(()=>{
             <td>-</td>
           </tr>
           <tr>
-            <td>Critcal</td>
+            <td>Critical</td>
             <td>-</td>
           </tr>
           <tr>
