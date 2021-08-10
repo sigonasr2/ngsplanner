@@ -333,6 +333,7 @@ em {
 }
 .equipPaletteSlotWrapper img {
 	height: 48px;
+	border: 1px;
 }
 .equipPaletteSlot {
 	text-align: center;
@@ -482,7 +483,7 @@ em {
 }
 .itemimg {
 	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
-	border: 4px solid rgba(128,128,128,1);
+	border: 4px solid rgba(128,128,128,1) !important;
 	float: left;
 	margin-right: 10px;
 	width: 48px;
@@ -493,40 +494,32 @@ li.r1 {
 }
 .r1 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
+	border-color: rgb(64,150,183);
+	border-style: solid;
 }
 li.r2 {
     background-image: url("./icons/NGSUIRarity2Star.png");
 }
 .r2 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
+	border-color: rgb(64,150,183);
+	border-style: solid;
 }
 li.r3 {
     background-image: url("./icons/NGSUIRarity3Star.png");
 }
 .r3 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
+	border-color: rgb(64,150,183);
+	border-style: solid;
 }
 li.r4 {
     background-image: url("./icons/NGSUIRarity4Star.png");
 }
 .r4 img  {
 	background: radial-gradient(rgb(101,178,77),rgb(83,146,63));
-}
-.equipPaletteSlotWrapper img.r1  {
-	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
-	border: 1px solid rgb(64,150,183);
-}
-.equipPaletteSlotWrapper img.r2  {
-	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
-	border: 1px solid rgb(64,150,183);
-}
-.equipPaletteSlotWrapper img.r3  {
-	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
-	border: 1px solid rgb(64,150,183);
-}
-.equipPaletteSlotWrapper img.r4  {
-	background: radial-gradient(rgb(101,178,77),rgb(83,146,63));
-	border: 1px solid rgb(101,178,77);
+	border-color: rgb(101,178,77);
+	border-style: solid;
 }
 .itemlist li span {
     background-repeat: no-repeat;
@@ -1226,4 +1219,7 @@ p.adminNav hr {
 	padding-right:8px;
 	position:relative;
 	top:16px;
+}
+.itemDetailsIcon img {
+	border-width: 2px;
 }
