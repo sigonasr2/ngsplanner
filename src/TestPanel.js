@@ -323,7 +323,7 @@ ELEMENT<br />
 EQUIP CONDITIONS<br />
 NOT TRADABLE
 </div>
-<div className="itemDetailContent">
+<div className="itemDetailsContent">
 
 POTENTIAL PRESET SKILL
 AUGMENT 

@@ -648,21 +648,9 @@ option {
 	background-color: hsl(0, 100%, 33%);
 	outline: 2px solid hsl(0, 100%, 50%);
 }
-/*.boxExit:after {
+.boxExit:after {
     content: ' \2573';
 	font-size:9pt;
-}*/
-.boxExit:before, .boxExit:after {
-	height: 28px;
-	background-color:white;
-	width: 2px;
-	content: " ";
-}
-.boxExit:before {
-	transform: rotate(45deg);
-}
-.boxExit:after {
-	transform: rotate(-45deg);
 }
 .exit {
 	color: white;
@@ -1226,9 +1214,10 @@ p.adminNav hr {
 	grid-template-areas:
 	"icon properties"
 	"content content";
-	grid-template-columns: 124px 1fr;
+	grid-template-columns: 128px 1fr;
 	grid-template-rows: auto;
 	margin: 10px 10px 0 10px;
+	place-items: stretch;
 }
 .itemDetailsIcon {
 	background-color: hsl(0, 17%, 70%);
