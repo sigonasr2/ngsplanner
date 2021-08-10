@@ -70,10 +70,10 @@ function PageControl(p) {
 	for (var i=0;i<p.pages;i++) {
 		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
 	}
-  console.log(JSON.stringify(p.children))
-  if (p.children) {
-      <li className="pagecontroldetails">{p.children}</li>
+  if (p.children!==undefined) {
+      pages.push(<li className="pagecontroldetails">{p.children}</li>)
   }
+  //console.log(JSON.stringify(p.children))
 	return pages.length>0&&<ul className="boxmenu">
 			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
 		</ul>
@@ -446,7 +446,7 @@ useEffect(()=>{
       <div className="box">
       <div className="boxTitleBar">
       <h1>Damage Stats</h1></div>
-      <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}>Testing</PageControl>
+      <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
       <table className="basicInfo">
         <tbody>
           {statPage===1?<>
