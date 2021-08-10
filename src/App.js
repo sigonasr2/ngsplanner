@@ -215,7 +215,7 @@ function TableEditor(p) {
 					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id,pass:p.password}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>{
 						return axios.patch(p.BACKENDURL+p.path,{
-							[col.name]:value,
+							[col.name]:value==="null"?null:value,
 							id:dat.id,
 							pass:p.password
 						})
