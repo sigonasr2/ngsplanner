@@ -201,6 +201,10 @@ const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const W
 
 const [selectedWeapon,setSelectedWeapon] = useState([])
 
+function rarityCheck(v) {
+  return v!==undefined?v.rarity!==undefined?" r"+v.rarity:"":""
+}
+
 useEffect(()=>{
   if (p.bp>1000) {
     setbpGraphMax(3000)
@@ -290,10 +294,10 @@ useEffect(()=>{
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
-              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot r4"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
-                <div className="equipPaletteSlot r3"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
-                  <div className="equipPaletteSlot r3"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
-                  <div className="equipPaletteSlot r3"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
+              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
+                <div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/3Gq2JO6.png")} /></div></div>
+                  <div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/fes50s0.png")} /></div></div>
+                  <div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/fyhy1la.png")} /></div></div>
                 </div>
               </div>
 
@@ -305,8 +309,8 @@ useEffect(()=>{
             {weaponPage === 1 ?
 
 <>
-<div className="itemDetailsGrid1">
-<div className="itemDetailsIcon r3"><img src={process.env.PUBLIC_URL+"/icons/items/124/ui_item_1150003.png"} /></div>
+<div className="itemDetailsGrid">
+<div className={"itemDetailsIcon"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><img src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
 <div className="itemDetailsProperties">
 RARITY<br />
 ATTACK<br />

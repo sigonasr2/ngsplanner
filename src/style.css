@@ -334,6 +334,9 @@ em {
 .equipPaletteSlotWrapper img {
 	height: 48px;
 	border: 1px;
+	border-style: solid;
+	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
+	border-color: rgba(128,128,128,1);
 }
 .equipPaletteSlot {
 	text-align: center;
@@ -483,43 +486,41 @@ em {
 }
 .itemimg {
 	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
-	border: 4px solid rgba(128,128,128,1) !important;
+	border: 4px solid rgba(128,128,128,1);
 	float: left;
 	margin-right: 10px;
 	width: 48px;
 	box-sizing: content-box;
+	border-style: solid;
 }
 li.r1 {
     background-image: url("./icons/NGSUIRarity1Star.png");
 }
 .r1 img  {
-	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
-	border-color: rgb(64,150,183);
-	border-style: solid;
+	background: radial-gradient(rgb(64,150,183),rgb(52,123,150)) !important;
+	border-color: rgb(64,150,183) !important;
+
 }
 li.r2 {
     background-image: url("./icons/NGSUIRarity2Star.png");
 }
 .r2 img  {
-	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
-	border-color: rgb(64,150,183);
-	border-style: solid;
+	background: radial-gradient(rgb(64,150,183),rgb(52,123,150)) !important;
+	border-color: rgb(64,150,183) !important;
 }
 li.r3 {
     background-image: url("./icons/NGSUIRarity3Star.png");
 }
 .r3 img  {
-	background: radial-gradient(rgb(64,150,183),rgb(52,123,150));
-	border-color: rgb(64,150,183);
-	border-style: solid;
+	background: radial-gradient(rgb(64,150,183),rgb(52,123,150)) !important;
+	border-color: rgb(64,150,183) !important;
 }
 li.r4 {
     background-image: url("./icons/NGSUIRarity4Star.png");
 }
 .r4 img  {
-	background: radial-gradient(rgb(101,178,77),rgb(83,146,63));
-	border-color: rgb(101,178,77);
-	border-style: solid;
+	background: radial-gradient(rgb(101,178,77),rgb(83,146,63)) !important;
+	border-color: rgb(101,178,77) !important;
 }
 .itemlist li span {
     background-repeat: no-repeat;
@@ -1220,6 +1221,30 @@ p.adminNav hr {
 	position:relative;
 	top:16px;
 }
+.itemDetailsGrid {
+	display: grid;
+	grid-template-areas:
+	"icon properties"
+	"content content";
+	grid-template-columns: 124px 1fr;
+	grid-template-rows: auto;
+	margin: 10px 10px 0 10px;
+}
+.itemDetailsIcon {
+	background-color: hsl(0, 17%, 70%);
+	grid-area: icon;
+}
+.itemDetailsProperties {
+	grid-area: properties;
+}
+.itemDetailsContent {
+	grid-area: content;
+}
 .itemDetailsIcon img {
+	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
+	border-color: rgba(128,128,128,1);
 	border-width: 2px;
+	width: 124px;
+	box-sizing: content-box;
+	border-style: solid;
 }
