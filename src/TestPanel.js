@@ -311,12 +311,22 @@ useEffect(()=>{
 
 <>
 <div className="itemDetailsGrid1">
-<div className="itemDetailsIcon"><img src={process.env.PUBLIC_URL+"/icons/items/124/ui_item_1150003.png"} /></div><div className="itemDetailsProperties">RARITY, ATTACK, ELEMENT, EQUIP CONDITIONS, NOT TRADABLE</div>
-<div>POTENTIAL 
+<div className="itemDetailsIcon r3"><img src={process.env.PUBLIC_URL+"/icons/items/124/ui_item_1150003.png"} /></div>
+<div className="itemDetailsProperties">
+RARITY<br />
+ATTACK<br />
+ELEMENT<br />
+EQUIP CONDITIONS<br />
+NOT TRADABLE
+</div>
+<div className="itemDetailContent">
+
+POTENTIAL PRESET SKILL
+AUGMENT 
+
 
 
 </div>
-
 </div>
 
 
