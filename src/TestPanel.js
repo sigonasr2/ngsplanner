@@ -277,10 +277,10 @@ useEffect(()=>{
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
-              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
-                <div className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
-                  <div className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
-                  <div className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
+              <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot r4"><h3>Weapons</h3><div className="equipPaletteSlotWrapper"><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
+                <div className="equipPaletteSlot r3"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
+                  <div className="equipPaletteSlot r3"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
+                  <div className="equipPaletteSlot r3"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" src={DisplayIcon("https://i.imgur.com/GtusK2X.png")} /></div></div>
                 </div>
               </div>
 
@@ -293,12 +293,22 @@ useEffect(()=>{
 
 <>
 <div className="itemDetailsGrid1">
-<div className="itemDetailsIcon"><img src={process.env.PUBLIC_URL+"/icons/items/124/ui_item_1150003.png"} /></div><div className="itemDetailsProperties">RARITY, ATTACK, ELEMENT, EQUIP CONDITIONS, NOT TRADABLE</div>
-<div>POTENTIAL 
+<div className="itemDetailsIcon r3"><img src={process.env.PUBLIC_URL+"/icons/items/124/ui_item_1150003.png"} /></div>
+<div className="itemDetailsProperties">
+RARITY<br />
+ATTACK<br />
+ELEMENT<br />
+EQUIP CONDITIONS<br />
+NOT TRADABLE
+</div>
+<div className="itemDetailContent">
+
+POTENTIAL PRESET SKILL
+AUGMENT 
+
 
 
 </div>
-
 </div>
 
 
