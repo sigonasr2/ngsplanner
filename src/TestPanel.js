@@ -427,8 +427,6 @@ useEffect(()=>{
   </div>
 </div>
 
-<ExpandTooltip id="test" tooltip="Hello!">Testing</ExpandTooltip>
-
 <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
 
 <SelectorWindow title="Weapon Selection" modalOpen={weaponSelectWindowOpen} setModalOpen={setWeaponSelectWindowOpen} GetData={p.GetData}
