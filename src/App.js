@@ -6,7 +6,7 @@ import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/re
 import Helmet from 'react-helmet'
 import { ExpandTooltip } from './components/ExpandTooltip';
 
-import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
+import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill, PatchCheck} from 'react-bootstrap-icons'
 
 import {
   HashRouter,
@@ -118,6 +118,14 @@ function TableEditor(p) {
 	const [importAllowed,setImportAllowed] = useState(false)
 	const [fileData,setFileData] = useState(undefined)
 	const [lockSubmission,setLockSubmission] = useState(false)
+
+	function patchValue(value,p,col,dat) {
+		return axios.patch(p.BACKENDURL+p.path,{
+			[col.name]:value==="null"?null:value,
+			id:dat.id,
+			pass:p.password
+		})
+	}
 	
 	function SubmitBoxes() {
 		if (!lockSubmission) {
@@ -135,10 +143,6 @@ function TableEditor(p) {
 			})
 		}
 	}
-
-	useGlobalKeyDown(()=>{
-		SubmitBoxes()
-	},['Enter'])
 	
 	useEffect(()=>{
 		setUpdate(true)
@@ -216,13 +220,7 @@ function TableEditor(p) {
 							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{position:'absolute',top:"-1000px"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
 					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id,pass:p.password}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
-						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>{
-						return axios.patch(p.BACKENDURL+p.path,{
-							[col.name]:value==="null"?null:value,
-							id:dat.id,
-							pass:p.password
-						})
-						}} value={String(dat[col.name])}/></td>)}</tr>)}
+						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>patchValue(value,p,col,dat)} callback2={(f,value)=>{if (f.key==='Enter') {f.currentTarget.blur()} else {return 'Chill'}}} value={String(dat[col.name])}/></td>)}</tr>)}
 			  </tbody>
 			</table>
 		</div>:<><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/></>}
