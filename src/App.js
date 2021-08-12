@@ -4,6 +4,7 @@ import React, {useState,useEffect,useReducer} from 'react';
 import useGlobalKeyDown from 'react-global-key-down-hook'
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 import Helmet from 'react-helmet'
+import { ExpandTooltip } from './components/ExpandTooltip';
 
 import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
@@ -573,7 +574,7 @@ function LoginForm(p) {
 	const [username,setUsername] = useState("")
 	const [password,setPassword] = useState("")
 	const [rememberMe,setRememberMe] = useState(false)
-	return <>Login Form here.</>
+	return <><ExpandTooltip id="tooltip-username" tooltip="Enter a username (4-20 characters, alphanumeric characters only)"><label className="formField" for="username">Username:</label><input id="username" value={username} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username"/></ExpandTooltip></>
 }
 
 

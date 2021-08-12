@@ -1,7 +1,7 @@
 import React, { useEffect,useState,useRef } from 'react';
-import ReactTooltip from 'react-tooltip' //https://wwayne.github.io/react-tooltip/
 import Modal from 'react-modal'
 import { DisplayIcon } from './DEFAULTS';
+import { ExpandTooltip } from './components/ExpandTooltip';
 
 /**
  * Hook that alerts clicks outside of the passed ref
@@ -77,19 +77,6 @@ function PageControl(p) {
 	return pages.length>0&&<ul className="boxmenu">
 			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
 		</ul>
-}
-
-function ExpandTooltip(p) {
-	return <><span data-tip data-for={p.id}>{p.children}</span><ReactTooltip id={p.id} className="xTooltip" overridePosition={ (
-    { left, top },
-    currentEvent, currentTarget, node) => {
-  const d = document.documentElement;
-  left = Math.min(d.clientWidth - node.clientWidth, left);
-  top = Math.min(d.clientHeight - node.clientHeight, top);
-  left = Math.max(0, left);
-  top = Math.max(0, top);
-  return { top, left }
-} }>{p.tooltip}</ReactTooltip></>
 }
 
 function Class(p) {
