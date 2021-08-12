@@ -71,7 +71,7 @@ function PageControl(p) {
 		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
 	}
   if (p.children!==undefined) {
-      pages.push(<li className="pagecontroldetails">{p.children}</li>)
+      pages.push(<li className="pageControlDetails">{p.children}</li>)
   }
   //console.log(JSON.stringify(p.children))
 	return pages.length>0&&<ul className="boxmenu">
@@ -121,7 +121,7 @@ function PopupWindow(p) {
     {p.children}
   </div>
 	</Modal>
-} 
+}
 
 function SelectorWindow(p) {
 
@@ -181,6 +181,7 @@ const [weaponPage,setWeaponPage] = useState(1)
 const [statPage,setStatPage] = useState(1)
 
 const [classSelectWindowOpen,setClassSelectWindowOpen] = useState(false)
+const [classSkillTreeWindowOpen,setClassSkillTreeWindowOpen] = useState(false)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 const [armorSelectWindowOpen,setArmorSelectWindowOpen] = useState(false)
 
@@ -241,7 +242,7 @@ useEffect(()=>{
             <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
             </td>
           </tr>
-          <tr>
+          <tr onClick={()=>{setClassSkillTreeWindowOpen(true)}} >
             <td>Sub-Class</td>
             <td>
             <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
@@ -325,20 +326,20 @@ AUGMENT
 </>
 
             :weaponPage === 3 ?
-              <div class="equipDetails">
-                <div class="equipAugs">
+              <div className="equipDetails">
+                <div className="equipAugs">
                   <h3>Ability Details</h3>
                   <ul>
-                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span class="pot">Dynamo Unit Lv.3</span></li>
-                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span class="fixa">Fixa Attack Lv.3</span></li>
-                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Pettas Soul II</span></li>
-                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span class="aug">Alts Secreta II</span></li>
-                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span class="aug">Gigas Precision II</span></li>
-                    <li><div class="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span class="aug">Precision III</span></li>
+                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span className="pot">Dynamo Unit Lv.3</span></li>
+                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span className="fixa">Fixa Attack Lv.3</span></li>
+                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Pettas Soul II</span></li>
+                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span className="aug">Alts Secreta II</span></li>
+                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Gigas Precision II</span></li>
+                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span className="aug">Precision III</span></li>
                     <li><img alt="" src="./icons/aug_plus.png" /></li>
                   </ul>
                 </div>
-                <div class="pr">
+                <div className="pr">
                   <h3>Stat Adjustment</h3>
                   <ul>
                     <li>Enhancement Lv.&emsp;<span>+35</span></li>
@@ -369,13 +370,6 @@ AUGMENT
 <li>PA Select Window</li>
 <li>Food/Buffs Menu</li>
 <li>Get all the fckn icons</li>
-</ul>
-
-<h3>sig's to do list lol</h3>
-<ul>
-<li>Default icon for weapons/armor etc</li>
-<li>make big picture small times 1000</li>
-<li>sig make the page thingie i would do it but im big dum</li>
 </ul>
 </div>
 
@@ -507,6 +501,53 @@ AUGMENT
 
 <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
 
+<Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlaySkillTree">
+
+
+<div className="box treeSelectBox">
+<div className="boxTitleBar">
+<h1>Class Skill Tree</h1>
+<div className="boxExit"></div>
+</div>
+<div className="treeListContainer customScrollbar">
+<ul className="treeList">
+<li><img alt="" src="./icons/class/hu.png" />Hunter</li>
+<li><img alt="" src="./icons/class/fi.png" />Fighter</li>
+<li className="treeListMain"><img alt="" src="./icons/class/ra.png" />Ranger</li>
+<li><img alt="" src="./icons/class/gu.png" />Gunner</li>
+<li className="treeListSub"><img alt="" src="./icons/class/fo.png" />Force</li>
+<li><img alt="" src="./icons/class/te.png" />Techter</li>
+</ul>
+</div>
+</div>
+
+<div className="box skillTreeBox">
+<div className="boxTitleBar">
+<h1>Ranger01</h1>
+<div className="boxExit"></div>
+</div>
+<div className="skillTreeContainer customScrollbar">
+<div className="skillTreeGrid">
+<div className="skillActive" style={{gridArea:"a1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em></div>
+<div className="skillMaxed" style={{gridArea:"a2"}}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em></div>
+<div style={{gridArea:"b1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em></div>
+<div style={{gridArea:"b2"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot</em></div>
+<div className="skillLocked" style={{gridArea:"b3"}}><span className="skillTreeReqLock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot_Quick_Getaway.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot Quick Getaway</em></div>
+<div style={{gridArea:"c1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Reduction.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Reduction</em></div>
+<div style={{gridArea:"c2"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Rifle_Grenadier.png" /><span className="skillAllocated">0/1</span><em className="skillName">Rifle Grenadier</em></div>
+<div style={{gridArea:"c3"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slide_Shot_Advance.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slide Shot Advance</em></div>
+<div style={{gridArea:"d2"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Sticky_Bomb_Quick_Reload.png" /><span className="skillAllocated">0/1</span><em className="skillName">Sticky Bomb Quick Reload</em></div>
+<div style={{gridArea:"d3"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em></div>
+<div style={{gridArea:"e1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em></div>
+<div style={{gridArea:"f1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+</div>
+</div>
+<div className="skillPoints">Your Skill Points&emsp;&emsp;6&emsp;&emsp;&emsp;SP&emsp;&emsp;&emsp;&emsp;0</div>
+<div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
+</div>
+
+</Modal>
+
 <SelectorWindow title="Weapon Selection" modalOpen={weaponSelectWindowOpen} setModalOpen={setWeaponSelectWindowOpen} GetData={p.GetData}
   pageNames={["All","Rifle","Launcher","Rod","Talis"]}
   sortItems={["Standard Sort","Rarity","Attack","Potency"]}
@@ -545,7 +586,7 @@ AUGMENT
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{item[WEAPON_EXISTENCE_DATA].special_name ?? item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
+  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div className="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{item[WEAPON_EXISTENCE_DATA].special_name ?? item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
     <span className="pot">{item[WEAPON_POTENTIAL].name}</span>
     </ExpandTooltip></li>}}
   />
@@ -580,7 +621,7 @@ AUGMENT
       case 2:{setSelectedArmor2(item)}break;
       case 3:{setSelectedArmor3(item)}break;
     }
-    setArmorSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item?.icon)} /><em className="rifle">{item.name}</em></div><br /><span className="atk">{item.def}</span></li>}}
+    setArmorSelectWindowOpen(false)}}><div className="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item?.icon)} /><em className="rifle">{item.name}</em></div><br /><span className="atk">{item.def}</span></li>}}
   />
 
 </>
