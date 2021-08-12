@@ -34,7 +34,7 @@ hr {
 }
 img {
 	vertical-align: middle;
-}
+}/*
 body {
     background-image: url("./icons/d_global_bg_header.png"),url("./icons/gl_main_bg.jpg");
     background-size: 1903px,2560px;
@@ -47,12 +47,12 @@ body {
 	font-weight: normal;
 	text-align: center;
     -webkit-font-smoothing: antialiased;
-}
-/*body {
+}*/
+body {
     background-image: url("https://i.imgur.com/3OizLd8.jpg");
 	background-color: #e8ecf4;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
 	background-attachment: fixed;
 	color: black;
     font-family: ngs,Arial,sans-serif;
@@ -60,7 +60,7 @@ body {
 	font-weight: normal;
 	text-align: center;
     -webkit-font-smoothing: antialiased;
-}*/
+}
 table td {
 	vertical-align: top;
 }
@@ -131,39 +131,32 @@ em {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	width: 100%;
-}
-.container {
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 200px;
-	max-width: 500px;
-	margin: 10px;
 }
 .containerA, .containerC {
 	flex-grow: 1;
-/*	flex-shrink: 1;
-	flex-basis: 200px;*/
+	flex-shrink: 1;
+	flex-basis: 240px;
 	max-width: 360px;
-	margin: 10px;
+	margin: 0 5px;
 }
 .containerB {
 	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 200px;
+	flex-shrink: auto;
+	flex-basis: auto;
 	max-width: 480px;
-	margin: 10px;
+	margin: 0 5px;
 }
 .box {
 	color: #97e2fc;
 	background-clip: padding-box;
-	background-color: rgba(38,53,63,0.80);
-	margin: 10px auto;
+	background-color: rgba(24, 36, 48, 0.66);
+	margin: 10px 0 0 0;
 	text-align: left;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
 	padding-bottom:10px;
 	/*filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));*/
-	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	/*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;*/
+	backdrop-filter: blur(10px);
 }
 
 .box table {
@@ -217,7 +210,7 @@ em {
 }*/
 .boxTitleBar {
 	/* background-color: #495a61; */
-	background-color: rgba(128,128,128,0.50);
+	background-color: rgba(124, 144, 148, 0.66);
 	color: white;
 	font-weight: normal;
 	font-size: 13pt;
@@ -568,14 +561,14 @@ li.r4 {
 	outline: 2px solid rgba(54,255,255,0.66);
 }
 .boxmenu {
-	font-size: 10pt;
+	font-size: 12pt;
 	margin: 0 10px 0 10px;
 	justify-content: flex-start;
 	display: flex;
 	flex-flow: row nowrap;
 }
 .boxmenu li {
-	background-color: rgba(245, 245, 245,0.66);
+	background-color: rgba(115, 120, 125,0.66);
 	color: white;
 	display: inline-block;
 	margin: 10px 5px 0 0;
@@ -587,6 +580,9 @@ li.r4 {
 }
 .boxmenu img {
 	vertical-align: middle;
+}
+.pageControlDetails {
+	background-color: rgba(24, 36, 48, 0.66) !important;
 }
 .selected {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
@@ -1000,7 +996,7 @@ button{
 	100% {opacity:1;margin-bottom:0;}
   }
 .boxModal .boxTitleBar {
-	background: linear-gradient(45deg, rgba(47,153,193,1),rgba(46,94,137,1) 30%,rgba(46,94,137,1) 70%, rgba(47,153,193,1));
+	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {
 		overflow-y: auto;
