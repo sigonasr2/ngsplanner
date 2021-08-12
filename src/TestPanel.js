@@ -302,7 +302,7 @@ useEffect(()=>{
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
             <h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
-            <div><PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage} /><div></div></div>
+            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}>Q for Details</PageControl>
             {weaponPage === 1 ?
 
 <>
