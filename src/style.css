@@ -1240,3 +1240,10 @@ p.adminNav hr {
 .formField{
 	font-weight:bold;
 }
+.formDescription{
+	font-style:italic;
+}
+.formError{
+	color:red;
+	font-weight:bold;
+}

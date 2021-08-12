@@ -1,7 +1,8 @@
 import ReactTooltip from 'react-tooltip' //https://wwayne.github.io/react-tooltip/
 
 function ExpandTooltip(p) {
-	return <><span data-tip data-for={p.id}>{p.children}</span><ReactTooltip id={p.id} className="xTooltip" overridePosition={ (
+
+	return <><span data-tip data-tip-disable={p.tooltip?.length===0} data-for={p.id}>{p.children}</span><ReactTooltip id={p.id} className="xTooltip" overridePosition={ (
     { left, top },
     currentEvent, currentTarget, node) => {
   const d = document.documentElement;

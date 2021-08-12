@@ -18,6 +18,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 
 import TestHeader from './TestHeader'; // Test Header!
 import TestPanel from './TestPanel'; // Dudley's Test Panel
+import md5 from 'md5';
 
 const axios = require('axios');
 const parse = require('csv-parse/lib/sync')
@@ -570,11 +571,113 @@ function DamageCalculator(p) {
 	</>
 }
 
+function FormField(p) {
+	return <><label className="formField" for={p.field}>{p.label}</label>{
+		p.type==="toggle"?<><Toggle id={p.field} checked={p.checked} onChange={p.onChange} disabled={p.loading}/> <label className="formDescription" for={p.field}>{p.checked?<b>YES</b>:<b>NO</b>}</label></>:<input type={p.type??"text"} disabled={p.loading} id={p.field} maxlength={p.maxlength} value={p.value} checked={p.checked} onChange={p.onChange} placeholder={p.placeholder}/>} <label className="formDescription" for={p.field}>{p.tooltip}</label></>
+}
+
 function LoginForm(p) {
 	const [username,setUsername] = useState("")
 	const [password,setPassword] = useState("")
 	const [rememberMe,setRememberMe] = useState(false)
-	return <><ExpandTooltip id="tooltip-username" tooltip="Enter a username (4-20 characters, alphanumeric characters only)"><label className="formField" for="username">Username:</label><input id="username" value={username} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username"/></ExpandTooltip></>
+	const [error,setError] = useState("")
+	const [loading,setLoading] = useState(false)
+
+	function SubmitLogin() {
+		setError("")
+		setLoading(true)
+		axios.post(GetBackendURL(p)+"/login",{
+			username:username,
+			password:md5(password)
+		})
+		.then((data)=>{
+			if (data.data.verified) {
+				p.setLOGGEDINUSER(username)
+				p.setLOGGEDINHASH(md5(password))
+				setUsername("")
+				setPassword("")
+				setRememberMe(false)
+			} else {
+				setError("Could not authenticate!")
+			}
+		})
+		.catch((err)=>{
+			setError(err?.message??err);
+		})
+		.then(()=>{
+			setLoading(false)
+		})
+	}
+
+	return <>
+	<Box title="Login Form">
+	{loading?
+		<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
+		:<><h3 className="formError">{error}</h3>
+		<FormField field="username" label="Username: " value={username} maxlength={20} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username"/><br/>
+		<FormField field="password" label="Password: " type="password" value={password} onChange={(p)=>{setPassword(p.currentTarget.value)}} placeholder="Password"/><br/>
+		<FormField field="rememberMe" label="Remember Me " type="toggle" checked={rememberMe} onChange={(p)=>{setRememberMe(p.currentTarget.checked)}}/><br/>
+		<button type="submit" onClick={SubmitLogin}>Login</button></>
+	}
+	</Box></>
+}
+
+function RegisterForm(p) {
+	const [username,setUsername] = useState("")
+	const [password,setPassword] = useState("")
+	const [password2,setPassword2] = useState("")
+	const [rememberMe,setRememberMe] = useState(false)
+	const [error,setError] = useState("")
+	const [loading,setLoading] = useState(false)
+
+	function SubmitRegister() {
+		setError("")
+		setLoading(true)
+		try{
+			if (username.length<4) {throw "Username must be at least 4 characters in length."}
+			if (username.length>20) {throw "Username must be less than 21 characters in length."}
+			if (password.length<6) {throw "Password must contain at least 6 characters."}
+			if (password!==password2) {throw "Password fields must match."}
+		}catch(err){
+			setError(err)
+			setLoading(false)
+			return
+		}
+		axios.post(GetBackendURL(p)+"/register",{
+			username:username,
+			password:md5(password)
+		})
+		.then((data)=>{
+			if (data.data.verified) {
+				p.setLOGGEDINUSER(username)
+				p.setLOGGEDINHASH(md5(password))
+				setUsername("")
+				setPassword("")
+				setRememberMe(false)
+			} else {
+				setError("Could not authenticate!")
+			}
+		})
+		.catch((err)=>{
+			setError(err?.message??err);
+		})
+		.then(()=>{
+			setLoading(false)
+		})
+	}
+
+	return <>
+	<Box title="Registration Form">
+	{loading?
+		<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
+		:<><h3 className="formError">{error}</h3>
+		<FormField field="username" label="Username: " value={username} maxlength={20} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username" tooltip="Enter a username (4-20 characters, alphanumeric only)"/><br/>
+		<FormField field="password" label="Password: " type="password" value={password} onChange={(p)=>{setPassword(p.currentTarget.value)}} placeholder="Password" tooltip="Enter a password (6 or more characters)"/><br/>
+		<FormField field="password2" label="Verify Password: " type="password" value={password2} onChange={(p)=>{setPassword2(p.currentTarget.value)}} placeholder="Verify Password" tooltip="Enter password again."/><br/>
+		<FormField field="rememberMe" label="Remember Me " type="toggle" checked={rememberMe} onChange={(p)=>{setRememberMe(p.currentTarget.checked)}}/><br/>
+		<button type="submit" onClick={SubmitRegister}>Login</button></>
+	}
+	</Box></>
 }
 
 
@@ -684,14 +787,14 @@ function App() {
 						<title>{APP_TITLE+" - Login"}</title>
 					</Helmet>
 					<TestHeader/>
-					<LoginForm LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
+					<LoginForm BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/register"}>
 					<Helmet>
 						<title>{APP_TITLE+" - Register"}</title>
 					</Helmet>
 					<TestHeader/>
-					Register form here.
+					<RegisterForm BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
