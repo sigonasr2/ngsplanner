@@ -11,7 +11,8 @@ import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'r
 import {
   HashRouter,
   Switch,
-  Route
+  Route,
+  useHistory
 } from "react-router-dom";
 
 import { HashLink as Link } from 'react-router-hash-link';
@@ -576,12 +577,33 @@ function FormField(p) {
 		p.type==="toggle"?<><Toggle id={p.field} checked={p.checked} onChange={p.onChange} disabled={p.loading}/> <label className="formDescription" for={p.field}>{p.checked?<b>YES</b>:<b>NO</b>}</label></>:<input type={p.type??"text"} disabled={p.loading} id={p.field} maxlength={p.maxlength} value={p.value} checked={p.checked} onChange={p.onChange} placeholder={p.placeholder}/>} <label className="formDescription" for={p.field}>{p.tooltip}</label></>
 }
 
+function VerifyLogin(p) {
+	axios.post(GetBackendURL(p)+"/validUser",{
+		username:p.LOGGEDINUSER,
+		password:p.LOGGEDINHASH
+	})
+	.then((data)=>{
+		if (data.data.verified) {
+			p.history.push("/")
+		}
+	})
+	.catch((err)=>{
+		console.log(err.message)
+	})
+}
+
 function LoginForm(p) {
 	const [username,setUsername] = useState("")
 	const [password,setPassword] = useState("")
 	const [rememberMe,setRememberMe] = useState(false)
 	const [error,setError] = useState("")
 	const [loading,setLoading] = useState(false)
+
+	const history = useHistory()
+
+	useEffect(()=>{
+		VerifyLogin({...p,history:history})
+	},[])
 
 	function SubmitLogin() {
 		setError("")
@@ -629,6 +651,12 @@ function RegisterForm(p) {
 	const [rememberMe,setRememberMe] = useState(false)
 	const [error,setError] = useState("")
 	const [loading,setLoading] = useState(false)
+
+	const history = useHistory()
+
+	useEffect(()=>{
+		VerifyLogin({...p,history:history})
+	},[])
 
 	function SubmitRegister() {
 		setError("")
@@ -719,8 +747,8 @@ function App() {
 	const [DATA,setDATA] = useState({GetData:()=>{}})
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 
-	const [LOGGEDINUSER,setLOGGEDINUSER] = useState(undefined)
-	const [LOGGEDINHASH,setLOGGEDINHASH] = useState(undefined)
+	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("sigonasr2")
+	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("7355ddfc5b81291cdd2c3025976c108c")
 
 
 	function GetData(table,row,col,id){
