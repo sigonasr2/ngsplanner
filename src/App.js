@@ -8,6 +8,8 @@ import { ExpandTooltip } from './components/ExpandTooltip';
 
 import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill, PatchCheck} from 'react-bootstrap-icons'
 
+import { SkillTree } from './skilltree/skillTree';
+
 import {
   HashRouter,
   Switch,
@@ -829,6 +831,28 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
+				</Route>
+				<Route path={process.env.PUBLIC_URL+"/skilltree"}>
+					<SkillTree strokeStyle="rgba(0,0,128,1)" lineWidth={3} lineDash={[]}
+					gridDimensions={[6,6]} gridSize={[80,60]} gridPadding={[10,10]}
+					skillLines={["□  □  ", //─   □
+								 "└□─┘□□", //│ ├┤┼
+								 " │  ││", //    
+								 " │  □│", //┌ ┐ ┬
+								 " □─□┼□", //└ ┘ ┴
+								 "    □ "]}
+					/>
+					<br/>
+					<hr/>
+					<br/>
+					<SkillTree strokeStyle="rgba(255,0,0,0.5)" lineWidth={10} lineDash={[10,10]}
+					gridDimensions={[5,5]} gridSize={[120,120]} gridPadding={[5,5]}
+					skillLines={["□□□□ ", //─   □
+								 "│ │┌□", //│ ├┤┼
+								 "│□┘□ ", //    
+								 "□  │ ", //┌ ┐ ┬
+								 "   □ "]}//└ ┘ ┴
+					/>
 				</Route>
 				<Route path="/">
 					<Helmet>
