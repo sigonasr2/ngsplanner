@@ -595,7 +595,7 @@ AUGMENT
     </ExpandTooltip></li>}}
   />
   
-<SelectorWindow title="Armor Selection" modalOpen={armorSelectWindowOpen} setModalOpen={setArmorSelectWindowOpen} GetData={p.GetData}
+<SelectorWindow title={"Armor Selection - Slot "+armorSlotSelection} modalOpen={armorSelectWindowOpen} setModalOpen={setArmorSelectWindowOpen} GetData={p.GetData}
   pageNames={[]}
   sortItems={["Standard Sort","Rarity","HP","PP","Melee Potency","Range Potency","Tech Potency"]}
   filter={true}
