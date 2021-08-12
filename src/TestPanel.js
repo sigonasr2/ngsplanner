@@ -246,8 +246,8 @@ useEffect(()=>{
             <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
             </td>
           </tr>
-          <tr onClick={()=>{setClassSkillTreeWindowOpen(true)}} >
-            <td>Sub-Class</td>
+          <tr>
+            <td onClick={()=>{setClassSkillTreeWindowOpen(true)}}>Sub-Class</td>
             <td>
             <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
             </td>
@@ -505,13 +505,13 @@ AUGMENT
 
 <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
 
-<Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlaySkillTree">
+<Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modalSkillTree" overlayClassName="modalOverlaySkillTree">
 
 
 <div className="box treeSelectBox">
 <div className="boxTitleBar">
 <h1>Class Skill Tree</h1>
-<div className="boxExit"></div>
+<div className="boxExit" onClick={()=>{setClassSkillTreeWindowOpen(false)}}></div>
 </div>
 <div className="treeListContainer customScrollbar">
 <ul className="treeList">
@@ -528,7 +528,7 @@ AUGMENT
 <div className="box skillTreeBox">
 <div className="boxTitleBar">
 <h1>Ranger01</h1>
-<div className="boxExit"></div>
+<div className="boxExit" onClick={()=>{setClassSkillTreeWindowOpen(false)}}></div>
 </div>
 <div className="skillTreeContainer customScrollbar">
 <div className="skillTreeGrid">
@@ -544,6 +544,10 @@ AUGMENT
 <div style={{gridArea:"d3"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em></div>
 <div style={{gridArea:"e1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em></div>
 <div style={{gridArea:"f1"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+<div style={{gridArea:"a5"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+<div style={{gridArea:"a6"}}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+
+
 </div>
 </div>
 <div className="skillPoints">Your Skill Points&emsp;&emsp;6&emsp;&emsp;&emsp;SP&emsp;&emsp;&emsp;&emsp;0</div>
