@@ -1,12 +1,10 @@
 import './reset.css'; // Generic reset
 import './style.css'; // The new new
 import React, {useState,useEffect,useReducer} from 'react';
-import useGlobalKeyDown from 'react-global-key-down-hook'
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 import Helmet from 'react-helmet'
-import { ExpandTooltip } from './components/ExpandTooltip';
 
-import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill, PatchCheck} from 'react-bootstrap-icons'
+import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
 import { SkillTree } from './skilltree/skillTree';
 
@@ -603,7 +601,7 @@ function LoginForm(p) {
 
 	useEffect(()=>{
 		VerifyLogin({...p,history:history})
-	},[])
+	},[history,p])
 
 	function SubmitLogin() {
 		setError("")
@@ -658,7 +656,7 @@ function RegisterForm(p) {
 
 	useEffect(()=>{
 		VerifyLogin({...p,history:history})
-	},[])
+	},[history,p])
 
 	function SubmitRegister() {
 		setError("")
@@ -833,26 +831,28 @@ function App() {
 					<DamageCalculator/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/skilltree"}>
-					<SkillTree strokeStyle="rgba(0,0,128,1)" lineWidth={3} lineDash={[]}
-					gridDimensions={[6,6]} gridSize={[80,60]} gridPadding={[10,10]}
-					skillLines={["□  □  ", //─   □
-								 "└□─┘□□", //│ ├┤┼
-								 " │  ││", //    
-								 " │  □│", //┌ ┐ ┬
-								 " □─□┼□", //└ ┘ ┴
-								 "    □ "]}
-					/>
-					<br/>
-					<hr/>
-					<br/>
-					<SkillTree strokeStyle="rgba(255,0,0,0.5)" lineWidth={10} lineDash={[10,10]}
-					gridDimensions={[5,5]} gridSize={[120,120]} gridPadding={[5,5]}
-					skillLines={["□□□□ ", //─   □
-								 "│ │┌□", //│ ├┤┼
-								 "│□┘□ ", //    
-								 "□  │ ", //┌ ┐ ┬
-								 "   □ "]}//└ ┘ ┴
-					/>
+					<Box title="Skill Tree">
+						<SkillTree strokeStyle="rgba(0,0,128,1)" lineWidth={3} lineDash={[]}
+						gridDimensions={[6,6]} gridSize={[80,60]} gridPadding={[10,10]}
+						skillLines={["□  □  ", //─   □
+									"└□─┘□□", //│ ├┤┼
+									" │  ││", //    
+									" │  □│", //┌ ┐ ┬
+									" □─□┼□", //└ ┘ ┴
+									"    □ "]}
+						/>
+						<br/>
+						<hr/>
+						<br/>
+						<SkillTree strokeStyle="rgba(255,0,0,0.5)" lineWidth={10} lineDash={[10,10]}
+						gridDimensions={[5,5]} gridSize={[120,120]} gridPadding={[5,5]}
+						skillLines={["□□□□ ", //─   □
+									"│ │┌□", //│ ├┤┼
+									"│□┘□ ", //    
+									"□  │ ", //┌ ┐ ┬
+									"   □ "]}//└ ┘ ┴
+						/>
+					</Box>
 				</Route>
 				<Route path="/">
 					<Helmet>
