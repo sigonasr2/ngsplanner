@@ -3,6 +3,9 @@ import Modal from 'react-modal'
 import { DisplayIcon } from './DEFAULTS';
 import { ExpandTooltip } from './components/ExpandTooltip';
 
+//Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
+const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
+
 /**
  * Hook that alerts clicks outside of the passed ref
  */
@@ -162,6 +165,10 @@ function SelectorWindow(p) {
   </PopupWindow>
 }
 
+function GetSpecialWeaponName(item) {
+  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):""
+}
+
 function TestPanel(p) {
 const [bpGraphMax,setbpGraphMax] = useState(1000)
 const [hpGraphMax,sethpGraphMax] = useState(1000)
@@ -183,9 +190,6 @@ const [statPage,setStatPage] = useState(1)
 const [classSelectWindowOpen,setClassSelectWindowOpen] = useState(false)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 const [armorSelectWindowOpen,setArmorSelectWindowOpen] = useState(false)
-
-//Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
-const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
 
 const [selectedWeapon,setSelectedWeapon] = useState([])
 const [selectedArmor1,setSelectedArmor1] = useState([])
@@ -296,7 +300,7 @@ useEffect(()=>{
           <div className="box">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
-            <h2 className="rifle">{selectedWeapon[WEAPON_WEAPON]?.name + " " + selectedWeapon[WEAPON_WEAPONTYPE]?.name}+40</h2>
+            <h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
             <div><PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage} /><div></div></div>
             {weaponPage === 1 ?
 
@@ -545,7 +549,7 @@ AUGMENT
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{item[WEAPON_EXISTENCE_DATA].special_name ?? item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
+  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div class="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{GetSpecialWeaponName(item)}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
     <span className="pot">{item[WEAPON_POTENTIAL].name}</span>
     </ExpandTooltip></li>}}
   />
