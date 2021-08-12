@@ -608,7 +608,7 @@ function LoginForm(p) {
 	function SubmitLogin() {
 		setError("")
 		setLoading(true)
-		axios.post(GetBackendURL(p)+"/login",{
+		axios.post(GetBackendURL(p)+"/validUser",{
 			username:username,
 			password:md5(password)
 		})
@@ -619,6 +619,7 @@ function LoginForm(p) {
 				setUsername("")
 				setPassword("")
 				setRememberMe(false)
+				history.push("/")
 			} else {
 				setError("Could not authenticate!")
 			}
@@ -635,11 +636,11 @@ function LoginForm(p) {
 	<Box title="Login Form">
 	{loading?
 		<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
-		:<><h3 className="formError">{error}</h3>
+		:<><div  onKeyDown={(f)=>{if (f.key==="Enter") {SubmitLogin()}}}><h3 className="formError">{error}</h3>
 		<FormField field="username" label="Username: " value={username} maxlength={20} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username"/><br/>
 		<FormField field="password" label="Password: " type="password" value={password} onChange={(p)=>{setPassword(p.currentTarget.value)}} placeholder="Password"/><br/>
 		<FormField field="rememberMe" label="Remember Me " type="toggle" checked={rememberMe} onChange={(p)=>{setRememberMe(p.currentTarget.checked)}}/><br/>
-		<button type="submit" onClick={SubmitLogin}>Login</button></>
+		<button type="submit" onClick={SubmitLogin}>Login</button></div></>
 	}
 	</Box></>
 }
@@ -648,6 +649,7 @@ function RegisterForm(p) {
 	const [username,setUsername] = useState("")
 	const [password,setPassword] = useState("")
 	const [password2,setPassword2] = useState("")
+	const [email,setEmail] = useState("")
 	const [rememberMe,setRememberMe] = useState(false)
 	const [error,setError] = useState("")
 	const [loading,setLoading] = useState(false)
@@ -666,6 +668,7 @@ function RegisterForm(p) {
 			if (username.length>20) {throw "Username must be less than 21 characters in length."}
 			if (password.length<6) {throw "Password must contain at least 6 characters."}
 			if (password!==password2) {throw "Password fields must match."}
+			if (!email.includes("@")) {throw "Invalid E-mail."}
 		}catch(err){
 			setError(err)
 			setLoading(false)
@@ -673,7 +676,8 @@ function RegisterForm(p) {
 		}
 		axios.post(GetBackendURL(p)+"/register",{
 			username:username,
-			password:md5(password)
+			password:md5(password),
+			email:email
 		})
 		.then((data)=>{
 			if (data.data.verified) {
@@ -699,9 +703,10 @@ function RegisterForm(p) {
 	{loading?
 		<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
 		:<><h3 className="formError">{error}</h3>
-		<FormField field="username" label="Username: " value={username} maxlength={20} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username" tooltip="Enter a username (4-20 characters, alphanumeric only)"/><br/>
+		<FormField field="username" label="Username: " value={username} maxlength={20} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username" tooltip="Enter a username (4-20 characters, a-z and _ only)"/><br/>
 		<FormField field="password" label="Password: " type="password" value={password} onChange={(p)=>{setPassword(p.currentTarget.value)}} placeholder="Password" tooltip="Enter a password (6 or more characters)"/><br/>
 		<FormField field="password2" label="Verify Password: " type="password" value={password2} onChange={(p)=>{setPassword2(p.currentTarget.value)}} placeholder="Verify Password" tooltip="Enter password again."/><br/>
+		<FormField field="email" label="E-mail: " type="email" value={email} onChange={(p)=>{setEmail(p.currentTarget.value)}} placeholder="email@example.com" tooltip="This is used to send you password reset emails."/><br/>
 		<FormField field="rememberMe" label="Remember Me " type="toggle" checked={rememberMe} onChange={(p)=>{setRememberMe(p.currentTarget.checked)}}/><br/>
 		<button type="submit" onClick={SubmitRegister}>Login</button></>
 	}
@@ -747,8 +752,8 @@ function App() {
 	const [DATA,setDATA] = useState({GetData:()=>{}})
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 
-	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("sigonasr2")
-	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("7355ddfc5b81291cdd2c3025976c108c")
+	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
+	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
 
 
 	function GetData(table,row,col,id){
