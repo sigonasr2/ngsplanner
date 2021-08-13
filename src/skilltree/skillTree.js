@@ -1,12 +1,20 @@
-import { useRef,useEffect } from 'react';
+import { useRef,useEffect,useState } from 'react';
 import { contextType } from 'react-modal';
 
 function SkillTree(p) {
     const canvasRef = useRef(null)
+    const [width,setWidth] = useState(0)
+    const [height,setHeight] = useState(0)
   
     useEffect(() => {
+      setWidth(p.gridSize[0]*p.gridDimensionsX+p.gridPadding[0]*(p.gridDimensionsX-1))
+      setHeight(p.gridSize[1]*p.gridDimensionsY+p.gridPadding[1]*(p.gridDimensionsY-1))
+    }, [p.skillLines,p.gridSize,p.gridPadding,p.gridDimensionsX,p.gridDimensionsY])
+
+    useEffect(()=>{
       const canvas = canvasRef.current
       const context = canvas.getContext('2d')
+      context.clearRect(0,0,width,height)
       context.fillStyle = '#AA6666'
       /*for (var x=0;x<p.gridDimensions[0];x++) {
           for (var y=0;y<p.gridDimensions[1];y++) {
@@ -43,11 +51,11 @@ function SkillTree(p) {
         }
         y++
       }
-    }, [p.skillLines,p.gridSize,p.gridPadding,p.gridDimensions])
+    },[width,height])
     
     return <canvas
-    width={p.gridSize[0]*p.gridDimensions[0]+p.gridPadding[0]*(p.gridDimensions[0]-1)}
-    height={p.gridSize[1]*p.gridDimensions[1]+p.gridPadding[1]*(p.gridDimensions[1]-1)} ref={canvasRef} {...p}/>
+    width={width}
+    height={height} ref={canvasRef} {...p}/>
 }
 
 export {SkillTree}
