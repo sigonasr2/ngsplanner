@@ -6,7 +6,7 @@ import Helmet from 'react-helmet'
 
 import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
-import { SkillTree } from './skilltree/skillTree';
+import { SkillTreeEditor } from './skilltree/skillTreeEditor'
 
 import {
   HashRouter,
@@ -753,9 +753,6 @@ function App() {
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
 
-	const [gridDimensionsX,setGridDimensionsX] = useState(5)
-	const [gridDimensionsY,setGridDimensionsY] = useState(5)
-
 
 	function GetData(table,row,col,id){
 		var data = id?DATAID:DATA
@@ -835,29 +832,7 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/skilltree"}>
 					<Box title="Skill Tree">
-						<SkillTree strokeStyle="rgba(0,0,128,1)" lineWidth={3} lineDash={[]}
-						gridDimensionsX={gridDimensionsX} gridDimensionsY={gridDimensionsY} gridSize={[80,60]} gridPadding={[10,10]}
-						skillLines={["□  □  ", //─   □
-									"└□─┘□□", //│ ├┤┼
-									" │  ││", //    
-									" │  □│", //┌ ┐ ┬
-									" □─□┼□", //└ ┘ ┴
-									"    □ "]}
-						/>
-						<br/>
-						<hr/>
-						<br/>
-						<SkillTree strokeStyle="rgba(255,0,0,0.5)" lineWidth={10} lineDash={[10,10]}
-						gridDimensionsX={5} gridDimensionsY={5} gridSize={[120,120]} gridPadding={[5,5]}
-						skillLines={["□□□□ ", //─   □
-									"│ │┌□", //│ ├┤┼
-									"│□┘□ ", //    
-									"□  │ ", //┌ ┐ ┬
-									"   □ "]}//└ ┘ ┴
-						/>
-
-						Width: <input type="number" onChange={(f)=>{setGridDimensionsX(Number(f.currentTarget.value))}} value={gridDimensionsX}/>
-						Height: <input type="number" onChange={(f)=>{setGridDimensionsY(Number(f.currentTarget.value))}} value={gridDimensionsY}/>
+						<SkillTreeEditor/>
 					</Box>
 				</Route>
 				<Route path="/">
