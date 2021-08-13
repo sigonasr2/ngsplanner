@@ -662,13 +662,13 @@ function RegisterForm(p) {
 		setError("")
 		setLoading(true)
 		try{
-			if (username.length<4) {throw "Username must be at least 4 characters in length."}
-			if (username.length>20) {throw "Username must be less than 21 characters in length."}
-			if (password.length<6) {throw "Password must contain at least 6 characters."}
-			if (password!==password2) {throw "Password fields must match."}
-			if (!email.includes("@")) {throw "Invalid E-mail."}
+			if (username.length<4) {throw new Error("Username must be at least 4 characters in length.")}
+			if (username.length>20) {throw new Error("Username must be less than 21 characters in length.")}
+			if (password.length<6) {throw new Error("Password must contain at least 6 characters.")}
+			if (password!==password2) {throw new Error("Password fields must match.")}
+			if (!email.includes("@")) {throw new Error("Invalid E-mail.")}
 		}catch(err){
-			setError(err)
+			setError(err?.message??err);
 			setLoading(false)
 			return
 		}

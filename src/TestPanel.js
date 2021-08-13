@@ -307,7 +307,7 @@ useEffect(()=>{
 
 <>
 <div className="itemDetailsGrid">
-<div className={"itemDetailsIcon"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><img src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
+<div className={"itemDetailsIcon"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><img alt="" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
 <div className="itemDetailsProperties">
 RARITY<br />
 ATTACK<br />
@@ -625,9 +625,10 @@ AUGMENT
   displayFunction={(item)=>{
   return <li className={"itemwep r"+item.rarity} onClick={()=>{
     switch(armorSlotSelection) {
-      case 1:{setSelectedArmor1(item)}break;
-      case 2:{setSelectedArmor2(item)}break;
-      case 3:{setSelectedArmor3(item)}break;
+      case 1:setSelectedArmor1(item);break;
+      case 2:setSelectedArmor2(item);break;
+      case 3:setSelectedArmor3(item);break;
+      default:setSelectedArmor1(item)
     }
     setArmorSelectWindowOpen(false)}}><div className="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item?.icon)} /><em className="rifle">{item.name}</em></div><br /><span className="atk">{item.def}</span></li>}}
   />
