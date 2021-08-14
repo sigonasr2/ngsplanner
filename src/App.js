@@ -357,7 +357,7 @@ function AdminPanel(p) {
 		{page:"Skills",url:"/admin/skills",table:"/skill"},
 		{page:"Skill Types",url:"/admin/skilltypes",table:"/skill_type"},
 		{page:"Skill Data",url:"/admin/skilldata",table:"/skill_data"},
-		{page:<span style={{color:"gold"}}>Skill Tree Editor</span>,url:"/admin/skilltreeeditor",render:<SkillTreeEditor GetData={p.DATA}/>},
+		{page:<span style={{color:"gold"}}>Skill Tree Editor</span>,url:"/admin/skilltreeeditor",render:<SkillTreeEditor setUpdate={p.setUpdate} password={password} BACKENDURL={GetBackendURL(p)} GetData={p.DATA}/>},
 		{page:"Skill Tree Data",url:"/admin/skilltreedata",table:"/skill_tree_data"},
 		{page:"Photon Arts",url:"/admin/photonarts",table:"/photon_art",duplicate:true},
 		{page:"Class Skills",url:"/admin/classskills",table:"/class_skill",duplicate:true},
@@ -753,6 +753,7 @@ function App() {
 	const [TESTMODE,setTESTMODE] = useState(false)
 	const [DATA,setDATA] = useState({GetData:()=>{}})
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
+	const [update,setUpdate] = useState(false)
 
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
@@ -765,6 +766,19 @@ function App() {
 		return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
 	}
 	
+	useEffect(()=>{
+		if (update) {
+			setUpdate(false)
+			axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/data")
+			.then((data)=>{
+				setDATA(data.data)
+			})
+			axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/dataid")
+			.then((data)=>{
+				setDATAID(data.data)
+			})
+		}
+	},[update])
 
 	useEffect(()=>{
 		axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/data")
@@ -786,7 +800,7 @@ function App() {
 						<title>{APP_TITLE+" - Admin Panel"}</title>
 					</Helmet>
 				<TestHeader/>
-					<AdminPanel setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
+					<AdminPanel setUpdate={setUpdate} setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
 					<Helmet>
@@ -835,11 +849,6 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
-				</Route>
-				<Route path={process.env.PUBLIC_URL+"/skilltree"}>
-					<Box title="Skill Tree">
-						<SkillTreeEditor BACKENDURL={GetBackendURL({TESTMODE:TESTMODE})} GetData={GetData}/>
-					</Box>
 				</Route>
 				<Route path="/">
 					<Helmet>

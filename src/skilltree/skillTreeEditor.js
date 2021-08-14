@@ -7,9 +7,11 @@ function SkillTreeEditor(p) {
 
     const ADJUSTMENT = [-32,-32]
 
+    const [firstLoad,setFirstLoad] = useState(true)
+
     const [classList,setClassList] = useState({})
     const [skillTreeData,setSkillTreeData] = useState({})
-    const [cl,setCl] = useState(0)
+    const [cl,setCl] = useState(-1)
     const [lineColor,setLineColor] = useState("#000000")
     const [lineWidth,setLineWidth] = useState(3)
     const [dimensionX,setDimensionX] = useState(6)
@@ -25,7 +27,7 @@ function SkillTreeEditor(p) {
     const [loading,setLoading] = useState(false)
 
     function GetSkills(x,y) {
-        var filtered = skillData.filter((skill)=>Number(skill[0])===x&&Number(skill[1])===y)
+        var filtered = skillData.filter((skill)=>Number(skill.split(",")[0])===Number(x)&&Number(skill.split(",")[1])===Number(y))
         if  (filtered.length>0) {
             return filtered[0]
         } else {
@@ -35,12 +37,29 @@ function SkillTreeEditor(p) {
 
     function SaveSkillTrees() {
         axios.post(p.BACKENDURL+"/saveskilltree",{
-
+            pass:p.password,
+            data:skillLines.slice(0,dimensionY).map((str)=>str.slice(0,dimensionX)).join(','),
+            skill_data:skillData.join(';'),
+            line_color:lineColor,
+            line_width:lineWidth,
+            gridsizex:gridSizeX,
+            gridsizey:gridSizeY,
+            gridpaddingx:gridPaddingX,
+            gridpaddingy:gridPaddingY,
+            class_id:cl
         })
         .then((data)=>{
-
+            if (data.data==="OK!") {
+                setMessage(<span style={{color:"green"}}>{"Successfully saved skill tree for "+p.GetData("class",undefined,undefined,true)[cl].name+"!"}</span>)
+                p.setUpdate(true)
+            }
         })
-        setLoading(false)
+        .catch((err)=>{
+            setMessage(<span style={{color:"red"}}>{err.message}</span>)
+        })
+        .then(()=>{
+            setLoading(false)
+        })
     }
 
     useEffect(()=>{
@@ -50,6 +69,7 @@ function SkillTreeEditor(p) {
 
     useEffect(()=>{
         var keys = Object.keys(skillTreeData)
+        var found = false
         for (var id of keys) {
             //console.log(cl+"/"+skillTreeData[id].class_id)
             if (Number(skillTreeData[id].class_id)===Number(cl)) {
@@ -65,12 +85,22 @@ function SkillTreeEditor(p) {
                 setGridSizeY(skillTreeData[id].gridsizey)
                 setGridPaddingX(skillTreeData[id].gridpaddingx)
                 setGridPaddingY(skillTreeData[id].gridpaddingy)
+                found=true
             }
+        }
+        if (!found) {
+            setSkillLines([])
+            setSkillData([])
+            setDimensionX(6)
+            setDimensionY(6)
         }
     },[skillTreeData,cl])
 
     useEffect(()=>{
-        setCl(Object.keys(classList)[0])
+        if (firstLoad) {
+            setCl(Object.keys(classList)[0])
+            setFirstLoad(false)
+        }
     },[classList])
 
     useEffect(()=>{
@@ -127,27 +157,34 @@ function SkillTreeEditor(p) {
 
     return <>
             {loading?<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>:<>
+            <h2>{message}</h2>
             <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
+                <option value=""></option>
                 {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
             </select>
-            <br/><button onClick={()=>{
+            <br/>
+            <br/>
+            {p.GetData("class",undefined,undefined,true)[cl]?.name&&<button onClick={()=>{
                 setLoading(true)
                 SaveSkillTrees()
-            }}>{"Save "+p.GetData("class",undefined,undefined,true)[cl].name+" Skill Tree"}</button>
+            }}>{"Save "+p.GetData("class",undefined,undefined,true)[cl]?.name+" Skill Tree"}</button>}
             <div style={{width:"800px",position:"relative",left:"300px"}}>
             <SkillTree strokeStyle={lineColor} lineWidth={lineWidth} lineDash={[]}
                 gridDimensionsX={dimensionX} gridDimensionsY={dimensionY} gridSizeX={gridSizeX} gridSizeY={gridSizeY} gridPaddingX={gridPaddingX} gridPaddingY={gridPaddingY}
                 skillLines={skillLines}
                 />
             {renderedInputs.map((control)=>control)}
-            <label for="lineColor">Line Color:</label><input type="color" id="lineColor" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
-            <label for="lineWidth">Line Width:</label><input type="number" id="lineWidth" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/>
-            <label for="gridSizeX">Grid Size X:</label><input type="number" id="gridSizeX" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/>
-            <label for="gridSizeY">Grid Size Y:</label><input type="number" id="gridSizeY" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/>
-            <label for="boxSizeX">Box Size X:</label><input type="number" id="boxSizeX" value={gridSizeX} onChange={(f)=>{setGridSizeX(f.currentTarget.value)}}/>
-            <label for="boxSizeY">Box Size Y:</label><input type="number" id="boxSizeY" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/>
-            <label for="gridPaddingX">Grid Padding X:</label><input type="number" id="gridPaddingX" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/>
-            <label for="gridPaddingY">Grid Padding Y:</label><input type="number" id="gridPaddingY" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/>
+            <br/>
+            <hr/>
+            <br/>
+            <label for="lineColor">Line Color:</label><input type="color" id="lineColor" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/><br/>
+            <label for="lineWidth">Line Width:</label><input type="number" id="lineWidth" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/><br/>
+            <label for="gridSizeX">Grid Size X:</label><input type="number" id="gridSizeX" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/><br/>
+            <label for="gridSizeY">Grid Size Y:</label><input type="number" id="gridSizeY" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/><br/>
+            <label for="boxSizeX">Box Size X:</label><input type="number" id="boxSizeX" value={gridSizeX} onChange={(f)=>{setGridSizeX(f.currentTarget.value)}}/><br/>
+            <label for="boxSizeY">Box Size Y:</label><input type="number" id="boxSizeY" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/><br/>
+            <label for="gridPaddingX">Grid Padding X:</label><input type="number" id="gridPaddingX" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/><br/>
+            <label for="gridPaddingY">Grid Padding Y:</label><input type="number" id="gridPaddingY" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/><br/>
 
             </div></>}
         </>
