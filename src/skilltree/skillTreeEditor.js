@@ -1,7 +1,11 @@
 import { SkillTree } from "./skillTree";
 import { useEffect, useState } from "react";
+import { SkillTreeSelector } from "./skillTreeSelector";
 
 function SkillTreeEditor(p) {
+
+    const ADJUSTMENT = [-32,-32]
+
     const [lineColor,setLineColor] = useState("#000000")
     const [lineWidth,setLineWidth] = useState(3)
     const [dimensionX,setDimensionX] = useState(6)
@@ -11,18 +15,41 @@ function SkillTreeEditor(p) {
     const [gridPaddingX,setGridPaddingX] = useState(10)
     const [gridPaddingY,setGridPaddingY] = useState(10)
     const [renderedInputs,setRenderedInputs] = useState([])
+    const [skillLines,setSkillLines] = useState([
+        "□  □  ", //─   □
+        "└□─┘□□", //│ ├┤┼
+        " │  ││", //    
+        " │  □│", //┌ ┐ ┬
+        " □─□┼□", //└ ┘ ┴
+        "    □ "])
 
     useEffect(()=>{
         var controls = []
         for (var x=0;x<dimensionX;x++) {
             for (var y=0;y<dimensionY;y++) {
-                //controls.push(<input style={{}}>)
+                var padX = x!==0?gridPaddingX*x:0
+                var padY = y!==0?gridPaddingY*y:0
+                controls.push(<SkillTreeSelector defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
+                        var string = [...skillLines]
+                        var stringLine = string[y].split('')
+                        stringLine[x] = char
+                        string[y] = stringLine.join('')
+                        setSkillLines(string)
+                    }
+                } ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY}/>)
             }
         }
-    },[dimensionX,dimensionY,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY])
+        setRenderedInputs(controls)
+    },[skillLines,dimensionX,dimensionY,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY])
 
     return <>
-            <input style={{position:"absolute"}} type="color" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
+            <div style={{width:"800px",position:"relative",left:"300px"}}>
+            <SkillTree strokeStyle={lineColor} lineWidth={lineWidth} lineDash={[]}
+                gridDimensionsX={dimensionX} gridDimensionsY={dimensionY} gridSizeX={gridSizeX} gridSizeY={gridSizeY} gridPaddingX={gridPaddingX} gridPaddingY={gridPaddingY}
+                skillLines={skillLines}
+                />
+            {renderedInputs.map((control)=>control)}
+            <input type="color" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
             <input type="number" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/>
             <input type="number" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/>
             <input type="number" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/>
@@ -30,15 +57,8 @@ function SkillTreeEditor(p) {
             <input type="number" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/>
             <input type="number" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/>
             <input type="number" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/>
-            <SkillTree strokeStyle={lineColor} lineWidth={lineWidth} lineDash={[]}
-                gridDimensionsX={dimensionX} gridDimensionsY={dimensionY} gridSizeX={gridSizeX} gridSizeY={gridSizeY} gridPaddingX={gridPaddingX} gridPaddingY={gridPaddingY}
-                skillLines={["□  □  ", //─   □
-                            "└□─┘□□", //│ ├┤┼
-                            " │  ││", //    
-                            " │  □│", //┌ ┐ ┬
-                            " □─□┼□", //└ ┘ ┴
-                            "    □ "]}
-                />
+
+            </div>
             </>
 }
 
