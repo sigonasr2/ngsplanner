@@ -20,6 +20,16 @@ function SkillTreeEditor(p) {
     const [gridPaddingY,setGridPaddingY] = useState(10)
     const [renderedInputs,setRenderedInputs] = useState([])
     const [skillLines,setSkillLines] = useState([])
+    const [skillData,setSkillData] = useState([])
+
+    function GetSkills(x,y) {
+        var filtered = skillData.filter((skill)=>Number(skill[0])===x&&Number(skill[1])===y)
+        if  (filtered.length>0) {
+            return filtered[0]
+        } else {
+            return ""
+        }
+    }
 
     useEffect(()=>{
         setClassList(p.GetData("class",undefined,undefined,true))
@@ -30,12 +40,19 @@ function SkillTreeEditor(p) {
         var keys = Object.keys(skillTreeData)
         for (var id of keys) {
             //console.log(cl+"/"+skillTreeData[id].class_id)
-            if (skillTreeData[id].class_id==cl) {
+            if (Number(skillTreeData[id].class_id)===Number(cl)) {
                 var data = skillTreeData[id].data.split(',')
+                var skill = skillTreeData[id].skill_data.split(';')
                 setSkillLines(data)
+                setSkillData(skill)
                 setDimensionX(data[0].length)
                 setDimensionY(data.length)
                 setLineColor(skillTreeData[id].line_color)
+                setLineWidth(skillTreeData[id].line_width)
+                setGridSizeX(skillTreeData[id].gridsizex)
+                setGridSizeY(skillTreeData[id].gridsizey)
+                setGridPaddingX(skillTreeData[id].gridpaddingx)
+                setGridPaddingY(skillTreeData[id].gridpaddingy)
             }
         }
     },[skillTreeData,cl])
@@ -73,12 +90,28 @@ function SkillTreeEditor(p) {
                             string[y] = stringLine.join('')
                             setSkillLines(string)
                         }
-                    } ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY}/>)
+                    } skill={GetSkills(x,y)} skillCallback={(x,y,skill)=>{
+                        var newSkillData = [...skillData]
+                        var found=false
+                        var newSkill = x+","+y+","+skill
+                        for (var s in newSkillData) {
+                            var split = newSkillData[s].split(',')
+                            if (Number(split[0])===Number(x)&&Number(split[1])===Number(y)) {
+                                newSkillData[s]=newSkill
+                                found=true
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            newSkillData.push(newSkill)
+                        }
+                        setSkillData(newSkillData)
+                    }} ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY}/>)
                 }
             }
         }
         setRenderedInputs(controls)
-    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl,dimensionY,dimensionX])
+    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl,dimensionY,dimensionX,skillData])
 
     return <>
             <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
@@ -90,14 +123,14 @@ function SkillTreeEditor(p) {
                 skillLines={skillLines}
                 />
             {renderedInputs.map((control)=>control)}
-            <input type="color" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
-            <input type="number" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/>
-            <input type="number" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/>
-            <input type="number" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/>
-            <input type="number" value={gridSizeX} onChange={(f)=>{setGridSizeX(f.currentTarget.value)}}/>
-            <input type="number" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/>
-            <input type="number" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/>
-            <input type="number" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/>
+            <label for="lineColor">Line Color:</label><input type="color" id="lineColor" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
+            <label for="lineWidth">Line Width:</label><input type="number" id="lineWidth" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/>
+            <label for="gridSizeX">Grid Size X:</label><input type="number" id="gridSizeX" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/>
+            <label for="gridSizeY">Grid Size Y:</label><input type="number" id="gridSizeY" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/>
+            <label for="boxSizeX">Box Size X:</label><input type="number" id="boxSizeX" value={gridSizeX} onChange={(f)=>{setGridSizeX(f.currentTarget.value)}}/>
+            <label for="boxSizeY">Box Size Y:</label><input type="number" id="boxSizeY" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/>
+            <label for="gridPaddingX">Grid Padding X:</label><input type="number" id="gridPaddingX" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/>
+            <label for="gridPaddingY">Grid Padding Y:</label><input type="number" id="gridPaddingY" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/>
 
             </div>
             </>
