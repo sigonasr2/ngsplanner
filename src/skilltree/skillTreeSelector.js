@@ -2,17 +2,23 @@ import { useEffect, useState } from 'react'
 
 function SkillTreeSelector(p) {
 
-    const [char,setChar] = useState(p.defaultValue)
+    const [selectedSkill,setSelectedSkill] = useState(undefined)
+    const [skillList,setSkillList] = useState([])
 
     useEffect(()=>{
-        p.callback(char,Number(p.x),Number(p.y))
-    },[char])
+        setSkillList(p.GetData("class_skill"))
+    },[p.cl])
 
-    return <select onChange={(f)=>{setChar(f.currentTarget.value)}} style={{position:"absolute",left:p.ADJUSTMENT[0]+(p.x*p.gridSizeX+p.padX+p.gridSizeX/2),top:p.ADJUSTMENT[1]+(p.y*p.gridSizeY+p.padY+p.gridSizeY/2)}} value={char}>
-        {[' ','─','│','□','┌','└','┐','┘','┬','┴','├','┤','┼'].map((ch)=>
-            <option value={ch}>{ch}</option>)
-        }
-    </select>
+    return <>
+        <select onChange={(f)=>{p.callback(f.currentTarget.value,Number(p.x),Number(p.y))}} style={{position:"absolute",left:p.ADJUSTMENT[0]+(p.x*p.gridSizeX+p.padX+p.gridSizeX/2),top:p.ADJUSTMENT[1]+(p.y*p.gridSizeY+p.padY+p.gridSizeY/2)}} value={p.defaultValue}>
+            {[' ','─','│','□','┌','└','┐','┘','┬','┴','├','┤','┼'].map((ch)=>
+                <option value={ch}>{ch}</option>)
+            }
+        </select>
+        {p.defaultValue==='□'&&<select style={{width:"64px",position:"absolute",left:p.ADJUSTMENT[0]+(p.x*p.gridSizeX+p.padX+p.gridSizeX/2),top:p.ADJUSTMENT[1]+(p.y*p.gridSizeY+p.padY+p.gridSizeY/2)+28}} onChange={(f)=>{setSelectedSkill(f.currentTarget.value)}} value={selectedSkill}>
+            {Object.keys((skillList)).filter((skill)=>skillList[skill].class_id===p.cl).map((skill)=><option value={skillList[skill].id}>{skillList[skill].name}</option>)}
+        </select>}
+    </>
 
 }   
 

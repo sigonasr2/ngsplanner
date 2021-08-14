@@ -1,11 +1,14 @@
 import { SkillTree } from "./skillTree";
 import { useEffect, useState } from "react";
 import { SkillTreeSelector } from "./skillTreeSelector";
+import axios from "axios";
 
 function SkillTreeEditor(p) {
 
     const ADJUSTMENT = [-32,-32]
 
+    const [classList,setClassList] = useState([])
+    const [cl,setCl] = useState(0)
     const [lineColor,setLineColor] = useState("#000000")
     const [lineWidth,setLineWidth] = useState(3)
     const [dimensionX,setDimensionX] = useState(6)
@@ -24,13 +27,36 @@ function SkillTreeEditor(p) {
         "    □ "])
 
     useEffect(()=>{
+        setClassList(p.GetData("class",undefined,undefined,true))
+    },[p.GetData])
+
+    useEffect(()=>{
+        setCl(Object.keys(classList)[0])
+    },[classList])
+
+    useEffect(()=>{
+        var skillTreeString = [...skillLines]
+
+        while (skillTreeString.length<dimensionY) {
+            skillTreeString.push(" ".repeat(dimensionX))
+        }
+
+        for (var line=0;line<skillTreeString.length;line++) {
+            if (skillTreeString[line].length<dimensionX) {
+                skillTreeString[line]+=" ".repeat(dimensionX-skillTreeString[line].length)
+            }
+        }
+        setSkillLines(skillTreeString)
+    },[dimensionX,dimensionY])
+
+    useEffect(()=>{
         var controls = []
-        for (var x=0;x<dimensionX;x++) {
-            for (var y=0;y<dimensionY;y++) {
+        for (var y=0;y<skillLines.length;y++) {
+            for (var x=0;x<skillLines[y].length;x++) {
                 var padX = x!==0?gridPaddingX*x:0
                 var padY = y!==0?gridPaddingY*y:0
-                controls.push(<SkillTreeSelector defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
-                        var string = [...skillLines]
+                controls.push(<SkillTreeSelector GetData={p.GetData} cl={Number(cl)} defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
+                         var string = [...skillLines]
                         var stringLine = string[y].split('')
                         stringLine[x] = char
                         string[y] = stringLine.join('')
@@ -40,7 +66,7 @@ function SkillTreeEditor(p) {
             }
         }
         setRenderedInputs(controls)
-    },[skillLines,dimensionX,dimensionY,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY])
+    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl])
 
     return <>
             <div style={{width:"800px",position:"relative",left:"300px"}}>
@@ -49,6 +75,9 @@ function SkillTreeEditor(p) {
                 skillLines={skillLines}
                 />
             {renderedInputs.map((control)=>control)}
+            <select value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
+                {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
+            </select>
             <input type="color" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
             <input type="number" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/>
             <input type="number" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/>

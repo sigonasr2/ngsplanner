@@ -755,6 +755,8 @@ function App() {
 
 
 	function GetData(table,row,col,id){
+		if (row===undefined) {row=''}
+		if (col===undefined) {col=''}
 		var data = id?DATAID:DATA
 		return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
 	}
@@ -832,7 +834,7 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/skilltree"}>
 					<Box title="Skill Tree">
-						<SkillTreeEditor/>
+						<SkillTreeEditor GetData={GetData}/>
 					</Box>
 				</Route>
 				<Route path="/">
