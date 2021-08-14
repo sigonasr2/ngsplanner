@@ -7,7 +7,8 @@ function SkillTreeEditor(p) {
 
     const ADJUSTMENT = [-32,-32]
 
-    const [classList,setClassList] = useState([])
+    const [classList,setClassList] = useState({})
+    const [skillTreeData,setSkillTreeData] = useState({})
     const [cl,setCl] = useState(0)
     const [lineColor,setLineColor] = useState("#000000")
     const [lineWidth,setLineWidth] = useState(3)
@@ -18,17 +19,26 @@ function SkillTreeEditor(p) {
     const [gridPaddingX,setGridPaddingX] = useState(10)
     const [gridPaddingY,setGridPaddingY] = useState(10)
     const [renderedInputs,setRenderedInputs] = useState([])
-    const [skillLines,setSkillLines] = useState([
-        "□  □  ", //─   □
-        "└□─┘□□", //│ ├┤┼
-        " │  ││", //    
-        " │  □│", //┌ ┐ ┬
-        " □─□┼□", //└ ┘ ┴
-        "    □ "])
+    const [skillLines,setSkillLines] = useState([])
 
     useEffect(()=>{
         setClassList(p.GetData("class",undefined,undefined,true))
+        setSkillTreeData(p.GetData("skill_tree_data",undefined,undefined,true))
     },[p.GetData])
+
+    useEffect(()=>{
+        var keys = Object.keys(skillTreeData)
+        for (var id of keys) {
+            //console.log(cl+"/"+skillTreeData[id].class_id)
+            if (skillTreeData[id].class_id==cl) {
+                var data = skillTreeData[id].data.split(',')
+                setSkillLines(data)
+                setDimensionX(data[0].length)
+                setDimensionY(data.length)
+                setLineColor(skillTreeData[id].line_color)
+            }
+        }
+    },[skillTreeData,cl])
 
     useEffect(()=>{
         setCl(Object.keys(classList)[0])
@@ -69,15 +79,15 @@ function SkillTreeEditor(p) {
     },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl])
 
     return <>
+            <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
+                {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
+            </select>
             <div style={{width:"800px",position:"relative",left:"300px"}}>
             <SkillTree strokeStyle={lineColor} lineWidth={lineWidth} lineDash={[]}
                 gridDimensionsX={dimensionX} gridDimensionsY={dimensionY} gridSizeX={gridSizeX} gridSizeY={gridSizeY} gridPaddingX={gridPaddingX} gridPaddingY={gridPaddingY}
                 skillLines={skillLines}
                 />
             {renderedInputs.map((control)=>control)}
-            <select value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
-                {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
-            </select>
             <input type="color" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/>
             <input type="number" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/>
             <input type="number" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/>

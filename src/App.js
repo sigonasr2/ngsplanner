@@ -357,6 +357,8 @@ function AdminPanel(p) {
 		{page:"Skills",url:"/admin/skills",table:"/skill"},
 		{page:"Skill Types",url:"/admin/skilltypes",table:"/skill_type"},
 		{page:"Skill Data",url:"/admin/skilldata",table:"/skill_data"},
+		{page:<span style={{color:"gold"}}>Skill Tree Editor</span>,url:"/admin/skilltreeeditor",render:<SkillTreeEditor GetData={p.DATA}/>},
+		{page:"Skill Tree Data",url:"/admin/skilltreedata",table:"/skill_tree_data"},
 		{page:"Photon Arts",url:"/admin/photonarts",table:"/photon_art",duplicate:true},
 		{page:"Class Skills",url:"/admin/classskills",table:"/class_skill",duplicate:true},
 		{page:"Class Skill Data",url:"/admin/classskilldata",table:"/class_skill_data",duplicate:true},
@@ -395,22 +397,24 @@ function AdminPanel(p) {
 					})}}}></input>
 			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		</div>:<>
-		<div className="w-25">Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}<br/>
 		<Box title="Navigation">
+		<div className="w-25">Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}<br/>
 		  <Table classes="adminNav">
 		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
-		</Table></Box></div>
+		</Table></div></Box>
 		<div className="w-75">
 			{navigationData.map((nav)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route path={process.env.PUBLIC_URL+nav.url}>
+				<Box title={nav.page}>
 				<Helmet>
 					<title>{APP_TITLE+" - Admin Panel: "+nav.page}</title>
 				</Helmet>
-				<h2><u>{nav.page}</u></h2>
-				<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>
-			</Route>)}
+				{nav.render??<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>}
+				</Box></Route>)}
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
-				<DatabaseEditor password={password} BACKENDURL={GetBackendURL(p)}/>
+				<Box title="Database Editor">
+					<DatabaseEditor password={password} BACKENDURL={GetBackendURL(p)}/>
+				</Box>
 			</Route>
 		</div></>}
 	</div>
