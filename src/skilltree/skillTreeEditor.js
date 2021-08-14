@@ -21,6 +21,8 @@ function SkillTreeEditor(p) {
     const [renderedInputs,setRenderedInputs] = useState([])
     const [skillLines,setSkillLines] = useState([])
     const [skillData,setSkillData] = useState([])
+    const [message,setMessage] = useState("")
+    const [loading,setLoading] = useState(false)
 
     function GetSkills(x,y) {
         var filtered = skillData.filter((skill)=>Number(skill[0])===x&&Number(skill[1])===y)
@@ -29,6 +31,16 @@ function SkillTreeEditor(p) {
         } else {
             return ""
         }
+    }
+
+    function SaveSkillTrees() {
+        axios.post(p.BACKENDURL+"/saveskilltree",{
+
+        })
+        .then((data)=>{
+
+        })
+        setLoading(false)
     }
 
     useEffect(()=>{
@@ -114,9 +126,14 @@ function SkillTreeEditor(p) {
     },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl,dimensionY,dimensionX,skillData])
 
     return <>
+            {loading?<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>:<>
             <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
                 {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
             </select>
+            <br/><button onClick={()=>{
+                setLoading(true)
+                SaveSkillTrees()
+            }}>{"Save "+p.GetData("class",undefined,undefined,true)[cl].name+" Skill Tree"}</button>
             <div style={{width:"800px",position:"relative",left:"300px"}}>
             <SkillTree strokeStyle={lineColor} lineWidth={lineWidth} lineDash={[]}
                 gridDimensionsX={dimensionX} gridDimensionsY={dimensionY} gridSizeX={gridSizeX} gridSizeY={gridSizeY} gridPaddingX={gridPaddingX} gridPaddingY={gridPaddingY}
@@ -132,8 +149,8 @@ function SkillTreeEditor(p) {
             <label for="gridPaddingX">Grid Padding X:</label><input type="number" id="gridPaddingX" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/>
             <label for="gridPaddingY">Grid Padding Y:</label><input type="number" id="gridPaddingY" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/>
 
-            </div>
-            </>
+            </div></>}
+        </>
 }
 
 export {SkillTreeEditor}

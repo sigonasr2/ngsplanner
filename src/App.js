@@ -838,7 +838,7 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/skilltree"}>
 					<Box title="Skill Tree">
-						<SkillTreeEditor GetData={GetData}/>
+						<SkillTreeEditor BACKENDURL={GetBackendURL({TESTMODE:TESTMODE})} GetData={GetData}/>
 					</Box>
 				</Route>
 				<Route path="/">
