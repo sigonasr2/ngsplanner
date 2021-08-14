@@ -65,18 +65,20 @@ function SkillTreeEditor(p) {
             for (var x=0;x<skillLines[y].length;x++) {
                 var padX = x!==0?gridPaddingX*x:0
                 var padY = y!==0?gridPaddingY*y:0
-                controls.push(<SkillTreeSelector GetData={p.GetData} cl={Number(cl)} defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
-                         var string = [...skillLines]
-                        var stringLine = string[y].split('')
-                        stringLine[x] = char
-                        string[y] = stringLine.join('')
-                        setSkillLines(string)
-                    }
-                } ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY}/>)
+                if (y<dimensionY&&x<dimensionX) {
+                    controls.push(<SkillTreeSelector GetData={p.GetData} cl={Number(cl)} defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
+                            var string = [...skillLines]
+                            var stringLine = string[y].split('')
+                            stringLine[x] = char
+                            string[y] = stringLine.join('')
+                            setSkillLines(string)
+                        }
+                    } ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY}/>)
+                }
             }
         }
         setRenderedInputs(controls)
-    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl])
+    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl,dimensionY,dimensionX])
 
     return <>
             <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
