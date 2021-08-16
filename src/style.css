@@ -49,11 +49,12 @@ body {
     -webkit-font-smoothing: antialiased;
 }*/
 body {
-    background-image: url("https://i.imgur.com/3OizLd8.jpg");
+    background-image: url("https://pbs.twimg.com/media/E8tfm23VUAQTAAu?format=jpg&name=4096x4096");
 	background-color: #e8ecf4;
     background-repeat: no-repeat;
     background-position: center;
 	background-attachment: fixed;
+	background-size: cover;
 	color: black;
     font-family: ngs,Arial,sans-serif;
 	font-size: 11pt;
@@ -232,6 +233,7 @@ em {
 	padding: 13px 13px 7px 13px;
 }
 .boxTitleBar h1:before {
+	font-family: "Segoe UI Symbol";
 	content: ' \25C6';
 	margin-right: 10px;
 }
@@ -563,9 +565,9 @@ li.r4 {
 .boxmenu {
 	font-size: 12pt;
 	margin: 0 10px 0 10px;
-	justify-content: flex-start;
 	display: flex;
 	flex-flow: row nowrap;
+	justify-content: flex-start;
 }
 .boxmenu li {
 	background-color: rgba(115, 120, 125,0.66);
@@ -583,6 +585,15 @@ li.r4 {
 }
 .pageControlDetails {
 	background-color: rgba(25, 30, 35, 0.66) !important;
+	margin: 10px 5px 0 auto !important;
+}
+.pageControlDetails:before {
+	content: "\270E";
+	padding-right: 5px;
+}
+.pageControlDetails:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	outline: 2px solid hsl(180, 78%, 50%);
 }
 .selected {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
@@ -690,9 +701,14 @@ option {
 	margin: 10px 10px 0 10px;
 }
 .treeSelectBox {
-	flex: 0 1 auto;
-	margin: 0 10px 0 0;
+/*	flex: 0 1 auto;
 	align-self: flex-start;
+	margin: 0 10px 0 0;*/
+	outline: 1px solid rgba(54,255,255,1);
+	max-width: 220px;
+	position: absolute;
+	left: -210px;
+	top: -10px;
 }
 .treeList {
 	padding: 0 2px;
@@ -717,18 +733,23 @@ li.treeListSub {
 	margin-right: 5px;
 }
 .skillTreeBox {
-	flex: 1 3 auto;
+/*	flex: 1 1 auto;*/
 	margin: 0;
-	min-width: 171px;
+	min-width: 181px;
 	min-height: auto;
+	/*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;*/
+	outline: 1px solid rgba(54,255,255,1);	
+}
+.skillTreeBox .boxTitleBar, .treeSelectBox .boxTitleBar {
+	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .skillTreeContainer {
 	overflow-x: auto;
 	overflow-y: scroll;
 	margin: 10px 5px 0 10px;
 	padding: 2px;
-	-webkit-overflow-scrolling: touch;
 	max-height: calc(90vh - 150px);
+	min-width: 0;
 }/*
 @media screen and (min-width:390px) and (max-width:860px) {
 .skillTreeContainer {
@@ -980,7 +1001,7 @@ button{
 	display: grid;
 	justify-items: stretch;
 	align-items: center;    
-	grid-template-columns: minmax(10px, 1fr) minmax(0, auto) minmax(10px, 1fr);
+	grid-template-columns: minmax(220px, 1fr) minmax(0, auto) minmax(10px, 1fr);
 	grid-template-rows: 10px minmax(0, 1fr) 10px;
 }
 .modal {
@@ -989,11 +1010,12 @@ button{
 	grid-row: 2;
 }
 .modalSkillTree {
+	position: relative;
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
-	display: flex;
-	flex-flow: row nowrap;
+/*	display: flex;
+	flex-flow: row nowrap;*/
 }
 .boxModal {
 	animation: fadeIn 0.15s;
@@ -1271,4 +1293,24 @@ p.adminNav hr {
 .formError{
 	color:red;
 	font-weight:bold;
+}
+.toDoList {
+	padding: 0 10px;
+}
+.toDoList li {
+	padding-top: 10px;
+}
+.toDoList li:before {
+	content: "\2610";
+	padding-right: 10px;
+}
+.half:before {
+	content: "\25E7" !important;
+}
+.check {
+	opacity: 33%;
+}
+.check:before {
+	font-family: "Segoe UI Symbol";
+	content: "\2B1B" !important;
 }

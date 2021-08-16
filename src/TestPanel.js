@@ -320,7 +320,7 @@ useEffect(()=>{
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
             <h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
-            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}>Q for Details</PageControl>
+            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}>Edit Details</PageControl>
             {weaponPage === 1 ?
 
 <>
@@ -380,20 +380,17 @@ AUGMENT
 
 
 
-        <div className="box">
-              <div className="boxTitleBar">
+          <div className="box">
+            <div className="boxTitleBar">
               <h1>To Do List</h1></div>
-
-<h3>my things to do</h3>
-<ul>
-<li>Finish "Item Details" for Weapons/Armor</li>
-<li>Grids. Grids everywhere.</li>
-<li>Class Skill Window</li>
-<li>PA Select Window</li>
-<li>Food/Buffs Menu</li>
-<li>Get all the fckn icons</li>
-</ul>
-</div>
+            <ul className="toDoList">
+              <li>Finish "Item Details" for Weapons/Armor</li>
+              <li className="half">Class Skill Window</li>
+              <li>PA Select Window</li>
+              <li>Food/Buffs Menu</li>
+              <li className="check">Get all the fckn icons</li>
+            </ul>
+          </div>
 
 
 
