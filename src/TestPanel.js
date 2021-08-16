@@ -104,11 +104,22 @@ function ClassSelector(p){
   </>
 }
 
+function ClassSelectorWindow(p) {
+  return <SelectorWindow title={(p.editClass)?"Select Sub Class":"Select Main Class"} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
+  dataFunction={() => {
+    var dat1 = p.GetData("class")
+    return Object.keys(dat1)
+  }
+  }
+  displayFunction={(key) => {
+    return <li className="classSelect" onClick={() => { if (p.editClass===0){p.setClassName(key)}else{p.setSubClassName(key)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
+  }}
+/>
+}
+
 function EditableClass(p){
-	const [edit,setEdit] = useState(false)
-	return <><div className="editClass" onClick={()=>{setEdit(!edit)}}><Class GetData={p.GetData} name={p.class}/>
+	return <><div className="editClass" onClick={()=>{p.setClassNameSetter(p.editClass);p.setClassSelectWindowOpen(true)}}><Class GetData={p.GetData} name={p.name}/>
 	</div>
-	{edit&&<ClassSelector GetData={p.GetData} setClassName={p.setClassName} setEdit={setEdit}/>}
 	</>
 }
 
@@ -155,13 +166,12 @@ function SelectorWindow(p) {
           {p.filter?<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />:<></>}
         </div>
       </div>
-    }<div className="tooltipAnchor">
+    }
     <div className="modalItemListContainer customScrollbar">
     <ul className="itemlist">
     {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item)):itemList.map((item)=>p.displayFunction(item))}
     {p.children}
     </ul>
-    </div>
     </div>
   </PopupWindow>
 }
@@ -179,8 +189,8 @@ const [defGraphMax,setdefGraphMax] = useState(1000)
 
 const [author,setauthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
-const [className,setclassName] = useState("Hunter")
-const [subclassName,setsubclassName] = useState("Force")
+const [className,setClassName] = useState("Hunter")
+const [subclassName,setSubClassName] = useState("Force")
 const [level,setLevel] = useState(20)
 const [secondaryLevel,setsecondaryLevel] = useState(20)
 
@@ -211,6 +221,8 @@ const [skillTreeGridSizeY,setSkillTreeGridSizeY] = useState(148)
 const [skillTreeGridPaddingX,setSkillTreeGridPaddingX] = useState(10)
 const [skillTreeGridPaddingY,setSkillTreeGridPaddingY] = useState(48)
 const [halflineheight,setHalfLineHeight] = useState(60)
+
+const [classNameSetter,setClassNameSetter] = useState(0)
 
 
 function rarityCheck(v) {
@@ -276,9 +288,9 @@ useEffect(()=>{
             <td colSpan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
           </tr>
           <tr>
-            <td onClick={()=>{setClassSelectWindowOpen(true)}} >Class</td>
+            <td>Class</td>
             <td>
-        <EditableClass GetData={p.GetData} setClassName={setclassName} class={className}></EditableClass>
+            <EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass>
             </td>
             <td>
             <span className="ye"><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></span>
@@ -287,7 +299,7 @@ useEffect(()=>{
           <tr>
             <td onClick={()=>{setClassSkillTreeWindowOpen(true)}}>Sub-Class</td>
             <td>
-            <EditableClass GetData={p.GetData} setClassName={setsubclassName} class={subclassName}></EditableClass>
+            <EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass>
             </td>
             <td>
             <EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/>
@@ -538,16 +550,7 @@ AUGMENT
   </div>
 </div>
 
-      <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}
-        dataFunction={() => {
-          var mythraSux = p.GetData("class")
-          return Object.keys(mythraSux)
-        }
-        }
-        displayFunction={(key) => {
-          return <li className="classSelect" onClick={() => { setclassName(key); setClassSelectWindowOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
-        }}
-      />
+<ClassSelectorWindow setClassName={setClassName} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
 
 
 <Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modalSkillTree" overlayClassName="modalOverlaySkillTree">

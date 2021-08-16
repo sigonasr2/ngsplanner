@@ -431,7 +431,6 @@ em {
 }
 .itemlist {
 	margin: 0 10px;
-
 }
 .itemlist li {
 	background-color: rgba(128,128,128,0.33);
@@ -441,7 +440,6 @@ em {
     background-repeat: no-repeat;
     background-position: right top;
 	background-origin: content-box;
-
 }
 .aug:before {
 	content:url("./icons/UINGSItemSpecialAbility.png");
