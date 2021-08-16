@@ -152,13 +152,13 @@ function SelectorWindow(p) {
           </select>}
         </div>
         <div className="itemBarFilter">
-          {p.filter&&<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
+          {p.filter?<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />:<></>}
         </div>
       </div>
     }<div className="tooltipAnchor">
     <div className="modalItemListContainer customScrollbar">
     <ul className="itemlist">
-    {itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item))}
+    {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item)):itemList.map((item)=>p.displayFunction(item))}
     {p.children}
     </ul>
     </div>
@@ -263,7 +263,6 @@ useEffect(()=>{
     <div className="box basicInfoBox">
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
-
       <table className="basicInfoTable">
         <tbody>
           <tr>
@@ -537,7 +536,17 @@ AUGMENT
   </div>
 </div>
 
-<SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}>ez pz</SelectorWindow>
+      <SelectorWindow title="Class Select" modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}
+        dataFunction={() => {
+          var mythraSux = p.GetData("class")
+          return Object.keys(mythraSux)
+        }
+        }
+        displayFunction={(key) => {
+          return <li className="classSelect" onClick={() => { setclassName(key); setClassSelectWindowOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
+        }}
+      />
+
 
 <Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modalSkillTree" overlayClassName="modalOverlaySkillTree">
         <div className="box treeSelectBox">
