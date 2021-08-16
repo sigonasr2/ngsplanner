@@ -189,7 +189,7 @@ const [defGraphMax,setdefGraphMax] = useState(1000)
 
 const [author,setauthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
-const [className,setClassName] = useState("Hunter")
+const [className,setClassName] = useState("Ranger")
 const [subclassName,setSubClassName] = useState("Force")
 const [level,setLevel] = useState(20)
 const [secondaryLevel,setsecondaryLevel] = useState(20)

@@ -775,7 +775,7 @@ li.treeListSub {
 	text-align: center;
 	height: 148px;
 	position: relative;
-	margin: 0 10px 48px 0;
+	margin: 0 10px 96px 0;
 }
 .skillTreeGrid div:hover .skillButtons {
 	visibility: visible;
