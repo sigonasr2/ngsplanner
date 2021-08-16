@@ -104,18 +104,7 @@ function ClassSelector(p){
   </>
 }
 
-function ClassSelectorWindow(p) {
-  return <SelectorWindow title={(p.editClass)?"Select Sub Class":"Select Main Class"} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
-  dataFunction={() => {
-    var dat1 = p.GetData("class")
-    return Object.keys(dat1)
-  }
-  }
-  displayFunction={(key) => {
-    return <li className="classSelect" onClick={() => { if (p.editClass===0){p.setClassName(key)}else{p.setSubClassName(key)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
-  }}
-/>
-}
+
 
 function EditableClass(p){
 	return <><div className="editClass" onClick={()=>{p.setClassNameSetter(p.editClass);p.setClassSelectWindowOpen(true)}}><Class GetData={p.GetData} name={p.name}/>
@@ -286,7 +275,7 @@ useEffect(()=>{
             <td colSpan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
           </tr>
           <tr>
-            <td>Class</td>
+            <td onClick={()=>{setClassSelectWindowOpen(true)}}>Class</td>
             <td>
             <EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass>
             </td>
@@ -548,7 +537,26 @@ AUGMENT
   </div>
 </div>
 
-<ClassSelectorWindow setClassName={setClassName} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
+<Modal isOpen={classSelectWindowOpen} onRequestClose={()=>{setClassSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+<div className="box boxModal">
+          <div className="boxTitleBar">
+            <h1>Select Main Class</h1>
+            <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
+          </div>
+          <div className="treeListContainer customScrollbar">
+            <ul className="treeList">
+              <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Hunter</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/fi.png")} />Fighter</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/ra.png")} />Ranger</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/gu.png")} />Gunner</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/fo.png")} />Force</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/te.png")} />Techter</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Braver</li>
+            </ul>
+          </div>
+        </div>
+</Modal>
+
 
 
 <Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modalSkillTree" overlayClassName="modalOverlaySkillTree">
