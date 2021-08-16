@@ -209,6 +209,7 @@ const [skillTreeGridSizeX,setSkillTreeGridSizeX] = useState(171)
 const [skillTreeGridSizeY,setSkillTreeGridSizeY] = useState(148)
 const [skillTreeGridPaddingX,setSkillTreeGridPaddingX] = useState(10)
 const [skillTreeGridPaddingY,setSkillTreeGridPaddingY] = useState(48)
+const [halflineheight,setHalfLineHeight] = useState(60)
 
 const [classNameSetter,setClassNameSetter] = useState(0)
 
@@ -250,6 +251,7 @@ useEffect(()=>{
           setSkillTreeGridSizeY(skillTree.gridsizey)
           setSkillTreeGridPaddingX(skillTree.gridpaddingx)
           setSkillTreeGridPaddingY(skillTree.gridpaddingy)
+          setHalfLineHeight(skillTree.halflineheight)
           break;
         }
     }
@@ -581,7 +583,7 @@ AUGMENT
             <div style={{position:"relative"}}>
               {<SkillTree style={{position:"absolute"}} strokeStyle={skillTreeLineColor} lineWidth={skillTreeLineWidth} lineDash={[]}
                     gridDimensionsX={skillTreeDimensionX} gridDimensionsY={skillTreeDimensionY} gridSizeX={skillTreeGridSizeX} gridSizeY={skillTreeGridSizeY} gridPaddingX={skillTreeGridPaddingX} gridPaddingY={skillTreeGridPaddingY}
-                    skillLines={skillTreeData}
+                    skillLines={skillTreeData} halflineheight={halflineheight}
             />}
               <div className="skillTreeGrid">
                 <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em></div>
