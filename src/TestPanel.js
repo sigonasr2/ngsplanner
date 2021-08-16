@@ -236,10 +236,6 @@ useEffect(()=>{
   setSkillTreeClass(p.GetData("class",className,'id'))
 },[className])
 
-useEffect(()=>{
-
-})
-
 //console.log(p.GetData("class",p.className,"icon"))
 
     return (<>

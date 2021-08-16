@@ -717,7 +717,7 @@ li.treeListSub {
 	margin-right: 5px;
 }
 .skillTreeBox {
-	flex: 1 3 1108px;
+	flex: 1 3 auto;
 	margin: 0;
 	min-width: 171px;
 	min-height: auto;
@@ -737,8 +737,7 @@ li.treeListSub {
 }*/
 .skillTreeGrid {
 	display: grid;
-	grid-template-columns: repeat(6, 171px);
-	gap: 10px;
+	grid-template-columns: repeat(6, 181px);
 	grid-template-areas:
 	"a1 b1 c1 d1 e1 f1"
 	"a2 b2 c2 d2 e2 f2"
@@ -746,7 +745,6 @@ li.treeListSub {
 	"a4 b4 c4 d4 e4 f4"
 	"a5 b5 c5 d5 e5 f5"
 	"a6 b6 c6 d6 e6 f6";
-	margin-right: 10px;
 }
 .skillTreeGrid div {
 	background-color: rgba(128,128,128,0.33);
@@ -758,7 +756,7 @@ li.treeListSub {
 	text-align: center;
 	height: 148px;
 	position: relative;
-	margin: 0 0 37px 0;
+	margin: 0 10px 48px 0;
 }
 .skillTreeGrid div:hover .skillButtons {
 	visibility: visible;
