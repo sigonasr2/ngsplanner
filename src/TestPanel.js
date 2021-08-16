@@ -234,7 +234,26 @@ useEffect(()=>{
 
 useEffect(()=>{
   setSkillTreeClass(p.GetData("class",className,'id'))
-},[className])
+  if (Object.keys(p.GetData("skill_tree_data")).length>1) {
+    for (var skillTree of p.GetData("skill_tree_data")) {
+        if (skillTree.class_id===p.GetData("class",className,'id')) {
+          var data = skillTree.data.split(",")
+          var skillData = skillTree.skill_data.split(";")
+          setSkillTreeData(data)
+          setSkillTreeSkillData(skillData)
+          setSkillTreeLineColor(skillTree.line_color)
+          setSkillTreeLineWidth(skillTree.line_width)
+          setSkillTreeDimensionX(data[0].length)
+          setSkillTreeDimensionY(data.length)
+          setSkillTreeGridSizeX(skillTree.gridsizex)
+          setSkillTreeGridSizeY(skillTree.gridsizey)
+          setSkillTreeGridPaddingX(skillTree.gridpaddingx)
+          setSkillTreeGridPaddingY(skillTree.gridpaddingy)
+          break;
+        }
+    }
+  }
+},[className,p.GetData])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -542,7 +561,7 @@ AUGMENT
             <div style={{position:"relative"}}>
               {<SkillTree style={{position:"absolute"}} strokeStyle={skillTreeLineColor} lineWidth={skillTreeLineWidth} lineDash={[]}
                     gridDimensionsX={skillTreeDimensionX} gridDimensionsY={skillTreeDimensionY} gridSizeX={skillTreeGridSizeX} gridSizeY={skillTreeGridSizeY} gridPaddingX={skillTreeGridPaddingX} gridPaddingY={skillTreeGridPaddingY}
-                    skillLines={["□□□□□□","□□□□□□","□□□□□□","□□□□□□","□□□□□□","□□□□□□"]}
+                    skillLines={skillTreeData}
             />}
               <div className="skillTreeGrid">
                 <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em></div>
