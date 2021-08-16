@@ -105,7 +105,7 @@ function ClassSelector(p){
 }
 
 function ClassSelectorWindow(p) {
-  return <SelectorWindow title="Class Select" modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
+  return <SelectorWindow title={(p.editClass)?"Select Sub Class":"Select Main Class"} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
   dataFunction={() => {
     var dat1 = p.GetData("class")
     return Object.keys(dat1)
@@ -166,13 +166,12 @@ function SelectorWindow(p) {
           {p.filter?<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />:<></>}
         </div>
       </div>
-    }<div className="tooltipAnchor">
+    }
     <div className="modalItemListContainer customScrollbar">
     <ul className="itemlist">
     {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item)):itemList.map((item)=>p.displayFunction(item))}
     {p.children}
     </ul>
-    </div>
     </div>
   </PopupWindow>
 }
