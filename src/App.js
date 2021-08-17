@@ -778,7 +778,7 @@ function App() {
 				setDATAID(data.data)
 			})
 		}
-	},[update])
+	},[update,TESTMODE])
 
 	useEffect(()=>{
 		axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/data")
