@@ -1,4 +1,4 @@
-import React, { useEffect,useState,useRef } from 'react';
+import React, { useEffect,useState } from 'react';
 import Modal from 'react-modal'
 import { DisplayIcon } from './DEFAULTS';
 import { ExpandTooltip } from './components/ExpandTooltip';
@@ -6,29 +6,6 @@ import { SkillTree } from './skilltree/skillTree';
 
 //Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
 const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
-
-/**
- * Hook that alerts clicks outside of the passed ref
- */
- function useOutsideAlerter(ref,setEdit) {
-  useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
-      function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target)) {
-              setEdit(false)
-          }
-      }
-
-      // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-          // Unbind the event listener on clean up
-          document.removeEventListener("mousedown", handleClickOutside);
-      };
-  }, [ref,setEdit]);
-}
 
 function EditBox(p) {
 	useEffect(()=>{
@@ -88,23 +65,6 @@ function Class(p) {
 	const class_obj = CLASSES[p.name]
 	return class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>
 }
-
-function ClassSelector(p){
-  const CLASSES = p.GetData("class")
-    const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef,p.setEdit);
-	return <><div className="popup2" ref={wrapperRef}>
-    Class Selector<hr/>
-      <div className="popup">
-        {Object.keys(CLASSES).map((cl,i)=>{
-        return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
-        })}
-      </div>
-    </div>
-  </>
-}
-
-
 
 function EditableClass(p){
 	return <><div className="editClass" onClick={()=>{p.setClassNameSetter(p.editClass);p.setClassSelectWindowOpen(true)}}><Class GetData={p.GetData} name={p.name}/>
@@ -178,7 +138,7 @@ const [defGraphMax,setdefGraphMax] = useState(1000)
 
 const [author,setauthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
-const [className,setClassName] = useState("Hunter")
+const [className,setClassName] = useState("Ranger")
 const [subclassName,setSubClassName] = useState("Force")
 const [level,setLevel] = useState(20)
 const [secondaryLevel,setsecondaryLevel] = useState(20)
