@@ -42,20 +42,7 @@ hr {
 }
 img {
 	vertical-align: middle;
-}/*
-body {
-    background-image: url("./icons/d_global_bg_header.png"),url("./icons/gl_main_bg.jpg");
-    background-size: 1903px,2560px;
-	background-color: #e8ecf4;
-    background-repeat: no-repeat,repeat-y;
-    background-position: center 0;
-	color: black;
-    font-family: ngs,Arial,sans-serif;
-	font-size: 11pt;
-	font-weight: normal;
-	text-align: center;
-    -webkit-font-smoothing: antialiased;
-}*/
+}
 body {
     background-image: url("https://pbs.twimg.com/media/E8tfm23VUAQTAAu?format=jpg&name=4096x4096");
 	background-color: #e8ecf4;
@@ -65,10 +52,10 @@ body {
 	background-size: cover;
 	color: black;
     font-family: ngs,Arial,sans-serif;
-	font-size: 11pt;
+	font-size: 16px;
 	font-weight: normal;
 	text-align: center;
-    -webkit-font-smoothing: antialiased;
+
 }
 table td {
 	vertical-align: top;
@@ -81,46 +68,29 @@ em {
 	font-style: normal;
 }
 #header {
-	background-color: white;
+	background-color: rgba(0,0,0,0.33);
 	min-height: 50px;
 	padding: 20px;
 	text-align: left;
+	color:white;
 }
-#header a {
-	color: #151f25;
+.header a {
+	/*color: #151f25;*/
+	color:white;
 	text-decoration: none;
 }
-#header a:hover {
-	color: #454f85;
+.header a:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	text-decoration: none;
-}
-#header div {
-	margin: 0 auto;
-	width: 80%;
-}
-#header ul {
-	display: flex;
-	flex-flow: row wrap;
-	align-items: center;
-	margin-left: -40px;
-	justify-content: flex-end;
-}
-#header ul li {
-	flex: 0 1;
-	color: black;
-	font-family: "ngs2";
-	text-align: center;
-	white-space:nowrap;
-
-}
-.headermenuitem {
-	font-size:14pt;
-	margin-left: 40px;
 }
 .logo {
+	font-family: "ngs2";
 	margin-right: auto;
-	font-weight:bold;
-	font-size:20px;
+	font-size:24px;
+}
+.logo span{
+	font-size:16px;
+	text-transform: uppercase;
 }
 .logo img {
 	height:28px;
@@ -135,18 +105,12 @@ em {
 	display:none;
 }
 }
-.main {
+.main,.header {
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
 	gap: 10px;
 	margin: 0 10px;
-}
-.containerA{
-}
-.containerB {
-}
-.containerC {
 }
 .box {
 	color: #97e2fc;
@@ -209,25 +173,20 @@ em {
 
 }*/
 .boxTitleBar {
-	/* background-color: #495a61; */
 	background-color: rgba(124, 144, 148, 0.66);
 	color: white;
 	font-weight: normal;
-	font-size: 13pt;
+	font-size: 18px;
 	text-align: left;
-	white-space: nowrap;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
 
 }
 .boxTitleBar h1 {
-	/* background-color: #495a61; */
 	color: white;
 	font-weight: normal;
-	font-size: 13pt;
-    overflow: hidden;
-	text-overflow: ellipsis;
+	font-size: 18px;
 	margin-right: 10px;
 	padding: 13px 13px 7px 13px;
 }
