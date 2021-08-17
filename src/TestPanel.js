@@ -174,8 +174,17 @@ function GetSpecialWeaponName(item) {
 }
 
 function SkillTreeBoxes(p) {
+
+  function ConvertCoordinate(x,y) {
+      return (x+'a')+(y+1);
+  }
+
   return <>
-    <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+    {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill)=>{
+      var splitter = skill.split(",")
+      return <div style={{ gridArea: ConvertCoordinate(Number(splitter[0]),Number(splitter[1])) }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+    })}
+    {/*<div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div style={{ gridArea: "b1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div style={{ gridArea: "b2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
@@ -186,7 +195,7 @@ function SkillTreeBoxes(p) {
     <div style={{ gridArea: "d2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Sticky_Bomb_Quick_Reload.png" /><span className="skillAllocated">0/1</span><em className="skillName">Sticky Bomb Quick Reload</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div style={{ gridArea: "d3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
-    <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+  <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>*/}
   </>
 }
 
