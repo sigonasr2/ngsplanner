@@ -7,7 +7,7 @@ function SkillTree(p) {
   
     useEffect(() => {
       setWidth(p.gridSizeX*p.gridDimensionsX+p.gridPaddingX*(p.gridDimensionsX-1))
-      setHeight(p.gridSizeY*Math.ceil(p.gridDimensionsY)+p.halflineheight*Math.floor(p.gridDimensionsY)+p.gridPaddingY*(p.gridDimensionsY-1))
+      setHeight(p.gridSizeY*Math.ceil(p.gridDimensionsY/2)+p.halflineheight*Math.ceil((p.gridDimensionsY-1)/2)+p.gridPaddingY*(p.gridDimensionsY-1))
     }, [p.halflineheight,p.skillLines,p.gridSizeX,p.gridSizeY,p.gridPaddingX,p.gridPaddingY,p.gridDimensionsX,p.gridDimensionsY])
 
     useEffect(()=>{

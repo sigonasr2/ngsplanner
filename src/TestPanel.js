@@ -43,13 +43,13 @@ function EditBoxInput(p) {
 }
 
 function PageControlButton(p) {
-	return <li onClick={()=>{p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":"unselected"}>{p.pageName?p.pageName:p.page}</li>
+	return <li onClick={()=>{if (p.onPageChange) {p.onPageChange(p.pageName)} p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":"unselected"}>{p.pageName?p.pageName:p.page}</li>
 }
 
 function PageControl(p) {
 	var pages = []
 	for (var i=0;i<p.pages;i++) {
-		pages.push(<PageControlButton pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
+		pages.push(<PageControlButton onPageChange={p.onPageChange} pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
 	}
   if (p.children!==undefined) {
       pages.push(<li className="pageControlDetails">{p.children}</li>)
@@ -80,7 +80,7 @@ function PopupWindow(p) {
     <h1>{p.title}</h1>
     {p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
     </div>
-    <PageControl  pages={p.pageNames?p.pageNames.length:0} pageNames={p.pageNames}  currentPage={p.page} setCurrentPage={p.setPage}/>
+    <PageControl onPageChange={p.onPageChange} pages={p.pageNames?p.pageNames.length:0} pageNames={p.pageNames}  currentPage={p.page} setCurrentPage={p.setPage}/>
     
     {p.children}
   </div>
@@ -100,10 +100,17 @@ function SelectorWindow(p) {
       setItemList(p.dataFunction())
     }
   },[p])
+
+  useEffect(()=>{
+    if (p.onModalOpen) {
+      p.onModalOpen(setTabPage)
+    }
+  },[p.modalOpen])
   
   return <PopupWindow page={tabPage} setPage={setTabPage} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} showCloseButton={true} title={p.title}
       pageNames={p.pageNames}
       filter={true}
+      onPageChange={p.onPageChange}
     >
     {(p.sortItems||p.filter)&&<div className="itemBar">
         <div className="itemBarSort">
@@ -133,6 +140,33 @@ function LeftButton(p){
 function RightButton(p){
 	return <span className="skillRightButton">
   </span>
+}
+function ClassSelectorWindow(p) {
+  const [title,setTitle] = useState("Select Main Class")
+  useEffect(()=>{
+    setTitle((p.editClass)?"Select Sub Class":"Select Main Class")
+  },[p.editClass])
+  return <SelectorWindow title={title} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
+  pageNames={["Main Class","Sub-Class"]}
+  onPageChange={(page)=>{
+    if (page==="Main Class") {
+      p.setEditClass(0)
+    } else {
+      p.setEditClass(1)
+    }
+  }}
+  onModalOpen={(pageSetter)=>{
+    pageSetter((p.editClass)?2:1)
+  }}
+  dataFunction={() => {
+    var dat1 = p.GetData("class")
+    return Object.keys(dat1)
+  }
+  }
+  displayFunction={(key) => {
+    return <li className={p.class===key?"treeListMain":p.subClass===key?"treeListSub":""} onClick={() => {if (p.editClass===0){p.setClassName(key);p.setSubClassName(p.subClass===key?p.class:p.subClass)}else{p.setSubClassName(key);p.setClassName(p.class===key?p.subClass:p.class)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
+  }}
+/>
 }
 
 function GetSpecialWeaponName(item) {
@@ -511,25 +545,7 @@ AUGMENT
   </div>
 </div>
 
-<Modal isOpen={classSelectWindowOpen} onRequestClose={()=>{setClassSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-<div className="box boxModalClassSelect">
-          <div className="boxTitleBar">
-            <h1>Select Main Class</h1>
-            <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
-          </div>
-          <div className="treeListContainer customScrollbar">
-            <ul className="treeList">
-              <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Hunter</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/fi.png")} />Fighter</li>
-              <li className="treeListMain"><img alt="" src={DisplayIcon("/icons/class/ra.png")} />Ranger</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/gu.png")} />Gunner</li>
-              <li className="treeListSub"><img alt="" src={DisplayIcon("/icons/class/fo.png")} />Force</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/te.png")} />Techter</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/br.png")} />Braver</li>
-            </ul>
-          </div>
-        </div>
-</Modal>
+<ClassSelectorWindow class={className} subClass={subclassName} setClassName={setClassName} setEditClass={setClassNameSetter} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
 
 
 
