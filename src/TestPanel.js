@@ -405,6 +405,7 @@ AUGMENT
             <div className="boxTitleBar">
               <h1>To Do List</h1></div>
             <ul className="toDoList">
+              <li className="half">Grids. Grids everywhere.</li>
               <li>Finish "Item Details" for Weapons/Armor</li>
               <li className="half">Class Skill Window</li>
               <li>PA Select Window</li>
@@ -540,7 +541,7 @@ AUGMENT
 </div>
 
 <Modal isOpen={classSelectWindowOpen} onRequestClose={()=>{setClassSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-<div className="box boxModal">
+<div className="box boxModalClassSelect">
           <div className="boxTitleBar">
             <h1>Select Main Class</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
@@ -549,11 +550,11 @@ AUGMENT
             <ul className="treeList">
               <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Hunter</li>
               <li><img alt="" src={DisplayIcon("/icons/class/fi.png")} />Fighter</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/ra.png")} />Ranger</li>
+              <li className="treeListMain"><img alt="" src={DisplayIcon("/icons/class/ra.png")} />Ranger</li>
               <li><img alt="" src={DisplayIcon("/icons/class/gu.png")} />Gunner</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/fo.png")} />Force</li>
+              <li className="treeListSub"><img alt="" src={DisplayIcon("/icons/class/fo.png")} />Force</li>
               <li><img alt="" src={DisplayIcon("/icons/class/te.png")} />Techter</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Braver</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/br.png")} />Braver</li>
             </ul>
           </div>
         </div>
@@ -561,18 +562,7 @@ AUGMENT
 
 
 
-<Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modalSkillTree" overlayClassName="modalOverlaySkillTree">
-        <div className="box treeSelectBox">
-          <div className="boxTitleBar">
-            <h1>Class Skill Tree</h1>
-            <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
-          </div>
-          <div className="treeListContainer customScrollbar">
-            <ul className="treeList">
-              {Object.keys(p.GetData("class")).map((cl)=><li className={className===cl?"treeListMain":subclassName===cl?"treeListSub":""}><img alt="" src={p.GetData("class")[cl].icon} />{cl}</li>)}
-            </ul>
-          </div>
-        </div>
+<Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
 
         <div className="box skillTreeBox">
           <div className="boxTitleBar">
@@ -598,8 +588,6 @@ AUGMENT
                 <div style={{ gridArea: "d3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em></div>
                 <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em></div>
                 <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
-                <div style={{ gridArea: "a5" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
-                <div style={{ gridArea: "a6" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
               </div>
             </div>
           </div>

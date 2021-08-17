@@ -39,7 +39,7 @@ const PARRY_COUNTER = 4
 //NOT USED YET*/
 
 const BACKENDURL=process.env.REACT_APP_GITPOD_WORKSPACE_URL||process.env.REACT_APP_BACKENDURL||'https://projectdivar.com:4504'
-const APP_TITLE = "NGSplanner"
+const APP_TITLE = "NGS Planner"
 
 function GetBackendURL(p) {
 	return (BACKENDURL)+(p.TESTMODE?"/test":"")
@@ -804,7 +804,7 @@ function App() {
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
 					<Helmet>
-						<title>{APP_TITLE+" - Test"}</title>
+						<title>{"Test - "+APP_TITLE}</title>
 					</Helmet>
 					<TestHeader/>
 					<TestPanel

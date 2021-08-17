@@ -3,6 +3,10 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }
 @font-face {
   font-family: "ngs";
@@ -20,6 +24,10 @@
   font-family: "ngs4";
   src: url("./fonts/1.woff") format("woff");
 }
+@font-face {
+	font-family: "Segoe UI Symbol";
+	src: url("./fonts/seguisym.ttf") format("truetype");
+  }
 a, a:visited {
 	color: white;
 	text-decoration: none;
@@ -77,7 +85,6 @@ em {
 	min-height: 50px;
 	padding: 20px;
 	text-align: left;
-	margin-bottom: 20px;
 }
 #header a {
 	color: #151f25;
@@ -129,23 +136,18 @@ em {
 }
 }
 .main {
-	display: flex;
-	flex-flow: row wrap;
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
+	gap: 10px;
+	margin: 0 10px;
+	max-width: calc(450 * 3);
 }
-.containerA, .containerC {
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 240px;
-	max-width: 360px;
-	margin: 0 5px;
+.containerA{
 }
 .containerB {
-	flex-grow: 1;
-	flex-shrink: auto;
-	flex-basis: auto;
-	max-width: 480px;
-	margin: 0 5px;
+}
+.containerC {
 }
 .box {
 	color: #97e2fc;
@@ -155,8 +157,6 @@ em {
 	text-align: left;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
 	padding-bottom:10px;
-	/*filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));*/
-	/*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;*/
 	backdrop-filter: blur(10px);
 }
 
@@ -709,7 +709,7 @@ option {
 	top: -10px;
 }
 .treeList {
-	padding: 0 2px;
+	padding: 0 2px 2px 2px;
 }
 .treeList li {
 	background-color: rgba(128,128,128,0.33);
@@ -719,12 +719,16 @@ option {
     background-repeat: no-repeat;
     background-position: right center;
 	background-origin: content-box;
+	line-height: 20px;
 }
-li.treeListMain {
-	background-image: url("./icons/class_main.png");
+li.treeListMain:after, li.treeListSub:after {
+	margin-left: 10px;
 }
-li.treeListSub {
-	background-image: url("./icons/class_sub.png");
+li.treeListMain:after {
+	content: url("./icons/class_main.png");
+}
+li.treeListSub:after {
+	content: url("./icons/class_sub.png");
 }
 .treeList li img {
 	vertical-align: middle;
@@ -735,7 +739,6 @@ li.treeListSub {
 	margin: 0;
 	min-width: 181px;
 	min-height: auto;
-	/*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;*/
 	outline: 1px solid rgba(54,255,255,1);	
 }
 .skillTreeBox .boxTitleBar, .treeSelectBox .boxTitleBar {
@@ -986,34 +989,13 @@ button{
 	display: grid;
 	justify-items: stretch;
 	align-items: center;    
-	grid-template-columns: minmax(10px, 1fr) minmax(200px, 580px) minmax(10px, 1fr);
-	grid-template-rows: 10px minmax(0, 1fr) 10px;
-}
-.modalOverlaySkillTree {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8));
-	display: grid;
-	justify-items: stretch;
-	align-items: center;    
-	grid-template-columns: minmax(220px, 1fr) minmax(0, auto) minmax(10px, 1fr);
-	grid-template-rows: 10px minmax(0, 1fr) 10px;
+	grid-template-columns: minmax(10px, 1fr) minmax(200px, auto) minmax(10px, 1fr);
+	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 }
 .modal {
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
-}
-.modalSkillTree {
-	position: relative;
-	outline: 0;
-	grid-column: 2;
-	grid-row: 2;
-/*	display: flex;
-	flex-flow: row nowrap;*/
 }
 .boxModal {
 	animation: fadeIn 0.15s;
@@ -1022,11 +1004,18 @@ button{
 	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 	outline: 1px solid rgba(54,255,255,1);	
 }
+.boxModalClassSelect {
+	animation: fadeIn 0.15s;
+	width: 300px;
+	margin: 0 auto;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	outline: 1px solid rgba(54,255,255,1);	
+}
 @keyframes fadeIn {
 	0% {opacity:0;margin-bottom:30px;}
 	100% {opacity:1;margin-bottom:0;}
   }
-.boxModal .boxTitleBar {
+.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {
