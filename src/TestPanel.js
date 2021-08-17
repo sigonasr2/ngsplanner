@@ -104,18 +104,7 @@ function ClassSelector(p){
   </>
 }
 
-function ClassSelectorWindow(p) {
-  return <SelectorWindow title={(p.editClass)?"Select Sub Class":"Select Main Class"} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
-  dataFunction={() => {
-    var dat1 = p.GetData("class")
-    return Object.keys(dat1)
-  }
-  }
-  displayFunction={(key) => {
-    return <li className="classSelect" onClick={() => { if (p.editClass===0){p.setClassName(key)}else{p.setSubClassName(key)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
-  }}
-/>
-}
+
 
 function EditableClass(p){
 	return <><div className="editClass" onClick={()=>{p.setClassNameSetter(p.editClass);p.setClassSelectWindowOpen(true)}}><Class GetData={p.GetData} name={p.name}/>
@@ -200,6 +189,7 @@ const [statPage,setStatPage] = useState(1)
 
 const [classSelectWindowOpen,setClassSelectWindowOpen] = useState(false)
 const [classSkillTreeWindowOpen,setClassSkillTreeWindowOpen] = useState(false)
+const [treePage,setTreePage] = useState(1)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 const [armorSelectWindowOpen,setArmorSelectWindowOpen] = useState(false)
 
@@ -220,6 +210,7 @@ const [skillTreeGridSizeX,setSkillTreeGridSizeX] = useState(171)
 const [skillTreeGridSizeY,setSkillTreeGridSizeY] = useState(148)
 const [skillTreeGridPaddingX,setSkillTreeGridPaddingX] = useState(10)
 const [skillTreeGridPaddingY,setSkillTreeGridPaddingY] = useState(48)
+const [halflineheight,setHalfLineHeight] = useState(60)
 
 const [classNameSetter,setClassNameSetter] = useState(0)
 
@@ -261,6 +252,7 @@ useEffect(()=>{
           setSkillTreeGridSizeY(skillTree.gridsizey)
           setSkillTreeGridPaddingX(skillTree.gridpaddingx)
           setSkillTreeGridPaddingY(skillTree.gridpaddingy)
+          setHalfLineHeight(skillTree.halflineheight)
           break;
         }
     }
@@ -286,7 +278,7 @@ useEffect(()=>{
             <td colSpan="2"><EditBoxInput setData={setbuildName} data={buildName}/></td>
           </tr>
           <tr>
-            <td>Class</td>
+            <td onClick={()=>{setClassSelectWindowOpen(true)}}>Class</td>
             <td>
             <EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass>
             </td>
@@ -310,10 +302,10 @@ useEffect(()=>{
       <div className="boxTitleBar">
       <h1>Current Effects</h1></div>
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
-      <h3>Effect Name</h3>
-      <ul className="infoBuffs">
-        {
-          effectPage===1?<><li>Food Boost Effect
+      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li>Food Boost Effect
+      
+        
+          
             <ul>
               <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
               <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
@@ -329,9 +321,9 @@ useEffect(()=>{
             <ul>
               <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
             </ul>
-          </li></>:<></>
-        }
-      </ul>
+          </li></ul></>:<></>
+        
+      }
       </div>
       </div>
       <div className="containerB">
@@ -414,6 +406,7 @@ AUGMENT
             <div className="boxTitleBar">
               <h1>To Do List</h1></div>
             <ul className="toDoList">
+              <li className="half">Grids. Grids everywhere.</li>
               <li>Finish "Item Details" for Weapons/Armor</li>
               <li className="half">Class Skill Window</li>
               <li>PA Select Window</li>
@@ -548,56 +541,66 @@ AUGMENT
   </div>
 </div>
 
-<ClassSelectorWindow setClassName={setClassName} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
-
-
-<Modal isOpen={classSkillTreeWindowOpen} onRequestClose={()=>{setClassSkillTreeWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modalSkillTree" overlayClassName="modalOverlaySkillTree">
-        <div className="box treeSelectBox">
+<Modal isOpen={classSelectWindowOpen} onRequestClose={()=>{setClassSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+<div className="box boxModalClassSelect">
           <div className="boxTitleBar">
-            <h1>Class Skill Tree</h1>
+            <h1>Select Main Class</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
           <div className="treeListContainer customScrollbar">
             <ul className="treeList">
-              {Object.keys(p.GetData("class")).map((cl)=><li className={className===cl?"treeListMain":subclassName===cl?"treeListSub":""}><img alt="" src={p.GetData("class")[cl].icon} />{cl}</li>)}
+              <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Hunter</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/fi.png")} />Fighter</li>
+              <li className="treeListMain"><img alt="" src={DisplayIcon("/icons/class/ra.png")} />Ranger</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/gu.png")} />Gunner</li>
+              <li className="treeListSub"><img alt="" src={DisplayIcon("/icons/class/fo.png")} />Force</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/te.png")} />Techter</li>
+              <li><img alt="" src={DisplayIcon("/icons/class/br.png")} />Braver</li>
             </ul>
           </div>
         </div>
+</Modal>
 
+
+
+      <Modal isOpen={classSkillTreeWindowOpen} onRequestClose={() => { setClassSkillTreeWindowOpen(false) }} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
         <div className="box skillTreeBox">
           <div className="boxTitleBar">
-            <h1>Ranger01</h1>
+            <h1>Class Skill Tree</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
-          <div className="skillTreeContainer customScrollbar">
-            <div style={{position:"relative"}}>
-              {<SkillTree style={{position:"absolute"}} strokeStyle={skillTreeLineColor} lineWidth={skillTreeLineWidth} lineDash={[]}
-                    gridDimensionsX={skillTreeDimensionX} gridDimensionsY={skillTreeDimensionY} gridSizeX={skillTreeGridSizeX} gridSizeY={skillTreeGridSizeY} gridPaddingX={skillTreeGridPaddingX} gridPaddingY={skillTreeGridPaddingY}
-                    skillLines={skillTreeData}
-            />}
-              <div className="skillTreeGrid">
-                <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em></div>
-                <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em></div>
-                <div style={{ gridArea: "b1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em></div>
-                <div style={{ gridArea: "b2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot</em></div>
-                <div className="skillLocked" style={{ gridArea: "b3" }}><span className="skillTreeReqLock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot_Quick_Getaway.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot Quick Getaway</em></div>
-                <div style={{ gridArea: "c1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Reduction.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Reduction</em></div>
-                <div style={{ gridArea: "c2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Rifle_Grenadier.png" /><span className="skillAllocated">0/1</span><em className="skillName">Rifle Grenadier</em></div>
-                <div style={{ gridArea: "c3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slide_Shot_Advance.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slide Shot Advance</em></div>
-                <div style={{ gridArea: "d2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Sticky_Bomb_Quick_Reload.png" /><span className="skillAllocated">0/1</span><em className="skillName">Sticky Bomb Quick Reload</em></div>
-                <div style={{ gridArea: "d3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em></div>
-                <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em></div>
-                <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
-                <div style={{ gridArea: "a5" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
-                <div style={{ gridArea: "a6" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+          <PageControl pages={2} pageNames={[<><img alt="" src={DisplayIcon("/icons/class/ra.png")} /> Ranger</>, <><img alt="" src={DisplayIcon("/icons/class/fo.png")} /> Force</>, "Launcher", "Rod", "Talis"]} currentPage={treePage} setCurrentPage={setTreePage} />
+          {treePage === 1 ? <>
+            <div className="skillTreeContainer customScrollbar">
+              <div style={{ position: "relative" }}>
+                {<SkillTree style={{ position: "absolute" }} strokeStyle={skillTreeLineColor} lineWidth={skillTreeLineWidth} lineDash={[]}
+                  gridDimensionsX={skillTreeDimensionX} gridDimensionsY={skillTreeDimensionY} gridSizeX={skillTreeGridSizeX} gridSizeY={skillTreeGridSizeY} gridPaddingX={skillTreeGridPaddingX} gridPaddingY={skillTreeGridPaddingY}
+                  skillLines={skillTreeData} halflineheight={halflineheight}
+                />}
+                <div className="skillTreeGrid">
+                  <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em></div>
+                  <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em></div>
+                  <div style={{ gridArea: "b1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em></div>
+                  <div style={{ gridArea: "b2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot</em></div>
+                  <div className="skillLocked" style={{ gridArea: "b3" }}><span className="skillTreeReqLock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot_Quick_Getaway.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot Quick Getaway</em></div>
+                  <div style={{ gridArea: "c1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Reduction.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Reduction</em></div>
+                  <div style={{ gridArea: "c2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Rifle_Grenadier.png" /><span className="skillAllocated">0/1</span><em className="skillName">Rifle Grenadier</em></div>
+                  <div style={{ gridArea: "c3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slide_Shot_Advance.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slide Shot Advance</em></div>
+                  <div style={{ gridArea: "d2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Sticky_Bomb_Quick_Reload.png" /><span className="skillAllocated">0/1</span><em className="skillName">Sticky Bomb Quick Reload</em></div>
+                  <div style={{ gridArea: "d3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em></div>
+                  <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em></div>
+                  <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+                </div>
               </div>
+            </div></> : <></>}
+            <div className="skillPoints">
+              <div>Your Skill Points<span>6</span></div>
+              <div>SP<span></span>0</div>
             </div>
-          </div>
-          <div className="skillPoints">Your Skill Points&emsp;&emsp;6&emsp;&emsp;&emsp;SP&emsp;&emsp;&emsp;&emsp;0</div>
-          <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
+            <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
+          
         </div>
-
-</Modal>
+      </Modal>
 
 <SelectorWindow title="Weapon Selection" modalOpen={weaponSelectWindowOpen} setModalOpen={setWeaponSelectWindowOpen} GetData={p.GetData}
   pageNames={["All","Rifle","Launcher","Rod","Talis"]}

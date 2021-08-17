@@ -3,6 +3,10 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }
 @font-face {
   font-family: "ngs";
@@ -20,6 +24,10 @@
   font-family: "ngs4";
   src: url("./fonts/1.woff") format("woff");
 }
+@font-face {
+	font-family: "Segoe UI Symbol";
+	src: url("./fonts/seguisym.ttf") format("truetype");
+  }
 a, a:visited {
 	color: white;
 	text-decoration: none;
@@ -34,20 +42,7 @@ hr {
 }
 img {
 	vertical-align: middle;
-}/*
-body {
-    background-image: url("./icons/d_global_bg_header.png"),url("./icons/gl_main_bg.jpg");
-    background-size: 1903px,2560px;
-	background-color: #e8ecf4;
-    background-repeat: no-repeat,repeat-y;
-    background-position: center 0;
-	color: black;
-    font-family: ngs,Arial,sans-serif;
-	font-size: 11pt;
-	font-weight: normal;
-	text-align: center;
-    -webkit-font-smoothing: antialiased;
-}*/
+}
 body {
     background-image: url("https://pbs.twimg.com/media/E8tfm23VUAQTAAu?format=jpg&name=4096x4096");
 	background-color: #e8ecf4;
@@ -57,10 +52,10 @@ body {
 	background-size: cover;
 	color: black;
     font-family: ngs,Arial,sans-serif;
-	font-size: 11pt;
+	font-size: 16px;
 	font-weight: normal;
 	text-align: center;
-    -webkit-font-smoothing: antialiased;
+
 }
 table td {
 	vertical-align: top;
@@ -73,47 +68,29 @@ em {
 	font-style: normal;
 }
 #header {
-	background-color: white;
+	background-color: rgba(0,0,0,0.33);
 	min-height: 50px;
 	padding: 20px;
 	text-align: left;
-	margin-bottom: 20px;
+	color:white;
 }
-#header a {
-	color: #151f25;
+.header a {
+	/*color: #151f25;*/
+	color:white;
 	text-decoration: none;
 }
-#header a:hover {
-	color: #454f85;
+.header a:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	text-decoration: none;
-}
-#header div {
-	margin: 0 auto;
-	width: 80%;
-}
-#header ul {
-	display: flex;
-	flex-flow: row wrap;
-	align-items: center;
-	margin-left: -40px;
-	justify-content: flex-end;
-}
-#header ul li {
-	flex: 0 1;
-	color: black;
-	font-family: "ngs2";
-	text-align: center;
-	white-space:nowrap;
-
-}
-.headermenuitem {
-	font-size:14pt;
-	margin-left: 40px;
 }
 .logo {
+	font-family: "ngs2";
 	margin-right: auto;
-	font-weight:bold;
-	font-size:20px;
+	font-size:24px;
+}
+.logo span{
+	font-size:16px;
+	text-transform: uppercase;
 }
 .logo img {
 	height:28px;
@@ -128,24 +105,12 @@ em {
 	display:none;
 }
 }
-.main {
-	display: flex;
-	flex-flow: row wrap;
+.main,.header {
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
-}
-.containerA, .containerC {
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 240px;
-	max-width: 360px;
-	margin: 0 5px;
-}
-.containerB {
-	flex-grow: 1;
-	flex-shrink: auto;
-	flex-basis: auto;
-	max-width: 480px;
-	margin: 0 5px;
+	gap: 10px;
+	margin: 0 10px;
 }
 .box {
 	color: #97e2fc;
@@ -155,8 +120,6 @@ em {
 	text-align: left;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
 	padding-bottom:10px;
-	/*filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));*/
-	/*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;*/
 	backdrop-filter: blur(10px);
 }
 
@@ -210,25 +173,20 @@ em {
 
 }*/
 .boxTitleBar {
-	/* background-color: #495a61; */
 	background-color: rgba(124, 144, 148, 0.66);
 	color: white;
 	font-weight: normal;
-	font-size: 13pt;
+	font-size: 18px;
 	text-align: left;
-	white-space: nowrap;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
 
 }
 .boxTitleBar h1 {
-	/* background-color: #495a61; */
 	color: white;
 	font-weight: normal;
-	font-size: 13pt;
-    overflow: hidden;
-	text-overflow: ellipsis;
+	font-size: 18px;
 	margin-right: 10px;
 	padding: 13px 13px 7px 13px;
 }
@@ -709,7 +667,7 @@ option {
 	top: -10px;
 }
 .treeList {
-	padding: 0 2px;
+	padding: 0 2px 2px 2px;
 }
 .treeList li {
 	background-color: rgba(128,128,128,0.33);
@@ -719,12 +677,16 @@ option {
     background-repeat: no-repeat;
     background-position: right center;
 	background-origin: content-box;
+	line-height: 20px;
 }
-li.treeListMain {
-	background-image: url("./icons/class_main.png");
+li.treeListMain:after, li.treeListSub:after {
+	margin-left: 10px;
 }
-li.treeListSub {
-	background-image: url("./icons/class_sub.png");
+li.treeListMain:after {
+	content: url("./icons/class_main.png");
+}
+li.treeListSub:after {
+	content: url("./icons/class_sub.png");
 }
 .treeList li img {
 	vertical-align: middle;
@@ -735,7 +697,6 @@ li.treeListSub {
 	margin: 0;
 	min-width: 181px;
 	min-height: auto;
-	/*box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;*/
 	outline: 1px solid rgba(54,255,255,1);	
 }
 .skillTreeBox .boxTitleBar, .treeSelectBox .boxTitleBar {
@@ -854,6 +815,18 @@ div.skillMaxed .skillAllocated {
 	padding: 16px 0 10px 0;
 	color: white;
 	font-size: 14pt;
+	display: grid;
+	grid-template-columns: repeat(auto-fit,292px);
+	justify-content: center;
+	gap: 10px;
+}
+.skillPoints div:first-child {
+	text-align: center;
+}
+.skillPoints div span {
+	display: inline-block;
+	width: calc(292px / 2);
+	text-align: center;
 }
 .skillConfirm {
 	justify-content: center;
@@ -986,34 +959,13 @@ button{
 	display: grid;
 	justify-items: stretch;
 	align-items: center;    
-	grid-template-columns: minmax(10px, 1fr) minmax(200px, 580px) minmax(10px, 1fr);
-	grid-template-rows: 10px minmax(0, 1fr) 10px;
-}
-.modalOverlaySkillTree {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8));
-	display: grid;
-	justify-items: stretch;
-	align-items: center;    
-	grid-template-columns: minmax(220px, 1fr) minmax(0, auto) minmax(10px, 1fr);
-	grid-template-rows: 10px minmax(0, 1fr) 10px;
+	grid-template-columns: minmax(10px, 1fr) minmax(200px, auto) minmax(10px, 1fr);
+	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 }
 .modal {
 	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
-}
-.modalSkillTree {
-	position: relative;
-	outline: 0;
-	grid-column: 2;
-	grid-row: 2;
-/*	display: flex;
-	flex-flow: row nowrap;*/
 }
 .boxModal {
 	animation: fadeIn 0.15s;
@@ -1022,19 +974,26 @@ button{
 	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 	outline: 1px solid rgba(54,255,255,1);	
 }
+.boxModalClassSelect {
+	animation: fadeIn 0.15s;
+	width: 300px;
+	margin: 0 auto;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	outline: 1px solid rgba(54,255,255,1);	
+}
 @keyframes fadeIn {
 	0% {opacity:0;margin-bottom:30px;}
 	100% {opacity:1;margin-bottom:0;}
   }
-.boxModal .boxTitleBar {
+.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {
-		overflow-y: auto;
-		overflow-x: hidden;
-		margin: 10px 5px 0 0;
-		padding: 2px;
-		max-height: calc(90vh - 115px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 10px 5px 0 0;
+	padding: 2px;
+	max-height: calc(90vh - 115px);
 }
 .webicon{
 	color:maroon;
