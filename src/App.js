@@ -379,7 +379,7 @@ function AdminPanel(p) {
 
 	return <div className="main">
 		{!verified?
-		<div className="w-75">
+		<div style={{gridColumn:"1 / span 3"}}>
 			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 			<input type="password" value={password} onChange={(f)=>{setPassword(f.currentTarget.value)}} onKeyDown={(e)=>{
 				if (e.key==="Enter") {
@@ -398,7 +398,7 @@ function AdminPanel(p) {
 			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		</div>:<>
 		<Box title="Navigation">
-		<div className="w-25">Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}<br/>
+		<div>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}<br/>
 		  <Table classes="adminNav">
 		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>

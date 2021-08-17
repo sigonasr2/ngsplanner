@@ -29,3 +29,23 @@ function ClassSelectorWindow(p) {
   </ul>
 </div>
 </div>
+
+
+
+
+
+
+function ClassSelector(p){
+  const CLASSES = p.GetData("class")
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef,p.setEdit);
+	return <><div className="popup2" ref={wrapperRef}>
+    Class Selector<hr/>
+      <div className="popup">
+        {Object.keys(CLASSES).map((cl,i)=>{
+        return <button id={i} className="rounded" onClick={()=>{p.setClassName(cl);p.setEdit(false)}}><img alt="" src={process.env.PUBLIC_URL+CLASSES[cl].icon}/><br/>{CLASSES[cl].name}</button>
+        })}
+      </div>
+    </div>
+  </>
+}
