@@ -125,6 +125,16 @@ function SelectorWindow(p) {
   </PopupWindow>
 }
 
+function LeftButton(p){
+	return <span className="skillLeftButton">
+  </span>
+}
+
+function RightButton(p){
+	return <span className="skillRightButton">
+  </span>
+}
+
 function GetSpecialWeaponName(item) {
   return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):""
 }
@@ -538,18 +548,18 @@ AUGMENT
                   skillLines={skillTreeData} halflineheight={halflineheight}
                 />}
                 <div className="skillTreeGrid">
-                  <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em></div>
-                  <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em></div>
-                  <div style={{ gridArea: "b1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em></div>
-                  <div style={{ gridArea: "b2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot</em></div>
-                  <div className="skillLocked" style={{ gridArea: "b3" }}><span className="skillTreeReqLock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot_Quick_Getaway.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot Quick Getaway</em></div>
-                  <div style={{ gridArea: "c1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Reduction.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Reduction</em></div>
-                  <div style={{ gridArea: "c2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Rifle_Grenadier.png" /><span className="skillAllocated">0/1</span><em className="skillName">Rifle Grenadier</em></div>
-                  <div style={{ gridArea: "c3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slide_Shot_Advance.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slide Shot Advance</em></div>
-                  <div style={{ gridArea: "d2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Sticky_Bomb_Quick_Reload.png" /><span className="skillAllocated">0/1</span><em className="skillName">Sticky Bomb Quick Reload</em></div>
-                  <div style={{ gridArea: "d3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em></div>
-                  <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em></div>
-                  <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em></div>
+                  <div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "b1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "b2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div className="skillLocked" style={{ gridArea: "b3" }}><span className="skillTreeReqLock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Spread_Shot_Quick_Getaway.png" /><span className="skillAllocated">0/1</span><em className="skillName">Spread Shot Quick Getaway</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "c1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Reduction.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Reduction</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "c2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Rifle_Grenadier.png" /><span className="skillAllocated">0/1</span><em className="skillName">Rifle Grenadier</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "c3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slide_Shot_Advance.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slide Shot Advance</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "d2" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Sticky_Bomb_Quick_Reload.png" /><span className="skillAllocated">0/1</span><em className="skillName">Sticky Bomb Quick Reload</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "d3" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Launcher_Charge_Grouping.png" /><span className="skillAllocated">0/1</span><em className="skillName">Launcher Charge Grouping</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+                  <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
                 </div>
               </div>
             </div></> : <></>}
