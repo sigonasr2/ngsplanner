@@ -141,7 +141,6 @@ em {
 	justify-content: center;
 	gap: 10px;
 	margin: 0 10px;
-	max-width: calc(450 * 3);
 }
 .containerA{
 }
@@ -778,7 +777,7 @@ li.treeListSub:after {
 	text-align: center;
 	height: 148px;
 	position: relative;
-	margin: 0 10px 48px 0;
+	margin: 0 10px 96px 0;
 }
 .skillTreeGrid div:hover .skillButtons {
 	visibility: visible;
@@ -857,6 +856,18 @@ div.skillMaxed .skillAllocated {
 	padding: 16px 0 10px 0;
 	color: white;
 	font-size: 14pt;
+	display: grid;
+	grid-template-columns: repeat(auto-fit,292px);
+	justify-content: center;
+	gap: 10px;
+}
+.skillPoints div:first-child {
+	text-align: center;
+}
+.skillPoints div span {
+	display: inline-block;
+	width: calc(292px / 2);
+	text-align: center;
 }
 .skillConfirm {
 	justify-content: center;
@@ -1019,11 +1030,11 @@ button{
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {
-		overflow-y: auto;
-		overflow-x: hidden;
-		margin: 10px 5px 0 0;
-		padding: 2px;
-		max-height: calc(90vh - 115px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 10px 5px 0 0;
+	padding: 2px;
+	max-height: calc(90vh - 115px);
 }
 .webicon{
 	color:maroon;
