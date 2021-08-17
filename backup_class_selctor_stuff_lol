@@ -1,0 +1,31 @@
+function ClassSelectorWindow(p) {
+    return <SelectorWindow title={(p.editClass)?"Select Sub Class":"Select Main Class"} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
+    dataFunction={() => {
+      var dat1 = p.GetData("class")
+      return Object.keys(dat1)
+    }
+    }
+    displayFunction={(key) => {
+      return <li className="classSelect" onClick={() => { if (p.editClass===0){p.setClassName(key)}else{p.setSubClassName(key)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
+    }}
+  />
+  }
+
+  <ClassSelectorWindow setClassName={setClassName} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
+
+
+
+
+
+
+<div className="box treeSelectBox">
+<div className="boxTitleBar">
+  <h1>Class Skill Tree</h1>
+  <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
+</div>
+<div className="treeListContainer customScrollbar">
+  <ul className="treeList">
+    {Object.keys(p.GetData("class")).map((cl)=><li className={className===cl?"treeListMain":subclassName===cl?"treeListSub":""}><img alt="" src={p.GetData("class")[cl].icon} />{cl}</li>)}
+  </ul>
+</div>
+</div>
