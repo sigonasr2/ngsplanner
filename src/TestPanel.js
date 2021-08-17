@@ -125,6 +125,19 @@ function SelectorWindow(p) {
   </PopupWindow>
 }
 
+function ClassSelectorWindow(p) {
+  return <SelectorWindow title={(p.editClass)?"Select Sub Class":"Select Main Class"} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} GetData={p.GetData}
+  dataFunction={() => {
+    var dat1 = p.GetData("class")
+    return Object.keys(dat1)
+  }
+  }
+  displayFunction={(key) => {
+    return <li className={p.class===key?"treeListMain":p.subClass===key?"treeListSub":""} onClick={() => {if (p.editClass===0){p.setClassName(key);p.setSubClassName(p.subClass===key?p.class:p.subClass)}else{p.setSubClassName(key);p.setClassName(p.class===key?p.subClass:p.class)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
+  }}
+/>
+}
+
 function GetSpecialWeaponName(item) {
   return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):""
 }
@@ -501,25 +514,7 @@ AUGMENT
   </div>
 </div>
 
-<Modal isOpen={classSelectWindowOpen} onRequestClose={()=>{setClassSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-<div className="box boxModalClassSelect">
-          <div className="boxTitleBar">
-            <h1>Select Main Class</h1>
-            <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
-          </div>
-          <div className="treeListContainer customScrollbar">
-            <ul className="treeList">
-              <li><img alt="" src={DisplayIcon("/icons/class/hu.png")} />Hunter</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/fi.png")} />Fighter</li>
-              <li className="treeListMain"><img alt="" src={DisplayIcon("/icons/class/ra.png")} />Ranger</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/gu.png")} />Gunner</li>
-              <li className="treeListSub"><img alt="" src={DisplayIcon("/icons/class/fo.png")} />Force</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/te.png")} />Techter</li>
-              <li><img alt="" src={DisplayIcon("/icons/class/br.png")} />Braver</li>
-            </ul>
-          </div>
-        </div>
-</Modal>
+<ClassSelectorWindow class={className} subClass={subclassName} setClassName={setClassName} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
 
 
 
