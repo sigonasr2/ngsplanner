@@ -5,7 +5,7 @@ import axios from "axios";
 
 function SkillTreeEditor(p) {
 
-    const ADJUSTMENT = [-32,-32]
+    const ADJUSTMENT = [-32,32]
 
     const [firstLoad,setFirstLoad] = useState(true)
 
@@ -151,7 +151,7 @@ function SkillTreeEditor(p) {
                             newSkillData.push(newSkill)
                         }
                         setSkillData(newSkillData)
-                    }} ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY}/>)
+                    }} ADJUSTMENT={ADJUSTMENT} x={x} y={y} gridSizeX={gridSizeX} gridSizeY={gridSizeY} padX={padX} padY={padY} halflineheight={halflineheight}/>)
                 }
             }
         }
