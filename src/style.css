@@ -319,9 +319,6 @@ em {
 .equipAugs {
 	flex: 1 1 auto;	
 }
-.equipAugs ul {
-	position: relative;
-}
 .equipAugs li {
 	background-color: rgba(128,128,128,0.50);
 	color: white;
@@ -353,9 +350,6 @@ em {
 	position: absolute;
 	white-space: normal;
 	left: 1em;
-}
-.tooltipAnchor {
-    position: relative;
 }
 .xTooltip {
 	margin: 0 10px 0 0;
@@ -726,20 +720,14 @@ li.treeListSub:after {
 	"a5 b5 c5 d5 e5 f5"
 	"a6 b6 c6 d6 e6 f6";
 }
-.skillTreeGrid div {
+.skillTreeGrid > div {
 	background-color: rgba(128,128,128,0.33);
 	color: white;
 	padding: 6px;
-    /*background-repeat: no-repeat;
-    background-position: right top;
-	background-origin: content-box;*/
 	text-align: center;
 	height: 148px;
 	position: relative;
 	margin: 0 10px 96px 0;
-}
-.skillTreeGrid div:hover .skillButtons {
-	visibility: visible;
 }
 div.skillActive {
 	background-color: rgba(18,103,87,0.5);
@@ -747,13 +735,11 @@ div.skillActive {
 div.skillMaxed {
 	background-color: rgba(18,103,87,0.5);
 }
-.skillTreeGrid div:hover {
+.skillTreeGrid > div:hover {
 	outline: 2px solid rgba(54,255,255,0.66);
 	background-color: rgba(113,169,189,0.33);
-	background-image: url("./icons/skilltree_div_overlay.png");
-	background-repeat: no-repeat;
 }
-.skillTreeGrid div.skillActive:hover, .skillTreeGrid div.skillMaxed:hover  {
+.skillTreeGrid > div.skillActive:hover, .skillTreeGrid > div.skillMaxed:hover  {
 	outline: 2px solid rgba(54,255,255,0.66);
 	background-color: rgba(18,103,87,0.5);
 }
@@ -771,7 +757,7 @@ div.skillLocked img, div.skillLocked span.skillAllocated, div.skillLocked em.ski
 	line-height: 40px;
 }
 div.skillActive .skillAllocated {
-	color: rgb(255,255,0)
+	color: rgb(255,255,0);
 } 
 div.skillMaxed .skillAllocated {
 	color: rgb(255,135,80);
@@ -807,7 +793,26 @@ div.skillMaxed .skillAllocated {
 	height: 48px;
 	text-align: left;
 }
-
+.skillButtons {
+position:absolute;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+width: 171px;
+height: 148px;
+left: 0;
+top: 0;
+cursor: pointer;
+}
+.skillButtons > span:hover {
+	background-image: url("./icons/skilltree_div_overlay.png");
+	background-repeat: no-repeat;
+}
+.skillLeftButton {
+	background-position: left;
+}
+.skillRightButton {
+	background-position: right;
+}
 .skillPoints {
 	background-color: rgba(64,64,64,0.5);
 	text-align: center;
@@ -857,7 +862,7 @@ div.skillMaxed .skillAllocated {
 	outline: 2px solid #30cdef;
 }
 .editBoxActive {
-	position: relative;
+
 	width: 100%;
 }
 .editBoxActive:hover {
@@ -879,7 +884,7 @@ input#editBoxInput {
 	width: 100%;
 }
 .editClass {
-	position: relative;
+
 	display: inline-block;
 	width: 100%;
 }
