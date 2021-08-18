@@ -178,14 +178,37 @@ function ConvertCoordinate(x,y) {
 }
 
 function SkillBox(p) {
-    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton onClick={()=>{p.setPoints(p.points-1)}}/><RightButton  onClick={()=>{p.setPoints(p.points+1)}}/></div></div>
+    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">{(p.skillPointData[p.page-1][p.boxId]?p.skillPointData[p.page-1][p.boxId]:0)+"/"+p.maxPoints}</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons">
+      <LeftButton onClick={()=>{
+        var temp=[...p.points]
+        var tempData=[...p.skillPointData]
+        temp[p.page-1]-=1
+        while (tempData[p.page-1].length<p.boxId+1) {
+          tempData[p.page-1].push([])
+          tempData[p.page-1][tempData[p.page-1].length-1]=0
+        }
+        tempData[p.page-1][p.boxId]-=1
+        p.setPoints(temp)
+        p.setSkillPointData(tempData)
+        }}/>
+      <RightButton  onClick={()=>{
+        var temp=[...p.points]
+        var tempData=[...p.skillPointData]
+        temp[p.page-1]+=1
+        while (tempData[p.page-1].length<p.boxId+1) {
+          tempData[p.page-1].push([])
+          tempData[p.page-1][tempData[p.page-1].length-1]=0
+        }
+        tempData[p.page-1][p.boxId]+=1
+        p.setPoints(temp)
+        p.setSkillPointData(tempData)}}/></div></div>
 }
 
 function SkillTreeBoxes(p) {
   return <>
-    {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill)=>{
+    {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill,i)=>{
       var splitter = skill.split(",")
-      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
+      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox boxId={i} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={10} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
     })}
     {/*<div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
@@ -245,7 +268,7 @@ function SkillTreeContainer(p){
       skillLines={skillTreeData} halflineheight={halflineheight}
     />}
     <div className="skillTreeGrid">
-      <SkillTreeBoxes points={p.points} setPoints={p.setPoints} GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
+      <SkillTreeBoxes skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} points={p.points} cl={p.cl} setPoints={p.setPoints} GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
     </div>
   </div>
 </div>
@@ -284,6 +307,7 @@ const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 const [classNameSetter,setClassNameSetter] = useState(0)
 
 const [points,setPoints] = useState([])
+const [skillPointData,setSkillPointData] = useState([])
 
 function rarityCheck(v) {
   return v!==undefined?v.rarity!==undefined?" r"+v.rarity:"":""
@@ -307,12 +331,17 @@ useEffect(()=>{
 
 useEffect(()=>{
   var keys = Object.keys(p.GetData("class"))
+  var pointsArr = []
+  var pointsDataArr = []
   for (var i=0;i<keys.length;i++) {
+    pointsArr.push(0)
+    pointsDataArr.push([])
     if (keys[i]===className) {
       setTreePage(i+1)
-      break;
     }
   }
+  setPoints(pointsArr)
+  setSkillPointData(pointsDataArr)
 },[className,p.GetData])
 
 //console.log(p.GetData("class",p.className,"icon"))
@@ -605,10 +634,10 @@ AUGMENT
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
           <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={Object.keys(p.GetData("class")).map((cl)=>cl)} pageDisplay={Object.keys(p.GetData("class")).map((cl)=><><img className="boxMenuClassIcon" alt="" src={p.GetData("class",cl,"icon")}/> {cl}</>)} currentPage={treePage} setCurrentPage={setTreePage} />
-          <SkillTreeContainer points={points} setPoints={setPoints} GetData={p.GetData} cl={Object.keys(p.GetData("class"))[treePage-1]}/>
+          <SkillTreeContainer skillPointData={skillPointData} setSkillPointData={setSkillPointData} page={treePage} points={points} setPoints={setPoints} GetData={p.GetData} cl={Object.keys(p.GetData("class"))[treePage-1]}/>
           <div className="skillPoints"> 
-            <div>Your Skill Points<span>6</span></div>
-            <div>SP<span></span>{points}</div>
+            <div>Your Skill Points<span>{20-points[treePage-1]}</span></div>
+            <div>SP<span></span>{points[treePage-1]}</div>
           </div>
           <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
         </div>
