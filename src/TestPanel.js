@@ -584,7 +584,7 @@ AUGMENT
             <h1>Class Skill Tree</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
-          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={[<><img alt="" src={DisplayIcon(p.GetData("class",{className},"icon"))} /> {className}</>, <><img alt="" src={DisplayIcon("/icons/class/fo.png")} /> {subclassName}</>, "Launcher", "Rod", "Talis"]} currentPage={treePage} setCurrentPage={setTreePage} />
+          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={[<><img className="boxMenuIcon" alt="" src={DisplayIcon(p.GetData("class",{className},"icon"))} /> {className}</>, <><img alt="" src={DisplayIcon("/icons/class/fo.png")} /> {subclassName}</>, "Launcher", "Rod", "Talis"]} currentPage={treePage} setCurrentPage={setTreePage} />
           {treePage === 1 ? <>
             <div className="skillTreeContainer customScrollbar">
               <div style={{ position: "relative" }}>
