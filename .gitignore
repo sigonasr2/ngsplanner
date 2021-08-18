@@ -19,6 +19,9 @@
 .env.production.local
 .env
 
+# Dudley's crap
+/public/test.html
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
