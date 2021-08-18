@@ -205,10 +205,23 @@ function SkillBox(p) {
 }
 
 function SkillTreeBoxes(p) {
+
+  function GetHighestLevel(skill) {
+    var skillInfo = Object.keys(p.GetData("class_skill_data"))
+    var highestLevel = 0
+    for (var i=0;i<skillInfo.length;i++) {
+      var skillData = p.GetData("class_skill_data",skillInfo[i])
+      if (skillData&&Number(skillData.class_skill_id)===Number(skill)&&skillData.level>highestLevel) {
+        highestLevel=skillData.level
+      }
+    }
+    return highestLevel
+  }
+
   return <>
     {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill,i)=>{
       var splitter = skill.split(",")
-      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox boxId={i} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={10} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
+      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox boxId={i} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={GetHighestLevel(splitter[2])} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
     })}
     {/*<div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
