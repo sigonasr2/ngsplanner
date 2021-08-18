@@ -200,8 +200,8 @@ function TableEditor(p) {
 	
 	return <>
 	{!loading?
-		<div className="table-responsive">
-			<table cellPadding="10" className="table text-light table-padding">
+		<div>
+			<table>
 			  {importAllowed&&<caption><label className="buttonLabel" for="uploads">Import CSV</label><input onChange={(f)=>{
 				const reader = new FileReader()
 				reader.onload=(ev)=>{
@@ -377,9 +377,9 @@ function AdminPanel(p) {
 		{page:"Database Audit",url:"/admin/database_audit",table:"/database_audit"},
 	]
 
-	return <div className="main">
+	return <div className="adminMain">
 		{!verified?
-		<div style={{gridColumn:"1 / span 3"}}>
+		<div style={{gridArea:"sidebar / span 2"}}>
 			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 			<input type="password" value={password} onChange={(f)=>{setPassword(f.currentTarget.value)}} onKeyDown={(e)=>{
 				if (e.key==="Enter") {
@@ -397,26 +397,50 @@ function AdminPanel(p) {
 					})}}}></input>
 			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 		</div>:<>
-		<Box title="Navigation">
-		<div>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}<br/>
+		
+		<div className="box boxAdminNav">
+		<div className="boxTitleBar">
+		<h1>Navigation</h1>
+		</div>
+		<p>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</p>
+		<div className="adminNavContainer customScrollbar">
 		  <Table classes="adminNav">
 		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
-		</Table></div></Box>
-		<div className="w-75">
+		</Table>
+		</div>
+		</div>		
+		
+
+
+
 			{navigationData.map((nav)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route path={process.env.PUBLIC_URL+nav.url}>
-				<Box title={nav.page}>
-				<Helmet>
+			<div className="box boxAdminContent">
+		<div className="boxTitleBar">
+		<h1>{nav.page}</h1></div>
+		<div className="adminContainer customScrollbar">
+		<Helmet>
 					<title>{APP_TITLE+" - Admin Panel: "+nav.page}</title>
 				</Helmet>
 				{nav.render??<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>}
-				</Box></Route>)}
+				</div></div></Route>)}
+
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
-				<Box title="Database Editor">
+			<div className="box boxAdminContent">
+			<div className="boxTitleBar">
+		<h1>Database Editor</h1></div>
+		<div className="adminContainer">
 					<DatabaseEditor password={password} BACKENDURL={GetBackendURL(p)}/>
-				</Box>
+				</div>					
+				</div>	
 			</Route>
-		</div></>}
+		
+		
+		
+		
+		
+		
+		</>}
 	</div>
 }
 
@@ -799,7 +823,6 @@ function App() {
 					<Helmet>
 						<title>{APP_TITLE+" - Admin Panel"}</title>
 					</Helmet>
-				<TestHeader/>
 					<AdminPanel setUpdate={setUpdate} setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/test"}>
