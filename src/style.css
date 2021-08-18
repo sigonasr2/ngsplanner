@@ -533,6 +533,9 @@ li.r4 {
 .boxmenu img {
 	vertical-align: middle;
 }
+.boxMenuClassIcon {
+	max-height: 16px;
+}
 .pageControlDetails {
 	background-color: rgba(25, 30, 35, 0.66) !important;
 	margin: 10px 5px 0 auto !important;
@@ -751,6 +754,7 @@ div.skillLocked img, div.skillLocked span.skillAllocated, div.skillLocked em.ski
 }
 .skillIcon {
 	margin: 0 auto;
+	max-width: 48px;
 }
 .skillAllocated {
 	display: block;

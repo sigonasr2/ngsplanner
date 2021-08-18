@@ -214,7 +214,6 @@ function SkillTreeContainer(p){
   const [skillTreeGridPaddingX,setSkillTreeGridPaddingX] = useState(10)
   const [skillTreeGridPaddingY,setSkillTreeGridPaddingY] = useState(48)
   const [halflineheight,setHalfLineHeight] = useState(60)
-  const [points,setPoints] = useState(0)
 
   useEffect(()=>{
     if (Object.keys(p.GetData("skill_tree_data")).length>1) {
@@ -246,11 +245,7 @@ function SkillTreeContainer(p){
       skillLines={skillTreeData} halflineheight={halflineheight}
     />}
     <div className="skillTreeGrid">
-      <SkillTreeBoxes points={points} setPoints={setPoints} GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
-    </div>
-    <div className="skillPoints">
-      <div>Your Skill Points<span>6</span></div>
-      <div>SP<span></span>{points}</div>
+      <SkillTreeBoxes points={p.points} setPoints={p.setPoints} GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
     </div>
   </div>
 </div>
@@ -288,6 +283,7 @@ const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 
 const [classNameSetter,setClassNameSetter] = useState(0)
 
+const [points,setPoints] = useState(0)
 
 function rarityCheck(v) {
   return v!==undefined?v.rarity!==undefined?" r"+v.rarity:"":""
@@ -611,9 +607,14 @@ AUGMENT
             <h1>Class Skill Tree</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
-          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={Object.keys(p.GetData("class")).map((cl)=>cl)} pageDisplay={Object.keys(p.GetData("class")).map((cl)=><><img alt="" src={p.GetData("class",cl,"icon")}/> {cl}</>)} currentPage={treePage} setCurrentPage={setTreePage} />
-          <SkillTreeContainer GetData={p.GetData} cl={Object.keys(p.GetData("class"))[treePage-1]}/>
-            <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
+          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={Object.keys(p.GetData("class")).map((cl)=>cl)} pageDisplay={Object.keys(p.GetData("class")).map((cl)=><><img className="boxMenuClassIcon" alt="" src={p.GetData("class",cl,"icon")}/> {cl}</>)} currentPage={treePage} setCurrentPage={setTreePage} />
+          <SkillTreeContainer points={points} setPoints={setPoints} GetData={p.GetData} cl={Object.keys(p.GetData("class"))[treePage-1]}/>
+                
+          <div className="skillPoints">
+            <div>Your Skill Points<span>6</span></div>
+            <div>SP<span></span>{points}</div>
+          </div>
+          <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
           
         </div>
       </Modal>
