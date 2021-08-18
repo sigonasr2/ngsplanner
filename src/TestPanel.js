@@ -178,11 +178,10 @@ function ConvertCoordinate(x,y) {
 }
 
 function SkillBox(p) {
-    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={process.env.PUBLIC_URL+p.GetData("class_skill",p.skill[2],"icon",true)} /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
 }
 
 function SkillTreeBoxes(p) {
-
   return <>
     {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill)=>{
       var splitter = skill.split(",")
@@ -585,7 +584,7 @@ AUGMENT
             <h1>Class Skill Tree</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
-          <PageControl pages={2} pageNames={[<><img alt="" src={DisplayIcon("/icons/class/ra.png")} /> Ranger</>, <><img alt="" src={DisplayIcon("/icons/class/fo.png")} /> Force</>, "Launcher", "Rod", "Talis"]} currentPage={treePage} setCurrentPage={setTreePage} />
+          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={[<><img alt="" src={DisplayIcon(p.GetData("class",{className},"icon"))} /> {className}</>, <><img alt="" src={DisplayIcon("/icons/class/fo.png")} /> {subclassName}</>, "Launcher", "Rod", "Talis"]} currentPage={treePage} setCurrentPage={setTreePage} />
           {treePage === 1 ? <>
             <div className="skillTreeContainer customScrollbar">
               <div style={{ position: "relative" }}>
