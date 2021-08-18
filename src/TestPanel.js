@@ -133,12 +133,12 @@ function SelectorWindow(p) {
 }
 
 function LeftButton(p){
-	return <span className="skillLeftButton">
+	return <span {...p} className="skillLeftButton">
   </span>
 }
 
 function RightButton(p){
-	return <span className="skillRightButton">
+	return <span {...p} className="skillRightButton">
   </span>
 }
 function ClassSelectorWindow(p) {
@@ -178,14 +178,14 @@ function ConvertCoordinate(x,y) {
 }
 
 function SkillBox(p) {
-    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton onClick={()=>{p.setPoints(p.points-1)}}/><RightButton  onClick={()=>{p.setPoints(p.points+1)}}/></div></div>
 }
 
 function SkillTreeBoxes(p) {
   return <>
     {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill)=>{
       var splitter = skill.split(",")
-      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
+      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
     })}
     {/*<div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
@@ -200,6 +200,60 @@ function SkillTreeBoxes(p) {
     <div style={{ gridArea: "e1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Attack-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Attack-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
   <div style={{ gridArea: "f1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Slow_Landing_Charge-Ranger.png" /><span className="skillAllocated">0/1</span><em className="skillName">Slow Landing Charge-Ranger</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>*/}
   </>
+}
+
+function SkillTreeContainer(p){
+  const [skillTreeData,setSkillTreeData] = useState([])
+  const [skillTreeSkillData,setSkillTreeSkillData] = useState([])
+  const [skillTreeLineColor,setSkillTreeLineColor] = useState("")
+  const [skillTreeLineWidth,setSkillTreeLineWidth] = useState(3)
+  const [skillTreeDimensionX,setSkillTreeDimensionX] = useState(6)
+  const [skillTreeDimensionY,setSkillTreeDimensionY] = useState(6)
+  const [skillTreeGridSizeX,setSkillTreeGridSizeX] = useState(171)
+  const [skillTreeGridSizeY,setSkillTreeGridSizeY] = useState(148)
+  const [skillTreeGridPaddingX,setSkillTreeGridPaddingX] = useState(10)
+  const [skillTreeGridPaddingY,setSkillTreeGridPaddingY] = useState(48)
+  const [halflineheight,setHalfLineHeight] = useState(60)
+  const [points,setPoints] = useState(0)
+
+  useEffect(()=>{
+    if (Object.keys(p.GetData("skill_tree_data")).length>1) {
+      for (var skillTree of p.GetData("skill_tree_data")) {
+          if (skillTree.class_id===p.GetData("class",p.cl,'id')) {
+            var data = skillTree.data.split(",")
+            var skillData = skillTree.skill_data.split(";")
+            setSkillTreeData(data)
+            setSkillTreeSkillData(skillData)
+            setSkillTreeLineColor(skillTree.line_color)
+            setSkillTreeLineWidth(skillTree.line_width)
+            setSkillTreeDimensionX(data[0].length)
+            setSkillTreeDimensionY(data.length)
+            setSkillTreeGridSizeX(skillTree.gridsizex)
+            setSkillTreeGridSizeY(skillTree.gridsizey)
+            setSkillTreeGridPaddingX(skillTree.gridpaddingx)
+            setSkillTreeGridPaddingY(skillTree.gridpaddingy)
+            setHalfLineHeight(skillTree.halflineheight)
+            break;
+          }
+        }
+      }
+  },[p.cl])
+
+  return <div className="skillTreeContainer customScrollbar">
+  <div style={{ position: "relative" }}>
+    {<SkillTree style={{ position: "absolute" }} strokeStyle={skillTreeLineColor} lineWidth={skillTreeLineWidth} lineDash={[]}
+      gridDimensionsX={skillTreeDimensionX} gridDimensionsY={skillTreeDimensionY} gridSizeX={skillTreeGridSizeX} gridSizeY={skillTreeGridSizeY} gridPaddingX={skillTreeGridPaddingX} gridPaddingY={skillTreeGridPaddingY}
+      skillLines={skillTreeData} halflineheight={halflineheight}
+    />}
+    <div className="skillTreeGrid">
+      <SkillTreeBoxes points={points} setPoints={setPoints} GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
+    </div>
+    <div className="skillPoints">
+      <div>Your Skill Points<span>6</span></div>
+      <div>SP<span></span>{points}</div>
+    </div>
+  </div>
+</div>
 }
 
 function TestPanel(p) {
@@ -232,19 +286,6 @@ const [selectedArmor2,setSelectedArmor2] = useState([])
 const [selectedArmor3,setSelectedArmor3] = useState([])
 const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 
-const [skillTreeClass,setSkillTreeClass] = useState(Object.keys(p.GetData("class",'','',true))[0])
-const [skillTreeData,setSkillTreeData] = useState([])
-const [skillTreeSkillData,setSkillTreeSkillData] = useState([])
-const [skillTreeLineColor,setSkillTreeLineColor] = useState("")
-const [skillTreeLineWidth,setSkillTreeLineWidth] = useState(3)
-const [skillTreeDimensionX,setSkillTreeDimensionX] = useState(6)
-const [skillTreeDimensionY,setSkillTreeDimensionY] = useState(6)
-const [skillTreeGridSizeX,setSkillTreeGridSizeX] = useState(171)
-const [skillTreeGridSizeY,setSkillTreeGridSizeY] = useState(148)
-const [skillTreeGridPaddingX,setSkillTreeGridPaddingX] = useState(10)
-const [skillTreeGridPaddingY,setSkillTreeGridPaddingY] = useState(48)
-const [halflineheight,setHalfLineHeight] = useState(60)
-
 const [classNameSetter,setClassNameSetter] = useState(0)
 
 
@@ -269,25 +310,11 @@ useEffect(()=>{
 },[p.bp]) 
 
 useEffect(()=>{
-  setSkillTreeClass(p.GetData("class",className,'id'))
-  if (Object.keys(p.GetData("skill_tree_data")).length>1) {
-    for (var skillTree of p.GetData("skill_tree_data")) {
-        if (skillTree.class_id===p.GetData("class",className,'id')) {
-          var data = skillTree.data.split(",")
-          var skillData = skillTree.skill_data.split(";")
-          setSkillTreeData(data)
-          setSkillTreeSkillData(skillData)
-          setSkillTreeLineColor(skillTree.line_color)
-          setSkillTreeLineWidth(skillTree.line_width)
-          setSkillTreeDimensionX(data[0].length)
-          setSkillTreeDimensionY(data.length)
-          setSkillTreeGridSizeX(skillTree.gridsizex)
-          setSkillTreeGridSizeY(skillTree.gridsizey)
-          setSkillTreeGridPaddingX(skillTree.gridpaddingx)
-          setSkillTreeGridPaddingY(skillTree.gridpaddingy)
-          setHalfLineHeight(skillTree.halflineheight)
-          break;
-        }
+  var keys = Object.keys(p.GetData("class"))
+  for (var i=0;i<keys.length;i++) {
+    if (keys[i]===className) {
+      setTreePage(i+1)
+      break;
     }
   }
 },[className,p.GetData])
@@ -584,23 +611,8 @@ AUGMENT
             <h1>Class Skill Tree</h1>
             <div className="boxExit" onClick={() => { setClassSkillTreeWindowOpen(false) }}></div>
           </div>
-          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={[<><img alt="" src={DisplayIcon(p.GetData("class",{className},"icon"))} /> {className}</>, <><img alt="" src={DisplayIcon("/icons/class/fo.png")} /> {subclassName}</>, "Launcher", "Rod", "Talis"]} currentPage={treePage} setCurrentPage={setTreePage} />
-          {treePage === 1 ? <>
-            <div className="skillTreeContainer customScrollbar">
-              <div style={{ position: "relative" }}>
-                {<SkillTree style={{ position: "absolute" }} strokeStyle={skillTreeLineColor} lineWidth={skillTreeLineWidth} lineDash={[]}
-                  gridDimensionsX={skillTreeDimensionX} gridDimensionsY={skillTreeDimensionY} gridSizeX={skillTreeGridSizeX} gridSizeY={skillTreeGridSizeY} gridPaddingX={skillTreeGridPaddingX} gridPaddingY={skillTreeGridPaddingY}
-                  skillLines={skillTreeData} halflineheight={halflineheight}
-                />}
-                <div className="skillTreeGrid">
-                  <SkillTreeBoxes GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
-                </div>
-              </div>
-            </div></> : <></>}
-            <div className="skillPoints">
-              <div>Your Skill Points<span>6</span></div>
-              <div>SP<span></span>0</div>
-            </div>
+          <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={Object.keys(p.GetData("class")).map((cl)=>cl)} pageDisplay={Object.keys(p.GetData("class")).map((cl)=><><img alt="" src={p.GetData("class",cl,"icon")}/> {cl}</>)} currentPage={treePage} setCurrentPage={setTreePage} />
+          <SkillTreeContainer GetData={p.GetData} cl={Object.keys(p.GetData("class"))[treePage-1]}/>
             <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
           
         </div>
