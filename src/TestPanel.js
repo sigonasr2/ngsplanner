@@ -43,13 +43,13 @@ function EditBoxInput(p) {
 }
 
 function PageControlButton(p) {
-	return <li onClick={()=>{if (p.onPageChange) {p.onPageChange(p.pageName)} p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":"unselected"}>{p.pageName?p.pageName:p.page}</li>
+	return <li onClick={()=>{if (p.onPageChange) {p.onPageChange(p.pageName)} p.setCurrentPage(p.page)}} className={(p.currentPage===p.page)?"selected":"unselected"}>{p.pageDisplay?p.pageDisplay[p.page-1]:p.pageName?p.pageName:p.page}</li>
 }
 
 function PageControl(p) {
 	var pages = []
 	for (var i=0;i<p.pages;i++) {
-		pages.push(<PageControlButton onPageChange={p.onPageChange} pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
+		pages.push(<PageControlButton onPageChange={p.onPageChange} pageDisplay={p.pageDisplay} pageName={p.pageNames?p.pageNames[i]:undefined} currentPage={p.currentPage} setCurrentPage={p.setCurrentPage} page={i+1}/>)
 	}
   if (p.children!==undefined) {
       pages.push(<li className="pageControlDetails">{p.children}</li>)
@@ -283,7 +283,7 @@ const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 
 const [classNameSetter,setClassNameSetter] = useState(0)
 
-const [points,setPoints] = useState(0)
+const [points,setPoints] = useState([])
 
 function rarityCheck(v) {
   return v!==undefined?v.rarity!==undefined?" r"+v.rarity:"":""
@@ -598,9 +598,6 @@ AUGMENT
 </div>
 
 <ClassSelectorWindow class={className} subClass={subclassName} setClassName={setClassName} setEditClass={setClassNameSetter} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
-
-
-
       <Modal isOpen={classSkillTreeWindowOpen} onRequestClose={() => { setClassSkillTreeWindowOpen(false) }} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
         <div className="box skillTreeBox">
           <div className="boxTitleBar">
@@ -609,13 +606,11 @@ AUGMENT
           </div>
           <PageControl pages={Object.keys(p.GetData("class")).length} pageNames={Object.keys(p.GetData("class")).map((cl)=>cl)} pageDisplay={Object.keys(p.GetData("class")).map((cl)=><><img className="boxMenuClassIcon" alt="" src={p.GetData("class",cl,"icon")}/> {cl}</>)} currentPage={treePage} setCurrentPage={setTreePage} />
           <SkillTreeContainer points={points} setPoints={setPoints} GetData={p.GetData} cl={Object.keys(p.GetData("class"))[treePage-1]}/>
-                
-          <div className="skillPoints">
+          <div className="skillPoints"> 
             <div>Your Skill Points<span>6</span></div>
             <div>SP<span></span>{points}</div>
           </div>
           <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
-          
         </div>
       </Modal>
 
