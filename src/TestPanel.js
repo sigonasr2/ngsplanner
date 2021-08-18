@@ -178,7 +178,7 @@ function ConvertCoordinate(x,y) {
 }
 
 function SkillBox(p) {
-    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={process.env.PUBLIC_URL+p.GetData("class_skill",p.skill[2],"icon",true)} /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
 }
 
 function SkillTreeBoxes(p) {
