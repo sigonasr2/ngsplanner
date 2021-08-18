@@ -1,0 +1,1 @@
+echo "REACT_APP_GITPOD_WORKSPACE_URL=https://ngsplanner.herokuapp.com/" > .env
