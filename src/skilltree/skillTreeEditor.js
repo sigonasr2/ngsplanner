@@ -131,7 +131,18 @@ function SkillTreeEditor(p) {
                     controls.push(<SkillTreeSelector GetData={p.GetData} cl={Number(cl)} defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
                             var string = [...skillLines]
                             var stringLine = string[y].split('')
+                            var newSkillData = [...skillData]
                             stringLine[x] = char
+                            if (char!=="□") {
+                                for (var s in newSkillData) {
+                                    var split = newSkillData[s].split(',')
+                                    if (Number(split[0])===Number(x)&&Number(split[1])===Number(y)) {
+                                        newSkillData[s]=""
+                                        setSkillData(newSkillData)
+                                        break;
+                                    }
+                                }
+                            }
                             string[y] = stringLine.join('')
                             setSkillLines(string)
                         }

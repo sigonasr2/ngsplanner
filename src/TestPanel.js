@@ -173,16 +173,20 @@ function GetSpecialWeaponName(item) {
   return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):""
 }
 
-function SkillTreeBoxes(p) {
+function ConvertCoordinate(x,y) {
+    return (String.fromCharCode(Number(x)+'a'.charCodeAt(0)))+(y+1);
+}
 
-  function ConvertCoordinate(x,y) {
-      return (x+'a')+(y+1);
-  }
+function SkillBox(p) {
+    return <div style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+}
+
+function SkillTreeBoxes(p) {
 
   return <>
     {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill)=>{
       var splitter = skill.split(",")
-      return <div style={{ gridArea: ConvertCoordinate(Number(splitter[0]),Number(splitter[1])) }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Bad_Condition_Ward.png" /><span className="skillAllocated">0/10</span><em className="skillName">Bad Condition Ward</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
+      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
     })}
     {/*<div className="skillActive" style={{ gridArea: "a1" }}><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds.png" /><span className="skillAllocated">1/5</span><em className="skillName">Blight Rounds</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
     <div className="skillMaxed" style={{ gridArea: "a2" }}><span className="skillTreeReqUnlock">&nbsp;</span><img className="skillIcon" alt="" src="./icons/class_skills/ra/Blight_Rounds_Reinforce.png" /><span className="skillAllocated">1/1</span><em className="skillName">Blight Rounds Reinforce</em><div className="skillButtons"><LeftButton /><RightButton /></div></div>
@@ -590,7 +594,7 @@ AUGMENT
                   skillLines={skillTreeData} halflineheight={halflineheight}
                 />}
                 <div className="skillTreeGrid">
-                  <SkillTreeBoxes skillTreeSkillData={skillTreeSkillData}/>
+                  <SkillTreeBoxes GetData={p.GetData} skillTreeSkillData={skillTreeSkillData}/>
                 </div>
               </div>
             </div></> : <></>}
