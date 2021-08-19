@@ -374,6 +374,7 @@ function AdminPanel(p) {
 		{page:"Roles",url:"/admin/roles",table:"/roles"},
 		{page:"Users",url:"/admin/users",table:"/users"},
 		{hr:true},
+		{page:"Misc. Site Data",url:"/admin/sitedata",table:"/site_data"},
 		{page:"Database Audit",url:"/admin/database_audit",table:"/database_audit"},
 	]
 
@@ -883,7 +884,7 @@ function App() {
 				<div className="boxTitleBar"><h1>Under Construction</h1></div>
 				<br /><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
 				<p style={{textAlign:"justify",width:"33%",margin:"0 auto"}}>
-				NGSplanner.com is currently under construction! Please check back after Sig yells at me enough to help finish it.<br />
+				{JSON.stringify(GetData("site_data")??"Loading...")}<br />
 				</p>
 				<p style={{textAlign:"center",width:"66%",margin:"0 auto"}}>
 				Repo: <a href="https://github.com/sigonasr2/ngsplanner/">github.com/sigonasr2/ngsplanner</a>
