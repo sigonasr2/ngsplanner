@@ -884,7 +884,7 @@ function App() {
 				<div className="boxTitleBar"><h1>Under Construction</h1></div>
 				<br /><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
 				<p style={{textAlign:"justify",width:"33%",margin:"0 auto"}}>
-				{JSON.stringify(GetData("site_data")??"Loading...")}<br />
+				{GetData("site_data")[0]?.data??"Loading..."}<br />
 				</p>
 				<p style={{textAlign:"center",width:"66%",margin:"0 auto"}}>
 				Repo: <a href="https://github.com/sigonasr2/ngsplanner/">github.com/sigonasr2/ngsplanner</a>
