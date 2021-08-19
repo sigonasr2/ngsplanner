@@ -1,11 +1,12 @@
 import { SkillTree } from "./skillTree";
-import { useEffect, useState } from "react";
+import { useEffect,useState,useMemo,useCallback } from "react";
 import { SkillTreeSelector } from "./skillTreeSelector";
 import axios from "axios";
 
 function SkillTreeEditor(p) {
+    const { GetData } = p
 
-    const ADJUSTMENT = [-32,32]
+    const ADJUSTMENT = useMemo(()=>[-32,32],[])
 
     const [firstLoad,setFirstLoad] = useState(true)
 
@@ -21,20 +22,21 @@ function SkillTreeEditor(p) {
     const [gridPaddingX,setGridPaddingX] = useState(10)
     const [gridPaddingY,setGridPaddingY] = useState(10)
     const [renderedInputs,setRenderedInputs] = useState([])
+    const [skillLinesTemp,setSkillLinesTemp] = useState([])
     const [skillLines,setSkillLines] = useState([])
     const [skillData,setSkillData] = useState([])
     const [message,setMessage] = useState("")
     const [loading,setLoading] = useState(false)
     const [halflineheight,setHalfLineHeight] = useState(60)
 
-    function GetSkills(x,y) {
+    const GetSkills = useCallback((x,y)=>{
         var filtered = skillData.filter((skill)=>Number(skill.split(",")[0])===Number(x)&&Number(skill.split(",")[1])===Number(y))
         if  (filtered.length>0) {
             return filtered[0]
         } else {
             return ""
         }
-    }
+    },[skillData])
 
     function SaveSkillTrees() {
         axios.post(p.BACKENDURL+"/saveskilltree",{
@@ -65,9 +67,9 @@ function SkillTreeEditor(p) {
     }
 
     useEffect(()=>{
-        setClassList(p.GetData("class",undefined,undefined,true))
-        setSkillTreeData(p.GetData("skill_tree_data",undefined,undefined,true))
-    },[p.GetData])
+        setClassList(GetData("class",undefined,undefined,true))
+        setSkillTreeData(GetData("skill_tree_data",undefined,undefined,true))
+    },[GetData])
 
     useEffect(()=>{
         var keys = Object.keys(skillTreeData)
@@ -75,9 +77,9 @@ function SkillTreeEditor(p) {
         for (var id of keys) {
             //console.log(cl+"/"+skillTreeData[id].class_id)
             if (Number(skillTreeData[id].class_id)===Number(cl)) {
-                var data = skillTreeData[id].data.split(',')
-                var skill = skillTreeData[id].skill_data.split(';')
-                setSkillLines(data)
+                var data = skillTreeData[id].data?.split(',')
+                var skill = skillTreeData[id].skill_data?.split(';')
+                setSkillLinesTemp(data)
                 setSkillData(skill)
                 setDimensionX(data[0].length)
                 setDimensionY(data.length)
@@ -92,7 +94,7 @@ function SkillTreeEditor(p) {
             }
         }
         if (!found) {
-            setSkillLines([])
+            setSkillLinesTemp([])
             setSkillData([])
             setDimensionX(6)
             setDimensionY(6)
@@ -101,13 +103,13 @@ function SkillTreeEditor(p) {
 
     useEffect(()=>{
         if (firstLoad) {
-            setCl(Object.keys(classList)[0])
+            setCl(Number(Object.keys(classList)[0]))
             setFirstLoad(false)
         }
-    },[classList])
+    },[classList,firstLoad])
 
     useEffect(()=>{
-        var skillTreeString = [...skillLines]
+        var skillTreeString = [...skillLinesTemp]
 
         while (skillTreeString.length<dimensionY) {
             skillTreeString.push(" ".repeat(dimensionX))
@@ -119,7 +121,7 @@ function SkillTreeEditor(p) {
             }
         }
         setSkillLines(skillTreeString)
-    },[dimensionX,dimensionY])
+    },[dimensionX,dimensionY,skillLinesTemp])
 
     useEffect(()=>{
         var controls = []
@@ -128,7 +130,7 @@ function SkillTreeEditor(p) {
                 var padX = x!==0?gridPaddingX*x:0
                 var padY = y!==0?gridPaddingY*y:0
                 if (y<dimensionY&&x<dimensionX) {
-                    controls.push(<SkillTreeSelector GetData={p.GetData} cl={Number(cl)} defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
+                    controls.push(<SkillTreeSelector GetData={GetData} cl={Number(cl)} defaultValue={skillLines[y][x]} callback={(char,x,y)=>{
                             var string = [...skillLines]
                             var stringLine = string[y].split('')
                             var newSkillData = [...skillData]
@@ -144,7 +146,7 @@ function SkillTreeEditor(p) {
                                 }
                             }
                             string[y] = stringLine.join('')
-                            setSkillLines(string)
+                            setSkillLinesTemp(string)
                         }
                     } skill={GetSkills(x,y)} skillCallback={(x,y,skill)=>{
                         var newSkillData = [...skillData]
@@ -167,12 +169,12 @@ function SkillTreeEditor(p) {
             }
         }
         setRenderedInputs(controls)
-    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl,dimensionY,dimensionX,skillData])
+    },[skillLines,gridSizeX,gridSizeY,gridPaddingX,gridPaddingY,cl,dimensionY,dimensionX,skillData,halflineheight,GetData,ADJUSTMENT,GetSkills])
 
     return <>
             {loading?<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>:<>
             <h2>{message}</h2>
-            <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(f.currentTarget.value)}}>
+            <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(Number(f.currentTarget.value))}}>
                 <option value=""></option>
                 {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
             </select>

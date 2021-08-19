@@ -89,6 +89,8 @@ function PopupWindow(p) {
 
 function SelectorWindow(p) {
 
+  const { onModalOpen } = p
+
   const [itemList,setItemList] = useState([])
 
   const [tabPage,setTabPage] = useState(1)
@@ -102,10 +104,10 @@ function SelectorWindow(p) {
   },[p])
 
   useEffect(()=>{
-    if (p.onModalOpen) {
-      p.onModalOpen(setTabPage)
+    if (onModalOpen) {
+      onModalOpen(setTabPage)
     }
-  },[p.modalOpen])
+  },[onModalOpen])
   
   return <PopupWindow page={tabPage} setPage={setTabPage} modalOpen={p.modalOpen} setModalOpen={p.setModalOpen} showCloseButton={true} title={p.title}
       pageNames={p.pageNames}
@@ -239,6 +241,9 @@ function SkillTreeBoxes(p) {
 }
 
 function SkillTreeContainer(p){
+
+  const { GetData } = p
+
   const [skillTreeData,setSkillTreeData] = useState([])
   const [skillTreeSkillData,setSkillTreeSkillData] = useState([])
   const [skillTreeLineColor,setSkillTreeLineColor] = useState("")
@@ -252,9 +257,9 @@ function SkillTreeContainer(p){
   const [halflineheight,setHalfLineHeight] = useState(60)
 
   useEffect(()=>{
-    if (Object.keys(p.GetData("skill_tree_data")).length>1) {
-      for (var skillTree of p.GetData("skill_tree_data")) {
-          if (skillTree.class_id===p.GetData("class",p.cl,'id')) {
+    if (Object.keys(GetData("skill_tree_data")).length>1) {
+      for (var skillTree of GetData("skill_tree_data")) {
+          if (skillTree.class_id===GetData("class",p.cl,'id')) {
             var data = skillTree.data.split(",")
             var skillData = skillTree.skill_data.split(";")
             setSkillTreeData(data)
@@ -272,7 +277,7 @@ function SkillTreeContainer(p){
           }
         }
       }
-  },[p.cl])
+  },[p.cl,GetData])
 
   return <div className="skillTreeContainer customScrollbar">
   <div style={{ position: "relative" }}>
@@ -288,6 +293,9 @@ function SkillTreeContainer(p){
 }
 
 function TestPanel(p) {
+
+const { GetData } = p
+
 const [bpGraphMax,setbpGraphMax] = useState(1000)
 const [hpGraphMax,sethpGraphMax] = useState(1000)
 const [ppGraphMax,setppGraphMax] = useState(1000)
@@ -343,7 +351,7 @@ useEffect(()=>{
 },[p.bp]) 
 
 useEffect(()=>{
-  var keys = Object.keys(p.GetData("class"))
+  var keys = Object.keys(GetData("class"))
   var pointsArr = []
   var pointsDataArr = []
   for (var i=0;i<keys.length;i++) {
@@ -355,7 +363,7 @@ useEffect(()=>{
   }
   setPoints(pointsArr)
   setSkillPointData(pointsDataArr)
-},[className,p.GetData])
+},[className,GetData])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
