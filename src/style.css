@@ -187,6 +187,12 @@ em {
 	margin-right: 10px;
 	padding: 13px 13px 7px 13px;
 }
+.boxTitleBar img {
+	float: left;
+}
+.boxTitleBar p:after {
+	clear: both;
+}
 .boxTitleBar h1:before {
 	font-family: "Segoe UI Symbol";
 	content: ' \25C6';
@@ -981,7 +987,21 @@ button{
 	0% {opacity:0;margin-bottom:30px;}
 	100% {opacity:1;margin-bottom:0;}
   }
-.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar {
+  .boxAdmin {
+	height: 200px;
+	outline: 1px solid rgba(54,255,255,1);
+	width: 450px;
+	text-align:center;
+}
+.boxMisc img {
+	background: linear-gradient(white,#bca9f5);
+	margin-Top: 10px;
+}
+
+.boxMisc input {
+	outline: 1px solid silver;
+}
+.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {

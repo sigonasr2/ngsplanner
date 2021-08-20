@@ -380,8 +380,11 @@ function AdminPanel(p) {
 
 	return <div className="adminMain">
 		{!verified?
-		<div style={{gridArea:"sidebar / span 2"}}>
-			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+						<div className="modalOverlay">
+						<div className="modal">
+						<div className="box boxModal" style={{textAlign:"center"}}>
+						<div className="boxTitleBar"><h1>Admin</h1></div>
+						<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
 			<input type="password" value={password} onChange={(f)=>{setPassword(f.currentTarget.value)}} onKeyDown={(e)=>{
 				if (e.key==="Enter") {
 					axios.post(GetBackendURL(p)+"/passwordcheck",{
@@ -396,8 +399,10 @@ function AdminPanel(p) {
 						setVerified(false)
 						setPassword("")
 					})}}}></input>
-			<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
-		</div>:<>
+						</div>
+						</div>
+						</div>
+:<>
 		
 		<div className="box boxAdminNav">
 		<div className="boxTitleBar">
@@ -881,14 +886,8 @@ function App() {
 				<div className="modalOverlay">
 				<div className="modal">
 				<div className="box boxModal" style={{textAlign:"center"}}>
-				<div className="boxTitleBar"><h1>Under Construction</h1></div>
-				<br /><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt="" style={{background:"linear-gradient(white,#bca9f5)",marginTop:"10px"}} />
-				<p style={{textAlign:"justify",width:"33%",margin:"0 auto"}}>
-				{GetData("site_data")[0]?.data??"Loading..."}<br />
-				</p>
-				<p style={{textAlign:"center",width:"66%",margin:"0 auto"}}>
-				Repo: <a href="https://github.com/sigonasr2/ngsplanner/">github.com/sigonasr2/ngsplanner</a>
-				</p>
+				<div className="boxTitleBar"><h1>Under Construction</h1></div><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+				{GetData("site_data")[0]?.data??""}
 				</div>
 				</div>
 				</div>
