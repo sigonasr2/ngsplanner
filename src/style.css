@@ -4,6 +4,7 @@
 	padding: 0;
 	box-sizing: border-box;
 	cursor: default;
+	outline: 0;
 }
 @font-face {
   font-family: "ngs";
@@ -960,7 +961,6 @@ button{
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 }
 .modal {
-	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
 }
@@ -984,7 +984,6 @@ button{
   }
   .boxAdmin {
 	animation: fadeIn 0.15s;
-	width: 580px;
 	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 	outline: 1px solid rgba(54,255,255,1);	
 	text-align:center;
@@ -994,10 +993,14 @@ button{
 		background: linear-gradient(white,#bca9f5);
 }
 .boxAdmin input {
-	outline: 1px solid silver;
 	font-size: 36px;
 	height: 72px;
-	background-image: url("spinner.gif");
+	width: 33vw;
+	background-color: transparent;
+	cursor: text;
+}
+.boxAdmin input:hover {
+outline: 0 !important;
 }
 .boxMisc {
 	animation: fadeIn 0.15s;

@@ -384,7 +384,7 @@ function AdminPanel(p) {
 						<div className="modal">
 						<div className="box boxAdmin">
 						<div className="boxTitleBar"><h1>Admin</h1></div>
-						<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><p></p>
+						<p></p>
 			<input type="password" value={password} onChange={(f)=>{setPassword(f.currentTarget.value)}} onKeyDown={(e)=>{
 				if (e.key==="Enter") {
 					axios.post(GetBackendURL(p)+"/passwordcheck",{
