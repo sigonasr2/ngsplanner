@@ -511,14 +511,16 @@ AUGMENT
           <div className="box">
             <div className="boxTitleBar">
               <h1>To Do List</h1></div>
-            <ul className="toDoList">
-              <li className="half">Grids. Grids everywhere.</li>
-              <li>Finish "Item Details" for Weapons/Armor</li>
-              <li className="half">Class Skill Window</li>
-              <li>PA Select Window</li>
-              <li>Food/Buffs Menu</li>
-              <li className="check">Get all the fckn icons</li>
-            </ul>
+            <dl className="toDoList">
+              <dt>UI</dt>
+              <dd className="half">Grids. Grids everywhere.</dd>
+              <dd>Finish "Item Details" for Weapons/Armor</dd>
+              <dd className="half">Class Skill Window</dd>
+              <dd>PA Select Window</dd>
+              <dd>Food/Buffs Menu</dd>
+              <dd className="check">Get all the fckn icons</dd>
+              <dt>test</dt>
+            </dl>
           </div>
 
 
