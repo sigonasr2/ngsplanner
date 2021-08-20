@@ -184,26 +184,29 @@ function SkillBox(p) {
       <LeftButton onClick={()=>{
         var temp=[...p.points]
         var tempData=[...p.skillPointData]
-        temp[p.page-1]-=1
         while (tempData[p.page-1].length<p.boxId+1) {
           tempData[p.page-1].push([])
           tempData[p.page-1][tempData[p.page-1].length-1]=0
         }
-        tempData[p.page-1][p.boxId]-=1
-        p.setPoints(temp)
-        p.setSkillPointData(tempData)
-        }}/>
+        if (tempData[p.page-1][p.boxId]>0) {
+          temp[p.page-1]-=1
+          tempData[p.page-1][p.boxId]-=1
+          p.setPoints(temp)
+          p.setSkillPointData(tempData)
+        }}}/>
       <RightButton  onClick={()=>{
         var temp=[...p.points]
         var tempData=[...p.skillPointData]
-        temp[p.page-1]+=1
         while (tempData[p.page-1].length<p.boxId+1) {
           tempData[p.page-1].push([])
           tempData[p.page-1][tempData[p.page-1].length-1]=0
         }
-        tempData[p.page-1][p.boxId]+=1
-        p.setPoints(temp)
-        p.setSkillPointData(tempData)}}/></div></div>
+        if (tempData[p.page-1][p.boxId]<p.maxPoints) {
+          temp[p.page-1]+=1
+          tempData[p.page-1][p.boxId]+=1
+          p.setPoints(temp)
+          p.setSkillPointData(tempData)
+        }}}/></div></div>
 }
 
 function SkillTreeBoxes(p) {
