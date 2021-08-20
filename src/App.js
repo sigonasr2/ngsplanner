@@ -382,9 +382,9 @@ function AdminPanel(p) {
 		{!verified?
 						<div className="modalOverlay">
 						<div className="modal">
-						<div className="box boxModal" style={{textAlign:"center"}}>
+						<div className="box boxAdmin">
 						<div className="boxTitleBar"><h1>Admin</h1></div>
-						<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+						<p></p>
 			<input type="password" value={password} onChange={(f)=>{setPassword(f.currentTarget.value)}} onKeyDown={(e)=>{
 				if (e.key==="Enter") {
 					axios.post(GetBackendURL(p)+"/passwordcheck",{
@@ -885,9 +885,9 @@ function App() {
 					</Helmet>
 				<div className="modalOverlay">
 				<div className="modal">
-				<div className="box boxModal" style={{textAlign:"center"}}>
-				<div className="boxTitleBar"><h1>Under Construction</h1></div><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
-				{GetData("site_data")[0]?.data??""}
+				<div className="box boxMisc">
+				<div className="boxTitleBar"><h1>Under Construction</h1></div><p><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+				{GetData("site_data")[0]?.data??""}</p>
 				</div>
 				</div>
 				</div>

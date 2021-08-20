@@ -3,6 +3,8 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	cursor: default;
+	outline: 0;
 }
 @font-face {
   font-family: "ngs";
@@ -119,7 +121,13 @@ em {
 	padding-bottom:10px;
 	backdrop-filter: blur(10px);
 }
-
+.box h3, dt {
+font-size: 12pt;
+font-weight: normal;
+padding: 0 5px;
+margin: 5px;
+border-bottom: 1px solid rgba(128,128,128,0.5);
+}
 .box table {
     border-spacing: 0;
 	color: white;
@@ -187,12 +195,6 @@ em {
 	margin-right: 10px;
 	padding: 13px 13px 7px 13px;
 }
-.boxTitleBar img {
-	float: left;
-}
-.boxTitleBar p:after {
-	clear: both;
-}
 .boxTitleBar h1:before {
 	font-family: "Segoe UI Symbol";
 	content: ' \25C6';
@@ -259,15 +261,9 @@ em {
 }
 .box p {
 	padding: 10px 10px 0 10px;
-	color: white;
+
 }
-.box h3 {
-	font-size: 12pt;
-	font-weight: normal;
-	padding: 0 5px;
-	margin: 5px;
-	border-bottom: 1px solid rgba(128,128,128,0.5);
-}
+
 .equipPalette {
 	margin: 10px 10px 0 10px;
 	display: flex;
@@ -278,7 +274,7 @@ em {
 }
 .equipPaletteSlotWrapper {
 	background-color: rgba(128,128,128,0.50);
-	cursor:pointer;
+	cursor:pointer !important;
 	padding: 10px;
 }
 .equipPaletteSlotWrapper span {
@@ -327,7 +323,7 @@ em {
 	color: white;
 	margin: 0 0 5px 10px;
 	padding: 12px 10px 7px 10px;
-	cursor: pointer;
+	cursor:pointer !important;
 }
 .equipAugs li:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
@@ -531,7 +527,7 @@ li.r4 {
 	text-align: center;
 	flex-basis: 27px;
 	white-space: nowrap;
-	cursor: pointer;
+	cursor:pointer !important;
 }
 .boxmenu img {
 	vertical-align: middle;
@@ -809,7 +805,7 @@ width: 171px;
 height: 148px;
 left: 0;
 top: 0;
-cursor: pointer;
+cursor:pointer !important;
 }
 .skillButtons > span:hover {
 	background-image: url("./icons/skilltree_div_overlay.png");
@@ -866,7 +862,7 @@ cursor: pointer;
 }
 .editBox:hover{
 	background-color:rgba(0,0,0,0.5);
-	cursor:pointer;
+	cursor:pointer !important;
 	outline: 2px solid #30cdef;
 }
 .editBoxActive {
@@ -874,7 +870,7 @@ cursor: pointer;
 	width: 100%;
 }
 .editBoxActive:hover {
-	cursor:pointer;
+	cursor:pointer !important;
 }
 input#editBoxInput {
 	position: absolute;
@@ -882,7 +878,7 @@ input#editBoxInput {
 	text-align: right;
 	background-color: #101317;
 	color: white;
-	cursor:pointer;
+	cursor:pointer !important;
 	font-family: ngs,sans-serif;
 	font-size: 11pt;
 	height: 28px;
@@ -898,7 +894,7 @@ input#editBoxInput {
 }
 .editClass:hover{
 	background-color:rgba(0,0,0,0.5);
-	cursor:pointer;
+	cursor:pointer !important;
 	outline: 2px solid #30cdef;
 }
 .popup{
@@ -965,7 +961,6 @@ button{
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 }
 .modal {
-	outline: 0;
 	grid-column: 2;
 	grid-row: 2;
 }
@@ -988,20 +983,46 @@ button{
 	100% {opacity:1;margin-bottom:0;}
   }
   .boxAdmin {
-	height: 200px;
-	outline: 1px solid rgba(54,255,255,1);
-	width: 450px;
+	animation: fadeIn 0.15s;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	outline: 1px solid rgba(54,255,255,1);	
+	text-align:center;
+}
+.boxAdmin img {
+	margin: 20px;
+		background: linear-gradient(white,#bca9f5);
+}
+.boxAdmin input {
+	font-size: 36px;
+	height: 72px;
+	width: 33vw;
+	background-color: transparent;
+	cursor: text;
+}
+.boxAdmin input:hover {
+outline: 0 !important;
+}
+.boxMisc {
+	animation: fadeIn 0.15s;
+	max-width: 580px;
+	margin: 0 auto;
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	outline: 1px solid rgba(54,255,255,1);	
 	text-align:center;
 }
 .boxMisc img {
 	background: linear-gradient(white,#bca9f5);
-	margin-Top: 10px;
+	vertical-align: top;
+	margin-right: 10px;
+}
+.boxMisc {
+	margin-top: 10px;
+}
+.boxMisc p:after {
+	clear: both;
 }
 
-.boxMisc input {
-	outline: 1px solid silver;
-}
-.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar  {
+.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {
@@ -1016,10 +1037,10 @@ button{
 }
 .webicon:hover{
 	color:rgba(200,0,0,1);
-	cursor:pointer;
+	cursor:pointer !important;
 }
 .basichover:hover{
-	cursor:pointer;
+	cursor:pointer !important;
 }
 .modalCloseButton{
 	float:right;
@@ -1027,7 +1048,7 @@ button{
 }
 .modalCloseButton:hover{
 	color:rgba(200,0,0,1);
-	cursor:pointer;
+	cursor:pointer !important;
 }
 .failedInput{
 	border: 1px solid rgba(200,0,0,1);
@@ -1054,7 +1075,7 @@ button{
 }
 .submitbutton:hover{
 	color:rgba(0,200,0,1);
-	cursor:pointer;
+	cursor:pointer !important;
 }
 
 /* Admin Panel */
@@ -1115,7 +1136,7 @@ p.adminNav hr {
   
 	display: inline-block;
 	position: relative;
-	cursor: pointer;
+	cursor:pointer !important;
 	background-color: transparent;
 	border: 0;
 	padding: 0;
@@ -1308,10 +1329,13 @@ p.adminNav hr {
 .toDoList {
 	padding: 0 10px;
 }
-.toDoList li {
-	padding-top: 10px;
+dt {
+margin: 10px 0 0 0;
 }
-.toDoList li:before {
+dd, dl {
+	padding: 10px 0 0 15px;
+}
+dd:before {
 	content: "\2610";
 	padding-right: 10px;
 }
@@ -1319,7 +1343,10 @@ p.adminNav hr {
 	content: "\25E7" !important;
 }
 .check {
-	opacity: 33%;
+	opacity: 25%;
+}
+.check:hover {
+	opacity: 100%;
 }
 .check:before {
 	font-family: "Segoe UI Symbol";
