@@ -3,7 +3,6 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	cursor: default;
 	outline: 0;
 }
 @font-face {
@@ -43,17 +42,17 @@ img {
 }
 body {
     background-image: url("https://pbs.twimg.com/media/E8tfm23VUAQTAAu?format=jpg&name=4096x4096");
-	background-color: #e8ecf4;
+	background-color: #484848;
     background-repeat: no-repeat;
     background-position: center;
 	background-attachment: fixed;
 	background-size: cover;
-	color: black;
+	color: white;
     font-family: ngs,Arial,sans-serif;
 	font-size: 16px;
 	font-weight: normal;
 	text-align: center;
-
+	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
 }
 table td {
 	vertical-align: top;
@@ -112,12 +111,12 @@ em {
 }
 
 .box {
-	color: #97e2fc;
+	/*color: #97e2fc;*/
+	color:white;
 	background-clip: padding-box;
 	background-color: rgba(24, 36, 48, 0.66);
 	margin: 10px 0 0 0;
 	text-align: left;
-	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
 	padding-bottom:10px;
 	backdrop-filter: blur(10px);
 }
@@ -353,7 +352,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .xTooltip {
 	margin: 0 10px 0 0;
 	display: inline;
-	cursor: help;
+	cursor: help !important;
 	color: white;
 	font-size:10pt;
 	text-align: left;
@@ -960,6 +959,46 @@ button{
 	grid-template-columns: minmax(10px, 1fr) minmax(200px, auto) minmax(10px, 1fr);
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 }
+.modalOverlaySplash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8));
+	display: grid;
+	justify-items: stretch;
+	align-items: center;    
+	grid-template-columns: minmax(10px, 1fr) minmax(200px, auto) minmax(10px, 1fr);
+	grid-template-rows: 10px minmax(10px, 1fr) minmax(10px, auto);
+}
+.modalOverlaySplash > footer {
+	grid-column: 1 / span 3;
+	grid-row: 3;
+	padding-bottom: 4vh;
+    background: linear-gradient(transparent,rgba(0,0,0,0.7));
+}
+.modalOverlaySplash > footer a:hover {
+	background-color: transparent;
+}
+span.github, span.twitter {
+	font-size: 24px;
+	margin-right: 15px;
+	opacity: 75%;
+}
+span.github:hover, span.twitter:hover {
+	opacity: 100%;
+}
+span.github:before, span.twitter:before {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+span.github:before {
+	content: url("./icons/GitHub-Mark-Light-32px.png");
+}
+span.twitter:before {
+	content: url("./icons/2021 Twitter logo - white32.png");
+}
 .modal {
 	grid-column: 2;
 	grid-row: 2;
@@ -997,7 +1036,7 @@ button{
 	height: 72px;
 	width: 33vw;
 	background-color: transparent;
-	cursor: text;
+
 }
 .boxAdmin input:hover {
 outline: 0 !important;
@@ -1008,20 +1047,20 @@ outline: 0 !important;
 	margin: 0 auto;
 	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 	outline: 1px solid rgba(54,255,255,1);	
-	text-align:center;
+	text-align: center;
 }
 .boxMisc img {
 	background: linear-gradient(white,#bca9f5);
 	vertical-align: top;
 	margin-right: 10px;
 }
-.boxMisc {
+.boxMisc p > img {
+	float:left;
+}
+.boxMisc p {
 	margin-top: 10px;
+	text-align: left;
 }
-.boxMisc p:after {
-	clear: both;
-}
-
 .boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
