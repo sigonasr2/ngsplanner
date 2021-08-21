@@ -151,6 +151,11 @@ function TableEditor(p) {
 	useEffect(()=>{
 		var promises=[]
 		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
+			for (var col of fields) {
+				if (col.dataTypeID===23&&entry[col.name]==="") {
+					entry[col.name]=0
+				}
+			}
 			promises.push(axios.post(p.BACKENDURL+p.path,{...entry,pass:p.password}))
 		})
 		Promise.allSettled(promises)
