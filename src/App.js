@@ -888,13 +888,14 @@ function App() {
 					<Helmet>
 						<title>{APP_TITLE}</title>
 					</Helmet>
-				<div className="modalOverlay">
+				<div className="modalOverlaySplash">
 				<div className="modal">
 				<div className="box boxMisc">
 				<div className="boxTitleBar"><h1>Under Construction</h1></div><p><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
-				{GetData("site_data")[0]?.data??""}</p>
+				{GetData("site_data")[0]?.data??""}</p><br style={{clear:"both"}} />
 				</div>
 				</div>
+				<footer><a href="https://github.com/sigonasr2/ngsplanner/"><span className="github">&nbsp;</span></a><a href="https://twitter.com/ngsplanner"><span className="twitter">@NGSPlanner</span></a></footer>
 				</div>
 				</Route>
 			</Switch>
