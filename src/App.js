@@ -222,7 +222,7 @@ function TableEditor(p) {
 			  </thead>
 			  <tbody>
 						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
-							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{position:'absolute',top:"-1000px"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
+							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{display:"none"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
 					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id,pass:p.password}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>patchValue(value,p,col,dat)} callback2={(f,value)=>{if (f.key==='Enter') {f.currentTarget.blur()} else {return 'Chill'}}} value={String(dat[col.name])}/></td>)}</tr>)}
