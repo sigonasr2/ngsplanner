@@ -152,7 +152,7 @@ function TableEditor(p) {
 		var promises=[]
 		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
 			for (var col of fields) {
-				if ((col.dataTypeID===23||col.dataTypeID===701||dataTypeID===16)&&entry[col.name]==="") {
+				if ((col.dataTypeID===23||col.dataTypeID===701||col.dataTypeID===16)&&entry[col.name]==="") {
 					entry[col.name]=0
 				}
 			}
