@@ -518,7 +518,6 @@ AUGMENT
                 <dd>Food/Buffs Menu</dd>
                 <dd>PA Selector</dd>
               <dt>Data</dt>
-                <dd>Food/Buffs Menu</dd>
                 <dd>PA Selector</dd>
             </dl>
           </div>
