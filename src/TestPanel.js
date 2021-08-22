@@ -508,13 +508,18 @@ AUGMENT
               <h1>To Do List</h1></div>
             <dl className="toDoList">
               <dt>UI</dt>
-              <dd className="half">Grids. Grids everywhere.</dd>
-              <dd>Finish "Item Details" for Weapons/Armor</dd>
-              <dd className="half">Class Skill Window</dd>
-              <dd>PA Select Window</dd>
-              <dd>Food/Buffs Menu</dd>
-              <dd className="check">Get all the fckn icons</dd>
-              <dt>test</dt>
+                <dd className="half">Grids. Grids everywhere.</dd>
+                <dd>Finish "Item Details" for Weapons/Armor</dd>
+                <dd className="half">Class Skill Window</dd>
+                <dd>PA Selector</dd>
+                <dd>Food/Buffs Menu</dd>
+                <dd className="check">Get all the fckn icons</dd>
+              <dt>Functionality</dt>
+                <dd>Food/Buffs Menu</dd>
+                <dd>PA Selector</dd>
+              <dt>Data</dt>
+                <dd>Food/Buffs Menu</dd>
+                <dd>PA Selector</dd>
             </dl>
           </div>
 

@@ -210,9 +210,9 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin-right: 5px;
 	vertical-align: top;
 }
-.box h2:hover {
+/*.box h2:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-}
+}*/
 .da {
 	color: white;
 	text-align: right;
@@ -1049,6 +1049,18 @@ outline: 0 !important;
 	outline: 1px solid rgba(54,255,255,1);	
 	text-align: center;
 }
+.boxMisc h2 {
+	font-size: 17px;
+	font-weight: normal;
+	border-bottom: 1px solid rgba(128,128,128,0.5);
+	margin: 10px 10px 0;
+	padding: 10px 5px;
+}
+.boxMisc h2:before {
+    content: url("./icons/NGSUIItemGunbladeMini.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
 .boxMisc img {
 	background: linear-gradient(white,#bca9f5);
 	vertical-align: top;
@@ -1058,7 +1070,7 @@ outline: 0 !important;
 	float:left;
 }
 .boxMisc p {
-	margin-top: 10px;
+	margin-top: 0;
 	text-align: left;
 }
 .boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar  {
