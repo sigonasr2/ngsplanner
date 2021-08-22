@@ -1043,7 +1043,7 @@ outline: 0 !important;
 }
 .boxMisc {
 	animation: fadeIn 0.15s;
-	max-width: 580px;
+	max-width: 450px;
 	margin: 0 auto;
 	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 	outline: 1px solid rgba(54,255,255,1);	
