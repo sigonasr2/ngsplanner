@@ -4,7 +4,7 @@ import React, {useState,useEffect,useReducer} from 'react';
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 import Helmet from 'react-helmet'
 
-import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
+import {TrashFill, XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
 import { SkillTreeEditor } from './skilltree/skillTreeEditor'
 
@@ -143,6 +143,26 @@ function TableEditor(p) {
 			})
 		}
 	}
+
+	function SubmitDeletion() {
+		if (!lockSubmission) {
+			setLockSubmission(true)
+			var promises = []
+			for (var dat of data) {
+				if (document.getElementById("delete_"+dat.id).checked) {
+					promises.push(axios.delete(p.BACKENDURL+p.path,{data:{pass:p.password,id:dat.id}}))
+				}
+			}
+			Promise.allSettled(promises)
+			.catch((err)=>{
+				alert(err.message)
+			})
+			.then((data)=>{
+				setLockSubmission(false)
+				setUpdate(true)
+			})
+		}
+	}
 	
 	useEffect(()=>{
 		setUpdate(true)
@@ -216,7 +236,7 @@ function TableEditor(p) {
 			  }} style={{opacity:0}} id="uploads" type="file" accept=".txt,.csv"/></caption>}
 			  <thead>
 				<tr>
-					<th className="table-padding"></th>
+					<th className="table-padding"><TrashFill onClick={()=>{SubmitDeletion()}} className="trashButton"/></th>
 					{fields.map((field,i)=><React.Fragment key={i}><th scope="col" className="table-padding">{field.name}</th></React.Fragment>)}
 				</tr>
 			  </thead>
@@ -224,7 +244,7 @@ function TableEditor(p) {
 						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
 							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{display:"none"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
 					{data.map((dat)=><tr key={dat.id}>
-					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id,pass:p.password}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
+					<td><input id={"delete_"+dat.id} type="checkbox"/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>patchValue(value,p,col,dat)} callback2={(f,value)=>{if (f.key==='Enter') {f.currentTarget.blur()} else {return 'Chill'}}} value={String(dat[col.name])}/></td>)}</tr>)}
 			  </tbody>
 			</table>
