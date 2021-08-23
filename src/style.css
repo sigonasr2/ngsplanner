@@ -159,6 +159,14 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	display: block;
 	height: 8px;
 }
+.basicInfo > table {
+	table-layout:fixed;
+	line-height: 23px;
+	margin: 0 5px;
+}
+.basicInfo > table td:nth-child(3) {
+	width: 33%;
+}
 .statsInfo {
 	background-color:rgba(0,0,0,0.33);
 	margin: 0 10px;
@@ -166,7 +174,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .statsInfo > table {
 	table-layout:fixed;
-	width: 100%;
 	line-height: 23px;
 }
 .statsInfo > table td:nth-child(2) {
@@ -223,18 +230,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .da span:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 }
-.basicInfoTable {
-	table-layout:fixed;
-	width: 100%;
-	line-height: 23px;
-	margin: 0 5px;
-}
-.basicInfo td:nth-child(3) {
-	width: 33%;
-}
-/*.basicInfo tr:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));	
-}*/
+
 .infoBuffs {
 	margin: 0 auto;
 	width: 90%;
