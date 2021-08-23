@@ -51,7 +51,7 @@ function Box(p) {
 		<div className="boxTitleBar">
 		<h1>{p.title}</h1>
 		</div>
-			{p.children}
+			{p.children} 
 		</div>
 	</>
 }
