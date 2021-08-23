@@ -4,7 +4,7 @@ import React, {useState,useEffect,useReducer} from 'react';
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 import Helmet from 'react-helmet'
 
-import {TrashFill, XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
+import {TrashFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
 import { SkillTreeEditor } from './skilltree/skillTreeEditor'
 
@@ -116,7 +116,6 @@ function TableEditor(p) {
 	const [loading,setLoading] = useState(false)
 	const [dependencies,setDependencies] = useState([])
 	const [importAllowed,setImportAllowed] = useState(false)
-	const [fileData,setFileData] = useState(undefined)
 	const [lockSubmission,setLockSubmission] = useState(false)
 
 	function patchValue(value,p,col,dat) {
@@ -169,22 +168,6 @@ function TableEditor(p) {
 	},[p.path])
 
 	useEffect(()=>{
-		var promises=[]
-		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
-			for (var col of fields) {
-				if ((col.dataTypeID===23||col.dataTypeID===701||col.dataTypeID===16)&&entry[col.name]==="") {
-					entry[col.name]=0
-				}
-			}
-			promises.push(axios.post(p.BACKENDURL+p.path,{...entry,pass:p.password}))
-		})
-		Promise.allSettled(promises)
-		.then(()=>{
-			setUpdate(true)
-		})
-	},[fileData,p.path,p.BACKENDURL,p.password])
-
-	useEffect(()=>{
 		for (var col of fields) {
 			if (col.name==="name") {
 				setImportAllowed(true)
@@ -230,7 +213,19 @@ function TableEditor(p) {
 			  {importAllowed&&<caption><label className="buttonLabel" for="uploads">Import CSV</label><input onChange={(f)=>{
 				const reader = new FileReader()
 				reader.onload=(ev)=>{
-					setFileData(ev.target.result)
+					var promises=[]
+					parse(ev.target.result,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
+						for (var col of fields) {
+							if ((col.dataTypeID===23||col.dataTypeID===701||col.dataTypeID===16)&&entry[col.name]==="") {
+								entry[col.name]=0
+							}
+						}
+						promises.push(axios.post(p.BACKENDURL+p.path,{...entry,pass:p.password}))
+					})
+					Promise.allSettled(promises)
+					.then(()=>{
+						setUpdate(true)
+					})
 				}
 				reader.readAsText(f.target.files[0])
 			  }} style={{opacity:0}} id="uploads" type="file" accept=".txt,.csv"/></caption>}
@@ -809,8 +804,6 @@ function App() {
 	const [DATA,setDATA] = useState(undefined)
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 	const [update,setUpdate] = useState(false)
-
-	const [dataLoaded,setDataLoaded] = useState(false)
 
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
