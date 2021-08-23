@@ -986,10 +986,10 @@ button{
 span.github, span.twitter {
 	font-size: 24px;
 	margin-right: 15px;
-	opacity: 75%;
+	opacity: 0.75;
 }
 span.github:hover, span.twitter:hover {
-	opacity: 100%;
+	opacity: 1;
 }
 span.github:before, span.twitter:before {
 	vertical-align: middle;
