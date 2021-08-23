@@ -430,7 +430,7 @@ function AdminPanel(p) {
 		<div className="boxTitleBar">
 		<h1>Navigation</h1>
 		</div>
-		<span>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</span>
+		<p>Testing Mode <span><Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</span></p>
 		<div className="adminNavContainer customScrollbar">
 		  <Table classes="adminNav">
 		  {navigationData.map((nav,i)=>(nav.hr)?<hr key={i}/>:<React.Fragment key={i}><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></React.Fragment>)}
