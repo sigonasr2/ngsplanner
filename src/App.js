@@ -4,7 +4,7 @@ import React, {useState,useEffect,useReducer} from 'react';
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 import Helmet from 'react-helmet'
 
-import {XSquareFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
+import {TrashFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
 import { SkillTreeEditor } from './skilltree/skillTreeEditor'
 
@@ -57,11 +57,11 @@ function Box(p) {
 }
 
 function Table(p) {
-	return <p className={p.classes}>
+	return <span className={p.classes}>
 
 			{p.children}
 
-	</p>
+	</span>
 }
 
 function InputBox(p) {
@@ -93,20 +93,22 @@ function InputBox(p) {
 
 	return p.data?<select disabled={p.lockSubmission} className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
 		{p.includeBlankValue&&<option/>}
-		{p.data.map((item)=><option value={item.id}>{item.id} - {item.name||item.username}</option>)}
+		{p.data.map((item)=><option key={item.id} value={item.id}>{item.id} - {item.name||item.username}</option>)}
 	</select>:<input disabled={p.lockSubmission} className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
 }
 
 function TableEditor(p) {
 	
 	const initialVals={}
+
+	const { TESTMODE } = p
 	
 	function updateVals(state,update) {
 		if (update==='Clear') {
 			return initialVals
 		}
 		state[update.field]=update.value
-		return state
+		return state 
 	}
 	
 	const [fields,setFields] = useState([])
@@ -116,7 +118,6 @@ function TableEditor(p) {
 	const [loading,setLoading] = useState(false)
 	const [dependencies,setDependencies] = useState([])
 	const [importAllowed,setImportAllowed] = useState(false)
-	const [fileData,setFileData] = useState(undefined)
 	const [lockSubmission,setLockSubmission] = useState(false)
 
 	function patchValue(value,p,col,dat) {
@@ -143,26 +144,30 @@ function TableEditor(p) {
 			})
 		}
 	}
+
+	function SubmitDeletion() {
+		if (!lockSubmission) {
+			setLockSubmission(true)
+			var promises = []
+			for (var dat of data) {
+				if (document.getElementById("delete_"+dat.id).checked) {
+					promises.push(axios.delete(p.BACKENDURL+p.path,{data:{pass:p.password,id:dat.id}}))
+				}
+			}
+			Promise.allSettled(promises)
+			.catch((err)=>{
+				alert(err.message)
+			})
+			.then((data)=>{
+				setLockSubmission(false)
+				setUpdate(true)
+			})
+		}
+	}
 	
 	useEffect(()=>{
 		setUpdate(true)
-	},[p.path])
-
-	useEffect(()=>{
-		var promises=[]
-		parse(fileData,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
-			for (var col of fields) {
-				if ((col.dataTypeID===23||col.dataTypeID===701||col.dataTypeID===16)&&entry[col.name]==="") {
-					entry[col.name]=0
-				}
-			}
-			promises.push(axios.post(p.BACKENDURL+p.path,{...entry,pass:p.password}))
-		})
-		Promise.allSettled(promises)
-		.then(()=>{
-			setUpdate(true)
-		})
-	},[fileData,p.path,p.BACKENDURL,p.password])
+	},[p.path,TESTMODE])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -207,24 +212,36 @@ function TableEditor(p) {
 	{!loading?
 		<div>
 			<table>
-			  {importAllowed&&<caption><label className="buttonLabel" for="uploads">Import CSV</label><input onChange={(f)=>{
+			  {importAllowed&&<caption><label className="buttonLabel" htmlFor="uploads">Import CSV</label><input onChange={(f)=>{
 				const reader = new FileReader()
 				reader.onload=(ev)=>{
-					setFileData(ev.target.result)
+					var promises=[]
+					parse(ev.target.result,{columns:true,skip_empty_lines:true}).forEach((entry)=>{
+						for (var col of fields) {
+							if ((col.dataTypeID===23||col.dataTypeID===701||col.dataTypeID===16)&&entry[col.name]==="") {
+								entry[col.name]=0
+							}
+						}
+						promises.push(axios.post(p.BACKENDURL+p.path,{...entry,pass:p.password}))
+					})
+					Promise.allSettled(promises)
+					.then(()=>{
+						setUpdate(true)
+					})
 				}
 				reader.readAsText(f.target.files[0])
 			  }} style={{opacity:0}} id="uploads" type="file" accept=".txt,.csv"/></caption>}
 			  <thead>
 				<tr>
-					<th className="table-padding"></th>
+					<th className="table-padding"><TrashFill onClick={()=>{SubmitDeletion()}} className="trashButton"/></th>
 					{fields.map((field,i)=><React.Fragment key={i}><th scope="col" className="table-padding">{field.name}</th></React.Fragment>)}
 				</tr>
 			  </thead>
 			  <tbody>
 						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
-							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{display:"none"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
+							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<td><input style={{display:"none"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></td></tr>}
 					{data.map((dat)=><tr key={dat.id}>
-					<td><XSquareFill className="webicon" onClick={()=>{axios.delete(p.BACKENDURL+p.path,{data:{id:dat.id,pass:p.password}}).then(()=>{setUpdate(true)}).catch((err)=>{alert(err.response.data)})}}/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
+					<td><input id={"delete_"+dat.id} type="checkbox"/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>patchValue(value,p,col,dat)} callback2={(f,value)=>{if (f.key==='Enter') {f.currentTarget.blur()} else {return 'Chill'}}} value={String(dat[col.name])}/></td>)}</tr>)}
 			  </tbody>
 			</table>
@@ -306,13 +323,13 @@ function DatabaseEditor(p) {
 		<br/><br/>
 		<span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}><LifePreserver className="databaseIcon" style={{color:"green"}}/>Live Database</span>
 		&nbsp;&nbsp;&nbsp;<span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}><LifePreserver className="databaseIcon" style={{color:"red"}}/>Test Database</span><br/>
-		{databases.map((db)=>{
+		{databases.map((db,i)=>{
 			var label = ""
 			if (db.datname!=="ngsplanner"&&db.datname!=="ngsplanner2") {
 				var dateStr = db.datname.replace("ngsplanner","")
 				var date = new Date(dateStr.slice(0,4),dateStr.slice(4,6),dateStr.slice(6,8),dateStr.slice(8,10),dateStr.slice(10,12),dateStr.slice(12,14))
 				label=<><Server className="databaseIcon" style={{color:"blue"}}/>{"Backup from "+date}</>
-				return <><span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}>{label}<button style={{background:"blue"}}
+				return <React.Fragment key={i}><span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}>{label}<button style={{background:"blue"}}
 				onClick={()=>{
 					setLoading(true)
 					axios.post(p.BACKENDURL+"/databases/restorefrombackup",{
@@ -328,9 +345,9 @@ function DatabaseEditor(p) {
 					.then(()=>{
 						setLoading(false)
 					})
-				}}><CloudUploadFill/> Restore</button></span><br/></>
+				}}><CloudUploadFill/> Restore</button></span><br/></React.Fragment>
 			} else {
-				return <></>
+				return <React.Fragment key={i}/>
 			}
 		})}
 	</>
@@ -413,10 +430,10 @@ function AdminPanel(p) {
 		<div className="boxTitleBar">
 		<h1>Navigation</h1>
 		</div>
-		<p>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</p>
+		<span>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</span>
 		<div className="adminNavContainer customScrollbar">
 		  <Table classes="adminNav">
-		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
+		  {navigationData.map((nav,i)=>(nav.hr)?<hr key={i}/>:<React.Fragment key={i}><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></React.Fragment>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
 		</Table>
 		</div>
@@ -425,7 +442,7 @@ function AdminPanel(p) {
 
 
 
-			{navigationData.map((nav)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route path={process.env.PUBLIC_URL+nav.url}>
+			{navigationData.map((nav,i)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route key={i} path={process.env.PUBLIC_URL+nav.url}>
 			<div className="box boxAdminContent">
 		<div className="boxTitleBar">
 		<h1>{nav.page}</h1></div>
@@ -433,7 +450,7 @@ function AdminPanel(p) {
 		<Helmet>
 					<title>{APP_TITLE+" - Admin Panel: "+nav.page}</title>
 				</Helmet>
-				{nav.render??<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>}
+				{nav.render??<TableEditor TESTMODE={p.TESTMODE} password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>}
 				</div></div></Route>)}
 
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
@@ -789,8 +806,6 @@ function App() {
 	const [DATA,setDATA] = useState(undefined)
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 	const [update,setUpdate] = useState(false)
-
-	const [dataLoaded,setDataLoaded] = useState(false)
 
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")

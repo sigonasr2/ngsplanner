@@ -1408,3 +1408,12 @@ dd:before {
 	font-family: "Segoe UI Symbol";
 	content: "\2B1B" !important;
 }
+.trashButton{
+	color:rgba(100,50,50,1);
+	width:24px;
+	height:24px;
+}
+.trashButton:hover {
+	color:rgba(200,50,50,1);
+	border: 2px solid red;
+}
