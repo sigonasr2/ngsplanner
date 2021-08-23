@@ -368,7 +368,8 @@ useEffect(()=>{
     <div className="box basicInfoBox">
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
-      <table className="basicInfoTable">
+      <div className="basicInfo">
+      <table>
         <tbody>
           <tr>
             <td>Author</td>
@@ -398,8 +399,9 @@ useEffect(()=>{
           </tr>
         </tbody>
       </table>
+      </div>
       <div className="statsInfo">
-      <table>
+      <table className="statsInfo">
         <tbody>
           <tr>
             <td>Battle Power</td>
@@ -654,7 +656,7 @@ AUGMENT
       <div className="boxTitleBar">
       <h1>Damage Stats</h1></div>
       <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
-      <table className="basicInfo">
+      <table>
         <tbody>
           {statPage===1?<>
             <tr>
