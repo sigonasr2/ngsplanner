@@ -482,7 +482,6 @@ useEffect(()=>{
               <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
             </ul>
           </li></ul></>:<></>
-        
       }
       </div>
       </div>
