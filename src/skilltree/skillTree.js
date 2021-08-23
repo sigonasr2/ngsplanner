@@ -14,7 +14,7 @@ function SkillTree(p) {
       const canvas = canvasRef.current
       const context = canvas.getContext('2d')
       context.clearRect(0,0,width,height)
-      context.fillStyle = '#AA6666'
+      context.fillStyle = 'rgba(100,100,100,0.5)'
       context.strokeStyle=p.strokeStyle
       context.lineWidth=p.lineWidth //https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineWidth
       context.setLineDash(p.lineDash) //https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash
