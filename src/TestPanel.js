@@ -176,7 +176,7 @@ function GetSpecialWeaponName(item) {
 }
 
 function ConvertCoordinate(x,y) {
-    return (String.fromCharCode(Number(x)+'a'.charCodeAt(0)))+(y+1);
+    return (String.fromCharCode(Number(x)+'a'.charCodeAt(0)))+(y/2+1);
 }
 
 function SkillBox(p) {
