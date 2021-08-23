@@ -777,7 +777,7 @@ AUGMENT
         return dat1[armor]
       }):[]
   }}
-  filterFunction={(page,item)=>true}
+  filterFunction={(page,item)=>item.slot===armorSlotSelection}
   searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.toLowerCase().includes(searchText.toLowerCase()):true}
   sortOrderFunction={(sort,itemA,itemB)=>{
     switch (sort) {
