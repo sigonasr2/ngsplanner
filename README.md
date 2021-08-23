@@ -10,6 +10,8 @@ The goal of NGS Planner is be accurate, accessible, and shareable.
 
  - Developer, Database Designer - [sigonasr2](https://twitter.com/sigonasr2)
  - UI & Game Consultant - [Dudley](https://twitter.com/dudleyc_)
+ - Clutch Code Revision - [Mira](https://twitter.com/MiraWaNeko)
+ - Background Artwork - [Patata-tan](https://twitter.com/PatataTan)
 
 ### Resources Used:
 
