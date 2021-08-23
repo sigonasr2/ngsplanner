@@ -1396,10 +1396,10 @@ dd:before {
 	content: "\25E7" !important;
 }
 .check {
-	opacity: 25%;
+	opacity: 0.25;
 }
 .check:hover {
-	opacity: 100%;
+	opacity: 1;
 }
 .check:before {
 	font-family: "Segoe UI Symbol";
