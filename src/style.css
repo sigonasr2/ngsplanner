@@ -54,6 +54,9 @@ body {
 	text-align: center;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
 }
+table {
+    border-spacing: 0;
+}
 table td {
 	vertical-align: top;
 }
@@ -126,11 +129,6 @@ font-weight: normal;
 padding: 0 5px;
 margin: 5px;
 border-bottom: 1px solid rgba(128,128,128,0.5);
-}
-.box table {
-    border-spacing: 0;
-	color: white;
-	margin: 10px auto;
 }
 .box tr {
 /*	background-image: url("tr_bg.png");*/
