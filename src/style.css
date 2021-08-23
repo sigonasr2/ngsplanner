@@ -131,7 +131,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
     border-spacing: 0;
 	color: white;
 	margin: 10px auto;
-	width: 95%;
 }
 .box tr {
 /*	background-image: url("tr_bg.png");*/
@@ -163,19 +162,21 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	height: 8px;
 }
 .statsInfo {
+	background-color:rgba(0,0,0,0.33);
+	margin: 0 10px;
+	padding: 5px;
+}
+.statsInfo > table {
 	table-layout:fixed;
 	width: 100%;
 	line-height: 23px;
 }
-.statsInfo td:nth-child(2) {
+.statsInfo > table td:nth-child(2) {
 	text-align: right;
 }
-.statsInfo td:nth-child(3) {
+.statsInfo > table td:nth-child(3) {
 	width: 50%;
 }
-/*.statsInfo span {
-
-}*/
 .boxTitleBar {
 	background-color: rgba(124, 144, 148, 0.66);
 	color: white;
@@ -228,6 +229,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	table-layout:fixed;
 	width: 100%;
 	line-height: 23px;
+	margin: 0 5px;
 }
 .basicInfo td:nth-child(3) {
 	width: 33%;
