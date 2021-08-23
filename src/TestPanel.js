@@ -74,7 +74,7 @@ function EditableClass(p){
 
 function PopupWindow(p) {
 
-	return <Modal isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+	return <Modal ariaHideApp={false} isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
     <div className="box boxModal">
     <div className="boxTitleBar">
     <h1>{p.title}</h1>
@@ -117,7 +117,7 @@ function SelectorWindow(p) {
     {(p.sortItems||p.filter)&&<div className="itemBar">
         <div className="itemBarSort">
           {p.sortItems&&<select className="itemBarForm" value={sortSelector} onChange={(f)=>{setSortSelector(f.currentTarget.value)}}>
-            {p.sortItems.map((item)=><option value={item}>{item}</option>)}
+            {p.sortItems.map((item)=><option key={item} value={item}>{item}</option>)}
           </select>}
         </div>
         <div className="itemBarFilter">
@@ -127,7 +127,7 @@ function SelectorWindow(p) {
     }
     <div className="modalItemListContainer customScrollbar">
     <ul className="itemlist">
-    {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item)=>p.displayFunction(item)):itemList.map((item)=>p.displayFunction(item))}
+    {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>):itemList.map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>)}
     {p.children}
     </ul>
     </div>
@@ -230,7 +230,7 @@ function SkillTreeBoxes(p) {
   return <>
     {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill,i)=>{
       var splitter = skill.split(",")
-      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox className={isLocked(splitter[2])?"skillLocked":p.skillPointData[p.page-1][i]===GetHighestLevel(splitter[2])?"skillMaxed":p.skillPointData[p.page-1][i]>0?"skillActive":""} boxId={i} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={GetHighestLevel(splitter[2])} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
+      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox key={i} className={isLocked(splitter[2])?"skillLocked":p.skillPointData[p.page-1][i]===GetHighestLevel(splitter[2])?"skillMaxed":p.skillPointData[p.page-1][i]>0?"skillActive":""} boxId={i} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={GetHighestLevel(splitter[2])} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
     })}
   </>
 }
@@ -711,7 +711,7 @@ AUGMENT
 </div>
 
 <ClassSelectorWindow class={className} subClass={subclassName} setClassName={setClassName} setEditClass={setClassNameSetter} editClass={classNameSetter} setSubClassName={setSubClassName} modalOpen={classSelectWindowOpen} setModalOpen={setClassSelectWindowOpen} GetData={p.GetData}/>
-      <Modal isOpen={classSkillTreeWindowOpen} onRequestClose={() => { setClassSkillTreeWindowOpen(false) }} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+      <Modal ariaHideApp={false} isOpen={classSkillTreeWindowOpen} onRequestClose={() => { setClassSkillTreeWindowOpen(false) }} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
         <div className="box skillTreeBox">
           <div className="boxTitleBar">
             <h1>Class Skill Tree</h1>
@@ -765,7 +765,7 @@ AUGMENT
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div className="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{GetSpecialWeaponName(item)}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it)=><>{it}<br/> </>):<></>}</>)}</>}>
+  return <li className={"itemwep r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div className="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /><em className="rifle">{GetSpecialWeaponName(item)}</em></div><br /><span className="atk">{item[WEAPON_WEAPON].atk}</span> <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><React.Fragment key={i}>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it,ii)=><React.Fragment key={ii}>{it}<br/> </React.Fragment>):<React.Fragment key={i}/>}</React.Fragment>)}</>}>
     <span className="pot">{item[WEAPON_POTENTIAL].name}</span>
     </ExpandTooltip></li>}}
   />

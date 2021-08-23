@@ -1,5 +1,5 @@
 import { SkillTree } from "./skillTree";
-import { useEffect,useState,useMemo,useCallback } from "react";
+import React, { useEffect,useState,useMemo,useCallback } from "react";
 import { SkillTreeSelector } from "./skillTreeSelector";
 import axios from "axios";
 
@@ -174,9 +174,9 @@ function SkillTreeEditor(p) {
     return <>
             {loading?<img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>:<>
             <h2>{message}</h2>
-            <label for="classSelect">Class Select:</label><select id="classSelect" value={cl} onChange={(f)=>{setCl(Number(f.currentTarget.value))}}>
+            <label htmlFor="classSelect">Class Select:</label><select id="classSelect" value={Number.isNaN(Number(cl))?"?":cl} onChange={(f)=>{setCl(Number(f.currentTarget.value))}}>
                 <option value=""></option>
-                {Object.keys(classList).map((c)=><option value={c}>{c+" - "+classList[c].name}</option>)}
+                {Object.keys(classList).map((c)=><option key={classList[c].name} value={c}>{c+" - "+classList[c].name}</option>)}
             </select>
             <br/>
             <br/>
@@ -189,19 +189,19 @@ function SkillTreeEditor(p) {
                 gridDimensionsX={dimensionX} gridDimensionsY={dimensionY} gridSizeX={gridSizeX} gridSizeY={gridSizeY} gridPaddingX={gridPaddingX} gridPaddingY={gridPaddingY}
                 skillLines={skillLines} halflineheight={halflineheight}
                 />
-            {renderedInputs.map((control)=>control)}
+            {renderedInputs.map((control,i)=><React.Fragment key={i}>{control}</React.Fragment>)}
             <br/>
             <hr/>
             <br/>
-            <label for="lineColor">Line Color:</label><input type="color" id="lineColor" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/><br/>
-            <label for="lineWidth">Line Width:</label><input type="number" id="lineWidth" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/><br/>
-            <label for="gridSizeX">Grid Size X:</label><input type="number" id="gridSizeX" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/><br/>
-            <label for="gridSizeY">Grid Size Y:</label><input type="number" id="gridSizeY" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/><br/>
-            <label for="subrowHeight">Sub-row Height:</label><input type="number" id="subrowHeight" value={halflineheight} onChange={(f)=>{setHalfLineHeight(f.currentTarget.value)}}/><br/>
-            <label for="boxSizeX">Box Size X:</label><input type="number" id="boxSizeX" value={gridSizeX} onChange={(f)=>{setGridSizeX(f.currentTarget.value)}}/><br/>
-            <label for="boxSizeY">Box Size Y:</label><input type="number" id="boxSizeY" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/><br/>
-            <label for="gridPaddingX">Grid Padding X:</label><input type="number" id="gridPaddingX" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/><br/>
-            <label for="gridPaddingY">Grid Padding Y:</label><input type="number" id="gridPaddingY" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/><br/>
+            <label htmlFor="lineColor">Line Color:</label><input type="color" id="lineColor" value={lineColor} onChange={(f)=>{setLineColor(f.currentTarget.value)}}/><br/>
+            <label htmlFor="lineWidth">Line Width:</label><input type="number" id="lineWidth" value={lineWidth} onChange={(f)=>{setLineWidth(f.currentTarget.value)}}/><br/>
+            <label htmlFor="gridSizeX">Grid Size X:</label><input type="number" id="gridSizeX" value={dimensionX} onChange={(f)=>{setDimensionX(f.currentTarget.value)}}/><br/>
+            <label htmlFor="gridSizeY">Grid Size Y:</label><input type="number" id="gridSizeY" value={dimensionY} onChange={(f)=>{setDimensionY(f.currentTarget.value)}}/><br/>
+            <label htmlFor="subrowHeight">Sub-row Height:</label><input type="number" id="subrowHeight" value={halflineheight} onChange={(f)=>{setHalfLineHeight(f.currentTarget.value)}}/><br/>
+            <label htmlFor="boxSizeX">Box Size X:</label><input type="number" id="boxSizeX" value={gridSizeX} onChange={(f)=>{setGridSizeX(f.currentTarget.value)}}/><br/>
+            <label htmlFor="boxSizeY">Box Size Y:</label><input type="number" id="boxSizeY" value={gridSizeY} onChange={(f)=>{setGridSizeY(f.currentTarget.value)}}/><br/>
+            <label htmlFor="gridPaddingX">Grid Padding X:</label><input type="number" id="gridPaddingX" value={gridPaddingX} onChange={(f)=>{setGridPaddingX(f.currentTarget.value)}}/><br/>
+            <label htmlFor="gridPaddingY">Grid Padding Y:</label><input type="number" id="gridPaddingY" value={gridPaddingY} onChange={(f)=>{setGridPaddingY(f.currentTarget.value)}}/><br/>
 
             </div></>}
         </>

@@ -47,7 +47,7 @@ function SkillTree(p) {
     
     return <canvas
     width={width}
-    height={height} ref={canvasRef} {...p}>{p.children}</canvas>
+    height={height} ref={canvasRef} style={p.style} className={p.className}>{p.children}</canvas>
 }
 
 export {SkillTree}

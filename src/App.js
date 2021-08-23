@@ -57,11 +57,11 @@ function Box(p) {
 }
 
 function Table(p) {
-	return <p className={p.classes}>
+	return <span className={p.classes}>
 
 			{p.children}
 
-	</p>
+	</span>
 }
 
 function InputBox(p) {
@@ -93,7 +93,7 @@ function InputBox(p) {
 
 	return p.data?<select disabled={p.lockSubmission} className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}>
 		{p.includeBlankValue&&<option/>}
-		{p.data.map((item)=><option value={item.id}>{item.id} - {item.name||item.username}</option>)}
+		{p.data.map((item)=><option key={item.id} value={item.id}>{item.id} - {item.name||item.username}</option>)}
 	</select>:<input disabled={p.lockSubmission} className={failed?"failedInput":sending?"submitting":""} value={value} onKeyDown={(f)=>{keydownFunc(f)}} onChange={(f)=>{changeFunc(f)}} onBlur={(f)=>{blurFunc(f)}}/>
 }
 
@@ -212,7 +212,7 @@ function TableEditor(p) {
 	{!loading?
 		<div>
 			<table>
-			  {importAllowed&&<caption><label className="buttonLabel" for="uploads">Import CSV</label><input onChange={(f)=>{
+			  {importAllowed&&<caption><label className="buttonLabel" htmlFor="uploads">Import CSV</label><input onChange={(f)=>{
 				const reader = new FileReader()
 				reader.onload=(ev)=>{
 					var promises=[]
@@ -239,7 +239,7 @@ function TableEditor(p) {
 			  </thead>
 			  <tbody>
 						{<tr><td></td>{fields.map((col,i)=><td key={i}>{<InputBox includeBlankValue={true} data={dependencies[col.name]} callback4={
-							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<input style={{display:"none"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></tr>}
+							(f)=>{setSubmitVal({field:col.name,value:f});}}/>}</td>)}<td><input style={{display:"none"}}/><PlusCircle onClick={()=>{SubmitBoxes()}} className="submitbutton"/></td></tr>}
 					{data.map((dat)=><tr key={dat.id}>
 					<td><input id={"delete_"+dat.id} type="checkbox"/></td>{fields.map((col,i)=><td key={dat.id+"_"+i} className="table-padding table">
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>patchValue(value,p,col,dat)} callback2={(f,value)=>{if (f.key==='Enter') {f.currentTarget.blur()} else {return 'Chill'}}} value={String(dat[col.name])}/></td>)}</tr>)}
@@ -323,13 +323,13 @@ function DatabaseEditor(p) {
 		<br/><br/>
 		<span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}><LifePreserver className="databaseIcon" style={{color:"green"}}/>Live Database</span>
 		&nbsp;&nbsp;&nbsp;<span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}><LifePreserver className="databaseIcon" style={{color:"red"}}/>Test Database</span><br/>
-		{databases.map((db)=>{
+		{databases.map((db,i)=>{
 			var label = ""
 			if (db.datname!=="ngsplanner"&&db.datname!=="ngsplanner2") {
 				var dateStr = db.datname.replace("ngsplanner","")
 				var date = new Date(dateStr.slice(0,4),dateStr.slice(4,6),dateStr.slice(6,8),dateStr.slice(8,10),dateStr.slice(10,12),dateStr.slice(12,14))
 				label=<><Server className="databaseIcon" style={{color:"blue"}}/>{"Backup from "+date}</>
-				return <><span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}>{label}<button style={{background:"blue"}}
+				return <React.Fragment key={i}><span style={{fontSize:"24px",top:"-16px",position:"relative",height:"64px",lineHeight:"64px",textAlign:"center"}}>{label}<button style={{background:"blue"}}
 				onClick={()=>{
 					setLoading(true)
 					axios.post(p.BACKENDURL+"/databases/restorefrombackup",{
@@ -345,9 +345,9 @@ function DatabaseEditor(p) {
 					.then(()=>{
 						setLoading(false)
 					})
-				}}><CloudUploadFill/> Restore</button></span><br/></>
+				}}><CloudUploadFill/> Restore</button></span><br/></React.Fragment>
 			} else {
-				return <></>
+				return <React.Fragment key={i}/>
 			}
 		})}
 	</>
@@ -430,10 +430,10 @@ function AdminPanel(p) {
 		<div className="boxTitleBar">
 		<h1>Navigation</h1>
 		</div>
-		<p>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</p>
+		<span>Testing Mode <Toggle checked={p.TESTMODE} onChange={(f)=>{p.setTESTMODE(f.target.checked)}}/> {p.TESTMODE?<b>ON</b>:<b>OFF</b>}</span>
 		<div className="adminNavContainer customScrollbar">
 		  <Table classes="adminNav">
-		  {navigationData.map((nav)=>(nav.hr)?<hr/>:<><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></>)}
+		  {navigationData.map((nav,i)=>(nav.hr)?<hr key={i}/>:<React.Fragment key={i}><Link to={process.env.PUBLIC_URL+nav.url}>{nav.page}</Link><br/></React.Fragment>)}
 		  <Link to={process.env.PUBLIC_URL+"/admin/database_manager"}>Database Manager</Link><br/>
 		</Table>
 		</div>
@@ -442,7 +442,7 @@ function AdminPanel(p) {
 
 
 
-			{navigationData.map((nav)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route path={process.env.PUBLIC_URL+nav.url}>
+			{navigationData.map((nav,i)=>(nav.duplicate===undefined&&nav.hr===undefined)&&<Route key={i} path={process.env.PUBLIC_URL+nav.url}>
 			<div className="box boxAdminContent">
 		<div className="boxTitleBar">
 		<h1>{nav.page}</h1></div>
