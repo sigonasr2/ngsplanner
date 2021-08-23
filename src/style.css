@@ -1069,14 +1069,14 @@ outline: 0 !important;
 .boxMisc img {
 	background: linear-gradient(white,#bca9f5);
 	vertical-align: top;
-	margin-right: 10px;
+	margin: 0 10px;
 }
 .boxMisc p > img {
-	float:left;
+	float:right;
 }
 .boxMisc p {
 	margin-top: 0;
-	text-align: left;
+	text-align: justify;
 }
 .boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
