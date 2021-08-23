@@ -162,7 +162,7 @@ function TableEditor(p) {
 		.then(()=>{
 			setUpdate(true)
 		})
-	},[fileData,p.path,p.BACKENDURL,p.password])
+	},[fileData,p.path,p.BACKENDURL,p.password,fields])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -793,12 +793,16 @@ function App() {
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
 
-
 	function GetData(table,row,col,id){
 		if (row===undefined) {row=''}
 		if (col===undefined) {col=''}
 		var data = id?DATAID:DATA
-		return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
+		var result = data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
+		if (typeof result === 'object' && result["GetData"]!==undefined) {
+			return undefined
+		} else {
+			return result
+		}
 	}
 	
 	useEffect(()=>{
@@ -891,8 +895,8 @@ function App() {
 				<div className="modalOverlaySplash">
 				<div className="modal">
 				<div className="box boxMisc">
-				<div className="boxTitleBar"><h1>{GetData("site_data")[0]?.data??""}</h1></div><h2>{GetData("site_data")[1]?.data??""}</h2><p><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
-				{GetData("site_data")[2]?.data??""}</p><br style={{clear:"both"}} />
+				<div className="boxTitleBar"><h1>{GetData("site_data","h1","data")}</h1></div><h2>{GetData("site_data","h2","data")}</h2><p><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/>
+				{GetData("site_data","UNDER_CONSTRUCTION_TEXT","data")}</p><br style={{clear:"both"}} />
 				</div>
 				</div>
 				<footer><a href="https://github.com/sigonasr2/ngsplanner/"><span className="github">&nbsp;</span></a><a href="https://twitter.com/ngsplanner"><span className="twitter">@NGSPlanner</span></a></footer>
