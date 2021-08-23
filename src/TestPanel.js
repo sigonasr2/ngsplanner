@@ -578,8 +578,10 @@ AUGMENT
               <dt>Functionality</dt>
                 <dd>Food/Buffs Menu</dd>
                 <dd>PA Selector</dd>
+                <dd>fOrMuLaS</dd>
               <dt>Data</dt>
                 <dd>PA Selector</dd>
+                <dd>Skill Trees</dd>
             </dl>
           </div>
 
