@@ -786,9 +786,11 @@ function App() {
 	const [poisonResist] = useState(0)
 	
 	const [TESTMODE,setTESTMODE] = useState(false)
-	const [DATA,setDATA] = useState({GetData:()=>{}})
+	const [DATA,setDATA] = useState(undefined)
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 	const [update,setUpdate] = useState(false)
+
+	const [dataLoaded,setDataLoaded] = useState(false)
 
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
@@ -797,7 +799,11 @@ function App() {
 		if (row===undefined) {row=''}
 		if (col===undefined) {col=''}
 		var data = id?DATAID:DATA
-		return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
+		if (!data) {
+			return "no data"
+		} else {
+			return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
+		}
 	}
 	
 	useEffect(()=>{
