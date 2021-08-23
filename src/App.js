@@ -100,13 +100,15 @@ function InputBox(p) {
 function TableEditor(p) {
 	
 	const initialVals={}
+
+	const { TESTMODE } = p
 	
 	function updateVals(state,update) {
 		if (update==='Clear') {
 			return initialVals
 		}
 		state[update.field]=update.value
-		return state
+		return state 
 	}
 	
 	const [fields,setFields] = useState([])
@@ -165,7 +167,7 @@ function TableEditor(p) {
 	
 	useEffect(()=>{
 		setUpdate(true)
-	},[p.path])
+	},[p.path,TESTMODE])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -448,7 +450,7 @@ function AdminPanel(p) {
 		<Helmet>
 					<title>{APP_TITLE+" - Admin Panel: "+nav.page}</title>
 				</Helmet>
-				{nav.render??<TableEditor password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>}
+				{nav.render??<TableEditor TESTMODE={p.TESTMODE} password={password} BACKENDURL={GetBackendURL(p)} path={nav.table}/>}
 				</div></div></Route>)}
 
 			<Route path={process.env.PUBLIC_URL+"/admin/database_manager"}>
