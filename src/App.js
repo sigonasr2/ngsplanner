@@ -162,7 +162,7 @@ function TableEditor(p) {
 		.then(()=>{
 			setUpdate(true)
 		})
-	},[fileData,p.path,p.BACKENDURL,p.password,fields])
+	},[fileData,p.path,p.BACKENDURL,p.password])
 
 	useEffect(()=>{
 		for (var col of fields) {
@@ -797,12 +797,7 @@ function App() {
 		if (row===undefined) {row=''}
 		if (col===undefined) {col=''}
 		var data = id?DATAID:DATA
-		var result = data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
-		if (typeof result === 'object' && result["GetData"]!==undefined) {
-			return undefined
-		} else {
-			return result
-		}
+		return data!==undefined?data[table]!==undefined?data[table][row]!==undefined?data[table][row][col]!==undefined?data[table][row][col]:data[table][row]:data[table]:data:"no data"
 	}
 	
 	useEffect(()=>{
