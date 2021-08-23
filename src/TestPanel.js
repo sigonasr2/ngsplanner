@@ -492,9 +492,9 @@ useEffect(()=>{
           <h1>Equip</h1></div>
           <div className="equipPalette">
 <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
-                <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></div></div>
-                  <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></div></div>
-                  <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></div></div>
+                <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor1)}><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></div></div>
+                  <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor2)}><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></div></div>
+                  <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor3)}><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></div></div>
                 </div>
               </div>
 
