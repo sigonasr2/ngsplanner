@@ -63,7 +63,7 @@ function PageControl(p) {
 function Class(p) {
   const CLASSES = p.GetData("class")
 	const class_obj = CLASSES[p.name]
-	return CLASSES!=="no data"?class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>:<><img width="24" src={DisplayIcon("")}/>Nico</>
+	return CLASSES!=="no data"?class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>:<><img alt="" width="24" src={DisplayIcon("")}/>Nico</>
 }
 
 function EditableClass(p){
@@ -513,7 +513,7 @@ AUGMENT
                 </div>
               </div>
               :
-              <>hi</>
+              <>hi2</>
             }
 
 
