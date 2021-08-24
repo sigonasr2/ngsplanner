@@ -159,28 +159,37 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	display: block;
 	height: 8px;
 }
-.basicInfo > table {
-	table-layout:fixed;
-	line-height: 23px;
-	margin: 0 5px;
-}
-.basicInfo > table td:nth-child(3) {
-	width: 33%;
+.basicInfo {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr 1fr;
+	justify-content: stretch;
+	grid-template-areas:
+	"author player player"
+	"build character character"
+	"class . ."
+	"subClass . .";
+	margin: 10px 10px;
+	padding: 0 5px;
 }
 .statsInfo {
 	background-color:rgba(0,0,0,0.33);
 	margin: 0 10px;
 	padding: 5px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	justify-content: stretch;
+	grid-template-areas:
+	"bp . bpGraph bpGraph"
+	"hp . hpGraph hpGraph"
+	"pp . ppGraph ppGraph"
+	"atk . atkGraph atkGraph"
+	"def . defGraph defGraph"
+	"wepUp wepUp2 wepUp3 wepUp3"
+	"res res2 res3 res3"
+	"dmgRes dmgRes2 dmgRes2 dmgRes2";
 }
-.statsInfo > table {
-	table-layout:fixed;
-	line-height: 23px;
-}
-.statsInfo > table td:nth-child(2) {
-	text-align: right;
-}
-.statsInfo > table td:nth-child(3) {
-	width: 50%;
+.statsInfo > div {
+	border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .boxTitleBar {
 	background-color: rgba(124, 144, 148, 0.66);
@@ -1060,14 +1069,14 @@ outline: 0 !important;
 .boxMisc img {
 	background: linear-gradient(white,#bca9f5);
 	vertical-align: top;
-	margin-right: 10px;
+	margin: 0 10px;
 }
 .boxMisc p > img {
-	float:left;
+	float:right;
 }
 .boxMisc p {
 	margin-top: 0;
-	text-align: left;
+	text-align: justify;
 }
 .boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
