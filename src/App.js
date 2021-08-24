@@ -809,6 +809,7 @@ function App() {
 
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
+	const [BUILDID,setBUILDID] = useState(undefined)
 
 	function GetData(table,row,col,id){
 		if (row===undefined) {row=''}
@@ -885,6 +886,10 @@ function App() {
 					poisonResist={poisonResist} 
 					statDisplayAtk={statDisplayAtk} 
 					GetData={GetData}
+					LOGGEDINUSER={LOGGEDINUSER}
+					BUILDID={BUILDID}
+					setBUILDID={setBUILDID}
+					BACKENDURL={GetBackendURL(BACKENDURL)}
 					/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/login"}>
