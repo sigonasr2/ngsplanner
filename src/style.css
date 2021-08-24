@@ -150,6 +150,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	text-align: right;
 }
 .barGraph {
+	margin: 8px 0;
 	background: linear-gradient(90deg, #65beef, #f5ee3c);
 	display: block;
 	height: 8px;
@@ -168,13 +169,13 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	"build character character"
 	"class . ."
 	"subClass . .";
-	margin: 10px 10px;
+	margin: 10px 10px 0;
 	padding: 0 5px;
 }
 .statsInfo {
 	background-color:rgba(0,0,0,0.33);
-	margin: 0 10px;
-	padding: 5px;
+	margin: 5px 10px 0;
+	padding: 0 5px 5px;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	justify-content: stretch;
@@ -188,8 +189,13 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	"res res2 res3 res3"
 	"dmgRes dmgRes2 dmgRes2 dmgRes2";
 }
-.statsInfo > div {
+.basicInfo > div, .statsInfo > div {
 	border-bottom: 1px solid rgba(128,128,128,0.5);
+	line-height: 25px;
+	position:relative;
+}
+.basicInfo > div > span, .statsInfo > div > span {
+	color: #97e2fc;
 }
 .boxTitleBar {
 	background-color: rgba(124, 144, 148, 0.66);
@@ -381,9 +387,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .pr li span {
 	color:white
 }
-.ye {
-	color: #ffb74c;
-}
 .itemlist {
 	margin: 0 10px;
 }
@@ -404,6 +407,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .itemwep {
 	font-size: 10pt;
 }
+
 .itemWeaponWrapper {
 	white-space: nowrap;
 	overflow: hidden;
@@ -419,6 +423,11 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .rifle:before {
     content: url("./icons/NGSUIItemAssaultRifleMini.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.meat:before {
+    content: url("./icons/food/meat.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -440,6 +449,49 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	width: 48px;
 	box-sizing: content-box;
 	border-style: solid;
+}
+.itemWrapper {
+	display: grid;
+	grid-template-columns: 56px 1fr 1fr 1fr minmax(16px,auto);
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+	"img itemname itemname itemname rarity"
+	"img . . . ."
+	"img properties properties controls controls";
+}
+.itemImgWrapper {
+	grid-area: img;
+}
+.itemImgWrapper > img {
+	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
+	border: 4px solid rgba(128,128,128,1);
+	width: 48px;
+	box-sizing: content-box;
+	border-style: solid;
+}
+.itemNameWrapper {
+	font-size: 16px;
+	background-color:rgba(0,0,0,0.33);
+	grid-area: itemname;
+	margin: 0 10px;
+	padding: 2px 2px 0 2px;
+}
+.itemRarityWrapper {
+	grid-area: rarity;
+}
+.itemPropertiesWrapper {
+	color:white;
+	grid-area: properties;
+	margin: 0 10px;
+}
+.itemControlsWrapper  {
+	grid-area: controls;
+	text-align: right;
+}
+.itemControlsWrapper > span {
+	display:inline-block;
+	background-color:red;
+	margin-right: 0 !important;
 }
 li.r1 {
     background-image: url("./icons/NGSUIRarity1Star.png");
@@ -860,18 +912,10 @@ cursor:pointer !important;
 
 /* Sig's Amazing CSS (cuz Dudley edited it) */
 
-
-.editBox {
-	width: 100%;
-}
 .editBox:hover{
 	background-color:rgba(0,0,0,0.5);
 	cursor:pointer !important;
 	outline: 2px solid #30cdef;
-}
-.editBoxActive {
-
-	width: 100%;
 }
 .editBoxActive:hover {
 	cursor:pointer !important;
@@ -884,12 +928,12 @@ input#editBoxInput {
 	color: white;
 	cursor:pointer !important;
 	font-family: ngs,sans-serif;
-	font-size: 11pt;
-	height: 28px;
-	outline: 2px solid #30cdef;
+	font-size: 16px;
+
+	outline: 2px solid #ffff00;
 	padding: 0 5px;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
-	width: 100%;
+	width:100%;
 }
 .editClass {
 
@@ -1348,7 +1392,8 @@ p.adminNav hr {
 	display: grid;
 	grid-template-areas:
 	"icon properties"
-	"content content";
+	"potential preset"
+	"augment augment";
 	grid-template-columns: 128px 1fr;
 	grid-template-rows: auto;
 	margin: 10px 10px 0 10px;
@@ -1361,8 +1406,14 @@ p.adminNav hr {
 .itemDetailsProperties {
 	grid-area: properties;
 }
-.itemDetailsContent {
-	grid-area: content;
+.itemDetailsAugment {
+	grid-area: augment;
+}
+.itemPotential {
+	grid-area: potential;
+}
+.itemPreset {
+	grid-area: preset;
 }
 .itemDetailsIcon img {
 	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
