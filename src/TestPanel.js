@@ -713,7 +713,7 @@ AUGMENT
 <div className="itemNameWrapper meat">meet</div>
 <div className="itemRarityWrapper"><img alt="" src={DisplayIcon("icons/NGSUIRarity1Star.png")} /></div>
 <div className="itemPropertiesWrapper"><span className="atk">9999</span><span class="pot">Indomitable Unit</span></div>
-<div className="itemControlsWrapper"><span>-</span><span>99</span><span>+</span></div>
+<div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div>
 </li>
 
 </SelectorWindow>

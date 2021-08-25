@@ -452,12 +452,12 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .itemWrapper {
 	display: grid;
-	grid-template-columns: 56px 1fr 1fr 1fr minmax(16px,auto);
+	grid-template-columns: minmax(56px,auto) 1fr auto minmax(16px,auto);
 	grid-template-rows: auto 1fr auto;
 	grid-template-areas:
-	"img itemname itemname itemname rarity"
-	"img . . . ."
-	"img properties properties controls controls";
+	"img itemname itemname rarity"
+	"img . . ."
+	"img properties controls controls";
 }
 .itemImgWrapper {
 	grid-area: img;
@@ -475,6 +475,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	grid-area: itemname;
 	margin: 0 10px;
 	padding: 2px 2px 0 2px;
+	white-space: nowrap;
 }
 .itemRarityWrapper {
 	grid-area: rarity;
@@ -484,14 +485,30 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	grid-area: properties;
 	margin: 0 10px;
 }
+.itemPropertiesWrapper > span {
+	white-space: nowrap;
+}
 .itemControlsWrapper  {
 	grid-area: controls;
 	text-align: right;
+	white-space: nowrap;
+}
+.itemControlsWrapper > span:nth-child(1) {
+	background-color: rgba(113,169,189,0.33);
+	cursor: pointer;
+}
+.itemControlsWrapper > span:nth-child(2) {
+	background-color:rgba(0,0,0,0.33);
+}
+.itemControlsWrapper > span:nth-child(3) {
+	background-color: rgba(113,169,189,0.33);
+	cursor: pointer;
 }
 .itemControlsWrapper > span {
 	display:inline-block;
-	background-color:red;
-	margin-right: 0 !important;
+	padding: 5px 10px;
+	text-align: center;
+	margin: 0 0 0 5px;
 }
 li.r1 {
     background-image: url("./icons/NGSUIRarity1Star.png");
@@ -525,7 +542,6 @@ li.r4 {
 .itemlist li span {
     background-repeat: no-repeat;
     background-position: left center;
-	margin-right: 10px;
 }
 .atk:before {
 	content: url("./icons/NGSUIStatATKOutline.png");
