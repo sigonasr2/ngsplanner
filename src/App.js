@@ -12,7 +12,8 @@ import {
   HashRouter,
   Switch,
   Route,
-  useHistory
+  useHistory,
+  useParams
 } from "react-router-dom";
 
 import { HashLink as Link } from 'react-router-hash-link';
@@ -809,7 +810,9 @@ function App() {
 
 	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
 	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
-	const [BUILDID,setBUILDID] = useState(undefined)
+
+	const PANELPATHWBUILD = process.env.PUBLIC_URL+"/test/:BUILDID"
+	const PANELPATH = process.env.PUBLIC_URL+"/test"
 
 	function GetData(table,row,col,id){
 		if (row===undefined) {row=''}
@@ -857,12 +860,11 @@ function App() {
 					</Helmet>
 					<AdminPanel setUpdate={setUpdate} setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
-				<Route path={process.env.PUBLIC_URL+"/test"}>
-					<Helmet>
-						<title>{"Test - "+APP_TITLE}</title>
-					</Helmet>
+				<Route path={PANELPATHWBUILD}>
 					<TestHeader/>
 					<TestPanel
+					APP_TITLE={APP_TITLE}
+					path={PANELPATHWBUILD}
 					author={author} 
 					buildName={buildName} 
 					className={className} 
@@ -887,8 +889,38 @@ function App() {
 					statDisplayAtk={statDisplayAtk} 
 					GetData={GetData}
 					LOGGEDINUSER={LOGGEDINUSER}
-					BUILDID={BUILDID}
-					setBUILDID={setBUILDID}
+					BACKENDURL={GetBackendURL(BACKENDURL)}
+					/>
+				</Route>
+				<Route path={PANELPATH}>
+					<TestHeader/>
+					<TestPanel
+					APP_TITLE={APP_TITLE}
+					path={PANELPATH}
+					author={author} 
+					buildName={buildName} 
+					className={className} 
+					secondaryClassName={secondaryClassName}
+					classLv={classLv} 
+					secondaryClassLv={secondaryClassLv} 
+					bp={bp} 
+					hp={hp} 
+					pp={pp} 
+					def={def} 
+					weaponUp1={weaponUp1} 
+					weaponUp2={weaponUp2} 
+					weaponUp3={weaponUp3} 
+					damageResist={damageResist}
+					burnResist={burnResist} 
+					shockResist={shockResist} 
+					panicResist={panicResist} 
+					stunResist={stunResist} 
+					freezeResist={freezeResist} 
+					blindResist={blindResist} 
+					poisonResist={poisonResist} 
+					statDisplayAtk={statDisplayAtk} 
+					GetData={GetData}
+					LOGGEDINUSER={LOGGEDINUSER}
 					BACKENDURL={GetBackendURL(BACKENDURL)}
 					/>
 				</Route>
