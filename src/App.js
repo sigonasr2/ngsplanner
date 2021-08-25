@@ -12,8 +12,7 @@ import {
   HashRouter,
   Switch,
   Route,
-  useHistory,
-  useParams
+  useHistory
 } from "react-router-dom";
 
 import { HashLink as Link } from 'react-router-hash-link';
