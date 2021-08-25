@@ -449,9 +449,8 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	box-sizing: content-box;
 	border-style: solid;
 }
-.itemWrapper {
+.itemWrapper, .itemWrapperActive {
 	background-color: rgba(128,128,128,0.33);
-	color: white;
 	margin: 5px 10px 5px;
 	padding: 10px;
 	display: grid;
@@ -461,6 +460,10 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	"img itemname itemname rarity"
 	"img . . ."
 	"img properties controls controls";
+}
+.itemWrapperActive {
+	background: linear-gradient(135deg,#60461b,#b0a34e);
+	border-bottom: 4px solid #ffd602;
 }
 .itemImgWrapper {
 	grid-area: img;
@@ -510,16 +513,33 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	text-align: right;
 	white-space: nowrap;
 }
-.itemControlsWrapper > span:nth-child(1) {
+/*.selected {
+	background: linear-gradient(135deg,#60461b,#b0a34e);
+	outline: 2px solid #ffd602;
+}
+.unselected:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	border-bottom: 0;
+	padding-bottom: 9px;
+	outline: 2px solid hsl(180, 78%, 50%);
+}
+li.selected:hover {
+	background: linear-gradient(135deg,#60461b,#b0a34e);
+	outline: 2px solid hsl(180, 78%, 50%);
+}*/
+
+.itemControlsWrapper > span:nth-child(1), .itemControlsWrapper > span:nth-child(3) {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
+}
+.itemControlsWrapper > span:nth-child(1):hover, .itemControlsWrapper > span:nth-child(3):hover {
+	background-color: rgba(113,169,189,0.33);
+	cursor: pointer;
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	outline: 2px solid hsl(180, 78%, 50%);
 }
 .itemControlsWrapper > span:nth-child(2) {
 	background-color:rgba(0,0,0,0.33);
-}
-.itemControlsWrapper > span:nth-child(3) {
-	background-color: rgba(113,169,189,0.33);
-	cursor: pointer;
 }
 .itemControlsWrapper > span {
 	display:inline-block;
