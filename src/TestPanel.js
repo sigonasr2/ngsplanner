@@ -296,7 +296,7 @@ let { BUILDID } = useParams()
 let history = useHistory();
 let location = useLocation();
 
-const { GetData,LOGGEDINUSER,BACKENDURL,APP_TITLE } = p
+const { GetData,LOGGEDINUSER,LOGGEDINHASH,BACKENDURL,APP_TITLE } = p
 
 const [bpGraphMax,setbpGraphMax] = useState(1000)
 const [hpGraphMax,sethpGraphMax] = useState(1000)
@@ -333,10 +333,6 @@ const [classNameSetter,setClassNameSetter] = useState(0)
 const [points,setPoints] = useState([])
 const [skillPointData,setSkillPointData] = useState([])
 
-useEffect(()=>{
-  console.log(skillPointData)
-},[skillPointData])
-
 function SaveData() {
   var saveObj = {
     level:level,
@@ -352,6 +348,7 @@ function SaveData() {
   axios.post(BACKENDURL+"/submitBuild",{
     id:BUILDID,
     username:LOGGEDINUSER,
+    pass:LOGGEDINHASH,
     creator:author,
     build_name:buildName,
     class1:className,
@@ -367,8 +364,10 @@ function SaveData() {
   })
 }
 
-function LoadData() {
-  
+function LoadData(build) {
+  if (build) {
+    
+  }
 }
 
 function rarityCheck(v) {
@@ -407,7 +406,7 @@ useEffect(()=>{
 },[className,GetData])
 
 useEffect(()=>{
-  console.log(BUILDID)
+  LoadData(BUILDID)
 },[BUILDID])
 
 //console.log(p.GetData("class",p.className,"icon"))

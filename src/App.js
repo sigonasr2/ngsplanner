@@ -889,6 +889,7 @@ function App() {
 					statDisplayAtk={statDisplayAtk} 
 					GetData={GetData}
 					LOGGEDINUSER={LOGGEDINUSER}
+					LOGGEDINHASH={LOGGEDINHASH}
 					BACKENDURL={GetBackendURL(BACKENDURL)}
 					/>
 				</Route>
@@ -921,6 +922,7 @@ function App() {
 					statDisplayAtk={statDisplayAtk} 
 					GetData={GetData}
 					LOGGEDINUSER={LOGGEDINUSER}
+					LOGGEDINHASH={LOGGEDINHASH}
 					BACKENDURL={GetBackendURL(BACKENDURL)}
 					/>
 				</Route>
