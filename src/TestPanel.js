@@ -127,10 +127,8 @@ function SelectorWindow(p) {
       </div>
     }
     <div className="modalItemListContainer customScrollbar">
-    <ul className="itemlist">
     {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>):itemList.map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>)}
     {p.children}
-    </ul>
     </div>
   </PopupWindow>
 }
@@ -709,25 +707,36 @@ AUGMENT
     }  
   }}
   displayFunction={(item)=>{
-  return <li className={"itemwep r"+item.rarity} onClick={()=>{
+  return <div className={"itemWrapper r"+item.rarity} onClick={()=>{
     switch(armorSlotSelection) {
       case 1:setSelectedArmor1(item);break;
       case 2:setSelectedArmor2(item);break;
       case 3:setSelectedArmor3(item);break;
       default:setSelectedArmor1(item)
     }
-    setArmorSelectWindowOpen(false)}}><div className="itemWeaponWrapper"><img className="itemimg" alt="" src={DisplayIcon(item?.icon)} /><em className="rifle">{item.name}</em></div><br /><span className="atk">{item.def}</span></li>}}
+    setArmorSelectWindowOpen(false)}}>
+          <div className="itemImgWrapper"><img alt="" src={DisplayIcon(item?.icon)} /></div>
+          <div className="itemNameWrapper rifle">{item.name}</div>
+          <div className="itemRarityWrapper">&nbsp;</div>
+          <div className="itemPropertiesWrapper"><span className="atk">{item.def}</span></div>
+        </div>
+      }}
   />
 
-<SelectorWindow className="itemBox" title={"Food Menu"} modalOpen={foodMenuWindowOpen} setModalOpen={setFoodMenuWindowOpen} GetData={p.GetData}>
+<SelectorWindow title={"Food Menu"} modalOpen={foodMenuWindowOpen} setModalOpen={setFoodMenuWindowOpen} GetData={p.GetData}>
 
-<li className="itemWrapper">
-<div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div>
-<div className="itemNameWrapper meat">meet</div>
-<div className="itemRarityWrapper"><img alt="" src={DisplayIcon("icons/NGSUIRarity1Star.png")} /></div>
-<div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div>
-<div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div>
-</li>
+<div className="itemWrapper r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r4"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_turban_shell.png")} /></div><div className="itemNameWrapper meat">If you put your ear to it you can hear the PSO2 lobby music</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r4"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_turban_shell.png")} /></div><div className="itemNameWrapper meat">If you put your ear to it you can hear the PSO2 lobby music</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
+<div className="itemWrapper r4"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_turban_shell.png")} /></div><div className="itemNameWrapper meat">If you put your ear to it you can hear the PSO2 lobby music</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
 
 </SelectorWindow>
 

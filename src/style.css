@@ -387,18 +387,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .pr li span {
 	color:white
 }
-.itemlist {
-	margin: 0 10px;
-}
-.itemlist li {
-	background-color: rgba(128,128,128,0.33);
-	color: white;
-	margin: 0 0 5px 0;
-	padding: 10px;
-    background-repeat: no-repeat;
-    background-position: right top;
-	background-origin: content-box;
-}
 .aug:before {
 	content:url("./icons/UINGSItemSpecialAbility.png");
 	margin-right: 5px;
@@ -426,10 +414,21 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin-right: 5px;
 	vertical-align: middle;
 }
+.meat:before, .vege:before, .fruit:before, .seafood:before {
+	margin-right: 5px;
+	vertical-align: bottom;
+}
 .meat:before {
     content: url("./icons/food/meat.png");
-	margin-right: 5px;
-	vertical-align: middle;
+}
+.vege:before {
+    content: url("./icons/food/vege.png");
+}
+.fruit:before {
+    content: url("./icons/food/fruit.png");
+}
+.seafood:before {
+    content: url("./icons/food/seafood.png");
 }
 .gb:before {
     content: url("./icons/NGSUIItemGunbladeMini.png");
@@ -451,6 +450,10 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	border-style: solid;
 }
 .itemWrapper {
+	background-color: rgba(128,128,128,0.33);
+	color: white;
+	margin: 5px 10px 5px;
+	padding: 10px;
 	display: grid;
 	grid-template-columns: minmax(56px,auto) 1fr auto minmax(16px,auto);
 	grid-template-rows: auto 1fr auto;
@@ -474,11 +477,24 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	background-color:rgba(0,0,0,0.33);
 	grid-area: itemname;
 	margin: 0 10px;
-	padding: 2px 2px 0 2px;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .itemRarityWrapper {
 	grid-area: rarity;
+}
+.r1 .itemRarityWrapper {
+	content: url("./icons/NGSUIRarity1Star.png");
+}
+.r2 .itemRarityWrapper {
+	content: url("./icons/NGSUIRarity2Star.png");
+}
+.r3 .itemRarityWrapper {
+	content: url("./icons/NGSUIRarity3Star.png");
+}
+.r4 .itemRarityWrapper {
+	content: url("./icons/NGSUIRarity4Star.png");
 }
 .itemPropertiesWrapper {
 	color:white;
@@ -487,6 +503,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .itemPropertiesWrapper > span {
 	white-space: nowrap;
+	margin-right: 10px;
 }
 .itemControlsWrapper  {
 	grid-area: controls;
@@ -510,30 +527,18 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	text-align: center;
 	margin: 0 0 0 5px;
 }
-li.r1 {
-    background-image: url("./icons/NGSUIRarity1Star.png");
-}
 .r1 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150)) !important;
 	border-color: rgb(64,150,183) !important;
 
 }
-li.r2 {
-    background-image: url("./icons/NGSUIRarity2Star.png");
-}
 .r2 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150)) !important;
 	border-color: rgb(64,150,183) !important;
 }
-li.r3 {
-    background-image: url("./icons/NGSUIRarity3Star.png");
-}
 .r3 img  {
 	background: radial-gradient(rgb(64,150,183),rgb(52,123,150)) !important;
 	border-color: rgb(64,150,183) !important;
-}
-li.r4 {
-    background-image: url("./icons/NGSUIRarity4Star.png");
 }
 .r4 img  {
 	background: radial-gradient(rgb(101,178,77),rgb(83,146,63)) !important;
@@ -579,7 +584,7 @@ li.r4 {
 	max-height: 300px;
 }
 }*/
-.itemlist li:hover, .treeList li:hover {
+.itemWrapper:hover, .treeList li:hover {
 	background-color: rgba(113,169,189,0.33);
 	outline: 2px solid rgba(54,255,255,0.66);
 }
