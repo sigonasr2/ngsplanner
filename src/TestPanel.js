@@ -184,10 +184,7 @@ function SkillBox(p) {
     return <div className={p.className} style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">{(p.skillPointData[p.page-1][p.boxId]?p.skillPointData[p.page-1][p.boxId]:0)+"/"+p.maxPoints}</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons">
       <LeftButton onClick={()=>{
         var temp=[...p.points]
-        var tempData={...p.skillPointData}
-        if (!tempData[p.page-1]) {
-          tempData[p.page-1]={}
-        }
+        var tempData=[...p.skillPointData]
         if (!tempData[p.page-1][p.boxId]) {
           tempData[p.page-1][p.boxId]=0
         }
@@ -199,10 +196,7 @@ function SkillBox(p) {
         }}}/>
       <RightButton  onClick={()=>{
         var temp=[...p.points]
-        var tempData={...p.skillPointData}
-        if (!tempData[p.page-1]) {
-          tempData[p.page-1]={}
-        }
+        var tempData=[...p.skillPointData]
         if (!tempData[p.page-1][p.boxId]) {
           tempData[p.page-1][p.boxId]=0
         }
@@ -329,7 +323,7 @@ const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 const [classNameSetter,setClassNameSetter] = useState(0)
 
 const [points,setPoints] = useState([])
-const [skillPointData,setSkillPointData] = useState({})
+const [skillPointData,setSkillPointData] = useState([])
 
 useEffect(()=>{
   console.log(skillPointData)
@@ -386,7 +380,7 @@ useEffect(()=>{
   var pointsDataArr = []
   for (var i=0;i<keys.length;i++) {
     pointsArr.push(0)
-    pointsDataArr.push([])
+    pointsDataArr.push({})
     if (keys[i]===className) {
       setTreePage(i+1)
     }
