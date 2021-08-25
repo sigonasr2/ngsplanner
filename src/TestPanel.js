@@ -184,7 +184,10 @@ function SkillBox(p) {
     return <div className={p.className} style={{ gridArea: ConvertCoordinate(Number(p.skill[0]),Number(p.skill[1])) }}><img className="skillIcon" alt="" src={DisplayIcon(p.GetData("class_skill",p.skill[2],"icon",true))} /><span className="skillAllocated">{(p.skillPointData[p.page-1][p.boxId]?p.skillPointData[p.page-1][p.boxId]:0)+"/"+p.maxPoints}</span><em className="skillName">{typeof p.GetData("class_skill",p.skill[2],"name",true)==="string"&&p.GetData("class_skill",p.skill[2],"name",true)}</em><div className="skillButtons">
       <LeftButton onClick={()=>{
         var temp=[...p.points]
-        var tempData=[...p.skillPointData]
+        var tempData={...p.skillPointData}
+        if (!tempData[p.page-1]) {
+          tempData[p.page-1]={}
+        }
         if (!tempData[p.page-1][p.boxId]) {
           tempData[p.page-1][p.boxId]=0
         }
@@ -196,7 +199,10 @@ function SkillBox(p) {
         }}}/>
       <RightButton  onClick={()=>{
         var temp=[...p.points]
-        var tempData=[...p.skillPointData]
+        var tempData={...p.skillPointData}
+        if (!tempData[p.page-1]) {
+          tempData[p.page-1]={}
+        }
         if (!tempData[p.page-1][p.boxId]) {
           tempData[p.page-1][p.boxId]=0
         }
@@ -229,7 +235,7 @@ function SkillTreeBoxes(p) {
   return <>
     {p.skillTreeSkillData&&p.skillTreeSkillData.map((skill,i)=>{
       var splitter = skill.split(",")
-      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox key={i} className={isLocked(splitter[2])?"skillLocked":p.skillPointData[p.page-1][i]===GetHighestLevel(splitter[2])?"skillMaxed":p.skillPointData[p.page-1][i]>0?"skillActive":""} boxId={splitter[0]+"_"+splitter[1]} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={GetHighestLevel(splitter[2])} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
+      return splitter[0]!==""&&splitter[1]!==""&&splitter[2]!==""&&<SkillBox key={i} className={isLocked(splitter[2])?"skillLocked":p.skillPointData[p.page-1][splitter[0]+"_"+splitter[1]]===GetHighestLevel(splitter[2])?"skillMaxed":p.skillPointData[p.page-1][splitter[0]+"_"+splitter[1]]>0?"skillActive":""} boxId={splitter[0]+"_"+splitter[1]} skillPointData={p.skillPointData} setSkillPointData={p.setSkillPointData} page={p.page} cl={p.cl} maxPoints={GetHighestLevel(splitter[2])} points={p.points} setPoints={p.setPoints} GetData={p.GetData} skill={splitter.map((numb)=>Number(numb))}/>
     })}
   </>
 }
@@ -322,7 +328,11 @@ const [armorSlotSelection,setArmorSlotSelection] = useState(1)
 const [classNameSetter,setClassNameSetter] = useState(0)
 
 const [points,setPoints] = useState([])
-const [skillPointData,setSkillPointData] = useState([])
+const [skillPointData,setSkillPointData] = useState({})
+
+useEffect(()=>{
+  console.log(skillPointData)
+},[skillPointData])
 
 function SaveData() {
   var saveObj = {
