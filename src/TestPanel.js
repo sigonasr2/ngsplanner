@@ -302,7 +302,7 @@ const [ppGraphMax,setppGraphMax] = useState(1000)
 const [atkGraphMax,setatkGraphMax] = useState(1000)
 const [defGraphMax,setdefGraphMax] = useState(1000)
 
-const [author,setauthor] = useState("Player")
+const [author,setAuthor] = useState("Player")
 const [buildName,setbuildName] = useState("Character")
 const [className,setClassName] = useState("Ranger")
 const [subclassName,setSubClassName] = useState("Force")
@@ -364,7 +364,38 @@ function SaveData() {
 
 function LoadData(build) {
   if (build) {
-    
+    axios.get(BACKENDURL+"/getBuild?id="+build)
+    .then((data)=>{
+      setAuthor(data.data.creator)
+      setbuildName(data.data.build_name)
+      setClassName(GetData("class",data.data.class1,"name",true))
+      setSubClassName(GetData("class",data.data.class2,"name",true))
+      var dat = JSON.parse(data.data.data)
+      setLevel(dat.level)
+      setsecondaryLevel(dat.secondaryLevel)
+      setPoints(dat.points)
+      setSkillPointData(dat.skillPointData)
+      var dat1=p.GetData("weapon_existence_data")
+      var weapon_type=GetData("weapon_type",dat.weaponType)
+      var weapon=GetData("weapon",dat.weaponBaseName)
+      var potential=GetData("potential",weapon.potential_id,undefined,true)
+      var potential_all=GetData("potential_data")
+      var potential_tooltip=[]
+      for (var pot in potential_all) {
+        if (pot.includes(potential.name)) {
+          potential_tooltip.push(p.GetData("potential_data",pot))
+        }
+      }
+      var existence_data = Array.isArray(dat1)?dat1.filter((weapon_existence_data)=>weapon_existence_data.weapon_type_id===weapon_type.id&&weapon_existence_data.weapon_id===weapon.id)[0]:undefined
+      console.log(JSON.stringify([weapon_type,weapon,potential,potential_tooltip,existence_data]))
+      setSelectedWeapon([weapon_type,weapon,potential,potential_tooltip,existence_data])
+      setSelectedArmor1(GetData("armor",dat.armor1Name))
+      setSelectedArmor2(GetData("armor",dat.armor2Name))
+      setSelectedArmor3(GetData("armor",dat.armor3Name))
+    })
+    .catch((err)=>{
+      console.log(err.message)
+    })
   }
 }
 
@@ -405,7 +436,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   LoadData(BUILDID)
-},[BUILDID])
+},[BUILDID,GetData])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -420,7 +451,7 @@ useEffect(()=>{
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
       <div className="basicInfo">
-<div style={{gridArea:"author"}}><span>Author</span></div><div style={{gridArea:"player",textAlign:"right"}}><EditBoxInput setData={setauthor} data={author}/></div>
+<div style={{gridArea:"author"}}><span>Author</span></div><div style={{gridArea:"player",textAlign:"right"}}><EditBoxInput setData={setAuthor} data={author}/></div>
 <div style={{gridArea:"build"}}><span>Build Name</span></div><div style={{gridArea:"character",textAlign:"right"}}><EditBoxInput setData={setbuildName} data={buildName}/></div>
 <div style={{gridArea:"class"}} onClick={()=>{setClassSelectWindowOpen(true)}}><span>Class</span></div><div><EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div><div style={{textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></div>  
 <div style={{gridArea:"subClass"}} onClick={()=>{setClassSkillTreeWindowOpen(true)}}><span>Sub-Class</span></div><div><EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div><div style={{textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/></div>
