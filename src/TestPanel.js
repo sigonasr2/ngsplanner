@@ -567,17 +567,18 @@ AUGMENT
               <dt>UI</dt>
                 <dd className="half">Grids. Grids everywhere.</dd>
                 <dd>Finish "Item Details" for Weapons/Armor</dd>
-                <dd className="half">Class Skill Window - Make it Scale</dd>
-                <dd>PA Selector</dd>
-                <dd>Food/Buffs Menu</dd>
+                <dd className="half">Class Skill Window Mobile View</dd>
+                <dd>Enemy Stats Box</dd>
+                <dd className="check">Food/Buffs Menu</dd>
                 <dd className="check">Get all the fckn icons</dd>
               <dt>Functionality</dt>
                 <dd>Food/Buffs Menu</dd>
-                <dd>PA Selector</dd>
+                <dd>Augments</dd>
+                <dd>Save/Load Build</dd>
                 <dd>fOrMuLaS</dd>
               <dt>Data</dt>
-                <dd>PA Selector</dd>
-                <dd>Skill Trees</dd>
+                <dd className="half">Skill Trees</dd>
+                <dd>Everything tbh</dd>
             </dl>
           </div>
 
@@ -749,7 +750,7 @@ AUGMENT
 <div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div>
 <div className="itemNameWrapper meat">meet</div>
 <div className="itemRarityWrapper"><img alt="" src={DisplayIcon("icons/NGSUIRarity1Star.png")} /></div>
-<div className="itemPropertiesWrapper"><span className="atk">9999</span><span class="pot">Indomitable Unit</span></div>
+<div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div>
 <div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div>
 </li>
 
