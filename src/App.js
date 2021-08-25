@@ -209,10 +209,7 @@ function TableEditor(p) {
 	},[update,p.path,p.BACKENDURL,p.password])
 	
 	return <>
-	{!loading?
-		<div>
-			<table>
-			  {importAllowed&&<caption><label className="buttonLabel" htmlFor="uploads">Import CSV</label><input onChange={(f)=>{
+	{!loading?<>			  {importAllowed&&<caption><label className="buttonLabel" htmlFor="uploads">Import CSV</label><input onChange={(f)=>{
 				const reader = new FileReader()
 				reader.onload=(ev)=>{
 					var promises=[]
@@ -231,6 +228,8 @@ function TableEditor(p) {
 				}
 				reader.readAsText(f.target.files[0])
 			  }} style={{opacity:0}} id="uploads" type="file" accept=".txt,.csv"/></caption>}
+		<div>
+			<table>
 			  <thead>
 				<tr>
 					<th className="table-padding"><TrashFill onClick={()=>{SubmitDeletion()}} className="trashButton"/></th>
@@ -245,7 +244,7 @@ function TableEditor(p) {
 						<InputBox lockSubmission={lockSubmission} data={dependencies[col.name]} callback={(value)=>patchValue(value,p,col,dat)} callback2={(f,value)=>{if (f.key==='Enter') {f.currentTarget.blur()} else {return 'Chill'}}} value={String(dat[col.name])}/></td>)}</tr>)}
 			  </tbody>
 			</table>
-		</div>:<><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/></>}
+		</div></>:<><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/><img src={process.env.PUBLIC_URL+"/spinner.gif"} alt=""/></>}
 	</>
 }
 
@@ -446,7 +445,7 @@ function AdminPanel(p) {
 			<div className="box boxAdminContent">
 		<div className="boxTitleBar">
 		<h1>{nav.page}</h1></div>
-		<div className="adminContainer customScrollbar">
+		<div className="adminContainer adminScrollbar">
 		<Helmet>
 					<title>{APP_TITLE+" - Admin Panel: "+nav.page}</title>
 				</Helmet>
