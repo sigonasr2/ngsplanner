@@ -4,6 +4,9 @@ import { DisplayIcon } from './DEFAULTS';
 import { ExpandTooltip } from './components/ExpandTooltip';
 import { SkillTree } from './skilltree/skillTree';
 import axios from 'axios';
+import Helmet from 'react-helmet'
+
+import { useLocation,useHistory,useParams,matchPath } from 'react-router';
 
 //Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
 const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
@@ -286,7 +289,12 @@ function SkillTreeContainer(p){
 
 function TestPanel(p) {
 
-const { GetData,LOGGEDINUSER,BUILDID,BACKENDURL,setBUILDID } = p
+
+let { BUILDID } = useParams()
+let history = useHistory();
+let location = useLocation();
+
+const { GetData,LOGGEDINUSER,LOGGEDINHASH,BACKENDURL,APP_TITLE } = p
 
 const [bpGraphMax,setbpGraphMax] = useState(1000)
 const [hpGraphMax,sethpGraphMax] = useState(1000)
@@ -323,10 +331,6 @@ const [classNameSetter,setClassNameSetter] = useState(0)
 const [points,setPoints] = useState([])
 const [skillPointData,setSkillPointData] = useState([])
 
-useEffect(()=>{
-  console.log(skillPointData)
-},[skillPointData])
-
 function SaveData() {
   var saveObj = {
     level:level,
@@ -342,14 +346,26 @@ function SaveData() {
   axios.post(BACKENDURL+"/submitBuild",{
     id:BUILDID,
     username:LOGGEDINUSER,
+    pass:LOGGEDINHASH,
     creator:author,
     build_name:buildName,
     class1:className,
     class2:subclassName,
     data:JSON.stringify(saveObj),})
   .then((data)=>{
-    setBUILDID(data.data.id)
+    const match=matchPath(location.pathname,{
+      path:p.path,
+      exact:true,
+      strict:false
+    })
+    history.push(match.path.replace("/:BUILDID","")+"/"+data.data.id)
   })
+}
+
+function LoadData(build) {
+  if (build) {
+    
+  }
 }
 
 function rarityCheck(v) {
@@ -387,9 +403,17 @@ useEffect(()=>{
   setSkillPointData(pointsDataArr)
 },[className,GetData])
 
+useEffect(()=>{
+  LoadData(BUILDID)
+},[BUILDID])
+
 //console.log(p.GetData("class",p.className,"icon"))
 
     return (<>
+    
+    <Helmet>
+      <title>{"Test - "+APP_TITLE+(BUILDID?" Build #"+BUILDID:"")}</title>
+    </Helmet>
 <div className="main">
   <div className="containerA">
     <div className="box basicInfoBox">
