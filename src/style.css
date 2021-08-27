@@ -67,19 +67,12 @@ ul {
 em {
 	font-style: normal;
 }
-#header {
-	background-color: rgba(0,0,0,0.33);
-	min-height: 50px;
-	padding: 20px;
-	text-align: left;
-	color:white;
-}
-.header a {
+header a {
 	/*color: #151f25;*/
 	color:white;
 	text-decoration: none;
 }
-.header a:hover {
+header a:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	text-decoration: none;
 }
@@ -96,23 +89,31 @@ em {
 	height:28px;
 }
 @media screen and (min-width:390px) and (max-width:860px) {
-.headermenuitem {
+.headerMenuItem {
 	display:none;
 }
 }
 @media screen and (max-width:390px) {
-.headermenuitem {
+.headerMenuItem {
 	display:none;
 }
 }
-.main,.header {
+.main, header {
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
 	gap: 10px;
 	margin: 0 10px;
 }
-
+header {
+	text-align: left;
+}
+header > div {
+	background-color: rgba(0,0,0,0.33);
+}
+header li {
+	display: inline-block;
+}
 .box {
 	/*color: #97e2fc;*/
 	color:white;
@@ -162,7 +163,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .basicInfo {
 	display: grid;
-	grid-template-columns: 1.5fr 1fr 1fr;
+	grid-template-columns: minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);
 	justify-content: stretch;
 	grid-template-areas:
 	"author player player"
@@ -177,7 +178,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin: 5px 10px 0;
 	padding: 0 5px 5px;
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(4, minmax(0,1fr));
 	justify-content: stretch;
 	grid-template-areas:
 	"bp . bpGraph bpGraph"
@@ -231,21 +232,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin-right: 5px;
 	vertical-align: top;
 }
-/*.box h2:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-}*/
-.da {
-	color: white;
-	text-align: right;
-}
-.da span {
-	background-color: rgba(20,29,40,0.66);
-	padding: 5px;
-}
-.da span:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-}
-
 .infoBuffs {
 	margin: 0 auto;
 	width: 90%;
@@ -454,8 +440,8 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin: 5px 10px 5px;
 	padding: 10px;
 	display: grid;
-	grid-template-columns: minmax(56px,auto) 1fr auto minmax(16px,auto);
-	grid-template-rows: auto 1fr auto;
+	grid-template-columns: minmax(56px,auto) minmax(0,1fr) minmax(0,auto) minmax(16px,auto);
+	grid-template-rows: minmax(0,auto) minmax(0,1fr) minmax(0,auto);
 	grid-template-areas:
 	"img itemname itemname rarity"
 	"img . . ."
@@ -909,7 +895,7 @@ div.skillMaxed .skillAllocated {
 .skillButtons {
 position:absolute;
 display: grid;
-grid-template-columns: repeat(2, 1fr);
+grid-template-columns: repeat(2, minmax(0,1fr));
 width: 171px;
 height: 148px;
 left: 0;
@@ -1243,7 +1229,7 @@ outline: 0 !important;
 	justify-items: stretch;
 	align-items: stretch;    
 	grid-template-columns: 250px 1fr;
-	grid-template-rows: minmax(10px, 1fr) max-content minmax(10px, 1fr);
+	grid-template-rows: minmax(10px, 1fr) 1fr minmax(10px, 1fr);
 	grid-template-areas:
 	"header header"
 	"sidebar content"
@@ -1454,7 +1440,7 @@ p.adminNav hr {
 	"icon properties"
 	"potential preset"
 	"augment augment";
-	grid-template-columns: 128px 1fr;
+	grid-template-columns: 128px minmax(0,1fr);
 	grid-template-rows: auto;
 	margin: 10px 10px 0 10px;
 	place-items: stretch;
