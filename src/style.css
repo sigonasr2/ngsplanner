@@ -103,16 +103,32 @@ header a:hover {
 	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
 	gap: 10px;
+}
+.main {
 	margin: 0 10px;
 }
 header {
+	background-color: rgba(0,0,0,0.66);
+	backdrop-filter: blur(10px);
 	text-align: left;
+	margin: 0;
 }
 header > div {
-	background-color: rgba(0,0,0,0.33);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
 }
-header li {
+.navigation {
+	text-align: center;
+	font-size: 17px;
+	font-family: "ngs2";
+	align-items: stretch;
+}
+.navigation li {
 	display: inline-block;
+	margin-left: 20px;;
+}
+.navigation2 {
+	text-align: right;
 }
 .box {
 	/*color: #97e2fc;*/
