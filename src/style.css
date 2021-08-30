@@ -251,7 +251,10 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .basicInfo > div, .statsInfo > div {
 	border-bottom: 1px solid rgba(128,128,128,0.5);
 	line-height: 25px;
-	position:relative;
+	position: relative;
+}
+.statsInfo > div:nth-last-child(1), .statsInfo > div:last-child {
+	border: 0;
 }
 .basicInfo > div > span, .statsInfo > div > span {
 	color: #97e2fc;
@@ -279,16 +282,21 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	content: " \25C6";
 	margin-right: 10px;
 }
-.box h2 {
+.viewedEquipName {
 	color: white;
 	font-weight: normal;
 	font-size: 18px;
 	margin: 10px 10px 0 10px;
 	text-align: left;
 }
-.box h2 img {
+.viewedEquipName img {
 	margin-right: 5px;
 	vertical-align: top;
+}
+.saveControls {
+	margin-top: 10px;
+	padding: 0 10px;
+	text-align: right;
 }
 .infoBuffs {
 	margin: 0 auto;

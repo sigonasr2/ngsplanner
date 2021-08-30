@@ -441,6 +441,9 @@ useEffect(()=>{
     </Helmet>
 <div className="main">
   <div className="containerA">
+
+
+
     <div className="box basicInfoBox">
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
@@ -475,40 +478,14 @@ useEffect(()=>{
   <img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br />
 </div>
 
-<div style={{gridArea:"dmgRes"}}>Damage Resist.</div><div style={{gridArea:"dmgRes2"}}>{(p.damageResist*100).toFixed(1)}%</div>
-<button onClick={()=>{SaveData()}}>Save</button>
+<div style={{gridArea:"dmgRes"}}><span>Damage Resist.</span></div><div style={{gridArea:"dmgRes2"}}>{(p.damageResist*100).toFixed(1)}%</div>
 
-      </div>
-      </div>
+      </div><section className="saveControls">
+      <button onClick={()=>{SaveData()}}>Save Build</button>
+      </section></div>
+
+
       <div className="box">
-      <div className="boxTitleBar">
-      <h1>Current Effects</h1></div>
-      <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
-      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setFoodMenuWindowOpen(true)}}>Food Boost Effect
-      
-        
-          
-            <ul>
-              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
-            </ul>
-          </li>
-          <li>Shifta / Deband
-            <ul>
-              <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
-              <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
-            </ul>
-          </li>
-          <li>Region Mag Boost
-            <ul>
-              <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
-            </ul>
-          </li></ul></>:<></>
-      }
-      </div>
-      </div>
-      <div className="containerB">
-        <div className="box">
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
@@ -519,10 +496,15 @@ useEffect(()=>{
                 </div>
               </div>
 
+
+
+
+      </div>
+      <div className="containerB">
           <div className="box">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
-            <h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
+            <h2 className="viewedEquipName rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
             <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}>Edit Details</PageControl>
             {weaponPage === 1 ?
 
@@ -615,7 +597,32 @@ AUGMENT
       <div className="containerC">
 
 
-
+      <div className="box">
+      <div className="boxTitleBar">
+      <h1>Current Effects</h1></div>
+      <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
+      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setFoodMenuWindowOpen(true)}}>Food Boost Effect
+      
+        
+          
+            <ul>
+              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+            </ul>
+          </li>
+          <li>Shifta / Deband
+            <ul>
+              <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Potency +5.0%</li>
+              <li><img alt="" src="https://i.imgur.com/VIYYNIm.png" />&ensp;Damage Resistance +10.0%</li>
+            </ul>
+          </li>
+          <li>Region Mag Boost
+            <ul>
+              <li><img alt="" src="https://i.imgur.com/N6M74Qr.png" />&ensp;Potency +5.0%</li>
+            </ul>
+          </li></ul></>:<></>
+      }
+      </div>
       <div className="box">
       <div className="boxTitleBar">
       <h1>Damage Stats</h1></div>
