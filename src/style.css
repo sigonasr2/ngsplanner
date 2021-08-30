@@ -106,6 +106,7 @@ header a {
 	margin-right: auto;
 	font-size:24px;
 	line-height: 47px;
+	white-space: nowrap;
 }
 .logo span{
 	font-size:16px;
@@ -115,13 +116,12 @@ header a {
 	height: 40px;
 }
 .logo a {
-	padding: 0 15px;
+	padding: 0 45px 0 15px;
 }
 .navigation {
 	text-align: left;
 	font-size: 17px;
 	font-family: "ngs2";
-	margin-left: 30px;
 	line-height: 50px;
 }
 .navigation a {
@@ -1198,6 +1198,7 @@ outline: 0 !important;
 	border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin: 10px 10px 0;
 	padding: 10px 5px;
+	text-align: left;
 }
 .boxMisc h2:before {
     content: url("./icons/NGSUIItemGunbladeMini.png");
