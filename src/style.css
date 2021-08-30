@@ -76,30 +76,21 @@ header a:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	text-decoration: none;
 }
-@media screen and (min-width:390px) and (max-width:860px) {
-.headerMenuItem {
-	display:none;
-}
-}
-@media screen and (max-width:390px) {
-.headerMenuItem {
-	display:none;
-}
-}
 .main, header {
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
+	gap: 10px;
 }
 .main {
 	margin: 0 10px;
-	gap: 10px;
 }
 header {
 	background-color: rgba(0,0,0,0.5);
 	backdrop-filter: blur(10px);
 	text-align: left;
 	margin: 0;
+	padding: 0 10px;
 }
 .headerWrapper {
 	grid-area: 1 / span 3;
@@ -123,11 +114,15 @@ header a {
 .logo img {
 	height: 40px;
 }
+.logo a {
+	padding: 0 15px;
+}
 .navigation {
 	text-align: left;
 	font-size: 17px;
 	font-family: "ngs2";
 	margin-left: 30px;
+	line-height: 50px;
 }
 .navigation a {
 	padding: 0 15px;
@@ -136,25 +131,46 @@ header a {
 	display: inline-block;
 	border-color: rgba(255,255,255,0.13);
 	border-style: solid;
-	border-width: 0 1px 0 0;
-	line-height: 50px;
+	border-left-width: 1px;
+}
+.navigation li:last-child {
+	border-right-width: 1px;
 }
 .rightNav {
 	text-align: right;
-	line-height: 45px;
+	line-height: 43px;
 }
 .rightNav a {
 	padding: 0 15px;
 }
 .rightNav img {
 	height: 40px;
-	margin-bottom: 4px;
+	margin-bottom: 5px;
 	clip-path: circle(44%);
 }
 .dotMenu {
 	display: inline-block;
 	font-family: "Segoe UI Symbol";
 	font-size: 24px;
+}
+.miniNav {
+	display: none;
+	grid-area: 2 / span 2;
+	line-height: 45px;
+	text-align: right;
+}
+.miniNav span {
+	display: inline-block;
+	font-family: "Segoe UI Symbol";
+	font-size: 24px;
+}
+@media screen and (max-width:860px) {
+	.navigation > ul, .loginNav {
+		display: none;
+		}
+	.miniNav {
+		display: initial;
+	}
 }
 .box {
 	/*color: #97e2fc;*/
@@ -626,12 +642,7 @@ li.selected:hover {
 	overflow-x: hidden;
 	margin: 10px 5px 0 0;
 	padding: 2px;
-}/*
-@media screen and (min-width:390px) and (max-width:860px) {
-.itemlistcontainer {
-	max-height: 300px;
 }
-}*/
 .itemWrapper:hover, .treeList li:hover {
 	background-color: rgba(113,169,189,0.33);
 	outline: 2px solid rgba(54,255,255,0.66);
@@ -843,12 +854,6 @@ li.treeListSub:after {
 	max-height: calc(90vh - 150px);
 	min-width: 0;
 }
-
-/*@media screen and (min-width:390px) and (max-width:860px) {
-.skillTreeContainer {
-	max-height: 300px;
-}
-}*/
 .skillTreeGrid {
 	display: grid;
 	grid-template-columns: repeat(6, 181px);
