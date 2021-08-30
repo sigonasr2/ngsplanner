@@ -76,18 +76,6 @@ header a:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	text-decoration: none;
 }
-.logo {
-	font-family: "ngs2";
-	margin-right: auto;
-	font-size:24px;
-}
-.logo span{
-	font-size:16px;
-	text-transform: uppercase;
-}
-.logo img {
-	height:28px;
-}
 @media screen and (min-width:390px) and (max-width:860px) {
 .headerMenuItem {
 	display:none;
@@ -102,33 +90,71 @@ header a:hover {
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
 	justify-content: center;
-	gap: 10px;
 }
 .main {
 	margin: 0 10px;
+	gap: 10px;
 }
 header {
-	background-color: rgba(0,0,0,0.66);
+	background-color: rgba(0,0,0,0.5);
 	backdrop-filter: blur(10px);
 	text-align: left;
 	margin: 0;
 }
-header > div {
+.headerWrapper {
+	grid-area: 1 / span 3;
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+	grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
+	place-items: stretch;
+}
+header a {
+	display: block;
+}
+.logo {
+	font-family: "ngs2";
+	margin-right: auto;
+	font-size:24px;
+	line-height: 47px;
+}
+.logo span{
+	font-size:16px;
+	text-transform: uppercase;
+}
+.logo img {
+	height: 40px;
 }
 .navigation {
-	text-align: center;
+	text-align: left;
 	font-size: 17px;
 	font-family: "ngs2";
-	align-items: stretch;
+	margin-left: 30px;
+}
+.navigation a {
+	padding: 0 15px;
 }
 .navigation li {
 	display: inline-block;
-	margin-left: 20px;;
+	border-color: rgba(255,255,255,0.13);
+	border-style: solid;
+	border-width: 0 1px 0 0;
+	line-height: 50px;
 }
-.navigation2 {
+.rightNav {
 	text-align: right;
+	line-height: 45px;
+}
+.rightNav a {
+	padding: 0 15px;
+}
+.rightNav img {
+	height: 40px;
+	margin-bottom: 4px;
+	clip-path: circle(44%);
+}
+.dotMenu {
+	display: inline-block;
+	font-family: "Segoe UI Symbol";
+	font-size: 24px;
 }
 .box {
 	/*color: #97e2fc;*/
@@ -234,7 +260,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .boxTitleBar h1:before {
 	font-family: "Segoe UI Symbol";
-	content: ' \25C6';
+	content: " \25C6";
 	margin-right: 10px;
 }
 .box h2 {
