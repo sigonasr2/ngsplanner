@@ -253,7 +253,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	line-height: 25px;
 	position: relative;
 }
-.statsInfo > div:nth-last-child(1), .statsInfo > div:last-child {
+.statsInfo > div:nth-last-child(1), .statsInfo > div:nth-last-child(2) {
 	border: 0;
 }
 .basicInfo > div > span, .statsInfo > div > span {
