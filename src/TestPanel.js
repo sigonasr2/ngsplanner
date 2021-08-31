@@ -532,6 +532,8 @@ useEffect(()=>{
 <span className="aug">Augment</span>
 <div className="itemDetailsAugmentWrapper">
 
+<div><span>Precision III</span></div>
+<div></div>
 <div></div>
 <div></div>
 
