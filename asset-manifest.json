@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.bcee24f2.chunk.css",
+    "main.css": "/static/css/main.3643d25f.chunk.css",
     "main.js": "/static/js/main.f0d718e5.chunk.js",
     "main.js.map": "/static/js/main.f0d718e5.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.10c77e39.js",
@@ -10,14 +10,14 @@
     "static/js/3.897b2d38.chunk.js": "/static/js/3.897b2d38.chunk.js",
     "static/js/3.897b2d38.chunk.js.map": "/static/js/3.897b2d38.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.bcee24f2.chunk.css.map": "/static/css/main.bcee24f2.chunk.css.map",
+    "static/css/main.3643d25f.chunk.css.map": "/static/css/main.3643d25f.chunk.css.map",
     "static/js/2.f4627e90.chunk.js.LICENSE.txt": "/static/js/2.f4627e90.chunk.js.LICENSE.txt",
     "static/media/style.css": "/static/media/skilltree_div_overlay.6d142e79.png"
   },
   "entrypoints": [
     "static/js/runtime-main.10c77e39.js",
     "static/js/2.f4627e90.chunk.js",
-    "static/css/main.bcee24f2.chunk.css",
+    "static/css/main.3643d25f.chunk.css",
     "static/js/main.f0d718e5.chunk.js"
   ]
 }
