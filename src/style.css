@@ -253,7 +253,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	line-height: 25px;
 	position: relative;
 }
-.statsInfo > div:nth-last-child(1), .statsInfo > div:nth-last-child(2) {
+.statsInfo > div:nth-last-child(-n+2) {
 	border: 0;
 }
 .basicInfo > div > span, .statsInfo > div > span {
@@ -536,9 +536,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.itemRarityWrapper {
-	grid-area: rarity;
-}
 .r1 .itemRarityWrapper {
 	content: url("./icons/NGSUIRarity1Star.png");
 }
@@ -580,11 +577,11 @@ li.selected:hover {
 	outline: 2px solid hsl(180, 78%, 50%);
 }*/
 
-.itemControlsWrapper > span:nth-child(1), .itemControlsWrapper > span:nth-child(3) {
+.itemControlsWrapper > span:nth-child(odd) {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
 }
-.itemControlsWrapper > span:nth-child(1):hover, .itemControlsWrapper > span:nth-child(3):hover {
+.itemControlsWrapper > span:nth-child(odd):hover {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
@@ -1490,6 +1487,9 @@ p.adminNav hr {
 	position:relative;
 	top:16px;
 }
+.equipWindow {
+	height: 440px;
+}
 .itemDetailsGrid {
 	display: grid;
 	grid-template-areas:
@@ -1497,9 +1497,7 @@ p.adminNav hr {
 	"ability ability"
 	"augment augment";
 	grid-template-columns: 128px minmax(0,1fr);
-	grid-template-rows: auto;
 	margin: 10px 10px 0 10px;
-	place-items: stretch;
 }
 .itemDetailsIcon {
 	background-color: hsl(0, 17%, 70%);
@@ -1508,6 +1506,27 @@ p.adminNav hr {
 .itemDetailsProperties {
 	margin: 0 0 0 10px;
 	grid-area: properties;
+}
+.itemDetailsPropertiesWrapper {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0,1fr);
+	grid-template-areas:
+	"rarity stars"
+	"attack attackDisplay"
+	"element elementDisplay"
+	"conditions conditionsDisplay";
+	text-align: left;
+	gap: 10px 0;
+}
+.itemDetailsPropertiesWrapper > div {
+	border-bottom: 1px solid rgba(128,128,128,0.5);
+	padding-bottom: 2px;
+}
+.itemDetailsPropertiesWrapper > div:nth-child(odd) {
+	color: #97e2fc;
+}
+.itemDetailsPropertiesWrapper > div:nth-child(even) {
+	padding-left: 0;
 }
 .itemDetailsAugment {
 	margin: 15px 0 0 0;
@@ -1523,6 +1542,7 @@ p.adminNav hr {
 	background-color:rgba(0,0,0,0.33);
 	padding: 2px 10px;
 	border-radius: 0 10px 0 0;
+	height: 20px;
 }
 .itemAbility {
 	grid-area: ability;
