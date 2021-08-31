@@ -501,7 +501,7 @@ useEffect(()=>{
 
       </div>
       <div className="containerB">
-          <div className="box">
+          <div className="box equipWindow">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
             <h2 className="viewedEquipName rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
@@ -512,18 +512,32 @@ useEffect(()=>{
 <div className="itemDetailsGrid">
 <div className={"itemDetailsIcon"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><img alt="" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
 <div className="itemDetailsProperties">
-RARITY<br />
-ATTACK<br />
-ELEMENT<br />
-EQUIP CONDITIONS<br />
-NOT TRADABLE
-</div>
-<div className="itemPotential">POTENTIAL</div><div className="itemPreset">PRESET</div>
+<div className="itemDetailsPropertiesWrapper">
+
+<div style={{gridArea:"rarity"}}>Rarity</div>
+<div style={{gridArea:"stars"}}className={rarityCheck(selectedWeapon[WEAPON_WEAPON])}><div className="itemRarityWrapper">-</div></div>
+
+<div style={{gridArea:"attack"}}>Attack</div>
+<div style={{gridArea:"attackDisplay"}}>282</div>
+
+<div style={{gridArea:"element"}}>Element</div>
+<div style={{gridArea:"elementDisplay"}}>-</div>
+
+<div style={{gridArea:"conditions"}}>Equip Conditons</div>
+<div style={{gridArea:"conditionsDisplay"}}>Lv.15 (Current Lv.20)</div>
+
+</div></div>
+<div className="itemAbility"><div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div><div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div></div>
 <div className="itemDetailsAugment">
-AUGMENT 
+<span className="aug">Augment</span>
+<div className="itemDetailsAugmentWrapper">
 
+<div><span>Precision III</span></div>
+<div></div>
+<div></div>
+<div></div>
 
-
+</div>
 </div>
 </div>
 
@@ -773,7 +787,7 @@ AUGMENT
     setArmorSelectWindowOpen(false)}}>
           <div className="itemImgWrapper"><img alt="" src={DisplayIcon(item?.icon)} /></div>
           <div className="itemNameWrapper rifle">{item.name}</div>
-          <div className="itemRarityWrapper">&nbsp;</div>
+          <div className="itemRarityWrapper" style={{gridArea:"rarity"}}>&nbsp;</div>
           <div className="itemPropertiesWrapper"><span className="atk">{item.def}</span></div>
         </div>
       }}

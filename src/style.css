@@ -91,6 +91,8 @@ header {
 	text-align: left;
 	margin: 0;
 	padding: 0 10px;
+	line-height: 50px;
+	height: 50px
 }
 .headerWrapper {
 	grid-area: 1 / span 3;
@@ -100,12 +102,12 @@ header {
 }
 header a {
 	display: block;
+	height: 50px
 }
 .logo {
 	font-family: "ngs2";
 	margin-right: auto;
 	font-size:24px;
-	line-height: 47px;
 	white-space: nowrap;
 }
 .logo span{
@@ -120,9 +122,6 @@ header a {
 }
 .navigation {
 	text-align: left;
-	font-size: 17px;
-	font-family: "ngs2";
-	line-height: 50px;
 }
 .navigation a {
 	padding: 0 15px;
@@ -132,13 +131,14 @@ header a {
 	border-color: rgba(255,255,255,0.13);
 	border-style: solid;
 	border-left-width: 1px;
+	font-size: 17px;
+	font-family: "ngs2";
 }
 .navigation li:last-child {
 	border-right-width: 1px;
 }
 .rightNav {
 	text-align: right;
-	line-height: 43px;
 }
 .rightNav a {
 	padding: 0 15px;
@@ -150,19 +150,13 @@ header a {
 }
 .dotMenu {
 	display: inline-block;
-	font-family: "Segoe UI Symbol";
 	font-size: 24px;
+	font-weight: 900;
+	letter-spacing: 2px;
 }
 .miniNav {
 	display: none;
-	grid-area: 2 / span 2;
-	line-height: 45px;
 	text-align: right;
-}
-.miniNav span {
-	display: inline-block;
-	font-family: "Segoe UI Symbol";
-	font-size: 24px;
 }
 @media screen and (max-width:860px) {
 	.navigation > ul, .loginNav {
@@ -173,7 +167,6 @@ header a {
 	}
 }
 .box {
-	/*color: #97e2fc;*/
 	color:white;
 	background-clip: padding-box;
 	background-color: rgba(24, 36, 48, 0.66);
@@ -253,7 +246,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	line-height: 25px;
 	position: relative;
 }
-.statsInfo > div:nth-last-child(1), .statsInfo > div:nth-last-child(2) {
+.statsInfo > div:nth-last-child(-n+2) {
 	border: 0;
 }
 .basicInfo > div > span, .statsInfo > div > span {
@@ -536,9 +529,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.itemRarityWrapper {
-	grid-area: rarity;
-}
 .r1 .itemRarityWrapper {
 	content: url("./icons/NGSUIRarity1Star.png");
 }
@@ -580,11 +570,11 @@ li.selected:hover {
 	outline: 2px solid hsl(180, 78%, 50%);
 }*/
 
-.itemControlsWrapper > span:nth-child(1), .itemControlsWrapper > span:nth-child(3) {
+.itemControlsWrapper > span:nth-child(odd) {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
 }
-.itemControlsWrapper > span:nth-child(1):hover, .itemControlsWrapper > span:nth-child(3):hover {
+.itemControlsWrapper > span:nth-child(odd):hover {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
@@ -1490,32 +1480,81 @@ p.adminNav hr {
 	position:relative;
 	top:16px;
 }
+.equipWindow {
+	height: 440px;
+}
 .itemDetailsGrid {
 	display: grid;
 	grid-template-areas:
 	"icon properties"
-	"potential preset"
+	"ability ability"
 	"augment augment";
 	grid-template-columns: 128px minmax(0,1fr);
-	grid-template-rows: auto;
 	margin: 10px 10px 0 10px;
-	place-items: stretch;
 }
 .itemDetailsIcon {
-	background-color: hsl(0, 17%, 70%);
 	grid-area: icon;
+	align-self: center;
 }
 .itemDetailsProperties {
+	margin: 0 0 0 10px;
 	grid-area: properties;
 }
+.itemDetailsPropertiesWrapper {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0,1fr);
+	grid-template-areas:
+	"rarity stars"
+	"attack attackDisplay"
+	"element elementDisplay"
+	"conditions conditionsDisplay";
+	text-align: left;
+	gap: 10px 0;
+}
+.itemDetailsPropertiesWrapper > div {
+	border-bottom: 1px solid rgba(128,128,128,0.5);
+	padding-bottom: 2px;
+}
+.itemDetailsPropertiesWrapper > div:nth-child(odd) {
+	color: #97e2fc;
+}
+.itemDetailsPropertiesWrapper > div:nth-child(even) {
+	padding-left: 0;
+}
 .itemDetailsAugment {
+	margin: 15px 0 0 0;
 	grid-area: augment;
 }
-.itemPotential {
-	grid-area: potential;
+.itemDetailsAugmentWrapper {
+	margin: 10px 0 0 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(100px,200px));
+	gap: 10px 30px;
 }
-.itemPreset {
-	grid-area: preset;
+.itemDetailsAugmentWrapper > div {
+	background-color:rgba(0,0,0,0.33);
+	padding: 2px 10px;
+	border-radius: 0 10px 0 0;
+	height: 20px;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+}
+.itemDetailsAugmentWrapper > div span:before {
+	content: "\00B7";
+	margin-right: 10px;
+	font-weight: 900;
+}
+.itemAbility {
+	grid-area: ability;
+	display: grid;
+	grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+	margin: 20px 0 0 0;
+}
+.itemPotential {
+	text-align: left;
+}
+.itemFixa {
+	text-align: left;
 }
 .itemDetailsIcon img {
 	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
