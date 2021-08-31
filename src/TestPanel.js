@@ -518,12 +518,15 @@ ELEMENT<br />
 EQUIP CONDITIONS<br />
 NOT TRADABLE
 </div>
-<div className="itemPotential">POTENTIAL</div><div className="itemPreset">PRESET</div>
+<div className="itemAbility"><div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div><div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div></div>
 <div className="itemDetailsAugment">
-AUGMENT 
-
-
-
+<span className="aug">Augment</span>
+<div className="itemDetailsAugmentWrapper">
+<div>test</div>
+<div>test</div>
+<div>test</div>
+<div>test</div>
+</div>
 </div>
 </div>
 
