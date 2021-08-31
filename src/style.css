@@ -1493,8 +1493,8 @@ p.adminNav hr {
 	margin: 10px 10px 0 10px;
 }
 .itemDetailsIcon {
-	background-color: hsl(0, 17%, 70%);
 	grid-area: icon;
+	align-self: center;
 }
 .itemDetailsProperties {
 	margin: 0 0 0 10px;
