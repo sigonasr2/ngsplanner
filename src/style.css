@@ -40,6 +40,9 @@ hr {
 img {
 	vertical-align: middle;
 }
+html {
+	min-height: -webkit-fill-available;
+}
 body {
     background-image: url("https://pbs.twimg.com/media/E8tfm23VUAQTAAu?format=jpg&name=4096x4096");
 	background-color: #484848;
@@ -53,6 +56,9 @@ body {
 	font-weight: normal;
 	text-align: center;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0.66), 1px -1px 0 rgba(0,0,0,0.66), -1px 1px 0 rgba(0,0,0,0.66), 1px 1px 0 rgba(0,0,0,0.66);
+	min-height: 100vh;
+	/* mobile viewport bug fix */
+	min-height: -webkit-fill-available;
 }
 table {
     border-spacing: 0;
@@ -956,7 +962,7 @@ cursor:pointer !important;
 	color: white;
 	font-size: 14pt;
 	display: grid;
-	grid-template-columns: repeat(auto-fit,292px);
+	grid-template-columns: repeat(auto-fill,292px);
 	justify-content: center;
 	gap: 10px;
 }
@@ -1083,6 +1089,8 @@ button {
 	grid-template-columns: minmax(10px, 1fr) minmax(200px, auto) minmax(10px, 1fr);
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 	min-height: 100vh;
+	/* mobile viewport bug fix */
+	min-height: -webkit-fill-available;
 }
 .modalOverlaySplash {
     position: fixed;
@@ -1097,6 +1105,8 @@ button {
 	grid-template-columns: minmax(10px, 1fr) minmax(200px, auto) minmax(10px, 1fr);
 	grid-template-rows: 10px minmax(10px, 1fr) minmax(10px, auto);
 	min-height: 100vh;
+	/* mobile viewport bug fix */
+	min-height: -webkit-fill-available;
 }
 .modalOverlaySplash > footer {
 	grid-column: 1 / span 3;
@@ -1521,7 +1531,7 @@ p.adminNav hr {
 .itemDetailsAugmentWrapper {
 	margin: 10px 0 0 0;
 	display: grid;
-	grid-template-columns: repeat(2,minmax(125px, 1fr));
+	grid-template-columns: repeat(auto-fit,minmax(125px, 1fr));
 	gap: 10px 30px;
 	
 }
