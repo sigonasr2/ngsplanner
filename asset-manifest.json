@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.3643d25f.chunk.css",
-    "main.js": "/static/js/main.a54d27a1.chunk.js",
-    "main.js.map": "/static/js/main.a54d27a1.chunk.js.map",
+    "main.css": "/static/css/main.0b9699ce.chunk.css",
+    "main.js": "/static/js/main.c9c12110.chunk.js",
+    "main.js.map": "/static/js/main.c9c12110.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.1f69a3c5.js",
     "runtime-main.js.map": "/static/js/runtime-main.1f69a3c5.js.map",
     "static/js/2.3be5c726.chunk.js": "/static/js/2.3be5c726.chunk.js",
@@ -10,14 +10,14 @@
     "static/js/3.2a34c906.chunk.js": "/static/js/3.2a34c906.chunk.js",
     "static/js/3.2a34c906.chunk.js.map": "/static/js/3.2a34c906.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.3643d25f.chunk.css.map": "/static/css/main.3643d25f.chunk.css.map",
+    "static/css/main.0b9699ce.chunk.css.map": "/static/css/main.0b9699ce.chunk.css.map",
     "static/js/2.3be5c726.chunk.js.LICENSE.txt": "/static/js/2.3be5c726.chunk.js.LICENSE.txt",
     "static/media/style.css": "/static/media/skilltree_div_overlay.6d142e79.png"
   },
   "entrypoints": [
     "static/js/runtime-main.1f69a3c5.js",
     "static/js/2.3be5c726.chunk.js",
-    "static/css/main.3643d25f.chunk.css",
-    "static/js/main.a54d27a1.chunk.js"
+    "static/css/main.0b9699ce.chunk.css",
+    "static/js/main.c9c12110.chunk.js"
   ]
 }
