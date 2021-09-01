@@ -8,6 +8,8 @@ import {TrashFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'rea
 
 import { SkillTreeEditor } from './skilltree/skillTreeEditor'
 
+import { GoogleLogin } from 'react-google-login';
+
 import {
   HashRouter,
   Switch,
@@ -652,6 +654,7 @@ function LoginForm(p) {
 	const [rememberMe,setRememberMe] = useState(false)
 	const [error,setError] = useState("")
 	const [loading,setLoading] = useState(false)
+	const [message,setMessage] = useState("")
 
 	const history = useHistory()
 
@@ -686,6 +689,37 @@ function LoginForm(p) {
 		})
 	}
 
+	function responseGoogle(response) {
+		if (response.error) {
+			setMessage(JSON.stringify(response))
+		} else 
+		if (response.profileObj.googleId&&
+			response.profileObj.imageUrl&&
+			response.profileObj.email&&
+			response.profileObj.name&&
+			response.tokenId){
+			axios.post(GetBackendURL(p)+"/registerUser",{
+				username:response.profileObj.name,
+				email:response.profileObj.email,
+				password:response.profileObj.tokenId,
+				avatar:response.profileObj.imageUrl,
+				userID:response.profileObj.googleId,
+			})
+			.then((data)=>{
+				if (data.data.verified) {
+					p.setLOGGEDINUSER(response.profileObj.name)
+					p.setLOGGEDINHASH(response.profileObj.tokenId)
+					setUsername("")
+					setPassword("")
+					setRememberMe(false)
+					history.push("/")
+				} else {
+					setError("Could not authenticate!")
+				}
+			})
+		}
+	  }
+
 	return <>
 	<Box title="Login Form">
 	{loading?
@@ -694,7 +728,18 @@ function LoginForm(p) {
 		<FormField field="username" label="Username: " value={username} maxlength={20} onChange={(p)=>{setUsername(p.currentTarget.value)}} placeholder="Username"/><br/>
 		<FormField field="password" label="Password: " type="password" value={password} onChange={(p)=>{setPassword(p.currentTarget.value)}} placeholder="Password"/><br/>
 		<FormField field="rememberMe" label="Remember Me " type="toggle" checked={rememberMe} onChange={(p)=>{setRememberMe(p.currentTarget.checked)}}/><br/>
-		<button type="submit" onClick={SubmitLogin}>Login</button></div></>
+		<button type="submit" onClick={SubmitLogin}>Login</button></div>
+		<hr/>
+		{message}<br/>
+		<GoogleLogin
+			theme="dark"
+			clientId="1081276553893-r50huhr0f9hkpcd7fdbb0oe4qcpglcpp.apps.googleusercontent.com"
+			buttonText="Login"
+			onSuccess={responseGoogle}
+			onFailure={responseGoogle}
+			cookiePolicy={'single_host_origin'}
+		/>
+		</>
 	}
 	</Box></>
 }
