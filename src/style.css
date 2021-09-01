@@ -437,22 +437,11 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin-right: 5px;
 	vertical-align: middle;
 }
-.itemwep {
-	font-size: 10pt;
-}
-
 .itemWeaponWrapper {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding-right: 16px;
-}
-.itemwep em {
-	font-size: 12pt;
-	line-height: 28px;
-}
-.itemwep:after {
-	clear:both;
 }
 .rifle:before {
     content: url("./icons/NGSUIItemAssaultRifleMini.png");
@@ -573,6 +562,7 @@ li.selected:hover {
 .itemControlsWrapper > span:nth-child(odd) {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
+	min-width: 26px;
 }
 .itemControlsWrapper > span:nth-child(odd):hover {
 	background-color: rgba(113,169,189,0.33);
@@ -582,10 +572,11 @@ li.selected:hover {
 }
 .itemControlsWrapper > span:nth-child(2) {
 	background-color:rgba(0,0,0,0.33);
+	min-width: 26px;
 }
 .itemControlsWrapper > span {
 	display:inline-block;
-	padding: 5px 10px;
+	padding: 5px 0;
 	text-align: center;
 	margin: 0 0 0 5px;
 }
@@ -1481,7 +1472,7 @@ p.adminNav hr {
 	top:16px;
 }
 .equipWindow {
-	height: 440px;
+	min-height: 440px;
 }
 .itemDetailsGrid {
 	display: grid;
@@ -1528,8 +1519,9 @@ p.adminNav hr {
 .itemDetailsAugmentWrapper {
 	margin: 10px 0 0 0;
 	display: grid;
-	grid-template-columns: repeat(auto-fit,minmax(100px,200px));
+	grid-template-columns: repeat(2,minmax(125px, 1fr));
 	gap: 10px 30px;
+	
 }
 .itemDetailsAugmentWrapper > div {
 	background-color:rgba(0,0,0,0.33);
