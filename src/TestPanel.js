@@ -448,37 +448,45 @@ useEffect(()=>{
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
       <div className="basicInfo">
-<div style={{gridArea:"author"}}><span>Author</span></div><div style={{gridArea:"player",textAlign:"right"}}><EditBoxInput setData={setAuthor} data={author}/></div>
-<div style={{gridArea:"build"}}><span>Build Name</span></div><div style={{gridArea:"character",textAlign:"right"}}><EditBoxInput setData={setbuildName} data={buildName}/></div>
-<div style={{gridArea:"class"}} onClick={()=>{setClassSelectWindowOpen(true)}}><span>Class</span></div><div><EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div><div style={{textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></div>  
-<div style={{gridArea:"subClass"}} onClick={()=>{setClassSkillTreeWindowOpen(true)}}><span>Sub-Class</span></div><div><EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div><div style={{textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/></div>
+<div style={{gridArea:"author"}}>Author</div>
+<div style={{gridArea:"build"}}>Build Name</div>
+<div style={{gridArea:"class"}} onClick={()=>{setClassSelectWindowOpen(true)}}>Class</div>
+<div style={{gridArea:"subclass"}} onClick={()=>{setClassSkillTreeWindowOpen(true)}}>Sub-Class</div>
+
+<div style={{gridArea:"class2"}}><EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
+<div style={{gridArea:"subclass2"}}><EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
+
+<div style={{gridArea:"player",textAlign:"right"}}><EditBoxInput setData={setAuthor} data={author}/></div>
+<div style={{gridArea:"character",textAlign:"right"}}><EditBoxInput setData={setbuildName} data={buildName}/></div>
+<div style={{gridArea:"classlv",textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></div>  
+<div style={{gridArea:"subclasslv",textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/></div>
       </div>
       <div className="statsInfo">
-<div style={{gridArea:"bp"}}><span>Battle Power</span></div><div>{p.bp}</div><div style={{gridArea:"bpGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
-<div style={{gridArea:"hp"}}><span>HP</span></div><div>{p.hp}</div><div style={{gridArea:"hpGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
-<div style={{gridArea:"pp"}}><span>PP</span></div><div>{p.pp}</div><div style={{gridArea:"ppGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
-<div style={{gridArea:"atk"}}><span>Attack</span></div><div>{p.statDisplayAtk}</div><div style={{gridArea:"atkGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
-<div style={{gridArea:"def"}}><span>Defense</span></div><div>{p.def}</div><div style={{gridArea:"defGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
+<div style={{gridArea:"bp"}}>Battle Power</div>
+<div style={{gridArea:"hp"}}>HP</div>
+<div style={{gridArea:"pp"}}>PP</div>
+<div style={{gridArea:"atk"}}>Attack</div>
+<div style={{gridArea:"def"}}>Defense</div>
+<div style={{gridArea:"wepUp"}}>Weapon Up</div>
+<div style={{gridArea:"res"}}>Ailment Resist.</div>
+<div style={{gridArea:"dmgRes",border:"0"}}>Damage Resist.</div>
 
-<div style={{gridArea:"wepUp"}}><span>Weapon Up</span></div>
-<div style={{gridArea:"wepUp2",color:"#ffb74c"}}><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /> +{(p.weaponUp1*100).toFixed(1)}%<br />
-<img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /> +{(p.weaponUp3*100).toFixed(1)}%</div>
-<div style={{gridArea:"wepUp3",color:"#ffb74c"}}><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /> +{(p.weaponUp2*100).toFixed(1)}%</div>
+<div style={{gridArea:"bp2"}}>{p.bp}</div>
+<div style={{gridArea:"hp2"}}>{p.hp}</div>
+<div style={{gridArea:"pp2"}}>{p.pp}</div>
+<div style={{gridArea:"atk2"}}>{p.statDisplayAtk}</div>
+<div style={{gridArea:"def2"}}>{p.def}</div>
+<div style={{gridArea:"wepUp2",color:"#ffb74c"}}><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /> +{(p.weaponUp1*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /> +{(p.weaponUp3*100).toFixed(1)}%</div>
+<div style={{gridArea:"res2"}}><img alt="" src={process.env.PUBLIC_URL+"/icons/status/burn.png"} /> {(p.burnResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/shock.png"} /> {(p.shockResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/panic.png"} /> {(p.panicResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/stun.png"} /> {(p.stunResist*100).toFixed(1)}%<br /></div>
+<div style={{gridArea:"dmgRes2",border:"0"}}>{(p.damageResist*100).toFixed(1)}%</div>
 
-<div style={{gridArea:"res"}}><span>Ailment Resist.</span></div>
-<div style={{gridArea:"res2"}}>
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/burn.png"} /> {(p.burnResist*100).toFixed(1)}%<br />
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/shock.png"} /> {(p.shockResist*100).toFixed(1)}%<br />
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/panic.png"} /> {(p.panicResist*100).toFixed(1)}%<br />
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/stun.png"} /> {(p.stunResist*100).toFixed(1)}%<br />
-</div>
-<div style={{gridArea:"res3"}}>
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/freeze.png"} /> {(p.freezeResist*100).toFixed(1)}%<br />
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/blind.png"} /> {(p.blindResist*100).toFixed(1)}%<br />
-  <img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br />
-</div>
-
-<div style={{gridArea:"dmgRes"}}><span>Damage Resist.</span></div><div style={{gridArea:"dmgRes2"}}>{(p.damageResist*100).toFixed(1)}%</div>
+<div style={{gridArea:"bpGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
+<div style={{gridArea:"hpGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
+<div style={{gridArea:"ppGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.pp/ppGraphMax)*100)+"%,black "+((p.pp/ppGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
+<div style={{gridArea:"atkGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.statDisplayAtk/atkGraphMax)*100)+"%,black "+((p.statDisplayAtk/atkGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
+<div style={{gridArea:"defGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.def/defGraphMax)*100)+"%,black "+((p.def/defGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
+<div style={{gridArea:"wepUp3",color:"#ffb74c"}} ><div><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /> +{(p.weaponUp2*100).toFixed(1)}%</div></div>
+<div style={{gridArea:"res3"}}><div><img alt="" src={process.env.PUBLIC_URL+"/icons/status/freeze.png"} /> {(p.freezeResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/blind.png"} /> {(p.blindResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br /></div></div>
 
       </div><section className="saveControls">
       <button onClick={()=>{SaveData()}}>Save Build</button>

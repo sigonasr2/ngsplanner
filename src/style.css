@@ -104,7 +104,7 @@ header {
 	grid-area: 1 / span 3;
 	display: grid;
 	grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
-	place-items: stretch;
+	align-items: stretch;
 }
 header a {
 	display: block;
@@ -115,10 +115,14 @@ header a {
 	margin-right: auto;
 	font-size:24px;
 	white-space: nowrap;
+	justify-self: start;
 }
 .logo span{
 	font-size:16px;
 	text-transform: uppercase;
+}
+.logo span:after {
+	content:".com";
 }
 .logo img {
 	height: 40px;
@@ -128,6 +132,7 @@ header a {
 }
 .navigation {
 	text-align: left;
+	justify-self: start;
 }
 .navigation a {
 	padding: 0 15px;
@@ -145,6 +150,7 @@ header a {
 }
 .rightNav {
 	text-align: right;
+	justify-self: end;
 }
 .rightNav a {
 	padding: 0 15px;
@@ -165,6 +171,21 @@ header a {
 	text-align: right;
 }
 @media screen and (max-width:860px) {
+	.logo a {
+		padding: 0 10px;
+	}
+	.logo {
+		font-size:22px;
+	}
+	.logo span{
+		font-size:14px;
+	}
+	.logo span:after {
+		content: "";
+	}
+	.navigation {
+		justify-self: end;
+	}
 	.navigation > ul, .loginNav {
 		display: none;
 		}
@@ -207,26 +228,15 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .box td:last-child {
 	text-align: right;
 }
-.barGraph {
-	margin: 8px 0;
-	background: linear-gradient(90deg, #65beef, #f5ee3c);
-	display: block;
-	height: 8px;
-}
-.barOverlay {
-	border: 2px solid black;
-	display: block;
-	height: 8px;
-}
+
 .basicInfo {
 	display: grid;
-	grid-template-columns: minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);
-	justify-content: stretch;
+	grid-template-columns: minmax(0,0.9fr) minmax(0,1fr) minmax(0,1fr);
 	grid-template-areas:
-	"author player player"
-	"build character character"
-	"class . ."
-	"subClass . .";
+	"author author player"
+	"build build character"
+	"class class2 classlv"
+	"subclass subclass2 subclasslv";
 	margin: 10px 10px 0;
 	padding: 0 5px;
 }
@@ -235,16 +245,15 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin: 5px 10px 0;
 	padding: 0 5px 5px;
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0,1fr));
-	justify-content: stretch;
+	grid-template-columns: minmax(0,1fr) minmax(0,auto) minmax(0,0.66fr) minmax(0,1fr);
 	grid-template-areas:
-	"bp . bpGraph bpGraph"
-	"hp . hpGraph hpGraph"
-	"pp . ppGraph ppGraph"
-	"atk . atkGraph atkGraph"
-	"def . defGraph defGraph"
-	"wepUp wepUp2 wepUp3 wepUp3"
-	"res res2 res3 res3"
+	"bp bp2 bpGraph bpGraph"
+	"hp hp2 hpGraph hpGraph"
+	"pp pp2 ppGraph ppGraph"
+	"atk atk2 atkGraph atkGraph"
+	"def def2 defGraph defGraph"
+	"wepUp wepUp2 wepUp2 wepUp3"
+	"res res2 res2 res3"
 	"dmgRes dmgRes2 dmgRes2 dmgRes2";
 }
 .basicInfo > div, .statsInfo > div {
@@ -252,11 +261,23 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	line-height: 25px;
 	position: relative;
 }
-.statsInfo > div:nth-last-child(-n+2) {
-	border: 0;
-}
-.basicInfo > div > span, .statsInfo > div > span {
+.basicInfo > div:nth-child(-n+4), .statsInfo > div:nth-child(-n+8) {
 	color: #97e2fc;
+}
+.statsInfo > div:nth-child(n+9):nth-child(-n+13) {
+	text-align: right;
+}
+.barGraph {
+	margin: 8px 0 8px auto;
+	background: linear-gradient(90deg, #65beef, #f5ee3c);
+	display: block;
+	height: 8px;
+	width: 75%;
+}
+.barOverlay {
+	border: 2px solid black;
+	display: block;
+	height: 8px;
 }
 .boxTitleBar {
 	background-color: rgba(124, 144, 148, 0.66);
@@ -779,10 +800,6 @@ adminScrollbar::-webkit-scrollbar-button {
 .customScrollbar::-webkit-scrollbar-corner,.adminScrollbar::-webkit-scrollbar-corner  {
 	background-color: transparent;
 }
-/* Handle on hover
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}*/
 .containerX {
 	margin: 10px;
 	min-width: 0;
@@ -992,7 +1009,6 @@ cursor:pointer !important;
 }
 
 /* Sig's Amazing CSS (cuz Dudley edited it) */
-
 .editBox:hover{
 	background-color:rgba(0,0,0,0.5);
 	cursor:pointer !important;

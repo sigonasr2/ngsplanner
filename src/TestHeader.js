@@ -4,7 +4,7 @@ function TestHeader() {
     return (
         <header>
             <div className="headerWrapper">
-                <div className="logo"><a href="."><img alt="" src={process.env.PUBLIC_URL + '/icons/logo_sm.png'} />&emsp;NGS<span>planner.com</span></a></div>
+                <div className="logo"><a href="."><img alt="" src={process.env.PUBLIC_URL + '/icons/logo_sm.png'} />&emsp;NGS<span>planner</span></a></div>
                 <div className="navigation"><ul>
                     <li className="headerMenuItem"><a href=".">Builds</a></li>
                     <li className="headerMenuItem"><a href=".">Guides</a></li>
