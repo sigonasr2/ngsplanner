@@ -260,6 +260,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	border-bottom: 1px solid rgba(128,128,128,0.5);
 	line-height: 25px;
 	position: relative;
+	padding-bottom: -1px;
 }
 .basicInfo > div:nth-child(-n+4), .statsInfo > div:nth-child(-n+8) {
 	color: #97e2fc;
@@ -1513,7 +1514,7 @@ p.adminNav hr {
 }
 .itemDetailsIcon {
 	grid-area: icon;
-	align-self: center;
+	align-self: flex-start;
 }
 .itemDetailsProperties {
 	margin: 0 0 0 10px;
@@ -1528,11 +1529,11 @@ p.adminNav hr {
 	"element elementDisplay"
 	"conditions conditionsDisplay";
 	text-align: left;
-	gap: 10px 0;
+	gap: 5px 0;
 }
 .itemDetailsPropertiesWrapper > div {
 	border-bottom: 1px solid rgba(128,128,128,0.5);
-	padding-bottom: 2px;
+	padding-bottom: -1px;
 }
 .itemDetailsPropertiesWrapper > div:nth-child(odd) {
 	color: #97e2fc;

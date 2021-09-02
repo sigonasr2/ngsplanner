@@ -756,7 +756,7 @@ useEffect(()=>{
     }  
   }}
   displayFunction={(item)=>{
-  return<div className={"itemWrapper r"+item[WEAPON_WEAPON].rarity}><div className="itemImgWrapper"><img alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /></div><div className="itemNameWrapper rifle">{GetSpecialWeaponName(item)}</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">{item[WEAPON_WEAPON].atk}</span>
+  return<div className={"itemWrapper r"+item[WEAPON_WEAPON].rarity} onClick={()=>{setSelectedWeapon(item);setWeaponSelectWindowOpen(false)}}><div className="itemImgWrapper"><img alt="" src={DisplayIcon(item[WEAPON_EXISTENCE_DATA]?.icon)} /></div><div className="itemNameWrapper rifle">{GetSpecialWeaponName(item)}</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">{item[WEAPON_WEAPON].atk}</span>
     
     <ExpandTooltip id={"mouseover-tooltip"+item[WEAPON_WEAPONTYPE].id+"_"+item[WEAPON_WEAPON].id+"_"+item[WEAPON_POTENTIAL].id+"_"+item[WEAPON_POTENTIAL_TOOLTIP].id} tooltip={<>{item[WEAPON_POTENTIAL_TOOLTIP].map((pot,i)=><React.Fragment key={i}>{(i!==0)&&<br/>}{pot.name}: {pot.description?pot.description.split("\\n").map((it,ii)=><React.Fragment key={ii}>{it}<br/> </React.Fragment>):<React.Fragment key={i}/>}</React.Fragment>)}</>}>
 
