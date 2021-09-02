@@ -5,6 +5,13 @@
 	box-sizing: border-box;
 	outline: 0;
 }
+.noSelect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
+  }
 @font-face {
   font-family: "ngs";
   src: url("./fonts/4.woff") format("woff");
@@ -74,7 +81,6 @@ em {
 	font-style: normal;
 }
 header a {
-	/*color: #151f25;*/
 	color:white;
 	text-decoration: none;
 }
@@ -160,7 +166,7 @@ header a {
 	margin-bottom: 5px;
 	clip-path: circle(44%);
 }
-.dotMenu {
+.dotMenu,.navigation .miniNav {
 	display: inline-block;
 	font-size: 24px;
 	font-weight: 900;
@@ -183,9 +189,6 @@ header a {
 	.logo span:after {
 		content: "";
 	}
-	.navigation {
-		justify-self: end;
-	}
 	.navigation > ul, .loginNav {
 		display: none;
 		}
@@ -203,14 +206,13 @@ header a {
 	backdrop-filter: blur(10px);
 }
 .box h3, dt {
-font-size: 12pt;
-font-weight: normal;
-padding: 0 5px;
-margin: 5px;
-border-bottom: 1px solid rgba(128,128,128,0.5);
+	font-size: 12pt;
+	font-weight: normal;
+	padding: 0 5px;
+	margin: 5px;
+	border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .box tr {
-/*	background-image: url("tr_bg.png");*/
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	border-bottom: 1px solid rgba(128,128,128,0.5);
@@ -476,10 +478,6 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	margin-right: 5px;
 	vertical-align: middle;
 }
-.meat:before, .vege:before, .fruit:before, .seafood:before {
-	margin-right: 5px;
-	vertical-align: bottom;
-}
 .meat:before {
     content: url("./icons/food/meat.png");
 }
@@ -492,36 +490,27 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 .seafood:before {
     content: url("./icons/food/seafood.png");
 }
+.meat:before, .vege:before, .fruit:before, .seafood:before {
+	margin-right: 5px;
+	vertical-align: middle;
+}
 .gb:before {
     content: url("./icons/NGSUIItemGunbladeMini.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
-.vege:before {
-    content: url("./icons/food/vege.png");
-	margin-right: 5px;
-	vertical-align: middle;
-}
-.itemimg {
-	background: radial-gradient(rgb(196,196,196),rgb(128,128,128));
-	border: 4px solid rgba(128,128,128,1);
-	float: left;
-	margin-right: 10px;
-	width: 48px;
-	box-sizing: content-box;
-	border-style: solid;
-}
 .itemWrapper, .itemWrapperActive {
-	background-color: rgba(128,128,128,0.33);
+	background-color: rgba(160, 160, 160, 0.33);
 	margin: 5px 10px 5px;
-	padding: 10px;
+	padding: 10px 10px 6px;
 	display: grid;
 	grid-template-columns: minmax(56px,auto) minmax(0,1fr) minmax(0,auto) minmax(16px,auto);
-	grid-template-rows: minmax(0,auto) minmax(0,1fr) minmax(0,auto);
+	grid-template-rows: minmax(0,auto) minmax(0,1fr);
 	grid-template-areas:
 	"img itemname itemname rarity"
-	"img . . ."
 	"img properties controls controls";
+	gap: 5px 0;
+	border-bottom: 4px solid transparent;
 }
 .itemWrapperActive {
 	background-color: rgba(255,192,0,0.25);
@@ -545,6 +534,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding: 3px 3px 0;
 }
 .r1 .itemRarityWrapper {
 	content: url("./icons/NGSUIRarity1Star.png");
@@ -562,6 +552,7 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 	color:white;
 	grid-area: properties;
 	margin: 0 10px;
+	align-self: center;
 }
 .itemPropertiesWrapper > span {
 	white-space: nowrap;
@@ -569,24 +560,9 @@ border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .itemControlsWrapper  {
 	grid-area: controls;
-	text-align: right;
+	justify-self: end;
 	white-space: nowrap;
 }
-/*.selected {
-	background: linear-gradient(135deg,#60461b,#b0a34e);
-	outline: 2px solid #ffd602;
-}
-.unselected:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	border-bottom: 0;
-	padding-bottom: 9px;
-	outline: 2px solid hsl(180, 78%, 50%);
-}
-li.selected:hover {
-	background: linear-gradient(135deg,#60461b,#b0a34e);
-	outline: 2px solid hsl(180, 78%, 50%);
-}*/
-
 .itemControlsWrapper > span:nth-child(odd) {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
