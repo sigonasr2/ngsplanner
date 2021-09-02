@@ -986,13 +986,13 @@ cursor:pointer !important;
 }
 
 /* Sig's Amazing CSS (cuz Dudley edited it) */
-.editBox:hover{
-	background-color:rgba(0,0,0,0.5);
-	cursor:pointer !important;
+.editBox:hover, .editClass:hover{
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	cursor:pointer;
 	outline: 2px solid #30cdef;
 }
 .editBoxActive:hover {
-	cursor:pointer !important;
+	cursor:pointer
 }
 input#editBoxInput {
 	position: absolute;
@@ -1000,7 +1000,7 @@ input#editBoxInput {
 	text-align: right;
 	background-color: #101317;
 	color: white;
-	cursor:pointer !important;
+	cursor:pointer;
 	font-family: ngs,sans-serif;
 	font-size: 16px;
 
@@ -1014,11 +1014,7 @@ input#editBoxInput {
 	display: inline-block;
 	width: 100%;
 }
-.editClass:hover{
-	background-color:rgba(0,0,0,0.5);
-	cursor:pointer !important;
-	outline: 2px solid #30cdef;
-}
+
 .popup{
 	display: flex;
 	flex-wrap: wrap;
@@ -1491,6 +1487,32 @@ p.adminNav hr {
 .itemDetailsIcon {
 	grid-area: icon;
 	align-self: flex-start;
+	position: relative;
+}
+.itemDetailsIcon:hover {
+	cursor: pointer;
+	outline: 2px solid #30cdef;
+}
+.itemDetailsIcon > div {
+	display: none;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+	text-align: center;
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+}
+.itemDetailsIcon > div > p {
+	margin: 0;
+	padding: 0;
+}
+.itemDetailsIcon:hover > div {
+	display: flex;
+}
+.itemDetailsIcon > div > p > span {
+	font-family: "Segoe UI Symbol";
 }
 .itemDetailsProperties {
 	margin: 0 0 0 10px;
