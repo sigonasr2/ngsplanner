@@ -23,6 +23,9 @@ import TestHeader from './TestHeader'; // Test Header!
 import TestPanel from './TestPanel'; // Dudley's Test Panel
 import md5 from 'md5';
 
+
+const cookies = require('cookie-handler');
+
 const axios = require('axios');
 const parse = require('csv-parse/lib/sync')
 
@@ -636,7 +639,8 @@ function FormField(p) {
 function VerifyLogin(p) {
 	axios.post(GetBackendURL(p)+"/validUser",{
 		username:p.LOGGEDINUSER,
-		password:p.LOGGEDINHASH
+		password:p.LOGGEDINHASH,
+		recoveryhash:cookies.get("userID")
 	})
 	.then((data)=>{
 		if (data.data.verified) {
@@ -711,11 +715,13 @@ function LoginForm(p) {
 				if (data.data.verified) {
 					p.setLOGGEDINUSER(response.profileObj.name)
 					p.setLOGGEDINHASH(response.tokenId)
+					cookies.set("userID",response.profileObj.googleId)
 					setUsername("")
 					setPassword("")
 					setRememberMe(false)
 					history.push("/")
 				} else {
+					cookies.remove("userID")
 					setError("Could not authenticate!")
 				}
 			})
