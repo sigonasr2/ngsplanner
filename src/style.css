@@ -671,10 +671,6 @@ header a {
 	background-color: rgba(25, 30, 35, 0.66) !important;
 	margin: 10px 5px 0 auto !important;
 }
-/*.pageControlDetails:before {
-	content: "\270E";
-	padding-right: 5px;
-}*/
 .pageControlDetails:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	outline: 2px solid hsl(180, 78%, 50%);
@@ -1474,7 +1470,7 @@ p.adminNav hr {
 .equipWindow {
 	min-height: 440px;
 }
-.itemDetailsGrid {
+.itemDetailsGridTop {
 	display: grid;
 	grid-template-areas:
 	"icon properties";
@@ -1517,9 +1513,6 @@ p.adminNav hr {
 }
 .editOverlayWrapper:hover .editOverlay {
 	display: flex;
-}
-.editOverlay > p > span {
-	font-family: "Segoe UI Symbol";
 }
 .itemDetailsProperties {
 	margin: 0 0 0 10px;
