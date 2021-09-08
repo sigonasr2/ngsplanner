@@ -398,38 +398,40 @@ useEffect(()=>{
 },[className,GetData])
 
 useEffect(()=>{
-  axios.get(BACKENDURL+"/getBuild?id="+BUILDID)
-    .then((data)=>{
-      setAuthor(data.data.creator)
-      setbuildName(data.data.build_name)
-      setClassName(GetData("class",data.data.class1,"name",true))
-      setSubClassName(GetData("class",data.data.class2,"name",true))
-      var dat = JSON.parse(data.data.data)
-      setLevel(dat.level)
-      setsecondaryLevel(dat.secondaryLevel)
-      setPoints(dat.points)
-      setSkillPointData(dat.skillPointData)
-      var dat1=p.GetData("weapon_existence_data")
-      var weapon_type=GetData("weapon_type",dat.weaponType)
-      var weapon=GetData("weapon",dat.weaponBaseName)
-      var potential=GetData("potential",weapon.potential_id,undefined,true)
-      var potential_all=GetData("potential_data")
-      var potential_tooltip=[]
-      for (var pot in potential_all) {
-        if (pot.includes(potential.name)) {
-          potential_tooltip.push(p.GetData("potential_data",pot))
+  if (BUILDID) {
+    axios.get(BACKENDURL+"/getBuild?id="+BUILDID)
+      .then((data)=>{
+        setAuthor(data.data.creator)
+        setbuildName(data.data.build_name)
+        setClassName(GetData("class",data.data.class1,"name",true))
+        setSubClassName(GetData("class",data.data.class2,"name",true))
+        var dat = JSON.parse(data.data.data)
+        setLevel(dat.level)
+        setsecondaryLevel(dat.secondaryLevel)
+        setPoints(dat.points)
+        setSkillPointData(dat.skillPointData)
+        var dat1=p.GetData("weapon_existence_data")
+        var weapon_type=GetData("weapon_type",dat.weaponType)
+        var weapon=GetData("weapon",dat.weaponBaseName)
+        var potential=GetData("potential",weapon.potential_id,undefined,true)
+        var potential_all=GetData("potential_data")
+        var potential_tooltip=[]
+        for (var pot in potential_all) {
+          if (pot.includes(potential.name)) {
+            potential_tooltip.push(p.GetData("potential_data",pot))
+          }
         }
-      }
-      var existence_data = Array.isArray(dat1)?dat1.filter((weapon_existence_data)=>weapon_existence_data.weapon_type_id===weapon_type.id&&weapon_existence_data.weapon_id===weapon.id)[0]:undefined
-      //console.log(JSON.stringify([weapon_type,weapon,potential,potential_tooltip,existence_data]))
-      setSelectedWeapon([weapon_type,weapon,potential,potential_tooltip,existence_data])
-      setSelectedArmor1(GetData("armor",dat.armor1Name))
-      setSelectedArmor2(GetData("armor",dat.armor2Name))
-      setSelectedArmor3(GetData("armor",dat.armor3Name))
-    })
-    .catch((err)=>{
-      console.log(err.message)
-    })
+        var existence_data = Array.isArray(dat1)?dat1.filter((weapon_existence_data)=>weapon_existence_data.weapon_type_id===weapon_type.id&&weapon_existence_data.weapon_id===weapon.id)[0]:undefined
+        //console.log(JSON.stringify([weapon_type,weapon,potential,potential_tooltip,existence_data]))
+        setSelectedWeapon([weapon_type,weapon,potential,potential_tooltip,existence_data])
+        setSelectedArmor1(GetData("armor",dat.armor1Name))
+        setSelectedArmor2(GetData("armor",dat.armor2Name))
+        setSelectedArmor3(GetData("armor",dat.armor3Name))
+      })
+      .catch((err)=>{
+        console.log(err.message)
+      })
+    }
 },[BUILDID,GetData,BACKENDURL,p])
 
 //console.log(p.GetData("class",p.className,"icon"))
