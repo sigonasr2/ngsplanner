@@ -671,10 +671,10 @@ header a {
 	background-color: rgba(25, 30, 35, 0.66) !important;
 	margin: 10px 5px 0 auto !important;
 }
-.pageControlDetails:before {
+/*.pageControlDetails:before {
 	content: "\270E";
 	padding-right: 5px;
-}
+}*/
 .pageControlDetails:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	outline: 2px solid hsl(180, 78%, 50%);
@@ -1010,7 +1010,6 @@ input#editBoxInput {
 	width:100%;
 }
 .editClass {
-
 	display: inline-block;
 	width: 100%;
 }
