@@ -690,6 +690,7 @@ function LoginForm(p) {
 	}
 
 	function responseGoogle(response) {
+		//setMessage(JSON.stringify(response))
 		if (response.error) {
 			setMessage(JSON.stringify(response))
 		} else 
@@ -701,14 +702,15 @@ function LoginForm(p) {
 			axios.post(GetBackendURL(p)+"/registerUser",{
 				username:response.profileObj.name,
 				email:response.profileObj.email,
-				password:response.profileObj.tokenId,
+				password:response.tokenId,
 				avatar:response.profileObj.imageUrl,
 				userID:response.profileObj.googleId,
+				recoveryhash:response.profileObj.googleId
 			})
 			.then((data)=>{
 				if (data.data.verified) {
 					p.setLOGGEDINUSER(response.profileObj.name)
-					p.setLOGGEDINHASH(response.profileObj.tokenId)
+					p.setLOGGEDINHASH(response.tokenId)
 					setUsername("")
 					setPassword("")
 					setRememberMe(false)
