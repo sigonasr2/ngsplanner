@@ -1,3 +1,4 @@
+import {PencilFill} from 'react-bootstrap-icons'
 import React, { useEffect,useState } from 'react';
 import Modal from 'react-modal'
 import { DisplayIcon } from './DEFAULTS';
@@ -174,7 +175,7 @@ function ClassSelectorWindow(p) {
 }
 
 function GetSpecialWeaponName(item) {
-  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):<><span style={{}}></span></>
+  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):<><span style={{fontStyle:"italic"}}>Select Weapon</span></>
 }
 
 function ConvertCoordinate(x,y) {
@@ -515,13 +516,13 @@ useEffect(()=>{
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
             <h2 className="viewedEquipName rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
-            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}>Edit Details</PageControl>
+            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><PencilFill /> Edit Details</PageControl>
             {weaponPage === 1 ?
 
 <>
-<div className="itemDetailsGrid">
+<div className="itemDetailsGridTop">
 <div className={"itemDetailsIcon editOverlayWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])} onClick={()=>{setWeaponSelectWindowOpen(true)}}>
-<div className="editOverlay"><p>Edit <span>&#9998;</span></p></div>
+<div className="editOverlay"><p><PencilFill /> Edit</p></div>
 <img alt="" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
 <div className="itemDetailsProperties">
 <div className="itemDetailsPropertiesWrapper">
@@ -540,9 +541,8 @@ useEffect(()=>{
 
 </div></div>
 </div>
-<div className="editOverlayWrapper">
-<div className="editOverlay"><p>Edit <span>&#9998;</span></p></div>
-<div className="itemDetailsGridBottom">
+<div className="itemDetailsGridBottom editOverlayWrapper">
+<div className="editOverlay"><p><PencilFill /> Edit</p></div>
 <div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div>
 <div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div>
 <div className="itemDetailsAugment">
@@ -554,7 +554,6 @@ useEffect(()=>{
 <div></div>
 <div></div>
 
-</div>
 </div>
 </div>
 </div>
