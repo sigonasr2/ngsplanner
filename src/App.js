@@ -677,6 +677,8 @@ function LoginForm(p) {
 			if (data.data.verified) {
 				p.setLOGGEDINUSER(username)
 				p.setLOGGEDINHASH(md5(password))
+				cookies.set("username",username,30,'d')
+				cookies.set("password",md5(password),30,'d')
 				setUsername("")
 				setPassword("")
 				setRememberMe(false)
@@ -715,7 +717,9 @@ function LoginForm(p) {
 				if (data.data.verified) {
 					p.setLOGGEDINUSER(response.profileObj.name)
 					p.setLOGGEDINHASH(response.tokenId)
-					cookies.set("userID",response.profileObj.googleId)
+					cookies.set("username",response.profileObj.name,30,'d')
+					cookies.set("password",response.tokenId,30,'d')
+					cookies.set("userID",response.profileObj.googleId,30,'d')
 					setUsername("")
 					setPassword("")
 					setRememberMe(false)
@@ -892,6 +896,8 @@ function App() {
 	},[update,TESTMODE])
 
 	useEffect(()=>{
+		setLOGGEDINUSER(cookies.get("username"))
+		setLOGGEDINHASH(cookies.get("password"))
 		axios.get(GetBackendURL({TESTMODE:TESTMODE})+"/data")
 		.then((data)=>{
 			setDATA(data.data)
