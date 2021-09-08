@@ -518,7 +518,9 @@ useEffect(()=>{
 
 <>
 <div className="itemDetailsGrid">
-<div onClick={()=>{setWeaponSelectWindowOpen(true)}} className={"itemDetailsIcon"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><div><p>Edit <span>&#9998;</span></p></div><img alt="" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
+<div className={"itemDetailsIcon editOverlayWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])} onClick={()=>{setWeaponSelectWindowOpen(true)}}>
+<div className="editOverlay"><p>Edit <span>&#9998;</span></p></div>
+<img alt="" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div>
 <div className="itemDetailsProperties">
 <div className="itemDetailsPropertiesWrapper">
 
@@ -535,7 +537,12 @@ useEffect(()=>{
 <div style={{gridArea:"conditionsDisplay"}}>Lv.15 (Current Lv.20)</div>
 
 </div></div>
-<div className="itemAbility"><div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div><div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div></div>
+</div>
+<div className="editOverlayWrapper">
+<div className="editOverlay"><p>Edit <span>&#9998;</span></p></div>
+<div className="itemDetailsGridBottom">
+<div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div>
+<div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div>
 <div className="itemDetailsAugment">
 <span className="aug">Augment</span>
 <div className="itemDetailsAugmentWrapper">
@@ -548,7 +555,7 @@ useEffect(()=>{
 </div>
 </div>
 </div>
-
+</div>
 
 
 </>

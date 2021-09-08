@@ -1478,22 +1478,30 @@ p.adminNav hr {
 .itemDetailsGrid {
 	display: grid;
 	grid-template-areas:
-	"icon properties"
-	"ability ability"
-	"augment augment";
+	"icon properties";
 	grid-template-columns: 128px minmax(0,1fr);
-	margin: 10px 10px 0 10px;
+	margin: 10px;
+}
+.itemDetailsGridBottom {
+	display: grid;
+	grid-template-areas:
+	"ability fixa"
+	"augment augment";
+	grid-template-columns: repeat(2,minmax(0,1fr));
+	margin: 10px;
 }
 .itemDetailsIcon {
 	grid-area: icon;
 	align-self: flex-start;
+}
+.editOverlayWrapper {
 	position: relative;
 }
-.itemDetailsIcon:hover {
+.editOverlayWrapper:hover {
 	cursor: pointer;
 	outline: 2px solid #30cdef;
 }
-.itemDetailsIcon > div {
+.editOverlay {
 	display: none;
 	position: absolute;
 	height: 100%;
@@ -1504,14 +1512,14 @@ p.adminNav hr {
 	text-align: center;
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 }
-.itemDetailsIcon > div > p {
+.editOverlay > p {
 	margin: 0;
 	padding: 0;
 }
-.itemDetailsIcon:hover > div {
+.editOverlayWrapper:hover .editOverlay {
 	display: flex;
 }
-.itemDetailsIcon > div > p > span {
+.editOverlay > p > span {
 	font-family: "Segoe UI Symbol";
 }
 .itemDetailsProperties {
@@ -1563,16 +1571,12 @@ p.adminNav hr {
 	margin-right: 10px;
 	font-weight: 900;
 }
-.itemAbility {
-	grid-area: ability;
-	display: grid;
-	grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-	margin: 20px 0 0 0;
-}
 .itemPotential {
+	grid-area: ability;
 	text-align: left;
 }
 .itemFixa {
+	grid-area: fixa;
 	text-align: left;
 }
 .itemDetailsIcon img {
