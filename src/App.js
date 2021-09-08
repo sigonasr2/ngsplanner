@@ -25,7 +25,6 @@ import md5 from 'md5';
 
 
 const cookies = require('cookie-handler');
-
 const axios = require('axios');
 const parse = require('csv-parse/lib/sync')
 
@@ -864,8 +863,8 @@ function App() {
 	const [DATAID,setDATAID] = useState({GetData:()=>{}})
 	const [update,setUpdate] = useState(false)
 
-	const [LOGGEDINUSER,setLOGGEDINUSER] = useState("")
-	const [LOGGEDINHASH,setLOGGEDINHASH] = useState("")
+	const [LOGGEDINUSER,setLOGGEDINUSER] = useState(cookies.get("username"))
+	const [LOGGEDINHASH,setLOGGEDINHASH] = useState(cookies.get("password"))
 
 	const PANELPATHWBUILD = process.env.PUBLIC_URL+"/test/:BUILDID"
 	const PANELPATH = process.env.PUBLIC_URL+"/test"
@@ -919,7 +918,11 @@ function App() {
 					<AdminPanel setUpdate={setUpdate} setTESTMODE={setTESTMODE} BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} DATA={GetData}/>
 				</Route>
 				<Route path={PANELPATHWBUILD}>
-					<TestHeader/>
+					<TestHeader
+						LOGGEDINUSER={LOGGEDINUSER}
+						LOGGEDINHASH={LOGGEDINHASH}
+						BACKENDURL={GetBackendURL(BACKENDURL)}
+					/>
 					<TestPanel
 					APP_TITLE={APP_TITLE}
 					path={PANELPATHWBUILD}
@@ -952,7 +955,11 @@ function App() {
 					/>
 				</Route>
 				<Route path={PANELPATH}>
-					<TestHeader/>
+					<TestHeader
+						LOGGEDINUSER={LOGGEDINUSER}
+						LOGGEDINHASH={LOGGEDINHASH}
+						BACKENDURL={GetBackendURL(BACKENDURL)}
+					/>
 					<TestPanel
 					APP_TITLE={APP_TITLE}
 					path={PANELPATH}
@@ -988,14 +995,22 @@ function App() {
 					<Helmet>
 						<title>{APP_TITLE+" - Login"}</title>
 					</Helmet>
-					<TestHeader/>
+					<TestHeader
+						LOGGEDINUSER={LOGGEDINUSER}
+						LOGGEDINHASH={LOGGEDINHASH}
+						BACKENDURL={GetBackendURL(BACKENDURL)}
+					/>
 					<LoginForm BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/register"}>
 					<Helmet>
 						<title>{APP_TITLE+" - Register"}</title>
 					</Helmet>
-					<TestHeader/>
+					<TestHeader
+						LOGGEDINUSER={LOGGEDINUSER}
+						LOGGEDINHASH={LOGGEDINHASH}
+						BACKENDURL={GetBackendURL(BACKENDURL)}
+					/>
 					<RegisterForm BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>

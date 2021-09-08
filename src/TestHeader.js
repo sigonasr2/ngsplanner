@@ -1,6 +1,29 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
+import { DisplayIcon } from './DEFAULTS';
 
-function TestHeader() {
+
+const axios = require('axios');
+const cookies = require('cookie-handler');
+
+function TestHeader(p) {
+
+    const [avatar,setAvatar] = useState(undefined);
+    const [username,setUsername] = useState(undefined);
+
+    useEffect(()=>{
+        axios.post(p.BACKENDURL+"/validUser",{
+            username:p.LOGGEDINUSER,
+            password:p.LOGGEDINHASH,
+            recoveryhash:cookies.get("userID")
+        })
+        .then((data)=>{
+            if (data.data.verified) {
+                setAvatar(data.data.avatar)
+                setUsername(p.LOGGEDINUSER)
+            }
+        })}
+    ,[])
+
     return (
         <header>
             <div className="headerWrapper">
@@ -13,8 +36,8 @@ function TestHeader() {
                     <section className="miniNav"><a href=".">&#9776;</a></section>
                 </div>
                 <div className="rightNav">
-                    <section className="loginNav"><a href="."><img alt="." src={process.env.PUBLIC_URL + '/icons/nicodotpng.png.png'} /> Guest &emsp; <span className="dotMenu">&#xb7;&#xb7;&#xb7;</span></a></section>
-                    <section className="miniNav"><a href="."><img alt="." src={process.env.PUBLIC_URL + '/icons/nicodotpng.png.png'} /></a></section>
+                    <section className="loginNav"><a href="."><img alt="." src={DisplayIcon(avatar)} /> {username??"Guest"} &emsp; <span className="dotMenu">&#xb7;&#xb7;&#xb7;</span></a></section>
+                    <section className="miniNav"><a href="."><img alt="." src={DisplayIcon(avatar)} /></a></section>
                 </div>
             </div>
         </header>
