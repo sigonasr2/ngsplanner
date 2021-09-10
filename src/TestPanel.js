@@ -517,7 +517,9 @@ useEffect(()=>{
               <h1>Equipped Weapon</h1></div>
               <div className="equipNameWrapper">
                 <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
-            <div className="equipEnhancement">+40</div>
+            <div className="equipEnhancement editOverlayWrapper">
+            <div className="editOverlay"><p><PencilFill /> Edit</p></div>
+              +40</div>
             </div>
             <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><PencilFill /> Edit Details</PageControl>
             {weaponPage === 1 ?
@@ -568,17 +570,22 @@ useEffect(()=>{
 <div style={{gridArea:"enhance1"}}>Enhancement Lv.</div>
 <div style={{gridArea:"variance1"}}>Damage Adj.</div>
 <div style={{gridArea:"weaponup"}}>Weapon Up</div>
-<div style={{gridArea:"ailment"}}>Ailment Resist.</div>
+<div style={{gridArea:"ailment1"}}>Ailment Resist.</div>
 <div style={{gridArea:"class1"}}>Available Classes</div>
 <div style={{gridArea:"mw1"}}>Multi-weapon</div>
 
 <div style={{gridArea:"enhance2"}}>40</div>
 <div style={{gridArea:"variance2"}}>75.0% ~ 100%</div>
-<div style={{gridArea:"mel"}}>Weapon Up</div>
-<div style={{gridArea:"ailment2"}}>Ailment Resist.</div>
-<div style={{gridArea:"class2"}}>Available Classes</div>
-<div style={{gridArea:"mw2"}}><img alt="" src={DisplayIcon("icons/food/NGSUIItemAssaultRifleMini.png")} /> <img alt="" src={DisplayIcon("icons/food/NGSUIItemTalisMini.png")} /></div>
+<div style={{gridArea:"mel"}} className="mel">9.9%</div>
+<div style={{gridArea:"ailment2"}}><span className="burn">0.0%</span><br /><span className="blind">0.0%</span><br /><span className="stun">0.0%</span></div>
+<div style={{gridArea:"class2"}}><img alt="" src={DisplayIcon("icons/ra.png")} /> <img alt="" src={DisplayIcon("icons/UINGSClassGu.png")} /></div>
+<div style={{gridArea:"mw2"}}><img alt="" src={DisplayIcon("icons/NGSUIItemAssaultRifleMini.png")} /> <img alt="" src={DisplayIcon("icons/NGSUIItemTalisMini.png")} /></div>
 
+<div style={{gridArea:"rng"}} className="rng">9.9%</div>
+<div style={{gridArea:"ailment3"}}><span className="freeze">0.0%</span><br /><span className="panic">0.0%</span></div>
+
+<div style={{gridArea:"tec"}} className="tec">9.9%</div>
+<div style={{gridArea:"ailment4"}}><span className="shock">0.0%</span><br /><span className="poison">0.0%</span></div>
 </div>
             :weaponPage === 3 ?
 
