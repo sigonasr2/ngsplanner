@@ -69,6 +69,7 @@ body {
 }
 table {
     border-spacing: 0;
+	width: 100%;
 }
 table td {
 	vertical-align: top;
@@ -205,6 +206,10 @@ header a {
 	padding-bottom:10px;
 	backdrop-filter: blur(10px);
 }
+.box h3 {
+	color: #97e2fc;
+
+}
 .box h3, dt {
 	font-size: 12pt;
 	font-weight: normal;
@@ -213,24 +218,14 @@ header a {
 	border-bottom: 1px solid rgba(128,128,128,0.5);
 }
 .box tr {
-	background-repeat: no-repeat;
-	background-position: left bottom;
-	border-bottom: 1px solid rgba(128,128,128,0.5);
-}
-.box tr:last-child {
-	border-bottom: 0;
+	border-bottom: 1px solid rgba(128,128,128,0.13);
 }
 .box td {
 	padding: 0 5px;
-	white-space: nowrap;
 }
 .box td:first-child {
 	color: #97e2fc;
 }
-.box td:last-child {
-	text-align: right;
-}
-
 .basicInfo {
 	display: grid;
 	grid-template-columns: minmax(0,0.9fr) minmax(0,1fr) minmax(0,1fr);
@@ -305,16 +300,32 @@ header a {
 	content: " \25C6";
 	margin-right: 10px;
 }
-.viewedEquipName {
+.equipNameWrapper {
+	display:grid;
+	grid-template-columns: minmax(0,auto) minmax(0,1fr);
+	margin: 10px 10px 0;
+	gap: 10px;
+}
+.equipName {
+	max-width: 250px;
+	padding-right:2px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.equipName:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	outline: 2px solid hsl(180, 78%, 50%);
+}
+.equipName h2 {
 	color: white;
 	font-weight: normal;
 	font-size: 18px;
-	margin: 10px 10px 0 10px;
 	text-align: left;
 }
-.viewedEquipName img {
-	margin-right: 5px;
-	vertical-align: top;
+.equipEnhancement:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	outline: 2px solid hsl(180, 78%, 50%);
 }
 .saveControls {
 	margin-top: 10px;
@@ -399,6 +410,67 @@ header a {
 .equipDetails {
 	margin: 10px 10px 0 0;
 	text-align: left;
+}
+.statsDetails {
+	display:grid;
+	grid-template-columns: minmax(0,auto) repeat(3,minmax(0,1fr));
+	grid-template-areas:
+	"enhance1 enhance2 enhance2 enhance2"
+	"variance1 variance2 variance2 variance2"
+	"weaponup mel rng tec"
+	"ailment ailment1 ailment2 ailment3"
+	"class1 class2 class2 class2"
+	"mw1 mw2 mw2 mw2"
+}
+.statsDetails > div:nth-child(-n+6){
+	color: #97e2fc;
+}
+.statsDetails > div {
+	border-bottom: 1px solid rgba(128,128,128,0.5);
+}
+.augmentDetails {
+	display: grid;
+	grid-template-columns: minmax(0,1fr) minmax(0,0.8fr);
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: 10px;
+	flex: 1;
+	grid-template-areas:
+	"header1 header2"
+	"ability stats";
+	place-content: stretch;
+	place-items: stretch;
+	margin: 8px 10px 0 8px;
+}
+.augmentDetails h3 {
+	margin: 0;
+}
+.augmentDetailsListHeader {
+	grid-area: header1;
+}
+.augmentDetailsStatsHeader {
+	grid-area: header2;
+}
+.augmentDetailsList {
+	grid-area: ability;
+	overflow-y: scroll;
+	max-height: 280px;
+}
+.augmentDetailsList li {
+	background-color: rgba(128,128,128,0.25);
+	color: white;
+	margin: 2px 5px 5px 2px;
+	padding: 10px;
+}
+.augmentDetailsList li:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	outline: 2px solid hsl(180, 78%, 50%);
+}
+.augmentDetailsStats {
+	grid-area: stats;
+	margin: 0 0 0 10px;
+}
+.augmentDetailsStats td:last-child {
+	color: #ffb74c;
 }
 .equipAugs {
 	flex: 1 1 auto;	
@@ -611,7 +683,7 @@ header a {
 	vertical-align: middle;
 }
 .fixa {
-	color: rgb(255,135,80);
+	color: rgb(255,135,80) !important;
 }
 .fixa:before {
 	content: url("./icons/UINGSItemPresetAbility.png");
@@ -619,7 +691,22 @@ header a {
 	vertical-align: middle;
 }
 .pot {
-	color: rgb(255,255,0);
+	color: rgb(255,255,0) !important;
+}
+.mel:before {
+	content: url("./icons/mel.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.rng:before {
+	content: url("./icons/rng.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.tec:before {
+	content: url("./icons/tec.png");
+	margin-right: 5px;
+	vertical-align: middle;
 }
 .pot:before {
 	content: url("./icons/NGSUIItemPotentialAbility.png");
@@ -630,7 +717,6 @@ header a {
 	clear: both;
 }
 .itemlistcontainer {
-/*	max-height: 400px;*/
 	overflow-y: scroll;
 	overflow-x: hidden;
 	margin: 10px 5px 0 0;
@@ -822,7 +908,6 @@ li.treeListSub:after {
 	margin-right: 5px;
 }
 .skillTreeBox {
-/*	flex: 1 1 auto;*/
 	margin: 0;
 	min-width: 181px;
 	min-height: auto;
@@ -1468,6 +1553,8 @@ p.adminNav hr {
 	top:16px;
 }
 .equipWindow {
+	display: flex;
+	flex-direction: column;
 	min-height: 440px;
 }
 .itemDetailsGridTop {
@@ -1484,6 +1571,7 @@ p.adminNav hr {
 	"augment augment";
 	grid-template-columns: repeat(2,minmax(0,1fr));
 	margin: 10px;
+	flex: 1;
 }
 .itemDetailsIcon {
 	grid-area: icon;
@@ -1548,7 +1636,7 @@ p.adminNav hr {
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(125px, 1fr));
 	gap: 10px 30px;
-	
+	flex: 1;
 }
 .itemDetailsAugmentWrapper > div {
 	background-color:rgba(0,0,0,0.33);
