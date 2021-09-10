@@ -7,22 +7,24 @@ const cookies = require('cookie-handler');
 
 function TestHeader(p) {
 
+    const {BACKENDURL,LOGGEDINUSER,LOGGEDINHASH} = p;
+
     const [avatar,setAvatar] = useState(undefined);
     const [username,setUsername] = useState(undefined);
 
     useEffect(()=>{
-        axios.post(p.BACKENDURL+"/validUser",{
-            username:p.LOGGEDINUSER,
-            password:p.LOGGEDINHASH,
+        axios.post(BACKENDURL+"/validUser",{
+            username:LOGGEDINUSER,
+            password:LOGGEDINHASH,
             recoveryhash:cookies.get("userID")
         })
         .then((data)=>{
             if (data.data.verified) {
                 setAvatar(data.data.avatar)
-                setUsername(p.LOGGEDINUSER)
+                setUsername(LOGGEDINUSER)
             }
         })}
-    ,[])
+    ,[BACKENDURL,LOGGEDINUSER,LOGGEDINHASH])
 
     return (
         <header>
