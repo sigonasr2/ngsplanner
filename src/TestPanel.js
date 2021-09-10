@@ -134,6 +134,7 @@ function SelectorWindow(p) {
     {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>):itemList.map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>)}
     {p.children}
     </div>
+    {p.footer}
   </PopupWindow>
 }
 
@@ -175,7 +176,7 @@ function ClassSelectorWindow(p) {
 }
 
 function GetSpecialWeaponName(item) {
-  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):<><span style={{fontStyle:"italic"}}>Select Weapon</span></>
+  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):<><span className="">Select Weapon</span></>
 }
 
 function ConvertCoordinate(x,y) {
@@ -755,7 +756,7 @@ useEffect(()=>{
             <div>Your Skill Points<span>{20-points[treePage-1]}</span></div>
             <div>SP<span></span>{points[treePage-1]}</div>
           </div>
-          <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
+          <div className="skillConfirm"><div>Confirm</div><div>Cancel</div></div>
         </div>
       </Modal>
 
@@ -845,8 +846,7 @@ useEffect(()=>{
       }}
   />
 
-<SelectorWindow title={"Food Menu"} modalOpen={foodMenuWindowOpen} setModalOpen={setFoodMenuWindowOpen} GetData={p.GetData}>
-
+<SelectorWindow title={"Food Menu"} modalOpen={foodMenuWindowOpen} setModalOpen={setFoodMenuWindowOpen} GetData={p.GetData} footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>0</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}>
 <div className="itemWrapperActive r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
 <div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
 <div className="itemWrapperActive r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
