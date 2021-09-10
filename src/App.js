@@ -14,7 +14,7 @@ import {
   HashRouter,
   Switch,
   Route,
-  useHistory
+  useHistory,
 } from "react-router-dom";
 
 import { HashLink as Link } from 'react-router-hash-link';
@@ -652,6 +652,15 @@ function VerifyLogin(p) {
 }
 
 function LoginForm(p) {
+
+	function useHashQuery() {
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		const params = Object.fromEntries(urlSearchParams.entries());
+		return params
+	}
+
+	const query = useHashQuery()
+
 	const [username,setUsername] = useState("")
 	const [password,setPassword] = useState("")
 	const [rememberMe,setRememberMe] = useState(false)
@@ -731,6 +740,59 @@ function LoginForm(p) {
 		}
 	  }
 
+	function DiscordLoginButton(){
+
+		const [checkForLogin,setCheckForLogin] = useState(false)
+
+		const history = useHistory()
+
+		useEffect(()=>{
+			if (query.code) {
+				setCheckForLogin(true)
+			}
+ 		},[])
+		
+		useEffect(()=>{
+			if (checkForLogin) {
+				console.log("Attempting login...")
+
+				axios.get(GetBackendURL(p)+"/userData?token="+query.code)
+				.then((data)=>{
+					p.setLOGGEDINUSER(data.data.username)
+					p.setLOGGEDINHASH(data.data.token)
+					console.log(data.data.token)
+					cookies.set("username",data.data.username,30,'d')
+					cookies.set("password",data.data.token,30,'d')
+					cookies.set("userID",data.data.id,30,'d')
+					console.log(cookies.get("username"))
+					console.log(cookies.get("password"))
+					console.log(cookies.get("userID"))
+					return axios.post(GetBackendURL(p)+"/registerUser",{
+						username:data.data.username,
+						email:data.data.email,
+						password:data.data.token,
+						avatar:"https://cdn.discordapp.com/avatars/"+data.data.id+"/"+data.data.avatar+".png",
+						userID:data.data.id,
+						recoveryhash:data.data.id
+					})
+					//window.location.href=""
+					//console.log(data.data)
+				})
+				.then((data)=>{
+					//window.location.href=""
+					history.push("/")
+				})
+				.catch((err)=>{
+					console.log(err.message)
+				})
+			}
+		},[checkForLogin])
+			
+		return <>
+			<button onClick={()=>{window.location.href=process.env.REACT_APP_LOCAL_REDIRECT?"https://discord.com/api/oauth2/authorize?client_id=885738904685281291&redirect_uri=https%3A%2F%2Flocalhost%3A3000%23%2Flogin&response_type=code&scope=identify%20email":"https://discord.com/api/oauth2/authorize?client_id=885738904685281291&redirect_uri=https%3A%2F%2Fngsplanner.com%23%2Flogin&response_type=code&scope=identify%20email"}}>Login</button>
+		</>
+	}
+
 	return <>
 	<Box title="Login Form">
 	{loading?
@@ -750,6 +812,7 @@ function LoginForm(p) {
 			onFailure={responseGoogle}
 			cookiePolicy={'single_host_origin'}
 		/>
+		<DiscordLoginButton/>
 		</>
 	}
 	</Box></>
