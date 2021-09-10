@@ -600,10 +600,6 @@ useEffect(()=>{
                   <li className="aug">test</li>
                   <li className="aug">test</li>
                   <li className="aug">test</li>
-                  <li className="aug">test</li>
-                  <li className="aug">test</li>
-                  <li className="aug">test</li>
-                  <li className="aug">test</li>
 </ul>
               </div>
               <div className="augmentDetailsStats">

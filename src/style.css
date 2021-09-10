@@ -312,6 +312,7 @@ header a {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	cursor: pointer;
 }
 .equipName:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
