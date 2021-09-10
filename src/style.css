@@ -312,6 +312,7 @@ header a {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	cursor: pointer;
 }
 .equipName:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
@@ -323,9 +324,8 @@ header a {
 	font-size: 18px;
 	text-align: left;
 }
-.equipEnhancement:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	outline: 2px solid hsl(180, 78%, 50%);
+.equipEnhancement .editOverlay {
+	text-align: left;
 }
 .saveControls {
 	margin-top: 10px;
@@ -418,15 +418,25 @@ header a {
 	"enhance1 enhance2 enhance2 enhance2"
 	"variance1 variance2 variance2 variance2"
 	"weaponup mel rng tec"
-	"ailment ailment1 ailment2 ailment3"
+	"ailment1 ailment2 ailment3 ailment4"
 	"class1 class2 class2 class2"
-	"mw1 mw2 mw2 mw2"
+	"mw1 mw2 mw2 mw2";
+	margin: 10px;
 }
 .statsDetails > div:nth-child(-n+6){
 	color: #97e2fc;
+	padding-right: 20px;
 }
 .statsDetails > div {
 	border-bottom: 1px solid rgba(128,128,128,0.5);
+	margin-top: 5px;
+}
+.statsDetails div > span {
+	margin-top: 5px;
+	display: inline-block;
+}
+.statsDetails div > span:first-child {
+	margin-top: 0;
 }
 .augmentDetails {
 	display: grid;
@@ -710,6 +720,41 @@ header a {
 }
 .pot:before {
 	content: url("./icons/NGSUIItemPotentialAbility.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.burn:before {
+	content: url("./icons/status/burn.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.freeze:before {
+	content: url("./icons/status/freeze.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.blind:before {
+	content: url("./icons/status/blind.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.panic:before {
+	content: url("./icons/status/panic.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.shock:before {
+	content: url("./icons/status/shock.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.poison:before {
+	content: url("./icons/status/poison.png");
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.stun:before {
+	content: url("./icons/status/stun.png");
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -1553,8 +1598,6 @@ p.adminNav hr {
 	top:16px;
 }
 .equipWindow {
-	display: flex;
-	flex-direction: column;
 	min-height: 440px;
 }
 .itemDetailsGridTop {
@@ -1570,8 +1613,8 @@ p.adminNav hr {
 	"ability fixa"
 	"augment augment";
 	grid-template-columns: repeat(2,minmax(0,1fr));
-	margin: 10px;
-	flex: 1;
+	margin: 5px 10px 0 10px;
+	padding-top: 5px;
 }
 .itemDetailsIcon {
 	grid-area: icon;
@@ -1630,13 +1673,13 @@ p.adminNav hr {
 .itemDetailsAugment {
 	margin: 15px 0 0 0;
 	grid-area: augment;
+	min-height: 145px;
 }
 .itemDetailsAugmentWrapper {
 	margin: 10px 0 0 0;
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(125px, 1fr));
 	gap: 10px 30px;
-	flex: 1;
 }
 .itemDetailsAugmentWrapper > div {
 	background-color:rgba(0,0,0,0.33);
