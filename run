@@ -1,3 +1,4 @@
 rm .env
+echo "REACT_APP_LOCAL_REDIRECT=true" > .env
 npm install
 HTTPS=true npm start
