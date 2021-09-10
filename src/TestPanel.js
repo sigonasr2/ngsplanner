@@ -451,6 +451,7 @@ function SaveData() {
     armor3Name:selectedArmor3?.name,
     points:points,
     skillPointData:skillPointData,
+    foodPointData:foodPointData,
   }
   axios.post(BACKENDURL+"/submitBuild",{
     id:BUILDID,
@@ -519,6 +520,7 @@ useEffect(()=>{
         setsecondaryLevel(dat.secondaryLevel)
         setPoints(dat.points)
         setSkillPointData(dat.skillPointData)
+        setFoodPointData(dat.foodPointData??{})
         var dat1=p.GetData("weapon_existence_data")
         var weapon_type=GetData("weapon_type",dat.weaponType)
         var weapon=GetData("weapon",dat.weaponBaseName)
