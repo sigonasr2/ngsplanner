@@ -515,7 +515,10 @@ useEffect(()=>{
           <div className="box equipWindow">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
-            <h2 className="viewedEquipName rifle">{GetSpecialWeaponName(selectedWeapon)}+40</h2>
+              <div className="equipNameWrapper">
+                <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
+            <div className="equipEnhancement">+40</div>
+            </div>
             <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><PencilFill /> Edit Details</PageControl>
             {weaponPage === 1 ?
 
@@ -560,29 +563,56 @@ useEffect(()=>{
 
 
 </>
+:weaponPage === 2 ?
+<div className="statsDetails">
+<div style={{gridArea:"enhance1"}}>Enhancement Lv.</div>
+<div style={{gridArea:"variance1"}}>Damage Adj.</div>
+<div style={{gridArea:"weaponup"}}>Weapon Up</div>
+<div style={{gridArea:"ailment"}}>Ailment Resist.</div>
+<div style={{gridArea:"class1"}}>Available Classes</div>
+<div style={{gridArea:"mw1"}}>Multi-weapon</div>
 
+<div style={{gridArea:"enhance2"}}>40</div>
+<div style={{gridArea:"variance2"}}>75.0% ~ 100%</div>
+<div style={{gridArea:"mel"}}>Weapon Up</div>
+<div style={{gridArea:"ailment2"}}>Ailment Resist.</div>
+<div style={{gridArea:"class2"}}>Available Classes</div>
+<div style={{gridArea:"mw2"}}><img alt="" src={DisplayIcon("icons/food/NGSUIItemAssaultRifleMini.png")} /> <img alt="" src={DisplayIcon("icons/food/NGSUIItemTalisMini.png")} /></div>
+
+</div>
             :weaponPage === 3 ?
-              <div className="equipDetails">
-                <div className="equipAugs">
-                  <h3>Ability Details</h3>
-                  <ul>
-                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +20%/<br />Critical Hit Rage +15% for 30 seconds after a successful sidestep</span></div><span className="pot">Dynamo Unit Lv.3</span></li>
-                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Potency +4%</span></div><span className="fixa">Fixa Attack Lv.3</span></li>
-                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>PP +5<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Pettas Soul II</span></li>
-                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP -10, Potency +1.5%,<br />Potency Floor Increase +1.5%<br />Damage Resistance -1.5%</span></div><span className="aug">Alts Secreta II</span></li>
-                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>HP +10<br />Ranged Weapon Potency +2.0%</span></div><span className="aug">Gigas Precision II</span></li>
-                    <li><div className="equipAugsExpand tooltip"><img alt="" src="./icons/aug_plus.png" /><span>Ranged Weapon Potency +2.0%</span></div><span className="aug">Precision III</span></li>
-                    <li><img alt="" src="./icons/aug_plus.png" /></li>
-                  </ul>
-                </div>
-                <div className="pr">
-                  <h3>Stat Adjustment</h3>
-                  <ul>
-                    <li>Enhancement Lv.&emsp;<span>+35</span></li>
-                    <li>Multi-Weapon&emsp;<span>-</span></li>
-                    <li>Element&emsp;<span>-</span></li>
-                  </ul>
-                </div>
+
+            <div className="augmentDetails">
+              <div className="augmentDetailsListHeader"><h3>Ability Details</h3></div>
+              <div className="augmentDetailsStatsHeader"><h3>Stat Adjustment</h3></div>
+              <div className="augmentDetailsList customScrollbar">
+                <ul>
+                  <li className="pot">Dynamo Unit Lv.3</li>
+                  <li className="fixa">Fixa Attack Lv.3</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+</ul>
+              </div>
+              <div className="augmentDetailsStats">
+<table>
+<tbody>
+  <tr>
+    <td>HP</td>
+    <td>+99</td>
+    </tr>
+    <tr>
+    <td>PP</td>
+    <td>+9</td>
+    </tr>
+</tbody>
+</table>
+              </div>
               </div>
               :
               <>hi2</>
