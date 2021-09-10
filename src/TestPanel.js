@@ -135,6 +135,7 @@ function SelectorWindow(p) {
     {p.filter?itemList.filter((item)=>p.filterFunction(tabPage,item)).filter((item)=>p.searchFieldFunction(filter,item)).sort((a,b)=>p.sortOrderFunction(sortSelector,a,b)).map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>):itemList.map((item,i)=><React.Fragment key={i}>{p.displayFunction(item)}</React.Fragment>)}
     {p.children}
     </div>
+    {p.footer}
   </PopupWindow>
 }
 
@@ -176,7 +177,7 @@ function ClassSelectorWindow(p) {
 }
 
 function GetSpecialWeaponName(item) {
-  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):<><span style={{fontStyle:"italic"}}>Select Weapon</span></>
+  return item[WEAPON_EXISTENCE_DATA]!==undefined?(item[WEAPON_EXISTENCE_DATA].special_name?.length>0)?item[WEAPON_EXISTENCE_DATA].special_name:(item[WEAPON_WEAPON].name+" "+item[WEAPON_WEAPONTYPE].name):<><span className="">Select Weapon</span></>
 }
 
 function ConvertCoordinate(x,y) {
@@ -388,7 +389,7 @@ function FoodPopupWindow(p) {
     }
   }
 
-  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}>
+  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>0</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}>
     {FOODLIST.map((key)=><FoodItem key={key} modifyPoints={modifyPoints}  points={foodPointData[key]??0} item={FOODS[key]}/>)}
   </SelectorWindow>
 }
@@ -862,7 +863,7 @@ useEffect(()=>{
             <div>Your Skill Points<span>{20-points[treePage-1]}</span></div>
             <div>SP<span></span>{points[treePage-1]}</div>
           </div>
-          <div className="skillConfirm"><span>Confirm</span><span>Cancel</span></div>
+          <div className="skillConfirm"><div>Confirm</div><div>Cancel</div></div>
         </div>
       </Modal>
 

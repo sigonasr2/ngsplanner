@@ -305,6 +305,7 @@ header a {
 	grid-template-columns: minmax(0,auto) minmax(0,1fr);
 	margin: 10px 10px 0;
 	gap: 10px;
+	font-size: 18px;
 }
 .equipName {
 	max-width: 250px;
@@ -1074,7 +1075,7 @@ cursor:pointer !important;
 .skillRightButton {
 	background-position: right;
 }
-.skillPoints {
+.skillPoints, .foodPoints {
 	background-color: rgba(64,64,64,0.5);
 	text-align: center;
 	margin: 10px 10px 0 10px;
@@ -1082,35 +1083,45 @@ cursor:pointer !important;
 	color: white;
 	font-size: 14pt;
 	display: grid;
-	grid-template-columns: repeat(auto-fill,292px);
+	grid-template-columns: minmax(10px,1fr) repeat(2,minmax(auto,292px)) minmax(10px,1fr);
 	justify-content: center;
 	gap: 10px;
 }
-.skillPoints div:first-child {
-	text-align: center;
+.skillPoints div:first-child, .foodPoints div:first-child {
+	grid-column: 2;
 }
-.skillPoints div span {
-	display: inline-block;
-	width: calc(292px / 2);
-	text-align: center;
+.skillPoints div:last-child,.foodPoints div:last-child{
+	grid-column: 3;
 }
-.skillConfirm {
+.skillPoints div span{
+	padding: 0 20px;
+}
+.foodConfirm, .skillConfirm {
+	display: grid;
+	grid-template-columns: minmax(10px,1fr) repeat(2,minmax(auto,292px)) minmax(10px,1fr);
+	gap: 10px;
 	justify-content: center;
-	display: flex;
-	flex-flow: row wrap;
+	margin:10px 22px 0 12px;
 }
-.skillConfirm span {
-	flex: 1 1 auto;
+.foodConfirm > div, .skillConfirm > div {
 	background-color: rgba(113,169,189,0.33);
-	display: inline-block;
 	text-align: center;
 	line-height: 48px;
 	color: white;
-	font-size: 13pt;
-	margin: 10px 6px 0 6px;
-	max-width: 292px;
+	font-size: 17px;
+	padding: 0 10px;
 }
-
+.foodConfirm > div:hover, .skillConfirm > div:hover {
+	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
+	cursor:pointer;
+	outline: 2px solid #30cdef;
+}
+.foodConfirm > div:first-child, .skillConfirm > div:first-child {
+	grid-column: 2;
+}
+.foodConfirm > div:last-child, .skillConfirm > div:last-child {
+	grid-column: 3;
+}
 /* Sig's Amazing CSS (cuz Dudley edited it) */
 .editBox:hover, .editClass:hover{
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
