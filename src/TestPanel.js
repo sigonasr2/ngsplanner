@@ -7,7 +7,8 @@ import { SkillTree } from './skilltree/skillTree';
 import axios from 'axios';
 import Helmet from 'react-helmet'
 
-import { useLocation,useHistory,useParams,matchPath } from 'react-router';
+import { useLocation,useHistory,useParams,matchPath } from 'react-router'
+import { ArrowUpShort } from 'react-bootstrap-icons'
 
 //Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
 const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
@@ -288,23 +289,107 @@ function SkillTreeContainer(p){
 </div>
 }
 
-function FoodPopupWindow(p) {
-  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}>
-
+function FoodItem(p) {
+  const {description,dmg_res,editors_choice,
+    hp,hp_recovery,icon,id,name,popularity,potency,
+    pp,pp_consumption,pp_recovery,weak_point_dmg,rarity,
+    food_type} = p.item
+  const {modifyPoints} = p
+  const [points,setPoints] = useState(p.points)
+  const boosts = [
+    {
+      name:"Damage Resistance",
+      icon:"",
+      val:dmg_res
+    },
+    {
+      name:"Health",
+      icon:"",
+      val:hp
+    },
+    {
+      name:"Health Recovery",
+      icon:"",
+      val:hp_recovery
+    },
+    {
+      name:"Potency",
+      icon:"pot",
+      val:potency
+    },
+    {
+      name:"Damage Resistance",
+      icon:"",
+      val:dmg_res
+    },
+    {
+      name:"PP Boost",
+      icon:"",
+      val:pp
+    },
+    {
+      name:"PP Consumption Reduction",
+      icon:"",
+      val:pp_consumption
+    },
+    {
+      name:"PP Recovery",
+      icon:"",
+      val:pp_recovery
+    },
+    {
+      name:"Weak Point Damage",
+      icon:"atk",
+      val:weak_point_dmg
+    }]
     
-    <div className="itemWrapperActive r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapperActive r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapperActive r4"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_turban_shell.png")} /></div><div className="itemNameWrapper meat">If you put your ear to it you can hear the PSO2 lobby music</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r4"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_turban_shell.png")} /></div><div className="itemNameWrapper meat">If you put your ear to it you can hear the PSO2 lobby music</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r1"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/aelio_meat.png")} /></div><div className="itemNameWrapper meat">XXXL Super Duper Extra Crispy Delicious Sweet Mouth-Watering Meat</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r2"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_mushroom.png")} /></div><div className="itemNameWrapper meat">Potato 2</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r3"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/robust_aelio_lobster.png")} /></div><div className="itemNameWrapper meat">Dog with Claws</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-    <div className="itemWrapper r4"><div className="itemImgWrapper"><img alt="" src={DisplayIcon("icons/food/light_aelio_turban_shell.png")} /></div><div className="itemNameWrapper meat">If you put your ear to it you can hear the PSO2 lobby music</div><div className="itemRarityWrapper">&nbsp;</div><div className="itemPropertiesWrapper"><span className="atk">9999</span><span className="pot">Indomitable Unit</span></div><div className="itemControlsWrapper"><span>-</span><span>0</span><span>+</span></div></div>
-  
+  useEffect(()=>{
+    setPoints(p.points)
+  },[p.points])
+
+  return <div className={`itemWrapper${points>0?"Active":""} r${rarity}`}>
+    <div className="itemImgWrapper">
+      <img alt="" src={DisplayIcon(icon)} />
+    </div>
+    <div className={`itemNameWrapper ${food_type}`}>
+      {name}
+    </div>
+    <div className="itemRarityWrapper">&nbsp;</div>
+    <div className="itemPropertiesWrapper">
+      {boosts.filter((val)=>val.val).map((val=><span key={val.name} className={val.icon}>Up</span>))}
+    </div>
+    <div className="itemControlsWrapper">
+      <span onClick={()=>{modifyPoints(name,-1)}}>-</span>
+      <span>{points}</span>
+      <span onClick={()=>{modifyPoints(name,1)}}>+</span>
+    </div></div>
+}
+
+function FoodPopupWindow(p) {
+
+  const {GetData,foodPointData,setFoodPointData} = p
+
+  const MAX_SELECTED=10;
+  const [FOODLIST,setFOODLIST] = useState(Object.keys(GetData("food")))
+  const [FOODS,setFOODS] = useState(GetData("food"))
+
+  useEffect(()=>{
+    setFOODLIST(Object.keys(GetData("food")))
+    setFOODS(GetData("food"))
+  },[GetData])
+
+  function modifyPoints(foodName,add) {
+    var temp = {...foodPointData}
+    var total = Object.keys(foodPointData).reduce((total,food)=>foodPointData[food]+total,0)
+    console.log(total)
+    if (add+total<=10&&add+total>=0) {
+      temp[foodName] = Math.min(Math.max((temp[foodName]??0)+add,0),MAX_SELECTED)
+      setFoodPointData(temp)
+    }
+  }
+
+  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}>
+    {FOODLIST.map((key)=><FoodItem key={key} modifyPoints={modifyPoints}  points={foodPointData[key]??0} item={FOODS[key]}/>)}
   </SelectorWindow>
 }
 
@@ -351,6 +436,8 @@ const [classNameSetter,setClassNameSetter] = useState(0)
 
 const [points,setPoints] = useState([])
 const [skillPointData,setSkillPointData] = useState([])
+
+const [foodPointData,setFoodPointData] = useState({})
 
 function SaveData() {
   var saveObj = {
@@ -868,7 +955,9 @@ useEffect(()=>{
 <FoodPopupWindow
   GetData={p.GetData}
     foodMenuWindowOpen={foodMenuWindowOpen}
-    setFoodMenuWindowOpen={setFoodMenuWindowOpen}/>
+    setFoodMenuWindowOpen={setFoodMenuWindowOpen}
+    foodPointData={foodPointData}
+    setFoodPointData={setFoodPointData}/>
 
 </>
 )
