@@ -373,6 +373,7 @@ function FoodPopupWindow(p) {
   const MAX_SELECTED=10;
   const [FOODLIST,setFOODLIST] = useState(Object.keys(GetData("food")))
   const [FOODS,setFOODS] = useState(GetData("food"))
+  const FOODCOUNT = Object.keys(foodPointData).reduce((total,food)=>foodPointData[food]+total,0)
 
   useEffect(()=>{
     setFOODLIST(Object.keys(GetData("food")))
@@ -381,15 +382,14 @@ function FoodPopupWindow(p) {
 
   function modifyPoints(foodName,add) {
     var temp = {...foodPointData}
-    var total = Object.keys(foodPointData).reduce((total,food)=>foodPointData[food]+total,0)
-    console.log(total)
+    var total = FOODCOUNT
     if (add+total<=10&&add+total>=0) {
       temp[foodName] = Math.min(Math.max((temp[foodName]??0)+add,0),MAX_SELECTED)
       setFoodPointData(temp)
     }
   }
 
-  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>0</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}>
+  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>{FOODCOUNT}</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}>
     {FOODLIST.map((key)=><FoodItem key={key} modifyPoints={modifyPoints}  points={foodPointData[key]??0} item={FOODS[key]}/>)}
   </SelectorWindow>
 }
