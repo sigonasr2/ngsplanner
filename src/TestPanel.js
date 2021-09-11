@@ -389,8 +389,39 @@ function FoodPopupWindow(p) {
     }
   }
 
-  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>{FOODCOUNT}</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}>
-    {FOODLIST.map((key)=><FoodItem key={key} modifyPoints={modifyPoints}  points={foodPointData[key]??0} item={FOODS[key]}/>)}
+  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  
+  footer={
+    <>
+      <div className="foodPoints">
+        <div>Foods in Recipe</div>
+        <div>{FOODCOUNT}</div>
+      </div>
+      <div className="foodConfirm">
+        <div onClick={()=>{p.setFoodMenuWindowOpen(false)}}>Confirm</div>
+        <div onClick={()=>{p.setFoodMenuWindowOpen(false);p.setFoodPointData(p.prevFoodPointData)}}>Cancel</div>
+      </div>
+    </>}
+  sortItems={["Standard Sort","Alphabetical","Food Name","Food Type","Popularity"]}
+  filter={true}
+  dataFunction={()=>{
+    return Object.keys(GetData("food")).map((key)=>GetData("food")[key])
+  }}
+  filterFunction={(page,item)=>item}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.trim().toLowerCase().includes(searchText.toLowerCase()):true}
+  sortOrderFunction={(sort,itemA,itemB)=>{
+    switch (sort) {
+      case "Standard Sort":return itemB.id-itemA.id
+      case "Alphabetical":return itemA.name.localeCompare(itemB.name)
+      case "Food Name":return itemA.name.substr(itemA.name.lastIndexOf(" ")).localeCompare(itemB.name.substr(itemB.name.lastIndexOf(" ")))
+      case "Food Type":return itemA.food_type.localeCompare(itemB.food_type)!==0?itemA.food_type.localeCompare(itemB.food_type):itemA.name.substr(itemA.name.lastIndexOf(" ")).localeCompare(itemB.name.substr(itemB.name.lastIndexOf(" ")))
+      case "Popularity":return itemB.popularity-itemA.popularity
+      default:return 0
+    }  
+  }}
+  displayFunction={(item)=>{
+    return <FoodItem key={item.name} modifyPoints={modifyPoints}  points={foodPointData[item.name]??0} item={item}/>
+  }}
+  >
   </SelectorWindow>
 }
 
@@ -440,9 +471,41 @@ const [classNameSetter,setClassNameSetter] = useState(0)
 const [points,setPoints] = useState([])
 const [skillPointData,setSkillPointData] = useState([])
 const [prevSkillPointData,setPrevSkillPointData] = useState([])
+const [prevPoints,setPrevPoints] = useState([])
 
 const [foodPointData,setFoodPointData] = useState({})
 const [prevFoodPointData,setPrevFoodPointData] = useState({})
+
+const [BUFFS,setBUFFS] = useState({})
+
+function CalculateBuffs(foodPointData) {
+
+  const boost_prefixes = {
+    pp_consumption:"Rich",
+    pp_recovery:"Light",
+    weak_point_dmg:"Crisp",
+    hp_recovery:"Robust",
+  }
+  const boost_suffixes = {
+    potency:"Meat",
+    pp:"Fruit",
+    dmg_res:"Vegetable",
+    hp:"Seafood",
+  }
+
+  var categories= {}
+  Object.keys(GetData("food_mult","0")).filter((key)=>key!=="id"&&key!=="amount").forEach((key)=>{categories[key]={count:0}})
+  Object.keys(foodPointData).map((key)=>{return {...GetData("food",key),amount:foodPointData[key]}}).forEach((item)=>{
+    for (var key of Object.keys(item)) {
+      if (key in categories && item[key]) {
+        categories[key].count+=item.amount
+      }
+    }
+  })
+  var finalObj = {}
+  Object.keys(categories).filter((key)=>categories[key].count>0).forEach((key)=>finalObj[key]={...categories[key],from:boost_prefixes[key]??boost_suffixes[key]})
+  return finalObj
+}
 
 function SaveData() {
   var saveObj = {
@@ -549,7 +612,19 @@ useEffect(()=>{
     }
 },[BUILDID,GetData,BACKENDURL,p])
 
+useEffect(()=>{
+  setBUFFS(CalculateBuffs(foodPointData)??[])
+},[foodPointData])
+
 //console.log(p.GetData("class",p.className,"icon"))
+
+function deepCopySkills(skillData) {
+  var newSkillObj = []
+  for (var data of skillData) {
+    newSkillObj.push({...data})
+  }
+  return newSkillObj
+}
 
     return (<>
     
@@ -568,7 +643,7 @@ useEffect(()=>{
 <div style={{gridArea:"author"}}>Author</div>
 <div style={{gridArea:"build"}}>Build Name</div>
 <div style={{gridArea:"class"}} onClick={()=>{setClassSelectWindowOpen(true)}}>Class</div>
-<div style={{gridArea:"subclass"}} onClick={()=>{setClassSkillTreeWindowOpen(true)}}>Sub-Class</div>
+<div style={{gridArea:"subclass"}} onClick={()=>{setPrevPoints([...points]);setPrevSkillPointData(deepCopySkills(skillPointData));setClassSkillTreeWindowOpen(true)}}>Sub-Class</div>
 
 <div style={{gridArea:"class2"}}><EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
 <div style={{gridArea:"subclass2"}}><EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
@@ -614,7 +689,7 @@ useEffect(()=>{
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
-<div className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
+<div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
                 <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor1)}><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></div></div>
                   <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor2)}><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></div></div>
                   <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor3)}><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></div></div>
@@ -758,13 +833,10 @@ useEffect(()=>{
       <div className="boxTitleBar">
       <h1>Current Effects</h1></div>
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
-      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setFoodMenuWindowOpen(true)}}>Food Boost Effect
-      
-        
-          
+      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setPrevFoodPointData({...foodPointData});setFoodMenuWindowOpen(true)}}>Food Boost Effect
             <ul>
-              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
-              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+              {Object.keys(BUFFS).length==0&&<li>Add Quick Food</li>}
+              {Object.keys(BUFFS).map((key)=><li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[{BUFFS[key].from}] {key} +{BUFFS[key].count}</li>)}
             </ul>
           </li>
           <li>Shifta / Deband
@@ -849,7 +921,7 @@ useEffect(()=>{
             <div>Your Skill Points<span>{20-points[treePage-1]}</span></div>
             <div>SP<span></span>{points[treePage-1]}</div>
           </div>
-          <div className="skillConfirm"><div>Confirm</div><div>Cancel</div></div>
+          <div onClick={()=>{setClassSkillTreeWindowOpen(false)}} className="skillConfirm"><div>Confirm</div><div onClick={()=>{setPoints(prevPoints);setSkillPointData(prevSkillPointData);setClassSkillTreeWindowOpen(false)}}>Cancel</div></div>
         </div>
       </Modal>
 
@@ -882,7 +954,7 @@ useEffect(()=>{
       default:return true
     }
   }}
-  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[WEAPON_WEAPON].name.toLowerCase()+" "+item[WEAPON_WEAPONTYPE].name.toLowerCase()).includes(searchText.toLowerCase()):true}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[WEAPON_WEAPON].name.toLowerCase()+" "+item[WEAPON_WEAPONTYPE].name.toLowerCase()).includes(searchText.trim().toLowerCase()):true}
   sortOrderFunction={(sort,itemA,itemB)=>{
     switch (sort) {
       case "Rarity":return itemB[1].rarity-itemA[1].rarity
@@ -910,7 +982,7 @@ useEffect(()=>{
       }):[]
   }}
   filterFunction={(page,item)=>item.slot===armorSlotSelection}
-  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.toLowerCase().includes(searchText.toLowerCase()):true}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.trim().toLowerCase().includes(searchText.toLowerCase()):true}
   sortOrderFunction={(sort,itemA,itemB)=>{
     switch (sort) {
       case "Rarity":return itemB.rarity-itemA.rarity
@@ -944,7 +1016,8 @@ useEffect(()=>{
     foodMenuWindowOpen={foodMenuWindowOpen}
     setFoodMenuWindowOpen={setFoodMenuWindowOpen}
     foodPointData={foodPointData}
-    setFoodPointData={setFoodPointData}/>
+    setFoodPointData={setFoodPointData}
+    prevFoodPointData={prevFoodPointData}/>
 
 <Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlayAugment">
 <div className="augmentSelectorPopup">
