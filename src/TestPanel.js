@@ -389,7 +389,18 @@ function FoodPopupWindow(p) {
     }
   }
 
-  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>{FOODCOUNT}</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}
+  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  
+  footer={
+    <>
+      <div className="foodPoints">
+        <div>Foods in Recipe</div>
+        <div>{FOODCOUNT}</div>
+      </div>
+      <div className="foodConfirm">
+        <div onClick={()=>{p.setFoodMenuWindowOpen(false)}}>Confirm</div>
+        <div onClick={()=>{p.setFoodMenuWindowOpen(false);p.setFoodPointData(p.prevFoodPointData)}}>Cancel</div>
+      </div>
+    </>}
   sortItems={["Standard Sort","Alphabetical","Food Name","Food Type","Popularity"]}
   filter={true}
   dataFunction={()=>{
@@ -460,6 +471,7 @@ const [classNameSetter,setClassNameSetter] = useState(0)
 const [points,setPoints] = useState([])
 const [skillPointData,setSkillPointData] = useState([])
 const [prevSkillPointData,setPrevSkillPointData] = useState([])
+const [prevPoints,setPrevPoints] = useState([])
 
 const [foodPointData,setFoodPointData] = useState({})
 const [prevFoodPointData,setPrevFoodPointData] = useState({})
@@ -468,13 +480,13 @@ const [BUFFS,setBUFFS] = useState({})
 
 function CalculateBuffs(foodPointData) {
 
-  var boost_prefixes = {
+  const boost_prefixes = {
     pp_consumption:"Rich",
     pp_recovery:"Light",
     weak_point_dmg:"Crisp",
     hp_recovery:"Robust",
   }
-  var boost_suffixes = {
+  const boost_suffixes = {
     potency:"Meat",
     pp:"Fruit",
     dmg_res:"Vegetable",
@@ -605,10 +617,18 @@ useEffect(()=>{
 },[foodPointData])
 
 useEffect(()=>{
-  console.log(BUFFS)
-},[BUFFS])
+  console.log(prevSkillPointData)
+},[prevSkillPointData])
 
 //console.log(p.GetData("class",p.className,"icon"))
+
+function deepCopySkills(skillData) {
+  var newSkillObj = []
+  for (var data of skillData) {
+    newSkillObj.push({...data})
+  }
+  return newSkillObj
+}
 
     return (<>
     
@@ -627,7 +647,7 @@ useEffect(()=>{
 <div style={{gridArea:"author"}}>Author</div>
 <div style={{gridArea:"build"}}>Build Name</div>
 <div style={{gridArea:"class"}} onClick={()=>{setClassSelectWindowOpen(true)}}>Class</div>
-<div style={{gridArea:"subclass"}} onClick={()=>{setClassSkillTreeWindowOpen(true)}}>Sub-Class</div>
+<div style={{gridArea:"subclass"}} onClick={()=>{setPrevPoints([...points]);setPrevSkillPointData(deepCopySkills(skillPointData));setClassSkillTreeWindowOpen(true)}}>Sub-Class</div>
 
 <div style={{gridArea:"class2"}}><EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
 <div style={{gridArea:"subclass2"}}><EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
@@ -817,7 +837,7 @@ useEffect(()=>{
       <div className="boxTitleBar">
       <h1>Current Effects</h1></div>
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
-      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setFoodMenuWindowOpen(true)}}>Food Boost Effect
+      {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setPrevFoodPointData({...foodPointData});setFoodMenuWindowOpen(true)}}>Food Boost Effect
             <ul>
               {Object.keys(BUFFS).length==0&&<li>Add Quick Food</li>}
               {Object.keys(BUFFS).map((key)=><li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[{BUFFS[key].from}] {key} +{BUFFS[key].count}</li>)}
@@ -905,7 +925,7 @@ useEffect(()=>{
             <div>Your Skill Points<span>{20-points[treePage-1]}</span></div>
             <div>SP<span></span>{points[treePage-1]}</div>
           </div>
-          <div className="skillConfirm"><div>Confirm</div><div>Cancel</div></div>
+          <div onClick={()=>{setClassSkillTreeWindowOpen(false)}} className="skillConfirm"><div>Confirm</div><div onClick={()=>{setPoints(prevPoints);setSkillPointData(prevSkillPointData);setClassSkillTreeWindowOpen(false)}}>Cancel</div></div>
         </div>
       </Modal>
 
@@ -1000,7 +1020,8 @@ useEffect(()=>{
     foodMenuWindowOpen={foodMenuWindowOpen}
     setFoodMenuWindowOpen={setFoodMenuWindowOpen}
     foodPointData={foodPointData}
-    setFoodPointData={setFoodPointData}/>
+    setFoodPointData={setFoodPointData}
+    prevFoodPointData={prevFoodPointData}/>
 
 <Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
 <div className="box equipWindow">
