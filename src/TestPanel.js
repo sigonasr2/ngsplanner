@@ -348,7 +348,7 @@ function FoodItem(p) {
     setPoints(p.points)
   },[p.points])
 
-  return <div className={`itemWrapper${points>0?"Active":""} r${rarity}`}>
+  return <div onClick={(e)=>{e.stopPropagation();modifyPoints(name,1)}} className={`itemWrapper${points>0?"Active":""} r${rarity}`}>
     <div className="itemImgWrapper">
       <img alt="" src={DisplayIcon(icon)} />
     </div>
@@ -360,9 +360,9 @@ function FoodItem(p) {
       {boosts.filter((val)=>val.val).map((val=><span key={val.name} className={val.icon}>Up</span>))}
     </div>
     <div className="itemControlsWrapper">
-      <span onClick={()=>{modifyPoints(name,-1)}}>-</span>
+      <span onClick={(e)=>{e.stopPropagation();modifyPoints(name,-1)}}>-</span>
       <span>{points}</span>
-      <span onClick={()=>{modifyPoints(name,1)}}>+</span>
+      <span onClick={(e)=>{e.stopPropagation();modifyPoints(name,1)}}>+</span>
     </div></div>
 }
 
