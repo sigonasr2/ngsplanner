@@ -464,12 +464,35 @@ const [prevSkillPointData,setPrevSkillPointData] = useState([])
 const [foodPointData,setFoodPointData] = useState({})
 const [prevFoodPointData,setPrevFoodPointData] = useState({})
 
+const [BUFFS,setBUFFS] = useState({})
+
 function CalculateBuffs(foodPointData) {
+
+  var boost_prefixes = {
+    pp_consumption:"Rich",
+    pp_recovery:"Light",
+    weak_point_dmg:"Crisp",
+    hp_recovery:"Robust",
+  }
+  var boost_suffixes = {
+    potency:"Meat",
+    pp:"Fruit",
+    dmg_res:"Vegetable",
+    hp:"Seafood",
+  }
+
   var categories= {}
-  Object.keys(GetData("food_mult","0")).filter((key)=>key!=="id"&&key!=="amount").forEach((key)=>{categories[key]={from:"",count:0}})
-  //Object.keys(foodPointData).
-  console.log(foodPointData)
-  return categories
+  Object.keys(GetData("food_mult","0")).filter((key)=>key!=="id"&&key!=="amount").forEach((key)=>{categories[key]={count:0}})
+  Object.keys(foodPointData).map((key)=>{return {...GetData("food",key),amount:foodPointData[key]}}).forEach((item)=>{
+    for (var key of Object.keys(item)) {
+      if (key in categories && item[key]) {
+        categories[key].count+=item.amount
+      }
+    }
+  })
+  var finalObj = {}
+  Object.keys(categories).filter((key)=>categories[key].count>0).forEach((key)=>finalObj[key]={...categories[key],from:boost_prefixes[key]??boost_suffixes[key]})
+  return finalObj
 }
 
 function SaveData() {
@@ -576,6 +599,14 @@ useEffect(()=>{
       })
     }
 },[BUILDID,GetData,BACKENDURL,p])
+
+useEffect(()=>{
+  setBUFFS(CalculateBuffs(foodPointData)??[])
+},[foodPointData])
+
+useEffect(()=>{
+  console.log(BUFFS)
+},[BUFFS])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -788,8 +819,8 @@ useEffect(()=>{
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
       {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setFoodMenuWindowOpen(true)}}>Food Boost Effect
             <ul>
-              {Object.keys(CalculateBuffs(foodPointData)??[]).map((key)=><li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] {key} +10.0%</li>)}
-              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
+              {Object.keys(BUFFS).length==0&&<li>Add Quick Food</li>}
+              {Object.keys(BUFFS).map((key)=><li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[{BUFFS[key].from}] {key} +{BUFFS[key].count}</li>)}
             </ul>
           </li>
           <li>Shifta / Deband
