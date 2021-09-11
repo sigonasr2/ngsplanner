@@ -315,7 +315,7 @@ function FoodItem(p) {
     },
     {
       name:"Potency",
-      icon:"pot",
+      icon:"",
       val:potency
     },
     {
@@ -340,7 +340,7 @@ function FoodItem(p) {
     },
     {
       name:"Weak Point Damage",
-      icon:"atk",
+      icon:"",
       val:weak_point_dmg
     }]
     
@@ -357,7 +357,7 @@ function FoodItem(p) {
     </div>
     <div className="itemRarityWrapper">&nbsp;</div>
     <div className="itemPropertiesWrapper">
-      {boosts.filter((val)=>val.val).map((val=><span key={val.name} className={val.icon}>Up</span>))}
+      {boosts.filter((val)=>val.val).map((val=><span key={val.name} className={val.icon}></span>))}
     </div>
     <div className="itemControlsWrapper">
       <span onClick={(e)=>{e.stopPropagation();modifyPoints(name,-1)}}>-</span>
@@ -446,6 +446,8 @@ const [classSkillTreeWindowOpen,setClassSkillTreeWindowOpen] = useState(false)
 const [treePage,setTreePage] = useState(1)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 const [armorSelectWindowOpen,setArmorSelectWindowOpen] = useState(false)
+const [augmentSelectWindowOpen,setAugmentSelectWindowOpen] = useState(false)
+
 
 const [selectedWeapon,setSelectedWeapon] = useState([])
 const [selectedArmor1,setSelectedArmor1] = useState([])
@@ -687,7 +689,7 @@ useEffect(()=>{
 </div></div>
 </div>
 <div className="itemDetailsGridBottom editOverlayWrapper">
-<div className="editOverlay"><p><PencilFill /> Edit</p></div>
+<div className="editOverlay"  onClick={()=>{setAugmentSelectWindowOpen(true)}}><p><PencilFill /> Edit</p></div>
 <div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div>
 <div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div>
 <div className="itemDetailsAugment">
@@ -732,7 +734,7 @@ useEffect(()=>{
             <div className="augmentDetails">
               <div className="augmentDetailsListHeader"><h3>Ability Details</h3></div>
               <div className="augmentDetailsStatsHeader"><h3>Stat Adjustment</h3></div>
-              <div className="augmentDetailsList customScrollbar">
+              <div className="augmentDetailsList customScrollbar noSelect">
                 <ul>
                   <li className="pot">Dynamo Unit Lv.3</li>
                   <li className="fixa">Fixa Attack Lv.3</li>
@@ -969,6 +971,55 @@ useEffect(()=>{
     foodPointData={foodPointData}
     setFoodPointData={setFoodPointData}/>
 
+<Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+<div className="box equipWindow">
+            <div className="boxTitleBar">
+              <h1>Equipped Weapon</h1></div>
+              <div className="equipNameWrapper">
+                <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
+            <div className="equipEnhancement editOverlayWrapper">
+            <div className="editOverlay"><p><PencilFill /> Edit</p></div>
+              +40</div>
+            </div>
+            <PageControl pages={1} currentPage={weaponPage} setCurrentPage={setWeaponPage} />
+            {weaponPage === 1 ?
+
+            <div className="augmentDetails">
+              <div className="augmentDetailsListHeader"><h3>Ability Details</h3></div>
+              <div className="augmentDetailsStatsHeader"><h3>Stat Adjustment</h3></div>
+              <div className="augmentDetailsList customScrollbar noSelect">
+                <ul>
+                  <li className="pot">Dynamo Unit Lv.3</li>
+                  <li className="fixa">Fixa Attack Lv.3</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+                  <li className="aug">test</li>
+</ul>
+              </div>
+              <div className="augmentDetailsStats">
+<table>
+<tbody>
+  <tr>
+    <td>HP</td>
+    <td>+99</td>
+    </tr>
+    <tr>
+    <td>PP</td>
+    <td>+9</td>
+    </tr>
+</tbody>
+</table>
+              </div>
+              </div>
+              :
+              <>hi2</>
+            }
+
+
+          </div>
+
+</Modal>
 </>
 )
 }
