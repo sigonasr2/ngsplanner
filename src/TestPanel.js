@@ -389,8 +389,28 @@ function FoodPopupWindow(p) {
     }
   }
 
-  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>{FOODCOUNT}</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}>
-    {FOODLIST.map((key)=><FoodItem key={key} modifyPoints={modifyPoints}  points={foodPointData[key]??0} item={FOODS[key]}/>)}
+  return <SelectorWindow title={"Food Menu"} modalOpen={p.foodMenuWindowOpen} setModalOpen={p.setFoodMenuWindowOpen} GetData={p.GetData}  footer={<><div className="foodPoints"><div>Foods in Recipe</div><div>{FOODCOUNT}</div></div><div className="foodConfirm"><div>Confirm</div><div>Cancel</div></div></>}
+  sortItems={["Standard Sort","Alphabetical","Food Name","Food Type","Popularity"]}
+  filter={true}
+  dataFunction={()=>{
+    return Object.keys(GetData("food")).map((key)=>GetData("food")[key])
+  }}
+  filterFunction={(page,item)=>item}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.trim().toLowerCase().includes(searchText.toLowerCase()):true}
+  sortOrderFunction={(sort,itemA,itemB)=>{
+    switch (sort) {
+      case "Standard Sort":return itemB.id-itemA.id
+      case "Alphabetical":return itemA.name.localeCompare(itemB.name)
+      case "Food Name":return itemA.name.substr(itemA.name.lastIndexOf(" ")).localeCompare(itemB.name.substr(itemB.name.lastIndexOf(" ")))
+      case "Food Type":return itemA.food_type.localeCompare(itemB.food_type)!==0?itemA.food_type.localeCompare(itemB.food_type):itemA.name.substr(itemA.name.lastIndexOf(" ")).localeCompare(itemB.name.substr(itemB.name.lastIndexOf(" ")))
+      case "Popularity":return itemB.popularity-itemA.popularity
+      default:return 0
+    }  
+  }}
+  displayFunction={(item)=>{
+    return <FoodItem key={item.name} modifyPoints={modifyPoints}  points={foodPointData[item.name]??0} item={item}/>
+  }}
+  >
   </SelectorWindow>
 }
 
@@ -441,6 +461,14 @@ const [prevSkillPointData,setPrevSkillPointData] = useState([])
 
 const [foodPointData,setFoodPointData] = useState({})
 const [prevFoodPointData,setPrevFoodPointData] = useState({})
+
+function CalculateBuffs(foodPointData) {
+  var categories= {}
+  Object.keys(GetData("food_mult","0")).filter((key)=>key!=="id"&&key!=="amount").forEach((key)=>{categories[key]={from:"",count:0}})
+  //Object.keys(foodPointData).
+  console.log(foodPointData)
+  return categories
+}
 
 function SaveData() {
   var saveObj = {
@@ -757,11 +785,8 @@ useEffect(()=>{
       <h1>Current Effects</h1></div>
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
       {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setFoodMenuWindowOpen(true)}}>Food Boost Effect
-      
-        
-          
             <ul>
-              <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] Potency +10.0%</li>
+              {Object.keys(CalculateBuffs(foodPointData)??[]).map((key)=><li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Meat] {key} +10.0%</li>)}
               <li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[Crisp] Potency to Weak Point +5.0%</li>
             </ul>
           </li>
@@ -880,7 +905,7 @@ useEffect(()=>{
       default:return true
     }
   }}
-  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[WEAPON_WEAPON].name.toLowerCase()+" "+item[WEAPON_WEAPONTYPE].name.toLowerCase()).includes(searchText.toLowerCase()):true}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?(item[WEAPON_WEAPON].name.toLowerCase()+" "+item[WEAPON_WEAPONTYPE].name.toLowerCase()).includes(searchText.trim().toLowerCase()):true}
   sortOrderFunction={(sort,itemA,itemB)=>{
     switch (sort) {
       case "Rarity":return itemB[1].rarity-itemA[1].rarity
@@ -908,7 +933,7 @@ useEffect(()=>{
       }):[]
   }}
   filterFunction={(page,item)=>item.slot===armorSlotSelection}
-  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.toLowerCase().includes(searchText.toLowerCase()):true}
+  searchFieldFunction={(searchText,item)=>searchText.length>0?item.name.trim().toLowerCase().includes(searchText.toLowerCase()):true}
   sortOrderFunction={(sort,itemA,itemB)=>{
     switch (sort) {
       case "Rarity":return itemB.rarity-itemA.rarity
