@@ -1021,6 +1021,12 @@ function deepCopySkills(skillData) {
 
 <Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlayAugment">
 <div className="augmentSelectorPopup">
+<div className="box">
+<div className="boxTitleBar">
+              <h1>hi</h1></div>
+
+  </div>
+  
 <div className="box equipWindow">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
@@ -1064,14 +1070,7 @@ function deepCopySkills(skillData) {
 
 
           </div>
-
-
-<div className="box">
-<div className="boxTitleBar">
-              <h1>hi</h1></div>
-test
-  </div>
-  </div>
+          </div>
 </Modal>
 </>
 )

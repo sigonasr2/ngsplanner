@@ -466,6 +466,10 @@ header a {
 	overflow-y: scroll;
 	max-height: 280px;
 }
+.augmentSelectorPopup .augmentDetailsList {
+max-height: initial;
+overflow-y: initial;
+}
 .augmentDetailsList li {
 	background-color: rgba(128,128,128,0.25);
 	color: white;
@@ -1229,7 +1233,7 @@ button {
 	display: grid;
 	justify-items: stretch;
 	align-items: center;    
-	grid-template-columns: minmax(0,10px) minmax(0, 1fr) minmax(0,10px);
+	grid-template-columns: minmax(10px,1fr) minmax(auto,950px) minmax(10px,1fr);
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 	min-height: 100vh;
 	/* mobile viewport bug fix */
