@@ -1,5 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { DisplayIcon } from './DEFAULTS';
+import ReactPlaceholder from 'react-placeholder';
+import "react-placeholder/lib/reactPlaceholder.css";
 
 
 const axios = require('axios');
@@ -11,6 +13,7 @@ function TestHeader(p) {
 
     const [avatar,setAvatar] = useState(undefined);
     const [username,setUsername] = useState(undefined);
+    const [loading,setLoading] = useState(true)
 
     useEffect(()=>{
         axios.post(BACKENDURL+"/validUser",{
@@ -23,6 +26,10 @@ function TestHeader(p) {
                 setAvatar(data.data.avatar)
                 setUsername(LOGGEDINUSER)
             }
+        })
+        .catch((err)=>{})
+        .finally(()=>{
+            setLoading(false)
         })}
     ,[BACKENDURL,LOGGEDINUSER,LOGGEDINHASH])
 
@@ -38,8 +45,8 @@ function TestHeader(p) {
                     <section className="miniNav"><a href=".">&#9776;</a></section>
                 </div>
                 <div className="rightNav">
-                    <section className="loginNav"><a href="."><img alt="." src={DisplayIcon(avatar)} /> {username??"Guest"} &emsp; <span className="dotMenu">&#xb7;&#xb7;&#xb7;</span></a></section>
-                    <section className="miniNav"><a href="."><img alt="." src={DisplayIcon(avatar)} /></a></section>
+                    <section className="loginNav"><a href="."><ReactPlaceholder style={{width:120,height:20,position:"relative",top:20}} showLoadingAnimation ready={!loading} type="rect" rows={1}><img alt="." src={DisplayIcon(avatar)} /> {username??"Guest"}  &emsp; <span className="dotMenu">&#xb7;&#xb7;&#xb7;</span></ReactPlaceholder></a></section>
+                    <section className="miniNav"><a href="."><ReactPlaceholder style={{width:42,height:42}} showLoadingAnimation ready={!loading} type="round" rows={1}><img alt="." src={DisplayIcon(avatar)} /></ReactPlaceholder></a></section>
                 </div>
             </div>
         </header>

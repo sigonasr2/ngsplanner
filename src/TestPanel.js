@@ -439,8 +439,10 @@ const [classNameSetter,setClassNameSetter] = useState(0)
 
 const [points,setPoints] = useState([])
 const [skillPointData,setSkillPointData] = useState([])
+const [prevSkillPointData,setPrevSkillPointData] = useState([])
 
 const [foodPointData,setFoodPointData] = useState({})
+const [prevFoodPointData,setPrevFoodPointData] = useState({})
 
 function SaveData() {
   var saveObj = {
