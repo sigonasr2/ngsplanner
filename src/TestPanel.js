@@ -315,7 +315,7 @@ function FoodItem(p) {
     },
     {
       name:"Potency",
-      icon:"pot",
+      icon:"",
       val:potency
     },
     {
@@ -340,7 +340,7 @@ function FoodItem(p) {
     },
     {
       name:"Weak Point Damage",
-      icon:"atk",
+      icon:"",
       val:weak_point_dmg
     }]
     
@@ -357,7 +357,7 @@ function FoodItem(p) {
     </div>
     <div className="itemRarityWrapper">&nbsp;</div>
     <div className="itemPropertiesWrapper">
-      {boosts.filter((val)=>val.val).map((val=><span key={val.name} className={val.icon}>Up</span>))}
+      {boosts.filter((val)=>val.val).map((val=><span key={val.name} className={val.icon}></span>))}
     </div>
     <div className="itemControlsWrapper">
       <span onClick={(e)=>{e.stopPropagation();modifyPoints(name,-1)}}>-</span>
