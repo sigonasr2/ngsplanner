@@ -81,7 +81,7 @@ function EditableClass(p){
 function PopupWindow(p) {
 
 	return <Modal ariaHideApp={false} isOpen={p.modalOpen} onRequestClose={()=>{p.setModalOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
-    <div className="box boxModal">
+    <div className="box boxModal noSelect">
     <div className="boxTitleBar">
     <h1>{p.title}</h1>
     {p.showCloseButton&&<div className="boxExit" onClick={()=>{p.setModalOpen(false)}}></div>}
@@ -739,27 +739,7 @@ useEffect(()=>{
 
 
 
-          <div className="box">
-            <div className="boxTitleBar">
-              <h1>To Do List</h1></div>
-            <dl className="toDoList">
-              <dt>UI</dt>
-                <dd className="half">Grids. Grids everywhere.</dd>
-                <dd>Finish "Item Details" for Weapons/Armor</dd>
-                <dd className="half">Class Skill Window Mobile View</dd>
-                <dd>Enemy Stats Box</dd>
-                <dd className="check">Food/Buffs Menu</dd>
-                <dd className="check">Get all the fckn icons</dd>
-              <dt>Functionality</dt>
-                <dd>Food/Buffs Menu</dd>
-                <dd>Augments</dd>
-                <dd className="check">Save/Load Build</dd>
-                <dd>fOrMuLaS</dd>
-              <dt>Data</dt>
-                <dd className="half">Skill Trees</dd>
-                <dd>Everything tbh</dd>
-            </dl>
-          </div>
+          
 
 
 

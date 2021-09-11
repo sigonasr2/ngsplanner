@@ -594,6 +594,7 @@ header a {
 	"img properties controls controls";
 	gap: 5px 0;
 	border-bottom: 4px solid transparent;
+	cursor: pointer;
 }
 .itemWrapperActive {
 	background-color: rgba(255,192,0,0.25);
