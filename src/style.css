@@ -475,6 +475,7 @@ header a {
 .augmentDetailsList li:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	outline: 2px solid hsl(180, 78%, 50%);
+
 }
 .augmentDetailsStats {
 	grid-area: stats;
@@ -1218,6 +1219,33 @@ button {
 	/* mobile viewport bug fix */
 	min-height: -webkit-fill-available;
 }
+.modalOverlayAugment {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8));
+	display: grid;
+	justify-items: stretch;
+	align-items: center;    
+	grid-template-columns: minmax(0,10px) minmax(0, 1fr) minmax(0,10px);
+	grid-template-rows: 10px minmax(10px, 1fr) 10px;
+	min-height: 100vh;
+	/* mobile viewport bug fix */
+	min-height: -webkit-fill-available;
+}
+.augmentSelectorPopup {
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(300px,450px));
+	justify-content: center;
+	gap: 10px;
+}
+.augmentSelectorPopup > div {
+
+	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
+	outline: 1px solid rgba(54,255,255,1);	
+}
 .modalOverlaySplash {
     position: fixed;
     top: 0;
@@ -1336,7 +1364,7 @@ outline: 0 !important;
 	margin-top: 0;
 	text-align: justify;
 }
-.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar  {
+.boxModal .boxTitleBar, .boxModalClassSelect .boxTitleBar, .boxMisc .boxTitleBar, .boxAdmin .boxTitleBar , .augmentSelectorPopup .boxTitleBar  {
 	background: linear-gradient(45deg, rgba(47,153,193,0.66),rgba(46,94,137,0.66) 30%,rgba(46,94,137,0.66) 70%, rgba(47,153,193,1));
 }
 .modalItemListContainer {

@@ -946,7 +946,8 @@ useEffect(()=>{
     foodPointData={foodPointData}
     setFoodPointData={setFoodPointData}/>
 
-<Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlay">
+<Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlayAugment">
+<div className="augmentSelectorPopup">
 <div className="box equipWindow">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
@@ -956,8 +957,7 @@ useEffect(()=>{
             <div className="editOverlay"><p><PencilFill /> Edit</p></div>
               +40</div>
             </div>
-            <PageControl pages={1} currentPage={weaponPage} setCurrentPage={setWeaponPage} />
-            {weaponPage === 1 ?
+
 
             <div className="augmentDetails">
               <div className="augmentDetailsListHeader"><h3>Ability Details</h3></div>
@@ -987,13 +987,18 @@ useEffect(()=>{
 </table>
               </div>
               </div>
-              :
-              <>hi2</>
-            }
+
 
 
           </div>
 
+
+<div className="box">
+<div className="boxTitleBar">
+              <h1>hi</h1></div>
+test
+  </div>
+  </div>
 </Modal>
 </>
 )
