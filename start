@@ -1,4 +1,4 @@
 echo "REACT_APP_GITPOD_WORKSPACE_URL=https://ngsplanner.herokuapp.com" > .env
-echo "REACT_APP_LOCAL_REDIRECT=true" > .env
+echo "REACT_APP_LOCAL_REDIRECT=true" >> .env
 npm install
-HTTPS=true npm start
+npm start
