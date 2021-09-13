@@ -508,20 +508,16 @@ overflow-y: initial;
 }
 .tooltip {
 	cursor: help;
-}
-.tooltip span {
 	color: white;
 	font-size:10pt;
-	visibility: hidden;
 	width: 200px;
 	background-color: rgba(38,53,63,0.9);
 	text-align: left;
 	/*border-radius: 6px;*/
 	padding: 5px;
-	/* Position the tooltip */
-	position: absolute;
 	white-space: normal;
 	left: 1em;
+	animation: fadeIn 0.15s;
 }
 .xTooltip {
 	margin: 0 10px 0 0;
@@ -530,6 +526,7 @@ overflow-y: initial;
 	color: white;
 	font-size:10pt;
 	text-align: left;
+	animation: fadeIn 0.15s;
 }
 
 [class*="BaseToolTop"] {
