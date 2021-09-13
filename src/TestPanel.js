@@ -631,7 +631,7 @@ function deepCopySkills(skillData) {
     return (<>
     
     <Helmet>
-      <title>{`${buildName} - ${APP_TITLE}`}</title>
+      <title>{`${buildName} by ${author} - ${APP_TITLE}`}</title>
     </Helmet>
 <div className="main">
   <div className="containerA">
