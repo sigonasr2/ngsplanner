@@ -6,9 +6,10 @@ import { ExpandTooltip } from './components/ExpandTooltip';
 import { SkillTree } from './skilltree/skillTree';
 import axios from 'axios';
 import Helmet from 'react-helmet'
+import ReactPlaceholder from 'react-placeholder';
+import "react-placeholder/lib/reactPlaceholder.css";
 
 import { useLocation,useHistory,useParams,matchPath } from 'react-router'
-import { ArrowUpShort } from 'react-bootstrap-icons'
 
 //Helper variables for Weapon selector with structure: [weapon_type,weapon,potential,potential_tooltip,weapon_existence_data]
 const WEAPON_WEAPONTYPE=0;const WEAPON_WEAPON=1;const WEAPON_POTENTIAL=2;const WEAPON_POTENTIAL_TOOLTIP=3;const WEAPON_EXISTENCE_DATA=4;
@@ -69,7 +70,7 @@ function PageControl(p) {
 function Class(p) {
   const CLASSES = p.GetData("class")
 	const class_obj = CLASSES[p.name]
-	return CLASSES!=="no data"?class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>:<>-</>
+	return <ReactPlaceholder style={{height:8}} showLoadingAnimation ready={CLASSES!=="no data"} type="textRow" rows={1}>{class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>}</ReactPlaceholder>
 }
 
 function EditableClass(p){
@@ -704,6 +705,7 @@ function deepCopySkills(skillData) {
           <div className="box equipWindow">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
+              <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"} type="media" rows={12}>
               <div className="equipNameWrapper">
                 <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
             <div className="equipEnhancement editOverlayWrapper">
@@ -809,7 +811,7 @@ function deepCopySkills(skillData) {
               :
               <>hi2</>
             }
-
+          </ReactPlaceholder>
 
           </div>
 
@@ -832,6 +834,7 @@ function deepCopySkills(skillData) {
       <div className="box">
       <div className="boxTitleBar">
       <h1>Current Effects</h1></div>
+      <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"} type="media" rows={7}>
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
       {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setPrevFoodPointData({...foodPointData});setFoodMenuWindowOpen(true)}}>Food Boost Effect
             <ul>
@@ -851,6 +854,7 @@ function deepCopySkills(skillData) {
             </ul>
           </li></ul></>:<></>
       }
+      </ReactPlaceholder>
       </div>
       <div className="box">
       <div className="boxTitleBar">

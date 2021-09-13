@@ -45,7 +45,7 @@ function TestHeader(p) {
                     <section className="miniNav"><a href=".">&#9776;</a></section>
                 </div>
                 <div className="rightNav">
-                    <section className="loginNav"><a href="."><ReactPlaceholder style={{width:120,height:20,position:"relative",top:20}} showLoadingAnimation ready={!loading} type="rect" rows={1}><img alt="." src={DisplayIcon(avatar)} /> {username??"Guest"}  &emsp; <span className="dotMenu">&#xb7;&#xb7;&#xb7;</span></ReactPlaceholder></a></section>
+                    <section className="loginNav"><a href="."><ReactPlaceholder style={{width:240,height:42}} showLoadingAnimation ready={!loading} type="media" rows={1}><img alt="." src={DisplayIcon(avatar)} /> {username??"Guest"}  &emsp; <span className="dotMenu">&#xb7;&#xb7;&#xb7;</span></ReactPlaceholder></a></section>
                     <section className="miniNav"><a href="."><ReactPlaceholder style={{width:42,height:42}} showLoadingAnimation ready={!loading} type="round" rows={1}><img alt="." src={DisplayIcon(avatar)} /></ReactPlaceholder></a></section>
                 </div>
             </div>
