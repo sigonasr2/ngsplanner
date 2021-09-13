@@ -3,6 +3,8 @@ import { DisplayIcon } from './DEFAULTS';
 import ReactPlaceholder from 'react-placeholder';
 import "react-placeholder/lib/reactPlaceholder.css";
 
+import { HashLink as Link } from 'react-router-hash-link';
+
 
 const axios = require('axios');
 const cookies = require('cookie-handler');
@@ -38,7 +40,7 @@ function TestHeader(p) {
             <div className="headerWrapper">
                 <div className="logo"><a href="."><img alt="" src={process.env.PUBLIC_URL + '/icons/logo_sm.png'} />&emsp;NGS<span>planner</span></a></div>
                 <div className="navigation"><ul>
-                    <li className="headerMenuItem"><a href=".">Builds</a></li>
+                    <li className="headerMenuItem"><Link to={process.env.PUBLIC_URL+"/builds"}>Builds</Link></li>
                     <li className="headerMenuItem"><a href=".">Guides</a></li>
                     <li className="headerMenuItem"><a href=".">Blog</a></li>
                     <li className="headerMenuItem"><a href=".">About</a></li></ul>

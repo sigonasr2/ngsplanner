@@ -3,6 +3,7 @@ import './style.css'; // The new new
 import React, {useState,useEffect,useReducer} from 'react';
 import Toggle from 'react-toggle' //Tooltip props: http://aaronshaf.github.io/react-toggle/
 import Helmet from 'react-helmet'
+import Builds from './Builds';
 
 import {TrashFill, PlusCircle, LifePreserver, Server, CloudUploadFill} from 'react-bootstrap-icons'
 
@@ -1075,6 +1076,19 @@ function App() {
 						BACKENDURL={GetBackendURL(BACKENDURL)}
 					/>
 					<RegisterForm BACKENDURL={BACKENDURL} TESTMODE={TESTMODE} LOGGEDINUSER={LOGGEDINUSER} LOGGEDINHASH={LOGGEDINHASH} setLOGGEDINHASH={setLOGGEDINHASH} setLOGGEDINUSER={setLOGGEDINUSER}/>
+				</Route>
+				<Route path={process.env.PUBLIC_URL+"/builds"}>
+					<Helmet>
+						<title>{APP_TITLE+" - Builds"}</title>
+					</Helmet>
+					<TestHeader
+						LOGGEDINUSER={LOGGEDINUSER}
+						LOGGEDINHASH={LOGGEDINHASH}
+						BACKENDURL={GetBackendURL(BACKENDURL)}
+					/>
+					<Builds 
+						GetData={GetData}
+						BACKENDURL={GetBackendURL(BACKENDURL)}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
