@@ -631,7 +631,7 @@ function deepCopySkills(skillData) {
     return (<>
     
     <Helmet>
-      <title>{"Test - "+APP_TITLE+(BUILDID?" Build #"+BUILDID:"")}</title>
+      <title>{`${buildName} - ${APP_TITLE}`}</title>
     </Helmet>
 <div className="main">
   <div className="containerA">
