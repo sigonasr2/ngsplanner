@@ -786,7 +786,7 @@ function LoginForm(p) {
 					console.log(err.message)
 				})
 			}
-		},[checkForLogin])
+		},[checkForLogin,history])
 			
 		return <>
 			<button onClick={()=>{window.location.href=process.env.REACT_APP_LOCAL_REDIRECT?"https://discord.com/api/oauth2/authorize?client_id=885738904685281291&redirect_uri=https%3A%2F%2Flocalhost%3A3000%23%2Flogin&response_type=code&scope=identify%20email":"https://discord.com/api/oauth2/authorize?client_id=885738904685281291&redirect_uri=https%3A%2F%2Fngsplanner.com%23%2Flogin&response_type=code&scope=identify%20email"}}>Login</button>

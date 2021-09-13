@@ -8,7 +8,6 @@ import axios from 'axios';
 import Helmet from 'react-helmet'
 import ReactPlaceholder from 'react-placeholder';
 import "react-placeholder/lib/reactPlaceholder.css";
-import { UncontrolledTooltip } from 'reactstrap';
 
 import { useLocation,useHistory,useParams,matchPath } from 'react-router'
 
@@ -293,8 +292,8 @@ function SkillTreeContainer(p){
 }
 
 function FoodItem(p) {
-  const {description,dmg_res,editors_choice,
-    hp,hp_recovery,icon,id,name,popularity,potency,
+  const {/*description,*/dmg_res,/*editors_choice,*/
+    hp,hp_recovery,icon,/*id,*/name,/*popularity,*/potency,
     pp,pp_consumption,pp_recovery,weak_point_dmg,rarity,
     food_type} = p.item
   const {modifyPoints} = p
@@ -373,14 +372,7 @@ function FoodPopupWindow(p) {
   const {GetData,foodPointData,setFoodPointData} = p
 
   const MAX_SELECTED=10;
-  const [FOODLIST,setFOODLIST] = useState(Object.keys(GetData("food")))
-  const [FOODS,setFOODS] = useState(GetData("food"))
   const FOODCOUNT = Object.keys(foodPointData).reduce((total,food)=>foodPointData[food]+total,0)
-
-  useEffect(()=>{
-    setFOODLIST(Object.keys(GetData("food")))
-    setFOODS(GetData("food"))
-  },[GetData])
 
   function modifyPoints(foodName,add) {
     var temp = {...foodPointData}
@@ -479,35 +471,6 @@ const [foodPointData,setFoodPointData] = useState({})
 const [prevFoodPointData,setPrevFoodPointData] = useState({})
 
 const [BUFFS,setBUFFS] = useState({})
-
-function CalculateBuffs(foodPointData) {
-
-  const boost_prefixes = {
-    pp_consumption:"Rich",
-    pp_recovery:"Light",
-    weak_point_dmg:"Crisp",
-    hp_recovery:"Robust",
-  }
-  const boost_suffixes = {
-    potency:"Meat",
-    pp:"Fruit",
-    dmg_res:"Vegetable",
-    hp:"Seafood",
-  }
-
-  var categories= {}
-  Object.keys(GetData("food_mult","0")).filter((key)=>key!=="id"&&key!=="amount").forEach((key)=>{categories[key]={count:0}})
-  Object.keys(foodPointData).map((key)=>{return {...GetData("food",key),amount:foodPointData[key]}}).forEach((item)=>{
-    for (var key of Object.keys(item)) {
-      if (key in categories && item[key]) {
-        categories[key].count+=item.amount
-      }
-    }
-  })
-  var finalObj = {}
-  Object.keys(categories).filter((key)=>categories[key].count>0).forEach((key)=>finalObj[key]={...categories[key],from:boost_prefixes[key]??boost_suffixes[key]})
-  return finalObj
-}
 
 function SaveData() {
   var saveObj = {
@@ -615,8 +578,38 @@ useEffect(()=>{
 },[BUILDID,GetData,BACKENDURL,p])
 
 useEffect(()=>{
+
+  function CalculateBuffs(foodPointData) {
+    const boost_prefixes = {
+      pp_consumption:"Rich",
+      pp_recovery:"Light",
+      weak_point_dmg:"Crisp",
+      hp_recovery:"Robust",
+    }
+    const boost_suffixes = {
+      potency:"Meat",
+      pp:"Fruit",
+      dmg_res:"Vegetable",
+      hp:"Seafood",
+    }
+
+    var categories= {}
+    Object.keys(GetData("food_mult","0")).filter((key)=>key!=="id"&&key!=="amount").forEach((key)=>{categories[key]={count:0}})
+    Object.keys(foodPointData).map((key)=>{return {...GetData("food",key),amount:foodPointData[key]}}).forEach((item)=>{
+      for (var key of Object.keys(item)) {
+        if (key in categories && item[key]) {
+          categories[key].count+=item.amount
+        }
+      }
+    })
+    var finalObj = {}
+    Object.keys(categories).filter((key)=>categories[key].count>0).forEach((key)=>finalObj[key]={...categories[key],from:boost_prefixes[key]??boost_suffixes[key]})
+    return finalObj
+  }
+
+
   setBUFFS(CalculateBuffs(foodPointData)??[])
-},[foodPointData])
+},[foodPointData,GetData])
 
 //console.log(p.GetData("class",p.className,"icon"))
 
@@ -839,7 +832,7 @@ function deepCopySkills(skillData) {
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
       {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setPrevFoodPointData({...foodPointData});setFoodMenuWindowOpen(true)}}>Food Boost Effect
             <ul>
-              {Object.keys(BUFFS).length==0&&<li>Add Quick Food</li>}
+              {Object.keys(BUFFS).length===0&&<li>Add Quick Food</li>}
               {Object.keys(BUFFS).map((key)=><li><img alt="" src="https://i.imgur.com/TQ8EBW2.png" />&ensp;[{BUFFS[key].from}] {key} +{BUFFS[key].count}</li>)}
             </ul>
           </li>
