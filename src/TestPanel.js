@@ -629,6 +629,9 @@ function deepCopySkills(skillData) {
     
     <Helmet>
       <title>{`${buildName} by ${author} - ${APP_TITLE}`}</title>
+      <meta property="og:title" content="If this works then this is awesome"/>
+      <meta property="og:description" content="If it doesn't work I hate life."/>
+      <meta property="og:image" content="http://projectdivar.com:3001/favicon.ico"/>
     </Helmet>
 <div className="main">
   <div className="containerA">

@@ -16,7 +16,7 @@ function Build(p) {
         <br/>
         <Link to={PANELPATHWBUILD?.replace(":BUILDID",build.id)}>
           <div className="build">
-            <div className="buildID">#{build.id}</div><h2 className="buildTitle">&nbsp;{build.build_name}</h2> <div className="buildAuthor">(Created by <img className="buildAvatar"/>{build.creator})</div>
+            <div className="buildID">#{build.id}</div><h2 className="buildTitle">&nbsp;{build.build_name}</h2> <div className="buildAuthor">(Created by <img className="buildAvatar" alt=""/>{build.creator})</div>
             <div className="buildLikes"><HandThumbsUp/>{build.likes}</div>
             <br/>
             <div className="buildClass"><Class GetData={GetData} name={build.class1} useIDs hideName/><sub>{buildData?.level}</sub></div>
@@ -25,16 +25,16 @@ function Build(p) {
             <br/>
             <div className="equipPalette buildPalette">
               <div className="equipPaletteSlot"><div className={"equipPaletteSlotWrapper r"+GetData("weapon",buildData.weaponBaseName,"rarity")}>
-                <img className="buildImage" src={DisplayIcon(GetData("weapon_existence_data",buildData.weaponExistenceID,"icon",true))}/>
+                <img className="buildImage" alt="" src={DisplayIcon(GetData("weapon_existence_data",buildData.weaponExistenceID,"icon",true))}/>
               </div></div>
               <div className="equipPaletteSlot"><div className={"equipPaletteSlotWrapper r"+GetData("armor",buildData.armor1Name,"rarity")}>
-                <img className="buildImage" src={DisplayIcon(GetData("armor",buildData.armor1Name,"icon"))}/>
+                <img className="buildImage" alt="" src={DisplayIcon(GetData("armor",buildData.armor1Name,"icon"))}/>
               </div></div>
               <div className="equipPaletteSlot"><div className={"equipPaletteSlotWrapper r"+GetData("armor",buildData.armor2Name,"rarity")}>
-                <img className="buildImage" src={DisplayIcon(GetData("armor",buildData.armor2Name,"icon"))}/>
+                <img className="buildImage" alt="" src={DisplayIcon(GetData("armor",buildData.armor2Name,"icon"))}/>
               </div></div>
               <div className="equipPaletteSlot"><div className={"equipPaletteSlotWrapper r"+GetData("armor",buildData.armor3Name,"rarity")}>
-                <img className="buildImage" src={DisplayIcon(GetData("armor",buildData.armor3Name,"icon"))}/>
+                <img className="buildImage" alt="" src={DisplayIcon(GetData("armor",buildData.armor3Name,"icon"))}/>
               </div></div>
             </div>
             {/*JSON.stringify(build)*/}
@@ -55,7 +55,8 @@ function Builds(p) {
     const [filter_type,setFilterType] = useState("author")
     const [page,setPage] = useState(0)
     const [finished,setFinished] = useState(false)
-    const [totalPages,setTotalPages] = useState(0)
+    //const [totalPages,setTotalPages] = useState(0)
+    //const [pageSelector,setPageSelector] = useState(0)
 
 
     useEffect(()=>{
@@ -71,21 +72,7 @@ function Builds(p) {
         .finally(()=>{
           setFinished(true)
         })
-    },[BACKENDURL,sort,filter_type,filter])
-
-    useEffect(()=>{
-        setFinished(false)
-        axios.get(`${BACKENDURL}/getBuilds?sort_type=${sort}${filter_type!==""?`&filter_type=${filter_type}`:""}${filter_type!==""?`&filter=${encodeURI(filter)}`:""}${page!==0?`&offset=${page}`:""}`)
-        .then((data)=>{
-          setBuilds(data.data)
-        })
-        .catch((err)=>{
-
-        })
-        .finally(()=>{
-          setFinished(true)
-        })
-    },[page])
+    },[BACKENDURL,sort,filter_type,filter,page])
 
     return <>
     <div className="box skillTreeBox">
