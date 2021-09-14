@@ -55,6 +55,7 @@ function Builds(p) {
     const [filter_type,setFilterType] = useState("author")
     const [page,setPage] = useState(0)
     const [finished,setFinished] = useState(false)
+    const [totalPages,setTotalPages] = useState(0)
 
 
     useEffect(()=>{
