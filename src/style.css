@@ -1796,3 +1796,38 @@ dd:before {
 	color:rgba(200,50,50,1);
 	border: 2px solid red;
 }
+.build{
+	background-color:rgba(0,0,0,0.5);
+}
+.build:hover{
+	color:rgba(215,215,255,1);
+	background-color:rgba(0.5,0.5,0.5,0.5);
+	cursor:pointer;
+}
+.buildID{
+	float:left;
+}
+.buildTitle{
+	display:inline;
+}
+.buildAuthor{
+	display:inline;
+}
+.buildClass{
+	display:inline;
+}
+.buildAvatar{
+
+}
+.buildData{
+	float:right;
+}
+.buildLikes{
+	float:right;
+}
+.buildImage{
+}
+.buildPalette{
+	width:360px;
+	margin:auto;
+}

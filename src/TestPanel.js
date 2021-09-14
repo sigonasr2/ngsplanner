@@ -8,6 +8,7 @@ import axios from 'axios';
 import Helmet from 'react-helmet'
 import ReactPlaceholder from 'react-placeholder';
 import "react-placeholder/lib/reactPlaceholder.css";
+import Class from './components/Class';
 
 import { useLocation,useHistory,useParams,matchPath } from 'react-router'
 
@@ -65,12 +66,6 @@ function PageControl(p) {
 	return pages.length>0&&<ul className="boxmenu">
 			{pages.map((page,i)=>{return <React.Fragment key={i}>{page}</React.Fragment>})}
 		</ul>
-}
-
-function Class(p) {
-  const CLASSES = p.GetData("class")
-	const class_obj = CLASSES[p.name]
-	return <ReactPlaceholder style={{height:8}} showLoadingAnimation ready={CLASSES!=="no data"} type="textRow" rows={1}>{class_obj?<><img alt="" src={process.env.PUBLIC_URL+class_obj.icon}/>{class_obj.name}</>:<></>}</ReactPlaceholder>
 }
 
 function EditableClass(p){
@@ -478,6 +473,7 @@ function SaveData() {
     secondaryLevel:secondaryLevel,
     weaponBaseName:selectedWeapon[WEAPON_WEAPON]?.name,
     weaponType:selectedWeapon[WEAPON_WEAPONTYPE]?.name,
+    weaponExistenceID:selectedWeapon[WEAPON_EXISTENCE_DATA]?.id,
     armor1Name:selectedArmor1?.name,
     armor2Name:selectedArmor2?.name,
     armor3Name:selectedArmor3?.name,
@@ -684,7 +680,7 @@ function deepCopySkills(skillData) {
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
-<div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
+    <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
                 <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor1)}><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></div></div>
                   <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor2)}><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></div></div>
                   <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor3)}><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></div></div>
