@@ -52,15 +52,21 @@ function Builds(p) {
     const [builds,setBuilds] = useState([])
     const [sort,setSort] = useState("date_updated")
     const [filter,setFilter] = useState("")
-    const [filter_type,setFilterType] = useState("")
+    const [filter_type,setFilterType] = useState("author")
     const [page,setPage] = useState(0)
     const [finished,setFinished] = useState(false)
 
 
     useEffect(()=>{
+        setFinished(false)
         axios.get(`${BACKENDURL}/getBuilds?sort_type=${sort}${filter_type!==""?`&filter_type=${filter_type}`:""}${filter_type!==""?`&filter=${encodeURI(filter)}`:""}${page!==0?`&offset=${page}`:""}`)
         .then((data)=>{
           setBuilds(data.data)
+        })
+        .catch((err)=>{
+
+        })
+        .finally(()=>{
           setFinished(true)
         })
     },[BACKENDURL,sort,filter_type,filter,page])
@@ -69,6 +75,34 @@ function Builds(p) {
     <div className="box skillTreeBox">
           <div className="boxTitleBar">
             <h1>Builds List</h1>
+          </div>
+          <div className="itemBar">
+            <div className="itemBarSort">
+              Sort By:
+              <select className="itemBarForm" value={sort} onChange={(f)=>{setSort(f.currentTarget.value)}}>
+                {[
+                  {name:"Last Updated",value:"date_updated"},
+                  {name:"Alphabetical",value:"alphabetical"},
+                  {name:"Creation Time",value:"date_created"},
+                  {name:"Popularity",value:"popularity"},
+                  {name:"Editor's Choice",value:"editors_choice"},
+                  {name:"Author",value:"author"}].map((item)=><option key={item} value={item.value}>{item.name}</option>)}
+              </select>
+            </div>
+            <div className="itemBarSort">
+              <label for="filterForm">Filter By: </label>
+              <select className="itemBarForm" id="filterForm" value={filter_type} onChange={(f)=>{setFilterType(f.currentTarget.value)}}>
+                {[
+                  {name:"Author",value:"author"},
+                  {name:"Build Name",value:"build"},
+                  {name:"Editor's Choice",value:"editors_choice"},
+                  {name:"Class",value:"class1"},
+                  {name:"Sub-Class",value:"class2"}].map((item)=><option key={item} value={item.value}>{item.name}</option>)}
+              </select>
+            </div>
+            <div className="itemBarFilter">
+              {<input className="itemBarForm" type="text" placeholder="Filter" value={filter} onChange={(f)=>{setFilter(f.currentTarget.value)}} />}
+            </div>
           </div>
           <ReactPlaceholder showLoadingAnimation ready={finished} type="media" rows={32}>
             {builds.map((build)=><Build PANELPATHWBUILD={PANELPATHWBUILD} GetData={GetData} build={build}/>)}
