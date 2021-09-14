@@ -59,6 +59,7 @@ function Builds(p) {
 
     useEffect(()=>{
         setFinished(false)
+        setPage(0)
         axios.get(`${BACKENDURL}/getBuilds?sort_type=${sort}${filter_type!==""?`&filter_type=${filter_type}`:""}${filter_type!==""?`&filter=${encodeURI(filter)}`:""}${page!==0?`&offset=${page}`:""}`)
         .then((data)=>{
           setBuilds(data.data)
@@ -69,7 +70,21 @@ function Builds(p) {
         .finally(()=>{
           setFinished(true)
         })
-    },[BACKENDURL,sort,filter_type,filter,page])
+    },[BACKENDURL,sort,filter_type,filter])
+
+    useEffect(()=>{
+        setFinished(false)
+        axios.get(`${BACKENDURL}/getBuilds?sort_type=${sort}${filter_type!==""?`&filter_type=${filter_type}`:""}${filter_type!==""?`&filter=${encodeURI(filter)}`:""}${page!==0?`&offset=${page}`:""}`)
+        .then((data)=>{
+          setBuilds(data.data)
+        })
+        .catch((err)=>{
+
+        })
+        .finally(()=>{
+          setFinished(true)
+        })
+    },[page])
 
     return <>
     <div className="box skillTreeBox">
