@@ -467,6 +467,8 @@ const [prevFoodPointData,setPrevFoodPointData] = useState({})
 
 const [BUFFS,setBUFFS] = useState({})
 
+const [buildLoad,setBuildLoad] = useState(false)
+
 function SaveData() {
   var saveObj = {
     level:level,
@@ -537,6 +539,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   if (BUILDID) {
+    setBuildLoad(false)
     axios.get(BACKENDURL+"/getBuild?id="+BUILDID)
       .then((data)=>{
         setAuthor(data.data.creator)
@@ -570,6 +573,11 @@ useEffect(()=>{
       .catch((err)=>{
         console.log(err.message)
       })
+      .finally(()=>{
+        setBuildLoad(true)
+      })
+    } else {
+      setBuildLoad(true)
     }
 },[BUILDID,GetData,BACKENDURL,p])
 
@@ -625,11 +633,11 @@ function deepCopySkills(skillData) {
 <div className="main">
   <div className="containerA">
 
-
-
     <div className="box basicInfoBox">
+
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
+<ReactPlaceholder showLoadingAnimation ready={buildLoad} type="media" rows={12}>
       <div className="basicInfo">
 <div style={{gridArea:"author"}}>Author</div>
 <div style={{gridArea:"build"}}>Build Name</div>
@@ -673,17 +681,21 @@ function deepCopySkills(skillData) {
 
       </div><section className="saveControls">
       <button onClick={()=>{SaveData()}}>Save Build</button>
-      </section></div>
+      </section>
+      
+      
+      </ReactPlaceholder>
+      </div>
 
 
       <div className="box">
           <div className="boxTitleBar">
           <h1>Equip</h1></div>
           <div className="equipPalette">
-    <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></div></div>
-                <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor1)}><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></div></div>
-                  <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor2)}><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></div></div>
-                  <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor3)}><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></div></div>
+            <div onClick={()=>{setWeaponSelectWindowOpen(true)}} className="equipPaletteSlot"><h3>Weapons</h3><div className={"equipPaletteSlotWrapper"+rarityCheck(selectedWeapon[WEAPON_WEAPON])}><ReactPlaceholder style={{width:52,height:48}} showLoadingAnimation ready={buildLoad} type="rect"><span>1</span><img alt="" className="r4" src={DisplayIcon(selectedWeapon[WEAPON_EXISTENCE_DATA]?.icon)} /></ReactPlaceholder></div></div>
+                <div onClick={()=>{setArmorSlotSelection(1);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor1)}><h3>Armor 1</h3><div className="equipPaletteSlotWrapper"><ReactPlaceholder style={{width:52,height:48}} showLoadingAnimation ready={buildLoad} type="rect"><img alt="" className="r3" src={DisplayIcon(selectedArmor1.icon)} /></ReactPlaceholder></div></div>
+                  <div onClick={()=>{setArmorSlotSelection(2);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor2)}><h3>Armor 2</h3><div className="equipPaletteSlotWrapper"><ReactPlaceholder style={{width:52,height:48}} showLoadingAnimation ready={buildLoad} type="rect"><img alt="" className="r3" src={DisplayIcon(selectedArmor2.icon)} /></ReactPlaceholder></div></div>
+                  <div onClick={()=>{setArmorSlotSelection(3);setArmorSelectWindowOpen(true)}} className={"equipPaletteSlot"+rarityCheck(selectedArmor3)}><h3>Armor 3</h3><div className="equipPaletteSlotWrapper"><ReactPlaceholder style={{width:52,height:48}} showLoadingAnimation ready={buildLoad} type="rect"><img alt="" className="r3" src={DisplayIcon(selectedArmor3.icon)} /></ReactPlaceholder></div></div>
                 </div>
               </div>
 
@@ -695,7 +707,7 @@ function deepCopySkills(skillData) {
           <div className="box equipWindow">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
-              <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"} type="media" rows={12}>
+              <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"&&buildLoad} type="media" rows={12}>
               <div className="equipNameWrapper">
                 <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
             <div className="equipEnhancement editOverlayWrapper">
@@ -824,7 +836,7 @@ function deepCopySkills(skillData) {
       <div className="box">
       <div className="boxTitleBar">
       <h1>Current Effects</h1></div>
-      <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"} type="media" rows={7}>
+      <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"&&buildLoad} type="media" rows={7}>
       <PageControl pages={2} currentPage={effectPage} setCurrentPage={setEffectPage}/>
       {effectPage===1?<><h3>Effect Name</h3><ul className="infoBuffs"><li onClick={()=>{setPrevFoodPointData({...foodPointData});setFoodMenuWindowOpen(true)}}>Food Boost Effect
             <ul>
@@ -849,6 +861,7 @@ function deepCopySkills(skillData) {
       <div className="box">
       <div className="boxTitleBar">
       <h1>Damage Stats</h1></div>
+      <ReactPlaceholder showLoadingAnimation ready={buildLoad} type="media" rows={6}>
       <PageControl pages={3} currentPage={statPage} setCurrentPage={setStatPage}/>
       <table>
         <tbody>
@@ -898,6 +911,7 @@ function deepCopySkills(skillData) {
           }
         </tbody>
       </table>
+      </ReactPlaceholder>
     </div>
   </div>
 </div>

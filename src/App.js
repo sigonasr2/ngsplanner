@@ -1088,7 +1088,8 @@ function App() {
 					/>
 					<Builds 
 						GetData={GetData}
-						BACKENDURL={GetBackendURL(BACKENDURL)}/>
+						BACKENDURL={GetBackendURL(BACKENDURL)}
+						PANELPATHWBUILD={PANELPATHWBUILD}/>
 				</Route>
 				<Route path={process.env.PUBLIC_URL+"/formula"}>
 					<DamageCalculator/>
