@@ -67,6 +67,9 @@ body {
 	/* mobile viewport bug fix */
 	min-height: -webkit-fill-available;
 }
+.media-block {
+	margin-top: 10px;
+}
 table {
     border-spacing: 0;
 	width: 100%;
@@ -233,12 +236,13 @@ header a {
 	"author author player"
 	"build build character"
 	"class class2 classlv"
-	"subclass subclass2 subclasslv";
+	"subclass subclass2 subclasslv"
+	"skilltree controls controls";
 	margin: 10px 10px 0;
 	padding: 0 5px;
 }
 .statsInfo {
-	background-color:rgba(0,0,0,0.33);
+	/*background-color:rgba(0,0,0,0.33);*/
 	margin: 5px 10px 0;
 	padding: 0 5px 5px;
 	display: grid;
@@ -315,10 +319,6 @@ header a {
 	overflow: hidden;
 	cursor: pointer;
 }
-.equipName:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	outline: 2px solid hsl(180, 78%, 50%);
-}
 .equipName h2 {
 	color: white;
 	font-weight: normal;
@@ -328,10 +328,11 @@ header a {
 .equipEnhancement .editOverlay {
 	text-align: left;
 }
-.saveControls {
-	margin-top: 10px;
-	padding: 0 10px;
-	text-align: right;
+.basicInfo button {
+	background-color:rgba(0,0,0,0.33);
+	margin: 10px 0 0 0;
+	padding: 5px 10px;
+	border: 0;
 }
 .infoBuffs {
 	margin: 0 auto;
@@ -461,25 +462,28 @@ header a {
 .augmentDetailsStatsHeader {
 	grid-area: header2;
 }
+.augmentSelectorList {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	margin: 5px 5px 0 5px;
+	padding: 2px;
+	max-height: 380px;
+}
 .augmentDetailsList {
 	grid-area: ability;
 	overflow-y: scroll;
 	max-height: 280px;
 }
-.augmentSelectorPopup .augmentDetailsList {
-max-height: initial;
-overflow-y: initial;
-}
-.augmentDetailsList li {
+.augmentDetailsList li, .augmentSelectorList li {
 	background-color: rgba(128,128,128,0.25);
 	color: white;
 	margin: 2px 5px 5px 2px;
 	padding: 10px;
 }
-.augmentDetailsList li:hover {
+.augmentDetailsList li:hover, .augmentSelectorList li:hover,.basicInfo button:hover, .equipName:hover,.equipAugs li:hover, .itemControlsWrapper > span:nth-child(odd):hover, .pageControlDetails:hover, .unselected:hover, .foodConfirm > div:hover, .skillConfirm > div:hover, .editBox:hover, .editClass:hover {
 	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	outline: 2px solid hsl(180, 78%, 50%);
-
+	cursor: pointer;
 }
 .augmentDetailsStats {
 	grid-area: stats;
@@ -498,16 +502,11 @@ overflow-y: initial;
 	padding: 12px 10px 7px 10px;
 	cursor:pointer !important;
 }
-.equipAugs li:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	outline: 2px solid hsl(180, 78%, 50%);
-}
 .equipAugsExpand {
 	margin: 0 10px 0 0;
 	display: inline;
 }
 .tooltip {
-	cursor: help;
 	color: white;
 	font-size:10pt;
 	width: 200px;
@@ -522,7 +521,6 @@ overflow-y: initial;
 .xTooltip {
 	margin: 0 10px 0 0;
 	display: inline;
-	cursor: help !important;
 	color: white;
 	font-size:10pt;
 	text-align: left;
@@ -657,8 +655,6 @@ overflow-y: initial;
 .itemControlsWrapper > span:nth-child(odd):hover {
 	background-color: rgba(113,169,189,0.33);
 	cursor: pointer;
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	outline: 2px solid hsl(180, 78%, 50%);
 }
 .itemControlsWrapper > span:nth-child(2) {
 	background-color:rgba(0,0,0,0.33);
@@ -771,7 +767,7 @@ overflow-y: initial;
 	margin: 10px 5px 0 0;
 	padding: 2px;
 }
-.itemWrapper:hover, .treeList li:hover {
+.itemWrapper:hover, .classSelector:hover {
 	background-color: rgba(113,169,189,0.33);
 	outline: 2px solid rgba(54,255,255,0.66);
 }
@@ -803,22 +799,17 @@ overflow-y: initial;
 	max-height: 16px;
 }
 .pageControlDetails {
-	background-color: rgba(25, 30, 35, 0.66) !important;
+	/*background-color: rgba(25, 30, 35, 0.5) !important;*/
+	background-color:rgba(0,0,0,0.33) !important;
 	margin: 10px 5px 0 auto !important;
-}
-.pageControlDetails:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	outline: 2px solid hsl(180, 78%, 50%);
 }
 .selected {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
 	border-bottom: 4px solid #ffd602;
 }
 .unselected:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
 	border-bottom: 0;
 	padding-bottom: 9px;
-	outline: 2px solid hsl(180, 78%, 50%);
 }
 li.selected:hover {
 	background: linear-gradient(135deg,#60461b,#b0a34e);
@@ -933,23 +924,23 @@ adminScrollbar::-webkit-scrollbar-button {
 .treeList {
 	padding: 0 2px 2px 2px;
 }
-.treeList li {
+.classSelector{
 	background-color: rgba(128,128,128,0.33);
 	color: white;
-	margin: 5px 0 0 0;
+	margin: 0 0 5px 5px;
 	padding: 10px;
     background-repeat: no-repeat;
     background-position: right center;
 	background-origin: content-box;
 	line-height: 20px;
 }
-li.treeListMain:after, li.treeListSub:after {
+.treeListMain:after, .treeListSub:after {
 	margin-left: 10px;
 }
-li.treeListMain:after {
+.treeListMain:after {
 	content: url("./icons/class_main.png");
 }
-li.treeListSub:after {
+.treeListSub:after {
 	content: url("./icons/class_sub.png");
 }
 .treeList li img {
@@ -1114,11 +1105,6 @@ cursor:pointer !important;
 	font-size: 17px;
 	padding: 0 10px;
 }
-.foodConfirm > div:hover, .skillConfirm > div:hover {
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	cursor:pointer;
-	outline: 2px solid #30cdef;
-}
 .foodConfirm > div:first-child, .skillConfirm > div:first-child {
 	grid-column: 2;
 }
@@ -1126,11 +1112,6 @@ cursor:pointer !important;
 	grid-column: 3;
 }
 /* Sig's Amazing CSS (cuz Dudley edited it) */
-.editBox:hover, .editClass:hover{
-	background: linear-gradient(45deg,rgba(76,113,126,0.66),rgba(113,169,189,00.66));
-	cursor:pointer;
-	outline: 2px solid #30cdef;
-}
 .editBoxActive:hover {
 	cursor:pointer
 }
@@ -1230,7 +1211,7 @@ button {
 	display: grid;
 	justify-items: stretch;
 	align-items: center;    
-	grid-template-columns: minmax(10px,1fr) minmax(auto,950px) minmax(10px,1fr);
+	grid-template-columns: minmax(10px,1fr) minmax(auto,910px) minmax(10px,1fr);
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 	min-height: 100vh;
 	/* mobile viewport bug fix */
@@ -1243,9 +1224,10 @@ button {
 	gap: 10px;
 }
 .augmentSelectorPopup > div {
-
-	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
-	outline: 1px solid rgba(54,255,255,1);	
+	max-height: 440px;	
+}
+.augmentSelectorPopup > .augmentDetailsList {
+	max-height: 280px;
 }
 .modalOverlaySplash {
     position: fixed;
@@ -1297,7 +1279,6 @@ span.twitter:before {
 .boxModal {
 	animation: fadeIn 0.15s;
 	max-width: 580px;
-	margin: 0 auto;
 	box-shadow: 0 10px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0  rgba(0,0,0,0.5) !important;
 	outline: 1px solid rgba(54,255,255,1);	
 }
@@ -1817,7 +1798,7 @@ dd:before {
 	display:inline;
 }
 .buildAvatar{
-
+	display: initial;
 }
 .buildData{
 	float:right;
@@ -1826,6 +1807,7 @@ dd:before {
 	float:right;
 }
 .buildImage{
+	display: initial;
 }
 .buildPalette{
 	width:360px;

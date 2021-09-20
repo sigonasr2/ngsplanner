@@ -1,4 +1,4 @@
-import {PencilFill} from 'react-bootstrap-icons'
+import {PencilFill,Save} from 'react-bootstrap-icons'
 import React, { useEffect,useState } from 'react';
 import Modal from 'react-modal'
 import { DisplayIcon } from './DEFAULTS';
@@ -167,7 +167,7 @@ function ClassSelectorWindow(p) {
   }
   }
   displayFunction={(key) => {
-    return <li className={p.class===key?"treeListMain":p.subClass===key?"treeListSub":""} onClick={() => {if (p.editClass===0){p.setClassName(key);p.setSubClassName(p.subClass===key?p.class:p.subClass)}else{p.setSubClassName(key);p.setClassName(p.class===key?p.subClass:p.class)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</li>
+    return <div className={"classSelector "+(p.class===key?"treeListMain":p.subClass===key?"treeListSub":"")} onClick={() => {if (p.editClass===0){p.setClassName(key);p.setSubClassName(p.subClass===key?p.class:p.subClass)}else{p.setSubClassName(key);p.setClassName(p.class===key?p.subClass:p.class)}; p.setModalOpen(false) }}><img alt="" src={DisplayIcon(p.GetData("class", key, "icon"))} /> {p.GetData("class", key, "name")}</div>
   }}
 />
 }
@@ -637,15 +637,17 @@ function deepCopySkills(skillData) {
   <div className="containerA">
 
     <div className="box basicInfoBox">
-
       <div className="boxTitleBar">
       <h1>Basic Information</h1></div>
-<ReactPlaceholder showLoadingAnimation ready={buildLoad} type="media" rows={12}>
+      <ReactPlaceholder showLoadingAnimation ready={buildLoad} type="media" rows={5}>
+
       <div className="basicInfo">
+
 <div style={{gridArea:"author"}}>Author</div>
 <div style={{gridArea:"build"}}>Build Name</div>
-<div style={{gridArea:"class"}} onClick={()=>{setClassSelectWindowOpen(true)}}>Class</div>
-<div style={{gridArea:"subclass"}} onClick={()=>{setPrevPoints([...points]);setPrevSkillPointData(deepCopySkills(skillPointData));setClassSkillTreeWindowOpen(true)}}>Sub-Class</div>
+<div style={{gridArea:"class"}}>Class</div>
+<div style={{gridArea:"subclass"}}>Sub-Class</div>
+<div style={{gridArea:"skilltree",border:"0"}}><button onClick={()=>{setPrevPoints([...points]);setPrevSkillPointData(deepCopySkills(skillPointData));setClassSkillTreeWindowOpen(true)}}><PencilFill /> Skill Tree</button></div>
 
 <div style={{gridArea:"class2"}}><EditableClass editClass={0} setClassNameSetter={setClassNameSetter} GetData={p.GetData} setClassName={setClassName} name={className} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
 <div style={{gridArea:"subclass2"}}><EditableClass editClass={1} setClassNameSetter={setClassNameSetter}  GetData={p.GetData} setClassName={setSubClassName} name={subclassName} setClassSelectWindowOpen={setClassSelectWindowOpen}></EditableClass></div>
@@ -654,7 +656,15 @@ function deepCopySkills(skillData) {
 <div style={{gridArea:"character",textAlign:"right"}}><EditBoxInput setData={setbuildName} data={buildName}/></div>
 <div style={{gridArea:"classlv",textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setLevel} data={level} type="number"/></div>  
 <div style={{gridArea:"subclasslv",textAlign:"right"}}><EditBoxInput prefix="Lv." setData={setsecondaryLevel} data={secondaryLevel} type="number"/></div>
-      </div>
+<div style={{gridArea:"controls",textAlign:"right",border:"0"}}><button onClick={()=>{SaveData()}}><Save /> Save Build</button></div>
+      </div> </ReactPlaceholder>
+
+ </div>
+      <div className="box basicInfoBox">
+      <div className="boxTitleBar">
+      <h1>Basic Stats</h1></div> <ReactPlaceholder showLoadingAnimation ready={buildLoad} type="media" rows={8}>
+
+
       <div className="statsInfo">
 <div style={{gridArea:"bp"}}>Battle Power</div>
 <div style={{gridArea:"hp"}}>HP</div>
@@ -663,7 +673,7 @@ function deepCopySkills(skillData) {
 <div style={{gridArea:"def"}}>Defense</div>
 <div style={{gridArea:"wepUp"}}>Weapon Up</div>
 <div style={{gridArea:"res"}}>Ailment Resist.</div>
-<div style={{gridArea:"dmgRes",border:"0"}}>Damage Resist.</div>
+<div style={{gridArea:"dmgRes"}}>Damage Resist.</div>
 
 <div style={{gridArea:"bp2"}}>{p.bp}</div>
 <div style={{gridArea:"hp2"}}>{p.hp}</div>
@@ -672,7 +682,7 @@ function deepCopySkills(skillData) {
 <div style={{gridArea:"def2"}}>{p.def}</div>
 <div style={{gridArea:"wepUp2",color:"#ffb74c"}}><img alt="" src={process.env.PUBLIC_URL+"/icons/mel.png"} /> +{(p.weaponUp1*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/tec.png"} /> +{(p.weaponUp3*100).toFixed(1)}%</div>
 <div style={{gridArea:"res2"}}><img alt="" src={process.env.PUBLIC_URL+"/icons/status/burn.png"} /> {(p.burnResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/shock.png"} /> {(p.shockResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/panic.png"} /> {(p.panicResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/stun.png"} /> {(p.stunResist*100).toFixed(1)}%<br /></div>
-<div style={{gridArea:"dmgRes2",border:"0"}}>{(p.damageResist*100).toFixed(1)}%</div>
+<div style={{gridArea:"dmgRes2"}}>{(p.damageResist*100).toFixed(1)}%</div>
 
 <div style={{gridArea:"bpGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.bp/bpGraphMax)*100)+"%,black "+((p.bp/bpGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
 <div style={{gridArea:"hpGraph"}}><div className="barGraph"><span className="barOverlay" style={{background:"linear-gradient(90deg,transparent 0% "+((p.hp/hpGraphMax)*100)+"%,black "+((p.hp/hpGraphMax)*100)+"%)"}}>&nbsp;</span></div></div>
@@ -682,13 +692,11 @@ function deepCopySkills(skillData) {
 <div style={{gridArea:"wepUp3",color:"#ffb74c"}} ><div><img alt="" src={process.env.PUBLIC_URL+"/icons/rng.png"} /> +{(p.weaponUp2*100).toFixed(1)}%</div></div>
 <div style={{gridArea:"res3"}}><div><img alt="" src={process.env.PUBLIC_URL+"/icons/status/freeze.png"} /> {(p.freezeResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/blind.png"} /> {(p.blindResist*100).toFixed(1)}%<br /><img alt="" src={process.env.PUBLIC_URL+"/icons/status/poison.png"} /> {(p.poisonResist*100).toFixed(1)}%<br /></div></div>
 
-      </div><section className="saveControls">
-      <button onClick={()=>{SaveData()}}>Save Build</button>
-      </section>
+      </div></ReactPlaceholder>
       
       
-      </ReactPlaceholder>
-      </div>
+
+      </div>      
 
 
       <div className="box">
@@ -707,17 +715,18 @@ function deepCopySkills(skillData) {
 
       </div>
       <div className="containerB">
+
           <div className="box equipWindow">
             <div className="boxTitleBar">
-              <h1>Equipped Weapon</h1></div>
-              <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"&&buildLoad} type="media" rows={12}>
+              <h1>Equipped Weapon</h1></div>      <ReactPlaceholder showLoadingAnimation ready={GetData(p)!=="no data"&&buildLoad} type="media" rows={12}>
+
               <div className="equipNameWrapper">
                 <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
             <div className="equipEnhancement editOverlayWrapper">
             <div className="editOverlay"><p><PencilFill /> Edit</p></div>
               +40</div>
             </div>
-            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><PencilFill /> Edit Details</PageControl>
+            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><div onClick={()=>{setAugmentSelectWindowOpen(true)}}><PencilFill /> Edit Details</div></PageControl>
             {weaponPage === 1 ?
 
 <>
@@ -743,7 +752,7 @@ function deepCopySkills(skillData) {
 </div></div>
 </div>
 <div className="itemDetailsGridBottom editOverlayWrapper">
-<div className="editOverlay"  onClick={()=>{setAugmentSelectWindowOpen(true)}}><p><PencilFill /> Edit</p></div>
+<div className="editOverlay" onClick={()=>{setAugmentSelectWindowOpen(true)}}><p><PencilFill /> Edit</p></div>
 <div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div>
 <div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div>
 <div className="itemDetailsAugment">
@@ -833,6 +842,7 @@ function deepCopySkills(skillData) {
 
 
       </div>
+
       <div className="containerC">
 
 
@@ -1031,13 +1041,30 @@ function deepCopySkills(skillData) {
 
 <Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlayAugment">
 <div className="augmentSelectorPopup">
-<div className="box">
+<div className="box boxModal">
 <div className="boxTitleBar">
-              <h1>hi</h1></div>
-
+              <h1>Select Augments</h1></div>
+              <div className="augmentSelectorList customScrollbar noSelect">
+                <ul>
+                  <li className="pot">Dynamo Unit Lv.1</li>
+                  <li className="pot">Dynamo Unit Lv.2</li>
+                  <li className="pot">Dynamo Unit Lv.3</li>
+                  <li className="pot">Dynamo Unit Lv.4</li>
+                  <li className="fixa">Fixa Attack Lv.1</li>
+                  <li className="fixa">Fixa Attack Lv.2</li>
+                  <li className="fixa">Fixa Attack Lv.3</li>
+                  <li className="fixa">Fixa Attack Lv.4</li>
+                  <li className="aug">Melee I</li>
+                  <li className="aug">Melee II</li>
+                  <li className="aug">Melee III</li>
+                  <li className="aug">Precision I</li>
+                  <li className="aug">Precision II</li>
+                  <li className="aug">Precision III</li>
+</ul>
+              </div>
   </div>
   
-<div className="box equipWindow">
+<div className="box boxModal">
             <div className="boxTitleBar">
               <h1>Equipped Weapon</h1></div>
               <div className="equipNameWrapper">
