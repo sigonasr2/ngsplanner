@@ -379,6 +379,7 @@ function AdminPanel(p) {
 		{page:"Potential Data",url:"/admin/potentialdata",table:"/potential_data"},
 		{hr:true},
 		{page:"Builds",url:"/admin/builds",table:"/builds"},
+		{page:"Likes",url:"/admin/likes",table:"/like_data"},
 		{hr:true},
 		{page:"Skills",url:"/admin/skills",table:"/skill"},
 		{page:"Skill Types",url:"/admin/skilltypes",table:"/skill_type"},

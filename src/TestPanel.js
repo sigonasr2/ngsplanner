@@ -1,4 +1,4 @@
-import {PencilFill,Save} from 'react-bootstrap-icons'
+import {PencilFill,Save,HandThumbsUp,HandThumbsUpFill} from 'react-bootstrap-icons'
 import React, { useEffect,useState } from 'react';
 import Modal from 'react-modal'
 import { DisplayIcon } from './DEFAULTS';
@@ -468,6 +468,7 @@ const [prevFoodPointData,setPrevFoodPointData] = useState({})
 const [BUFFS,setBUFFS] = useState({})
 
 const [buildLoad,setBuildLoad] = useState(false)
+const [liked,setLiked] = useState(false)
 
 function SaveData() {
   var saveObj = {
@@ -638,7 +639,7 @@ function deepCopySkills(skillData) {
 
     <div className="box basicInfoBox">
       <div className="boxTitleBar">
-      <h1>Basic Information</h1></div>
+      <h1>Basic Information</h1>{liked?<HandThumbsUpFill style={{marginLeft:"auto",marginRight:"0",fontSize:"32"}} onClick={()=>{setLiked(false)}}/>:<HandThumbsUp style={{marginLeft:"auto",marginRight:"0",fontSize:"32"}} onClick={()=>{setLiked(true)}}/>}<div onClick={()=>{setLiked(!liked)}}>Like!</div></div>
       <ReactPlaceholder showLoadingAnimation ready={buildLoad} type="media" rows={5}>
 
       <div className="basicInfo">
