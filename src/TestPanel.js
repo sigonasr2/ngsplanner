@@ -447,6 +447,7 @@ const [treePage,setTreePage] = useState(1)
 const [weaponSelectWindowOpen,setWeaponSelectWindowOpen] = useState(false)
 const [armorSelectWindowOpen,setArmorSelectWindowOpen] = useState(false)
 const [augmentSelectWindowOpen,setAugmentSelectWindowOpen] = useState(false)
+const [augmentDetailsWindowOpen,setAugmentDetailsWindowOpen] = useState(false)
 
 
 const [selectedWeapon,setSelectedWeapon] = useState([])
@@ -726,7 +727,7 @@ function deepCopySkills(skillData) {
             <div className="editOverlay"><p><PencilFill /> Edit</p></div>
               +40</div>
             </div>
-            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><div onClick={()=>{setAugmentSelectWindowOpen(true)}}><PencilFill /> Edit Details</div></PageControl>
+            <PageControl pages={3} currentPage={weaponPage} setCurrentPage={setWeaponPage}><div onClick={()=>{setAugmentDetailsWindowOpen(true)}}><PencilFill /> Edit Details</div></PageControl>
             {weaponPage === 1 ?
 
 <>
@@ -752,7 +753,7 @@ function deepCopySkills(skillData) {
 </div></div>
 </div>
 <div className="itemDetailsGridBottom editOverlayWrapper">
-<div className="editOverlay" onClick={()=>{setAugmentSelectWindowOpen(true)}}><p><PencilFill /> Edit</p></div>
+<div className="editOverlay" onClick={()=>{setAugmentDetailsWindowOpen(true)}}><p><PencilFill /> Edit</p></div>
 <div className="itemPotential"><span className="pot">Soulspring Unit Lv.3</span></div>
 <div className="itemFixa"><span className="fixa">Fixa Attack Lv.3</span></div>
 <div className="itemDetailsAugment">
@@ -926,6 +927,23 @@ function deepCopySkills(skillData) {
       </table>
       </ReactPlaceholder>
     </div>
+
+    <div className="box">
+          <div className="boxTitleBar">
+          <h1>Damage Formula Breakdown</h1></div><div style={{padding:"10px",lineHeight:"22px",fontSize:"11px",fontFamily:"Courier"}}>
+          ( <span style={{color:"OrangeRed"}}>Weapon Attack Power</span> * <span style={{color:"PaleGreen"}}>Variance</span> + <span style={{color:"PowderBlue"}}>Base Attack Power</span> - <span className="badGuy">Enemy Defense</span> )<br />
+          <span style={{}}> * Attack Potency</span>
+          <span style={{}}> * Main Class Weapon Boost</span>
+          <span style={{}}> * Class Skill Multi</span>
+          <span style={{}}> * Buffs</span>
+          <span style={{}}> * Debuffs</span>
+          <span style={{}}> * Enemy Part Multi</span>
+          <span style={{}}> * Enemy Debuffs</span>
+          <span style={{}}> * 0.2</span></div>
+          </div>
+
+
+
   </div>
 </div>
 
@@ -1039,6 +1057,55 @@ function deepCopySkills(skillData) {
     setFoodPointData={setFoodPointData}
     prevFoodPointData={prevFoodPointData}/>
 
+<Modal ariaHideApp={false} isOpen={augmentDetailsWindowOpen} onRequestClose={()=>{setAugmentDetailsWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlayAugment">
+<div className="augmentSelectorPopup">
+<div className="box boxModal">
+            <div className="boxTitleBar">
+              <h1>Equipped Weapon</h1></div>
+              <div className="equipNameWrapper">
+                <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
+            <div className="equipEnhancement editOverlayWrapper">
+            <div className="editOverlay"><p><PencilFill /> Edit</p></div>
+              +40</div>
+            </div>
+
+
+            <div className="augmentDetails">
+              <div className="augmentDetailsListHeader"><h3>Ability Details</h3></div>
+              <div className="augmentDetailsStatsHeader"><h3>Stat Adjustment</h3></div>
+              <div className="augmentDetailsList customScrollbar noSelect">
+                <ul>
+                  <li onClick={()=>{setAugmentSelectWindowOpen(true)}} className="pot">Dynamo Unit Lv.3</li>
+                  <li onClick={()=>{setAugmentSelectWindowOpen(true)}} className="fixa">Fixa Attack Lv.3</li>
+                  <li onClick={()=>{setAugmentSelectWindowOpen(true)}} className="aug">test</li>
+                  <li onClick={()=>{setAugmentSelectWindowOpen(true)}} className="aug">test</li>
+                  <li onClick={()=>{setAugmentSelectWindowOpen(true)}} className="aug">test</li>
+                  <li onClick={()=>{setAugmentSelectWindowOpen(true)}} className="aug">test</li>
+</ul>
+              </div>
+              <div className="augmentDetailsStats">
+<table>
+<tbody>
+  <tr>
+    <td>HP</td>
+    <td>+99</td>
+    </tr>
+    <tr>
+    <td>PP</td>
+    <td>+9</td>
+    </tr>
+</tbody>
+</table>
+              </div>
+              </div>
+
+
+
+          </div>
+          </div>
+        
+</Modal>
+  
 <Modal ariaHideApp={false} isOpen={augmentSelectWindowOpen} onRequestClose={()=>{setAugmentSelectWindowOpen(false)}} shouldFocusAfterRender={true} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} className="modal" overlayClassName="modalOverlayAugment">
 <div className="augmentSelectorPopup">
 <div className="box boxModal">
@@ -1063,50 +1130,6 @@ function deepCopySkills(skillData) {
 </ul>
               </div>
   </div>
-  
-<div className="box boxModal">
-            <div className="boxTitleBar">
-              <h1>Equipped Weapon</h1></div>
-              <div className="equipNameWrapper">
-                <div className="equipName"><h2 className="rifle">{GetSpecialWeaponName(selectedWeapon)}</h2></div>
-            <div className="equipEnhancement editOverlayWrapper">
-            <div className="editOverlay"><p><PencilFill /> Edit</p></div>
-              +40</div>
-            </div>
-
-
-            <div className="augmentDetails">
-              <div className="augmentDetailsListHeader"><h3>Ability Details</h3></div>
-              <div className="augmentDetailsStatsHeader"><h3>Stat Adjustment</h3></div>
-              <div className="augmentDetailsList customScrollbar noSelect">
-                <ul>
-                  <li className="pot">Dynamo Unit Lv.3</li>
-                  <li className="fixa">Fixa Attack Lv.3</li>
-                  <li className="aug">test</li>
-                  <li className="aug">test</li>
-                  <li className="aug">test</li>
-                  <li className="aug">test</li>
-</ul>
-              </div>
-              <div className="augmentDetailsStats">
-<table>
-<tbody>
-  <tr>
-    <td>HP</td>
-    <td>+99</td>
-    </tr>
-    <tr>
-    <td>PP</td>
-    <td>+9</td>
-    </tr>
-</tbody>
-</table>
-              </div>
-              </div>
-
-
-
-          </div>
           </div>
 </Modal>
 </>

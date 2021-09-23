@@ -1211,7 +1211,7 @@ button {
 	display: grid;
 	justify-items: stretch;
 	align-items: center;    
-	grid-template-columns: minmax(10px,1fr) minmax(auto,910px) minmax(10px,1fr);
+	grid-template-columns: minmax(10px,1fr) minmax(0, auto) minmax(10px,1fr);
 	grid-template-rows: 10px minmax(10px, 1fr) 10px;
 	min-height: 100vh;
 	/* mobile viewport bug fix */
@@ -1812,4 +1812,7 @@ dd:before {
 .buildPalette{
 	width:360px;
 	margin:auto;
+}
+.badGuy:before	{
+	content:url("./icons/badguy.png");
 }
